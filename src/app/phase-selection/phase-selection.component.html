@@ -1,0 +1,14 @@
+<div class="col-12">
+    <p class="h5">Select Phase</p>
+</div>
+<div class="col-12 col-md-6 offset-md-3">
+    <div class="list-group rounded shadow">
+        <div class="list-group-item list-group-item-action py-3 rounded-lg select-menu" matRipple  *ngFor="let ph of phases"
+            (click)="onSelect(ph)" [ngClass]="ph === phase ? 'active' : ''">
+            <h1 class="mb-1">{{ph}}</h1>
+        </div>
+    </div>
+</div>
+<div class="col-12 my-4">
+    <button mat-raised-button color="primary" class="px-5" [disabled]="!phase.length" (click)="onNext()">Next</button>
+</div>
