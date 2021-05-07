@@ -1,0 +1,22 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RestapiService {
+
+  private URL: string = environment.production ? '' : 'http://localhost:3000'
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  login(values: Object): Observable<any> {
+    return this.http.post<any>(this.URL, values)
+  }
+  
+}

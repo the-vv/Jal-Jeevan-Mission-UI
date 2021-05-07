@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="container home-container border rounded shadow">
+    <div class="row">
+        <div class="col-12">
+            <img src="../../assets/jjm.jpg" alt="" class="home-logo">
+        </div>
+        <div class="col-12 mt-3">
+            <div class="h1 smi">
+                Solidarity Movement of India
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-12">
+            <p class="h5">Login</p>
+        </div>
+        <div class="col-12">
+            <form action="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <p>
+                    <mat-form-field appearance="outline" class="col-12 col-md-6">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Username" formControlName="username">
+                        <mat-hint>Type your Gramapanchayath username</mat-hint>
+                        <mat-error *ngIf="loginForm.controls.username.errors">
+                            Username is required</mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="outline" class="col-12 col-md-6">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" formControlName="password">
+                        <mat-hint>Type your Gramapanchayath password</mat-hint>
+                        <mat-error *ngIf="loginForm.controls.password.errors?.required">
+                            Password is required</mat-error>
+                        <mat-error *ngIf="loginForm.controls.password.errors?.minlength">
+                                Password must be minimum of 6 charecters</mat-error>
+                    </mat-form-field>
+                </p>
+            </form>
+        </div>
+        <div class="col-12 mt-3">
+            <button mat-raised-button color="primary" class="px-5" [disabled]="false" (click)="onSubmit()">Submit</button>
+        </div>
+    </div>
+</div>
