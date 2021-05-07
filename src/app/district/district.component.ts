@@ -38,6 +38,7 @@ export class DistrictComponent implements OnInit {
   }
 
   onSelect() {
+    console.log(this.district)
     this.data.selectedDetails.district = this.district;
     this.router.navigate(['../grama-panchayath'], { relativeTo: this.route })
   }

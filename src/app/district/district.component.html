@@ -2,12 +2,8 @@
     <p class="h5">Select District</p>
     <mat-form-field appearance="outline" class="col-10 col-md-4">
         <mat-label>District</mat-label>
-        <mat-select [(ngModel)]="district">
+        <mat-select [(ngModel)]="district" (selectionChange)="onSelect()">
             <mat-option [value]="dist" *ngFor="let dist of DistrictsList">{{dist}}</mat-option>
         </mat-select>
     </mat-form-field>
-</div>
-<div class="col-12">
-    <button mat-raised-button color="primary" class="px-5" [disabled]="!district.length"
-        (click)="onSelect()">Next</button>
 </div>

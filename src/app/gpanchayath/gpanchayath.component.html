@@ -2,12 +2,8 @@
     <p class="h5">Name of Grama Panchayath</p>
     <mat-form-field appearance="outline" class="col-10 col-md-4">
         <mat-label>Grama Panchayath</mat-label>
-        <mat-select [(ngModel)]="gPanchayath">
+        <mat-select [(ngModel)]="gPanchayath" (selectionChange)="onSelect()">
             <mat-option [value]="gp" *ngFor="let gp of gramaPanchataths">{{gp}}</mat-option>
         </mat-select>
     </mat-form-field>
-</div>
-<div class="col-12">
-    <button mat-raised-button color="primary" class="px-5" [disabled]="!gPanchayath.length"
-        (click)="onSelect()">Next</button>
 </div>
