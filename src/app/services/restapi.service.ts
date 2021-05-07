@@ -9,14 +9,14 @@ import { environment } from 'src/environments/environment';
 })
 export class RestapiService {
 
-  private URL: string = environment.production ? '' : 'http://localhost:3000'
+  private URL: string = environment.production ? '' : 'http://localhost:3000/api'
 
   constructor(
     private http: HttpClient
   ) { }
 
   login(values: Object): Observable<any> {
-    return this.http.post<any>(this.URL, values)
+    return this.http.post<any>(this.URL + '/login', values)
   }
   
 }

@@ -25,6 +25,7 @@ import { PhaseComponentsComponent } from './phase-components/phase-components.co
 import { LoginComponent } from './login/login.component';
 import { RestapiService } from './services/restapi.service';
 import { UserService } from './services/user.service';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserService } from './services/user.service';
     GpanchayathComponent,
     PhaseSelectionComponent,
     PhaseComponentsComponent,
-    LoginComponent
+    LoginComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

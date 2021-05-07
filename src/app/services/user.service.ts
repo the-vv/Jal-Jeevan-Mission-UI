@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { User } from '../models/user';
+import { DataService } from './data.service';
 import { RestapiService } from './restapi.service';
 
 @Injectable({
@@ -7,23 +9,36 @@ import { RestapiService } from './restapi.service';
 })
 export class UserService {
 
-  currentUser: Object = {}
-  userChange: BehaviorSubject<any> =  new BehaviorSubject(null)
+  currentUser!: User;
+  userChange: BehaviorSubject<any> = new BehaviorSubject(null);
+  isloggedin: boolean = false
 
   constructor(
-    private rest: RestapiService
+    private rest: RestapiService,
+    private data: DataService
   ) { }
 
   login(cred: Object) {
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.rest.login(cred)
-      .subscribe(user => {
-        this.userChange.next(user);
-        resolve(user)
-      },
-      error => {
-        reject(error)
-      })
+        .subscribe(res => {
+          this.userChange.next(res.user);
+          this.isloggedin = true;
+          this.currentUser = res.user;
+          if (!this.currentUser.admin) {
+            if (!this.currentUser.district || !this.currentUser.panchayath) {
+              return reject({ error: true, status: "A critical error occured, Please contact administrators, \ncode: E_DB_DATA_MISMATCH" })
+            }
+            this.data.selectedDetails = {
+              district: this.currentUser.district,
+              gp: this.currentUser.panchayath
+            }
+          }
+          resolve({ admin: this.currentUser.admin })
+        },
+          error => {
+            reject(error)
+          })
     })
   }
 }
