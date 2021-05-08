@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-district',
@@ -15,7 +16,8 @@ export class DistrictComponent implements OnInit {
   constructor(
     private data: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public user: UserService
   ) { }
 
   ngOnInit(): void {

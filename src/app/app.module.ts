@@ -11,6 +11,14 @@ import {MatListModule} from '@angular/material/list';
 import {MatRippleModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {LayoutModule} from '@angular/cdk/layout';
+
+
+// PrimeNg Imports
+import {MenuModule} from 'primeng/menu';
+import {TieredMenuModule} from 'primeng/tieredmenu';
+import {PanelMenuModule} from 'primeng/panelmenu';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -51,7 +59,12 @@ import { NotfoundComponent } from './notfound/notfound.component';
     MatRippleModule,
     MatIconModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MenuModule,
+    TieredMenuModule,
+    LayoutModule,
+    PanelMenuModule,
+    BreadcrumbModule
   ],
   providers: [
     DataService,

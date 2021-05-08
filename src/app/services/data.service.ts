@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { Selected } from '../models/selected';
 
 @Injectable({
@@ -6,9 +7,11 @@ import { Selected } from '../models/selected';
 })
 export class DataService {
 
-  selectedDetails: Selected = {}
+  selectedDetails: Selected = {};
 
-  constructor() { }
+  constructor() {
+    
+   }
 
   getGPs(district: string = '') {
     return [

@@ -1,14 +1,16 @@
-<div class="col-12">
-    <p class="h5">Select Phase</p>
-</div>
-<div class="col-12 col-md-6 offset-md-3">
-    <div class="list-group rounded shadow">
-        <div class="list-group-item list-group-item-action py-3 rounded-lg select-menu" matRipple  *ngFor="let ph of phases"
-            (click)="onSelect(ph)" [ngClass]="ph === phase ? 'active' : ''">
-            <h1 class="mb-1">{{ph}}</h1>
-        </div>
+<div class=" animate__animated animate__slideInRight animate__faster">
+    <div class="col-12 col-md-6 offset-md-3">
+        <p-breadcrumb
+            [model]="[{label: isAdmin ? 'Admin' : 'Client'}, {label: data.selectedDetails?.district}, {label: data.selectedDetails?.gp},{label: 'Phase Components'}]">
+        </p-breadcrumb>
     </div>
-</div>
-<div class="col-12 my-4">
-    <button mat-raised-button color="primary" class="px-5" [disabled]="!phase.length" (click)="onNext()">Next</button>
+    <div class="col-12 mt-3">
+        <p class="h5">Phase and components selection</p>
+    </div>
+    <div class="col-12 col-md-6" *ngIf="!isSmallScreen">
+        <p-tieredMenu [model]="menuItems"></p-tieredMenu>
+    </div>
+    <div class="col-12" *ngIf="isSmallScreen">
+        <p-panelMenu [model]="menuItems" [style]="{'width':'100%'}"></p-panelMenu>
+    </div>
 </div>

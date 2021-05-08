@@ -9,22 +9,35 @@ import { RestapiService } from './restapi.service';
 })
 export class UserService {
 
-  currentUser!: User;
-  userChange: BehaviorSubject<any> = new BehaviorSubject(null);
-  isloggedin: boolean = false
+  currentUser: User | null = null;
+  userChange: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  isloggedin: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(
     private rest: RestapiService,
     private data: DataService
   ) { }
 
-  login(cred: Object) {
+  logout() {    
+    this.userChange.next(null);
+    this.isloggedin = true;
+    this.isAdmin = false;
+    this.currentUser = null;
+    this.data.selectedDetails = {}
+  }
+
+  checkLogin() {
     return new Promise<any>((resolve, reject) => {
-      this.rest.login(cred)
+      this.rest.verify()
         .subscribe(res => {
-          this.userChange.next(res.user);
+          if (res.error) {
+            return reject(res.status)
+          }
+          this.userChange.next(res);
           this.isloggedin = true;
-          this.currentUser = res.user;
+          this.isAdmin = res.admin;
+          this.currentUser = res as User;
           if (!this.currentUser.admin) {
             if (!this.currentUser.district || !this.currentUser.panchayath) {
               return reject({ error: true, status: "A critical error occured, Please contact administrators, \ncode: E_DB_DATA_MISMATCH" })
@@ -33,6 +46,36 @@ export class UserService {
               district: this.currentUser.district,
               gp: this.currentUser.panchayath
             }
+            console.log(this.data.selectedDetails)
+          }
+          resolve({ admin: this.currentUser.admin })
+        },
+          error => {
+            reject(error)
+          })
+    })
+  }
+
+  login(cred: Object) {
+    return new Promise<any>((resolve, reject) => {
+      this.rest.login(cred)
+        .subscribe(res => {
+          if (res.error) {
+            return reject(res.status)
+          }
+          this.userChange.next(res);
+          this.isloggedin = true;
+          this.isAdmin = res.admin;
+          this.currentUser = res as User;
+          if (!this.currentUser.admin) {
+            if (!this.currentUser.district || !this.currentUser.panchayath) {
+              return reject({ error: true, status: "A critical error occured, Please contact administrators, \ncode: E_DB_DATA_MISMATCH" })
+            }
+            this.data.selectedDetails = {
+              district: this.currentUser.district,
+              gp: this.currentUser.panchayath
+            }
+            console.log(this.data.selectedDetails)
           }
           resolve({ admin: this.currentUser.admin })
         },

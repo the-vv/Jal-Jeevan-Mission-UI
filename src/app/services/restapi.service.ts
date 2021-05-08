@@ -16,7 +16,15 @@ export class RestapiService {
   ) { }
 
   login(values: Object): Observable<any> {
-    return this.http.post<any>(this.URL + '/login', values)
+    return this.http.post<any>(this.URL + '/login', values, {
+      withCredentials: true
+    })
+  }
+
+  verify(): Observable<any> {
+    return this.http.post(this.URL + '/verify', null, {
+      withCredentials: true 
+    })
   }
   
 }

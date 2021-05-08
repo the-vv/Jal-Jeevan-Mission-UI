@@ -13,7 +13,7 @@ export class GpanchayathComponent implements OnInit {
   public gPanchayath: string = ''
 
   constructor(
-    private data: DataService,
+    public data: DataService, 
     private route: ActivatedRoute,
     private router: Router
   ) { }
