@@ -22,11 +22,12 @@ export class PhaseSelectionComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     public data: DataService,
     private width: BreakpointObserver,
-    private user: UserService
+    private user: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+
   ) { }
 
   ngOnInit(): void {
@@ -38,73 +39,24 @@ export class PhaseSelectionComponent implements OnInit {
     this.screenObserver.pipe(map(v => v.matches)).subscribe(val => {
       this.isSmallScreen = val;
     })
-    this.phases = [
-      'Planning Phase',
-      'Implementation Phase',
-      'Post Implementation Phase'
-    ]
-    this.menuItems = [
-      {
-        label: 'Planning Phase',
-        items: [
-          {
-            label: 'ISA Positioning',
-          },
-          {
-            label: 'Orientation to GP & Staff, Special Board Meeting'
-          },
-          {
-            label: 'GP IEC'
-          },
-          {
-            label: 'Community Orientation'
-          },
-          {
-            label: 'GP action plan except DER'
-          },
-          {
-            label: 'GP Board meetting for Gramasabha'
-          },
-          {
-            label: 'Gramasabha action plan approved'
-          },
-          {
-            label: 'GPWSC & GP Board meetting'
-          },
-          {
-            label: 'Beneficiary contribution Collection'
-          },
-        ]
-      },
-      {
-        label: 'Implementation Phase',
-        items: [
-          {
-            label: 'Some menu',
-          },
-          { label: 'Onother menu' },
-        ]
-      },
-      {
-        label: 'Post Implementation Phase',
-        items: [
-          {
-            label: 'Some menu',
-          },
-          { label: 'Onother menu' },
-        ]
+    for (const phase in this.data.phaseComponents) {
+      if (Object.prototype.hasOwnProperty.call(this.data.phaseComponents, phase)) {
+        let menuitem: MenuItem = {
+          label: phase,
+          items: []
+        }
+        for (const comp of (this.data.phaseComponents as any)[phase]) {
+          menuitem.items?.push({
+            label: comp[0],
+            command: () => {
+              let toRoute = this.data.selectComponent(`${phase}/${comp[0]}`);
+              this.router.navigate([`../${toRoute}`], { relativeTo: this.route })
+            }
+          })
+        }
+        this.menuItems.push(menuitem)
       }
-    ]
-  }
-
-  onSelect(ph: string) {
-    this.phase = ph
-  }
-
-  onNext() {
-    console.log(this.phase);
-    this.data.selectedDetails.phase = this.phase;
-    this.router.navigate(['../components'], { relativeTo: this.route })
+    }
   }
 
 }

@@ -32,5 +32,9 @@ export class RestapiService {
       withCredentials: true 
     })
   }
+
+  uploadFiles(files: any): Observable<any> {
+    return this.http.post<any>(this.URL + '/upload', files)
+  }
   
 }

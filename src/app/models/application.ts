@@ -1,0 +1,16 @@
+import { Selected } from "./selected";
+
+export interface Application {
+    name?: string,
+    values?: any,
+    files?: ApplicationFile[],
+    category?: Selected
+}
+
+export interface ApplicationFile {
+    fieldName: string,
+    name?: string,
+    url: string,
+    fid?: string,
+    size?: number
+}
