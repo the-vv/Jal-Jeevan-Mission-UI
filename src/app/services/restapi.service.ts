@@ -15,6 +15,12 @@ export class RestapiService {
     private http: HttpClient
   ) { }
 
+  logout(): Observable<any> {
+    return this.http.get(this.URL + '/logout', {
+      withCredentials: true
+    })
+  }
+
   login(values: Object): Observable<any> {
     return this.http.post<any>(this.URL + '/login', values, {
       withCredentials: true

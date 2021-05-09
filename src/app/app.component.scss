@@ -1,4 +1,9 @@
 .navbar-image {
-    height: 35px;
+    height       : 35px;
     border-radius: 100%;
+}
+
+.nav-link {
+    cursor     : pointer;
+    user-select: none;
 }

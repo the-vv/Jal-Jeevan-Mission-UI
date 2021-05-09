@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
 import { DataService } from './data.service';
@@ -16,15 +17,23 @@ export class UserService {
 
   constructor(
     private rest: RestapiService,
-    private data: DataService
+    private data: DataService,
+    private router: Router
   ) { }
 
   logout() {    
-    this.userChange.next(null);
-    this.isloggedin = true;
-    this.isAdmin = false;
-    this.currentUser = null;
-    this.data.selectedDetails = {}
+    this.rest.logout().toPromise()
+    .then(() => {
+      this.userChange.next(null);
+      this.isloggedin = true;
+      this.isAdmin = false;
+      this.currentUser = null;
+      this.data.selectedDetails = {}
+      this.router.navigate(['login'])
+    })
+    .catch((e) => {
+      console.log(e)
+    })
   }
 
   checkLogin() {

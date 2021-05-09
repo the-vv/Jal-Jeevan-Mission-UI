@@ -12,6 +12,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {LayoutModule} from '@angular/cdk/layout';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 // PrimeNg Imports
@@ -34,6 +35,7 @@ import { LoginComponent } from './login/login.component';
 import { RestapiService } from './services/restapi.service';
 import { UserService } from './services/user.service';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { IsaPositioningComponent } from './isa-positioning/isa-positioning.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     PhaseSelectionComponent,
     PhaseComponentsComponent,
     LoginComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    IsaPositioningComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     TieredMenuModule,
     LayoutModule,
     PanelMenuModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    MatSnackBarModule
   ],
   providers: [
     DataService,

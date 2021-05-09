@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private user: UserService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit {
     })
     .catch((err) => {
       console.log(err)
+      // this.snackBar.open(err, 'Dismiss', {duration: 5000})
     })
   }
   get f() { return this.loginForm.controls; }
@@ -44,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return
     }
-    console.log(this.loginForm)
+    // console.log(this.loginForm)
     this.user.login(this.loginForm.value)
       .then((res) => {
         if (res.admin) {
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         console.log(err)
+        this.snackBar.open(err, 'Dismiss', {duration: 5000})
       })
   }
 }
