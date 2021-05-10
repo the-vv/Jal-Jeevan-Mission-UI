@@ -159,8 +159,9 @@ export class IsaPositioningComponent implements OnInit {
         .subscribe(res => {
           console.log(res)
           this.submitting = false;
-          if(!silent) {
+          if (!silent) {
             this.showForm = false;
+            this.editingId = '';
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
@@ -179,12 +180,14 @@ export class IsaPositioningComponent implements OnInit {
         .subscribe(res => {
           console.log(res)
           this.submitting = false;
-          if(!silent) {
+          if (!silent) {
             this.showForm = false;
+            this.editingId = '';
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
-          }     
+          }
+          this.submittedApplcations.unshift(res);
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
@@ -225,6 +228,32 @@ export class IsaPositioningComponent implements OnInit {
         }
       })
     }
+  }
+
+  onReset() {
+    this.showForm = false;
+    this.editingId = '';
+    this.applicationForm.reset()
+    this.agreementFile = null;
+    this.dsmMeetingFile = null;
+  }
+
+  hasAttatchment(files: ApplicationFile[] | undefined) {
+    return (files as ApplicationFile[]).length > 0
+  }
+
+  getAttatchemenstIfAny(appl: Application, fname: string) {
+    let toReturn: string = '';
+    appl.files?.forEach(f => {
+      if (f.fieldName === fname) {
+        toReturn = `
+        <a href="${f.url}" download target="_blank">
+          View Attatchement 
+        </a>
+        `
+      }
+    })
+    return toReturn
   }
 
 }
