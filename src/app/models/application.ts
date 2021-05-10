@@ -4,13 +4,14 @@ export interface Application {
     name?: string,
     values?: any,
     files?: ApplicationFile[],
-    category?: Selected
+    category?: Selected,
+    datetime?: Date
 }
 
 export interface ApplicationFile {
-    fieldName: string,
+    fieldName?: string,
     name?: string,
-    url: string,
+    url?: string,
     fid?: string,
     size?: number
 }

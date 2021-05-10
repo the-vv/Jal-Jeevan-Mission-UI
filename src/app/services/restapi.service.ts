@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Application } from '../models/application';
+import { Selected } from '../models/selected';
 
 
 @Injectable({
@@ -34,7 +36,20 @@ export class RestapiService {
   }
 
   uploadFiles(files: any): Observable<any> {
-    return this.http.post<any>(this.URL + '/upload', files)
+    return this.http.post<any>(this.URL + '/upload', files, {
+      withCredentials: true 
+    })
   }
   
+  submitApplication(values: Application): Observable<Application> {
+    return this.http.post<Application>(this.URL + '/application', values, {
+      withCredentials: true 
+    })
+  }
+
+  getApplications(query: Selected): Observable<Application[]> {
+    return this.http.post<Application[]>(this.URL + '/getApplications', query)
+  }
+
+
 }

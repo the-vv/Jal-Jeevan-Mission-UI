@@ -9,148 +9,180 @@
     </p-breadcrumb>
 </div>
 <div class="col-12">
-    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    DWSM Meeting
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select a Date</mat-label>
-                        <input matInput [matDatepicker]="dp1" readonly (click)="dp1.open()" formControlName="dwsmDate">
-                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="mt-1">
-                    <input class="form-control" type="file" id="formFile" style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')">
+    
+    <div class="row mt-4">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Submit a new Application
+                </mat-panel-title>
+                <!-- <mat-panel-description>
+                  This is a summary of the content
+                </mat-panel-description> -->
+              </mat-expansion-panel-header>
+              <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            DWSM Meeting
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Select a Date</mat-label>
+                                <input matInput [matDatepicker]="dp1" readonly (click)="dp1.open()" formControlName="dwsmDate">
+                                <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                                <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <input class="form-control" type="file" id="formFile" style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    Agreement
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select a Date</mat-label>
-                        <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
-                            (click)="dp2.open()">
-                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <div class="mt-1">
-                    <input class="form-control" type="file" id="formFile" style="padding: 12px;" (change)="fileSelected($event, 'agreement')">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            Agreement
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Select a Date</mat-label>
+                                <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
+                                    (click)="dp2.open()">
+                                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <input class="form-control" type="file" id="formFile" style="padding: 12px;" (change)="fileSelected($event, 'agreement')">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    Office Starting Date
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Select a Date</mat-label>
-                        <input formControlName="officeStartingDate" matInput [matDatepicker]="dp3" readonly
-                            (click)="dp3.open()">
-                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <p class="h4">
-                    Staff Positioning
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    Team Leader
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Name & Address</mat-label>
-                        <textarea formControlName="teamLeaderAddress" matInput></textarea>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Enter Phone No</mat-label>
-                        <input formControlName="teamLeaderNo" matInput placeholder="Phone Number" type="number">
-                    </mat-form-field>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    Comminity Engineer
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Name & Address</mat-label>
-                        <textarea formControlName="comminityEngAddress" matInput></textarea>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Enter Phone No</mat-label>
-                        <input formControlName="communityEngNo" matInput placeholder="Phone Number" type="number">
-                    </mat-form-field>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <p class="h5 text-start pt-3">
-                    Comminity Facilitator
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Name & Address</mat-label>
-                        <textarea formControlName="communityfacilAddress" matInput></textarea>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-12 col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Enter Phone No</mat-label>
-                        <input formControlName="communityFacilNo" matInput placeholder="Phone Number" type="number">
-                    </mat-form-field>
-                </p>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-12 text-center">
-                <button mat-raised-button color="primary" class="px-5 py-1">Save Application</button>
-            </div>
-        </div>
-    </form>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            Office Starting Date
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Select a Date</mat-label>
+                                <input formControlName="officeStartingDate" matInput [matDatepicker]="dp3" readonly
+                                    (click)="dp3.open()">
+                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="h4">
+                            Staff Positioning
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            Team Leader
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="teamLeaderAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Enter Phone No</mat-label>
+                                <input formControlName="teamLeaderNo" matInput placeholder="Phone Number" type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            Comminity Engineer
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="comminityEngAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Enter Phone No</mat-label>
+                                <input formControlName="communityEngNo" matInput placeholder="Phone Number" type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p class="h5 text-start pt-3">
+                            Comminity Facilitator
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="communityfacilAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Enter Phone No</mat-label>
+                                <input formControlName="communityFacilNo" matInput placeholder="Phone Number" type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12" *ngIf="submitting">
+                        <p class="small text-center">
+                            Uploading files(If any) and submiting Application...
+                        </p>
+                        <mat-progress-bar mode="indeterminate"clas="w-100"></mat-progress-bar>
+                    </div>
+                    <div class="col-12 text-center mt-3">
+                        <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save Application</button>
+                    </div>
+                </div>
+            </form>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Applications that are already submitted
+                </mat-panel-title>
+                <!-- <mat-panel-description>
+                  Currently I am
+                </mat-panel-description> -->
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+    </div>
 </div>

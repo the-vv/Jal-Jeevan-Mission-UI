@@ -14,6 +14,8 @@ import {MatInputModule} from '@angular/material/input';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 // PrimeNg Imports
@@ -75,7 +77,9 @@ import { IsaPositioningComponent } from './isa-positioning/isa-positioning.compo
     MatDatepickerModule,
     MatNativeDateModule,
     FileUploadModule,
-    InputTextareaModule
+    InputTextareaModule,
+    MatProgressBarModule,
+    MatExpansionModule
   ],
   providers: [
     DataService,
