@@ -66,6 +66,12 @@ export class IsaPositioningComponent implements OnInit {
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
+        if(res.length > 0) {
+          this.showForm = false;
+        }
+        else {
+          this.showForm = true;
+        }
       }, e => console.log(e.error))
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
