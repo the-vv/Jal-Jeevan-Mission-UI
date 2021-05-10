@@ -1,6 +1,7 @@
 import { Selected } from "./selected";
 
 export interface Application {
+    _id?: string
     name?: string,
     values?: any,
     files?: ApplicationFile[],
