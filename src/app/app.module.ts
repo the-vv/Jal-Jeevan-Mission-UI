@@ -40,8 +40,9 @@ import { LoginComponent } from './login/login.component';
 import { RestapiService } from './services/restapi.service';
 import { UserService } from './services/user.service';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { IsaPositioningComponent } from './isa-positioning/isa-positioning.component';
-
+import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
+import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,7 +53,8 @@ import { IsaPositioningComponent } from './isa-positioning/isa-positioning.compo
     PhaseComponentsComponent,
     LoginComponent,
     NotfoundComponent,
-    IsaPositioningComponent
+    IsaPositioningComponent,
+    OrientationToGpComponent
   ],
   imports: [
     BrowserModule,

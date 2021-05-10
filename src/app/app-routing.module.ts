@@ -5,11 +5,12 @@ import { GpanchayathComponent } from './gpanchayath/gpanchayath.component';
 import { AdminGuard } from './guards/admin.guard';
 import { ClientGuard } from './guards/client.guard';
 import { HomeComponent } from './home/home.component';
-import { IsaPositioningComponent } from './isa-positioning/isa-positioning.component';
+import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
 import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { PhaseComponentsComponent } from './phase-components/phase-components.component';
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
+import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
 
 const routes: Routes = [
   {
@@ -24,8 +25,9 @@ const routes: Routes = [
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },
       { path: 'phase', component: PhaseSelectionComponent },
-      { path: 'components', component: PhaseComponentsComponent }, 
-      { path: 'isapositioning', component: IsaPositioningComponent },     
+      { path: 'components', component: PhaseComponentsComponent },
+      { path: 'isapositioning', component: IsaPositioningComponent },
+      { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: '**', redirectTo: 'district', pathMatch: 'full' },
     ]
   },
@@ -35,6 +37,7 @@ const routes: Routes = [
       { path: 'phase', component: PhaseSelectionComponent },
       { path: 'components', component: PhaseComponentsComponent },
       { path: 'isapositioning', component: IsaPositioningComponent },
+      { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
