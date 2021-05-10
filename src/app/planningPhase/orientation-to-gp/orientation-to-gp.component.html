@@ -170,7 +170,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="h5 text-start pt-3">
-                                DWSM Meeting
+                                Introduction Meeting
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
@@ -185,7 +185,7 @@
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
-                            <div class="mt-1">
+                            <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
                                     *ngIf="dsmMeetingFile != null">
                                     <p class="text-truncate pt-3"><strong>Attatchement:
@@ -197,137 +197,235 @@
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </div>
-                                <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')">
+                                <p-fileUpload *ngIf="dsmMeetingFile == null" mode="basic" [customUpload]="true"
+                                    (onSelect)="fileSelected($event, 'dsmMeeting')" [style]="{backgroundColor: 'white',
+                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                    [chooseLabel]="'Select Minutes Copy File'"></p-fileUpload>
+                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="h5 text-start pt-3">
-                                Agreement
+                                IEC Plan
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter No. of Training</mat-label>
+                                    <input formControlName="communityEngNo" matInput placeholder="No. of Training"
+                                        type="number">
+                                </mat-form-field>
+                                <!-- <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Select a Date</mat-label>
+                                    <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
+                                        (click)="dp2.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                </mat-form-field> -->
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter Total Amount</mat-label>
+                                    <input formControlName="communityEngNo" matInput placeholder="Total Amount"
+                                        type="number">
+                                </mat-form-field>
+                                <!-- <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Select a Date</mat-label>
+                                    <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
+                                        (click)="dp2.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                </mat-form-field> -->
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <p class="h5 text-start pt-3">
+                                Inter Department Meeting
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Select a Date</mat-label>
-                                    <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
-                                        (click)="dp2.open()">
+                                    <input matInput [matDatepicker]="dp2" readonly (click)="dp2.open()"
+                                        formControlName="dwsmDate">
                                     <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
                                     <mat-datepicker #dp2 disabled="false"></mat-datepicker>
                                 </mat-form-field>
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
-                            <div class="mt-1">
+                            <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                                    *ngIf="agreementFile != null">
+                                    *ngIf="dsmMeetingFile != null">
                                     <p class="text-truncate pt-3"><strong>Attatchement:
-                                        </strong>{{agreementFile.name}}
+                                        </strong>{{dsmMeetingFile.name}}
                                     </p>
                                     <button mat-icon-button color="accent"
-                                        aria-label="Example icon button with a menu icon" style="margin-top: 4.5px;"
-                                        (click)="fileRemoved(agreementFile.fid); agreementFile = null">
+                                        aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                        (click)="fileRemoved(dsmMeetingFile.fid); dsmMeetingFile = null">
                                         <mat-icon>close</mat-icon>
                                     </button>
                                 </div>
-                                <input *ngIf="agreementFile == null" class="form-control" type="file" id="formFile"
-                                    style="padding: 12px;" (change)="fileSelected($event, 'agreement')">
+                                <p-fileUpload *ngIf="dsmMeetingFile == null" mode="basic" [customUpload]="true"
+                                    (onSelect)="fileSelected($event, 'dsmMeeting')" [style]="{backgroundColor: 'white',
+                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                    [chooseLabel]="'Select Minutes File'"></p-fileUpload>
+                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="h5 text-start pt-3">
-                                Office Starting Date
+                                GP Board Meeting for 15% Contribution, D&M
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Select a Date</mat-label>
-                                    <input formControlName="officeStartingDate" matInput [matDatepicker]="dp3" readonly
-                                        (click)="dp3.open()">
+                                    <input matInput [matDatepicker]="dp3" readonly (click)="dp3.open()"
+                                        formControlName="dwsmDate">
                                     <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                 </mat-form-field>
                             </p>
                         </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mt-1" style="position: relative;">
+                                <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                    *ngIf="dsmMeetingFile != null">
+                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                        </strong>{{dsmMeetingFile.name}}
+                                    </p>
+                                    <button mat-icon-button color="accent"
+                                        aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                        (click)="fileRemoved(dsmMeetingFile.fid); dsmMeetingFile = null">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                                <p-fileUpload *ngIf="dsmMeetingFile == null" mode="basic" [customUpload]="true"
+                                    (onSelect)="fileSelected($event, 'dsmMeeting')" [style]="{backgroundColor: 'white',
+                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                    [chooseLabel]="'Select Resolution File'"></p-fileUpload>
+                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <p class="h4">
-                                Staff Positioning
-                            </p>
-                        </div>
                         <div class="col-12 col-md-4">
                             <p class="h5 text-start pt-3">
-                                Team Leader
+                                Joint Account
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Name & Address</mat-label>
-                                    <textarea formControlName="teamLeaderAddress" matInput></textarea>
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Enter Phone No</mat-label>
-                                    <input formControlName="teamLeaderNo" matInput placeholder="Phone Number"
+                                    <mat-label>Enter Account No.</mat-label>
+                                    <input formControlName="communityEngNo" matInput placeholder="Account No."
                                         type="number">
                                 </mat-form-field>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <p class="h5 text-start pt-3">
-                                Comminity Engineer
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Name & Address</mat-label>
-                                    <textarea formControlName="comminityEngAddress" matInput></textarea>
-                                </mat-form-field>
+                                <!-- <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Select a Date</mat-label>
+                                    <input formControlName="agreementDate" matInput [matDatepicker]="dp2" readonly
+                                        (click)="dp2.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                </mat-form-field> -->
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Enter Phone No</mat-label>
-                                    <input formControlName="communityEngNo" matInput placeholder="Phone Number"
-                                        type="number">
+                                    <mat-label>Select a Date</mat-label>
+                                    <input formControlName="agreementDate" matInput [matDatepicker]="dp4" readonly
+                                        (click)="dp4.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp4 disabled="false"></mat-datepicker>
                                 </mat-form-field>
                             </p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-4">
-                            <p class="h5 text-start pt-3">
-                                Comminity Facilitator
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter Name of Bank</mat-label>
+                                    <input formControlName="communityFacilNo" matInput placeholder="Name of Bank">
+                                </mat-form-field>
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Name & Address</mat-label>
-                                    <textarea formControlName="communityfacilAddress" matInput></textarea>
+                                    <mat-label>Enter Branch</mat-label>
+                                    <input formControlName="communityFacilNo" matInput placeholder="Branch">
                                 </mat-form-field>
                             </p>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <!-- <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Enter Phone No</mat-label>
                                     <input formControlName="communityFacilNo" matInput placeholder="Phone Number"
                                         type="number">
+                                </mat-form-field>
+                            </p>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter IFSC Code</mat-label>
+                                    <input formControlName="communityFacilNo" matInput placeholder="IFSC Code">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="mt-1" style="position: relative;">
+                                <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                    *ngIf="dsmMeetingFile != null">
+                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                        </strong>{{dsmMeetingFile.name}}
+                                    </p>
+                                    <button mat-icon-button color="accent"
+                                        aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                        (click)="fileRemoved(dsmMeetingFile.fid); dsmMeetingFile = null">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                                <p-fileUpload *ngIf="dsmMeetingFile == null" mode="basic" [customUpload]="true"
+                                    (onSelect)="fileSelected($event, 'dsmMeeting')" [style]="{backgroundColor: 'white',
+                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                    [chooseLabel]="'Select Resolution File'"></p-fileUpload>
+                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">                        
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Enter Address</mat-label>
+                                    <textarea formControlName="communityfacilAddress" matInput
+                                        placeholder="Address"></textarea>
                                 </mat-form-field>
                             </p>
                         </div>

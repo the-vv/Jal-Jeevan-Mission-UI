@@ -37,7 +37,6 @@ export class OrientationToGpComponent implements OnInit {
     files: []
   };
   isAdmin: boolean = this.user.isAdmin;
-  canUpload: boolean = false;
   applicationForm!: FormGroup;
   dsmMeetingFile: any = null;
   agreementFile: any = null;
@@ -70,7 +69,6 @@ export class OrientationToGpComponent implements OnInit {
       this.formdata.name = val[0].path
       console.log(val[0].path)
     })
-    this.canUpload = !this.user.isAdmin;
     this.applicationForm = this.formBuilder.group({
       dwsmDate: [moment('')],
       agreementDate: [moment('')],
@@ -143,12 +141,12 @@ export class OrientationToGpComponent implements OnInit {
   }
 
   fileSelected(event: any, name: string) {
-    // console.log(event.target.files)
+    console.log(event.files)
     if (name === 'agreement') {
-      this.agreementFile = event.target.files[0]
+      this.agreementFile = event.files[0]
     }
     else if (name === 'dsmMeeting') {
-      this.dsmMeetingFile = event.target.files[0]
+      this.dsmMeetingFile = event.files[0]
     }
   }
 
