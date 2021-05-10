@@ -9,10 +9,9 @@
     </p-breadcrumb>
 </div>
 <div class="col-12">
-
     <div class="row mt-4">
         <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm">
+            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Submit a new Application
@@ -199,7 +198,7 @@
                     </div>
                 </form>
             </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Applications that are already submitted

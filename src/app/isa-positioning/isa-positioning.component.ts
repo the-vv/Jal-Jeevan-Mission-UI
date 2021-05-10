@@ -87,6 +87,9 @@ export class IsaPositioningComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   onSubmit() {
+    if (this.editingId.length > 0) {
+      this.formdata._id = this.editingId
+    }
     if (!this.agreementFile && !this.dsmMeetingFile) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
@@ -124,7 +127,7 @@ export class IsaPositioningComponent implements OnInit {
           this.formdata.category = this.data.selectedDetails;
           this.formdata.datetime = new Date();
           this.submitting = true;
-          // this.sendApplication(this.formdata, this.editingId.length > 0)
+          this.sendApplication(this.formdata, this.editingId.length > 0)
           console.log(this.formdata)
         }, err => {
           console.warn(err.error.status)
@@ -133,7 +136,7 @@ export class IsaPositioningComponent implements OnInit {
             this.formdata.category = this.data.selectedDetails;
             this.formdata.datetime = new Date();
             this.submitting = true;
-            // this.sendApplication(this.formdata, this.editingId.length > 0)
+            this.sendApplication(this.formdata, this.editingId.length > 0)
             console.log(this.formdata)
           }
         })
@@ -156,10 +159,16 @@ export class IsaPositioningComponent implements OnInit {
         .subscribe(res => {
           console.log(res)
           this.submitting = false;
-          silent || (this.showForm = false);
-          silent || this.applicationForm.reset()
-          silent || (this.agreementFile = null);
-          silent || (this.dsmMeetingFile = null)
+          if(!silent) {
+            this.showForm = false;
+            this.applicationForm.reset()
+            this.agreementFile = null;
+            this.dsmMeetingFile = null;
+          }
+          this.submittedApplcations = this.submittedApplcations.filter(el => {
+            return el._id != res._id
+          });
+          this.submittedApplcations.unshift(res);
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
@@ -170,10 +179,12 @@ export class IsaPositioningComponent implements OnInit {
         .subscribe(res => {
           console.log(res)
           this.submitting = false;
-          silent || (this.showForm = false);
-          silent || this.applicationForm.reset()
-          silent || (this.agreementFile = null);
-          silent || (this.dsmMeetingFile = null)
+          if(!silent) {
+            this.showForm = false;
+            this.applicationForm.reset()
+            this.agreementFile = null;
+            this.dsmMeetingFile = null;
+          }     
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
