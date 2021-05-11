@@ -106,8 +106,8 @@ export class OrientationToGpComponent implements OnInit {
     else {
       // console.log(this.agreementFile)
       let form: FormData = new FormData();
-      if (this.InterDepartmentFile && !this.InterDepartmentFile.fid) {
-        form.append('file1', this.InterDepartmentFile, 'introductionAttatchement.' + this.InterDepartmentFile.name.split('.')[this.InterDepartmentFile.name.split('.').length - 1]);
+      if (this.introductionFile && !this.introductionFile.fid) {
+        form.append('file1', this.introductionFile, 'introductionAttatchement.' + this.introductionFile.name.split('.')[this.introductionFile.name.split('.').length - 1]);
       }
       if (this.InterDepartmentFile && !this.InterDepartmentFile.fid) {
         form.append('file2', this.InterDepartmentFile, 'interDepartmentAttatchment.' + this.InterDepartmentFile.name.split('.')[this.InterDepartmentFile.name.split('.').length - 1]);
@@ -158,7 +158,7 @@ export class OrientationToGpComponent implements OnInit {
       this.introductionFile = event.files[0]
     }
     else if (name === 'interDepartmentAttatchment') {
-      this.introductionFile = event.files[0]
+      this.InterDepartmentFile = event.files[0]
     }
     else if (name === 'gpBoardMeetingAttatchment') {
       this.GpBoardMeetingFile = event.files[0]
@@ -182,6 +182,7 @@ export class OrientationToGpComponent implements OnInit {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
+            this.formdata.files = []
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
@@ -205,6 +206,7 @@ export class OrientationToGpComponent implements OnInit {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
+            this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
         }, e => {
@@ -222,7 +224,7 @@ export class OrientationToGpComponent implements OnInit {
         console.log(el.fid, id)
         return el.fid != id
       })
-      // console.log(this.formdata)
+      console.log(this.formdata)
       this.sendApplication(this.formdata, true, true)
       this.rest.deleteFile(id)
         .subscribe((res) => {
@@ -239,10 +241,10 @@ export class OrientationToGpComponent implements OnInit {
       (app.files as ApplicationFile[])?.forEach(el => {
         if (el.fieldName === 'introductionAttatchement') {
           this.introductionFile = el;
-          this, this.formdata.files?.push(el)
+          this.formdata.files?.push(el)
         }
         if (el.fieldName === 'interDepartmentAttatchment') {
-          this.introductionFile = el;
+          this.InterDepartmentFile = el;
           this, this.formdata.files?.push(el)
         }
         if (el.fieldName === 'gpBoardMeetingAttatchment') {
@@ -251,7 +253,7 @@ export class OrientationToGpComponent implements OnInit {
         }
         if (el.fieldName === 'jointAccountAttatchment') {
           this.jontAccountFile = el;
-          this, this.formdata.files?.push(el)
+          this.formdata.files?.push(el)
         }
       })
     }
@@ -265,19 +267,20 @@ export class OrientationToGpComponent implements OnInit {
     this.GpBoardMeetingFile = null;
     this.InterDepartmentFile = null;
     this.jontAccountFile = null;
+    this.formdata.files = []
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string) {
-    let toReturn: string = '';
+  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
+    let toReturn: string = `${dname} not Attatched`;
     appl.files?.forEach(f => {
       if (f.fieldName === fname) {
         toReturn = `
-        <a href="${f.url}" download target="_blank">
-          View Attatchement 
+        <a href="${f.url}" download target="_blank" class="">
+          View ${dname} 
         </a>
         `
       }

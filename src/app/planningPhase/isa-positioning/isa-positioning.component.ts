@@ -171,6 +171,7 @@ export class IsaPositioningComponent implements OnInit {
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
+            this.formdata.files = []
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
@@ -192,6 +193,7 @@ export class IsaPositioningComponent implements OnInit {
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
+            this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
         }, e => {
@@ -242,6 +244,7 @@ export class IsaPositioningComponent implements OnInit {
     this.applicationForm.reset()
     this.agreementFile = null;
     this.dsmMeetingFile = null;
+    this.formdata.files = []
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {

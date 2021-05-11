@@ -21,7 +21,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
@@ -35,17 +35,17 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">DWS Meeting</p>
+                                    <p class="h5 text-start">Introduction Meeting</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class="text-start">{{appl.values.dwsmDate | date: 'd/M/y'}}</p>
+                                    <p class="text-start"><strong>Date: </strong> {{appl.values.introductionDate | date: 'd/M/y'}}</p>
                                 </div>
-                                <div class="col-4" [innerHtml]="getAttatchemenstIfAny(appl, 'dsmMeetingAttatchment')">
+                                <div class="col-4 text-start" [innerHtml]="getAttatchemenstIfAny(appl, 'introductionAttatchement', 'Minutes Copy')">
                                 </div>
                             </div>
                         </div>
@@ -54,12 +54,13 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">Agreement</p>
+                                    <p class="h6 text-start">IEC Plan</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start">{{appl.values.agreementDate | date: 'd/M/y'}}</p>
+                                    <p class=" text-start"><strong>No. Of Training: </strong>{{appl.values.iecPlanNo}}</p>
                                 </div>
-                                <div class="col-4" [innerHtml]="getAttatchemenstIfAny(appl, 'agreementAttatchment')">
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>Total Amount: </strong>{{appl.values.iecPlanAmount}}</p>
                                 </div>
                             </div>
                         </div>
@@ -68,30 +69,12 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">Office Starting Date</p>
+                                    <p class="h6 text-start">Inter Department Meeting</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start">{{appl.values.agreementDate | date: 'd/M/y'}}</p>
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.interDepartmentDate | date: 'd/M/y'}}</p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4 mb-2 border-bottom">
-                        <p class="h3">
-                            Staff positioning
-                        </p>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h4">position</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="h4">Name & Address</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="h4">Phone No. </p>
+                                <div class="col-4 text-start" [innerHtml]="getAttatchemenstIfAny(appl, 'interDepartmentAttatchment', 'Minutes')">
                                 </div>
                             </div>
                         </div>
@@ -100,14 +83,12 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">Team Leader</p>
+                                    <p class="h6 text-start">GP Board Meeting for 15% Contribution, O&M</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start" style="white-space: pre-wrap;overflow-wrap: break-word">
-                                        {{appl.values.teamLeaderAddress}}</p>
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.GpBoardMeetingDate | date: 'd/M/y'}}</p>
                                 </div>
-                                <div class="col-4">
-                                    <p class=" text-start">{{appl.values.teamLeaderNo}}</p>
+                                <div class="col-4 text-start" [innerHtml]="getAttatchemenstIfAny(appl, 'gpBoardMeetingAttatchment', 'Resolution')">
                                 </div>
                             </div>
                         </div>
@@ -116,14 +97,14 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">Community Engineer</p>
+                                    <p class="h6 text-start">Joint Account</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start" style="white-space: pre-wrap;overflow-wrap: break-word">
-                                        {{appl.values.comminityEngAddress}}</p>
+                                    <p class=" text-start">
+                                       <strong>Account No. : </strong>{{appl.values.JointAccountNo}}</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start">{{appl.values.comminityEngNo}}</p>
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.jointAccountDate | date: 'd/M/y'}}</p>
                                 </div>
                             </div>
                         </div>
@@ -132,14 +113,47 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="h6 text-start">Community Facilitator</p>
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
                                 </div>
                                 <div class="col-4">
-                                    <p class=" text-start" style="white-space: pre-wrap;overflow-wrap: break-word">
-                                        {{appl.values.communityfacilAddress}}</p>
+                                    <p class=" text-start">
+                                        <strong>Name of the Bank: </strong>{{appl.values.jointAccountBank}}</p>
                                 </div>
                                 <div class="col-4">
-                                    <p class="text-start">{{appl.values.communityfacilNo}}</p>
+                                    <p class="text-start"><strong>Branch: </strong>{{appl.values.jointAccountBranch}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>IFSC Code: </strong>{{appl.values.jointAccointIFSC}}</p>
+                                </div>
+                                <div class="col-4 text-start" [innerHtml]="getAttatchemenstIfAny(appl, 'jointAccountAttatchment', 'Passbook Copy')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>Address: </strong>
+                                        <span class="col-4">
+                                            <p class=" text-start" style="white-space: pre-wrap;overflow-wrap: break-word">
+                                                {{appl.values.jointAccointAddress}}</p>
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -188,7 +202,7 @@
                             <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
                                     *ngIf="introductionFile != null">
-                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                    <p class="text-truncate pt-3"><strong>Minutes Copy:
                                         </strong>{{introductionFile.name}}
                                     </p>
                                     <button mat-icon-button color="accent"
@@ -201,7 +215,7 @@
                                     (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'white',
                                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Select Minutes Copy File'"></p-fileUpload>
+                                    [chooseLabel]="'Select Minutes Copy'"></p-fileUpload>
                                 <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
                                     style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
@@ -267,7 +281,7 @@
                             <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
                                     *ngIf="InterDepartmentFile != null">
-                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                    <p class="text-truncate pt-3"><strong>Minutes:
                                         </strong>{{InterDepartmentFile.name}}
                                     </p>
                                     <button mat-icon-button color="accent"
@@ -280,7 +294,7 @@
                                     (onSelect)="fileSelected($event, 'interDepartmentAttatchment')" [style]="{backgroundColor: 'white',
                                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Select Minutes File'"></p-fileUpload>
+                                    [chooseLabel]="'Select Minutes'"></p-fileUpload>
                                 <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
                                     style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
@@ -289,7 +303,7 @@
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <p class="h5 text-start pt-3">
-                                GP Board Meeting for 15% Contribution, D&M
+                                GP Board Meeting for 15% Contribution, O&M
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
@@ -307,7 +321,7 @@
                             <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
                                     *ngIf="GpBoardMeetingFile != null">
-                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                    <p class="text-truncate pt-3"><strong>Resolution:
                                         </strong>{{GpBoardMeetingFile.name}}
                                     </p>
                                     <button mat-icon-button color="accent"
@@ -320,7 +334,7 @@
                                     (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'white',
                                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Select Resolution File'"></p-fileUpload>
+                                    [chooseLabel]="'Select Resolution'"></p-fileUpload>
                                 <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
                                     style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
@@ -400,7 +414,7 @@
                             <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded"
                                     *ngIf="jontAccountFile != null">
-                                    <p class="text-truncate pt-3"><strong>Attatchement:
+                                    <p class="text-truncate pt-3"><strong>Passbook Copy:
                                         </strong>{{jontAccountFile.name}}
                                     </p>
                                     <button mat-icon-button color="accent"
@@ -413,7 +427,7 @@
                                     (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'white',
                                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Select Resolution File'"></p-fileUpload>
+                                    [chooseLabel]="'Select Passbook Copy'"></p-fileUpload>
                                 <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
                                     style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                             </div>
@@ -458,7 +472,7 @@
                         <mat-list-item *ngFor="let appl of submittedApplcations">
                             <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
                                 matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="Example icon button with a menu icon"
+                                <button mat-button color="primary" aria-label="icon"
                                     style="margin-top: 4.5px" (click)="applicSelected(appl)" class="">
                                     View/ Edit
                                 </button>
