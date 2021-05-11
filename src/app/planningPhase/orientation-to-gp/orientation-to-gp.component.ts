@@ -38,8 +38,12 @@ export class OrientationToGpComponent implements OnInit {
   };
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
-  dsmMeetingFile: any = null;
-  agreementFile: any = null;
+  // dsmMeetingFile: any = null;
+  // agreementFile: any = null;
+  introductionFile: any = null;
+  InterDepartmentFile: any = null;
+  GpBoardMeetingFile: any = null;
+  jontAccountFile: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -70,15 +74,17 @@ export class OrientationToGpComponent implements OnInit {
       console.log(val[0].path)
     })
     this.applicationForm = this.formBuilder.group({
-      dwsmDate: [moment('')],
-      agreementDate: [moment('')],
-      officeStartingDate: [moment('')],
-      teamLeaderAddress: [''],
-      teamLeaderNo: [''],
-      comminityEngAddress: [''],
-      communityEngNo: [''],
-      communityfacilAddress: [''],
-      communityFacilNo: ['']
+      introductionDate: [moment('')],
+      iecPlanNo: [''],
+      iecPlanAmount: [''],
+      interDepartmentDate: [moment('')],
+      GpBoardMeetingDate: [moment('')],
+      JointAccountNo: [''],
+      jointAccountDate: [''],
+      jointAccountBank: [''],
+      jointAccountBranch: [''],
+      jointAccointIFSC: [''],
+      jointAccointAddress: ['']
     })
   }
   get f() { return this.applicationForm.controls }
@@ -87,7 +93,7 @@ export class OrientationToGpComponent implements OnInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.agreementFile && !this.dsmMeetingFile) {
+    if (!this.introductionFile && !this.InterDepartmentFile && !this.GpBoardMeetingFile && !this.jontAccountFile) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -98,13 +104,19 @@ export class OrientationToGpComponent implements OnInit {
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
     else {
-      console.log(this.agreementFile)
+      // console.log(this.agreementFile)
       let form: FormData = new FormData();
-      if (this.agreementFile && !this.agreementFile.fid) {
-        form.append('file1', this.agreementFile, 'agreementAttatchment.' + this.agreementFile.name.split('.')[this.agreementFile.name.split('.').length - 1]);
+      if (this.InterDepartmentFile && !this.InterDepartmentFile.fid) {
+        form.append('file1', this.InterDepartmentFile, 'introductionAttatchement.' + this.InterDepartmentFile.name.split('.')[this.InterDepartmentFile.name.split('.').length - 1]);
       }
-      if (this.dsmMeetingFile && !this.dsmMeetingFile.fid) {
-        form.append('file2', this.dsmMeetingFile, 'dsmMeetingAttatchment.' + this.dsmMeetingFile.name.split('.')[this.dsmMeetingFile.name.split('.').length - 1]);
+      if (this.InterDepartmentFile && !this.InterDepartmentFile.fid) {
+        form.append('file2', this.InterDepartmentFile, 'interDepartmentAttatchment.' + this.InterDepartmentFile.name.split('.')[this.InterDepartmentFile.name.split('.').length - 1]);
+      }
+      if (this.GpBoardMeetingFile && !this.GpBoardMeetingFile.fid) {
+        form.append('file3', this.GpBoardMeetingFile, 'gpBoardMeetingAttatchment.' + this.GpBoardMeetingFile.name.split('.')[this.GpBoardMeetingFile.name.split('.').length - 1]);
+      }
+      if (this.jontAccountFile && !this.jontAccountFile.fid) {
+        form.append('file4', this.jontAccountFile, 'jointAccountAttatchment.' + this.jontAccountFile.name.split('.')[this.jontAccountFile.name.split('.').length - 1]);
       }
       this.submitting = true;
       this.rest.uploadFiles(form)
@@ -142,11 +154,17 @@ export class OrientationToGpComponent implements OnInit {
 
   fileSelected(event: any, name: string) {
     console.log(event.files)
-    if (name === 'agreement') {
-      this.agreementFile = event.files[0]
+    if (name === 'introductionAttatchement') {
+      this.introductionFile = event.files[0]
     }
-    else if (name === 'dsmMeeting') {
-      this.dsmMeetingFile = event.files[0]
+    else if (name === 'interDepartmentAttatchment') {
+      this.introductionFile = event.files[0]
+    }
+    else if (name === 'gpBoardMeetingAttatchment') {
+      this.GpBoardMeetingFile = event.files[0]
+    }
+    else if (name === 'jointAccountAttatchment') {
+      this.jontAccountFile = event.files[0]
     }
   }
 
@@ -160,8 +178,10 @@ export class OrientationToGpComponent implements OnInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
+            this.introductionFile = null;
+            this.GpBoardMeetingFile = null;
+            this.InterDepartmentFile = null;
+            this.jontAccountFile = null;
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
@@ -181,8 +201,10 @@ export class OrientationToGpComponent implements OnInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
+            this.introductionFile = null;
+            this.GpBoardMeetingFile = null;
+            this.InterDepartmentFile = null;
+            this.jontAccountFile = null;
           }
           this.submittedApplcations.unshift(res);
         }, e => {
@@ -215,12 +237,20 @@ export class OrientationToGpComponent implements OnInit {
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
       (app.files as ApplicationFile[])?.forEach(el => {
-        if (el.fieldName === 'agreementAttatchment') {
-          this.agreementFile = el;
+        if (el.fieldName === 'introductionAttatchement') {
+          this.introductionFile = el;
           this, this.formdata.files?.push(el)
         }
-        if (el.fieldName === 'dsmMeetingAttatchment') {
-          this.dsmMeetingFile = el;
+        if (el.fieldName === 'interDepartmentAttatchment') {
+          this.introductionFile = el;
+          this, this.formdata.files?.push(el)
+        }
+        if (el.fieldName === 'gpBoardMeetingAttatchment') {
+          this.GpBoardMeetingFile = el;
+          this, this.formdata.files?.push(el)
+        }
+        if (el.fieldName === 'jointAccountAttatchment') {
+          this.jontAccountFile = el;
           this, this.formdata.files?.push(el)
         }
       })
@@ -231,8 +261,10 @@ export class OrientationToGpComponent implements OnInit {
     this.showForm = false;
     this.editingId = '';
     this.applicationForm.reset()
-    this.agreementFile = null;
-    this.dsmMeetingFile = null;
+    this.introductionFile = null;
+    this.GpBoardMeetingFile = null;
+    this.InterDepartmentFile = null;
+    this.jontAccountFile = null;
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
