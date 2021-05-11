@@ -1,0 +1,330 @@
+<div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+    <p-breadcrumb [model]="[
+        {label: isAdmin ? 'Admin' : 'Client'},
+        {label: data.selectedDetails?.district},
+        {label: data.selectedDetails?.gp},
+        {label: data.selectedDetails?.phase},
+        {label: data.getLongName(formdata.name)}
+        ]">
+    </p-breadcrumb>
+</div>
+<div class="col-12" *ngIf="isAdmin">
+    <div class="row mt-4">
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let appl of submittedApplcations">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <strong>Submitted on:</strong>&nbsp;{{appl.datetime | date: "MMM d, y, h:mm:ss a"}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{hasAttatchment(appl.files) ? 'Has Attatchements' : 'Has no attatchements'}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <!-- <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h4">Field Name</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="h4">Date</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="h4">Attatchements</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h5 text-start">Introduction Meeting</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="text-start"><strong>Date: </strong> {{appl.values.introductionDate | date:
+                                        'd/M/y'}}</p>
+                                </div>
+                                <div class="col-4 text-start"
+                                    [innerHtml]="getAttatchemenstIfAny(appl, 'introductionAttatchement', 'Minutes Copy')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h5 text-start">IEC Plan</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>No. Of Training: </strong>{{appl.values.iecPlanNo}}
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>Total Amount: </strong>{{appl.values.iecPlanAmount}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h5 text-start">Inter Department Meeting</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.interDepartmentDate |
+                                        date: 'd/M/y'}}</p>
+                                </div>
+                                <div class="col-4 text-start"
+                                    [innerHtml]="getAttatchemenstIfAny(appl, 'interDepartmentAttatchment', 'Minutes')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h5 text-start">GP Board Meeting for 15% Contribution, O&M</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.GpBoardMeetingDate |
+                                        date: 'd/M/y'}}</p>
+                                </div>
+                                <div class="col-4 text-start"
+                                    [innerHtml]="getAttatchemenstIfAny(appl, 'gpBoardMeetingAttatchment', 'Resolution')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="h5 text-start">Joint Account</p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>Account No. : </strong>{{appl.values.JointAccountNo}}
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.jointAccountDate | date:
+                                        'd/M/y'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>Name of the Bank: </strong>{{appl.values.jointAccountBank}}
+                                    </p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="text-start"><strong>Branch: </strong>{{appl.values.jointAccountBranch}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>IFSC Code: </strong>{{appl.values.jointAccointIFSC}}
+                                    </p>
+                                </div>
+                                <div class="col-4 text-start"
+                                    [innerHtml]="getAttatchemenstIfAny(appl, 'jointAccountAttatchment', 'Passbook Copy')">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
+                                </div>
+                                <div class="col-4">
+                                    <p class=" text-start">
+                                        <strong>Address: </strong>
+                                        <span class="col-4">
+                                            <p class=" text-start"
+                                                style="white-space: pre-wrap;overflow-wrap: break-word">
+                                                {{appl.values.jointAccointAddress}}
+                                            </p>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+<div class="col-12" *ngIf="!isAdmin">
+    <div class="row mt-4">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span *ngIf="editingId.length == 0">
+                            Submit a new Application
+                        </span>
+                        <span *ngIf="editingId.length > 0">
+                            Edit an Application
+                        </span>
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                          This is a summary of the content
+                        </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <div class="row">
+                        <div class="col-1">
+                            <p class="h5">No.</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">IEC Activities</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Estimated Amount
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Conducting Date
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Expenditure
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p class="h5">
+                                Report
+                            </p>
+                        </div>
+                    </div>
+                    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+                        <div class="row my-3">
+                            <div class="col-12 col-md-1">
+                                <p class="h6 text-start pt-3">
+                                    1
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Select a Date</mat-label>
+                                        <input matInput [matDatepicker]="dp1" readonly (click)="dp1.open()"
+                                            formControlName="introductionDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Select a Date</mat-label>
+                                        <input matInput [matDatepicker]="dp2" readonly (click)="dp2.open()"
+                                            formControlName="introductionDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Select a Date</mat-label>
+                                        <input matInput [matDatepicker]="dp3" readonly (click)="dp3.open()"
+                                            formControlName="introductionDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Select a Date</mat-label>
+                                        <input matInput [matDatepicker]="dp4" readonly (click)="dp4.open()"
+                                            formControlName="introductionDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="mt-1" style="position: relative;">
+                                    <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                        *ngIf="introductionFile != null">
+                                        <p class="text-truncate pt-3"><strong>Minutes Copy:
+                                            </strong>{{introductionFile.name}}
+                                        </p>
+                                        <button mat-icon-button color="accent"
+                                            aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                            (click)="fileRemoved(introductionFile.fid); introductionFile = null">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </div>
+                                    <p-fileUpload *ngIf="introductionFile == null" mode="basic" [customUpload]="true"
+                                        (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'white',
+                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                        [chooseLabel]="'Select Report'"></p-fileUpload>
+                                    <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Applications that are already submitted
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                          Currently I am
+                        </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <ng-template matExpansionPanelContent>
+                    <mat-list>
+                        <mat-list-item *ngFor="let appl of submittedApplcations">
+                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
+                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
+                                <button mat-button color="primary" aria-label="icon" style="margin-top: 4.5px"
+                                    (click)="applicSelected(appl)" class="">
+                                    View/ Edit
+                                </button>
+                            </p>
+                        </mat-list-item>
+                    </mat-list>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

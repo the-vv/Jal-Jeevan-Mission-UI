@@ -42,6 +42,7 @@ import { UserService } from './services/user.service';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
 import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
+import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
  
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orie
     LoginComponent,
     NotfoundComponent,
     IsaPositioningComponent,
-    OrientationToGpComponent
+    OrientationToGpComponent,
+    GpIecActivitiesComponent
   ],
   imports: [
     BrowserModule,
