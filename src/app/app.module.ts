@@ -25,6 +25,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {FileUploadModule} from 'primeng/fileupload';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ButtonModule} from 'primeng/button';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -83,7 +84,8 @@ import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-i
     FileUploadModule,
     InputTextareaModule,
     MatProgressBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ButtonModule
   ],
   providers: [
     DataService,

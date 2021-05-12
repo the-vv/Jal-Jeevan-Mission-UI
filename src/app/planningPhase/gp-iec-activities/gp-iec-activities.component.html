@@ -226,77 +226,84 @@
                         </div>
                     </div>
                     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-                        <div class="row my-3">
-                            <div class="col-12 col-md-1">
-                                <p class="h6 text-start pt-3">
-                                    1
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <p>
-                                    <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Select a Date</mat-label>
-                                        <input matInput [matDatepicker]="dp1" readonly (click)="dp1.open()"
-                                            formControlName="introductionDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-                                    </mat-form-field>
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <p>
-                                    <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Select a Date</mat-label>
-                                        <input matInput [matDatepicker]="dp2" readonly (click)="dp2.open()"
-                                            formControlName="introductionDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-                                    </mat-form-field>
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <p>
-                                    <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Select a Date</mat-label>
-                                        <input matInput [matDatepicker]="dp3" readonly (click)="dp3.open()"
-                                            formControlName="introductionDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                    </mat-form-field>
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <p>
-                                    <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Select a Date</mat-label>
-                                        <input matInput [matDatepicker]="dp4" readonly (click)="dp4.open()"
-                                            formControlName="introductionDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp4 disabled="false"></mat-datepicker>
-                                    </mat-form-field>
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="mt-1" style="position: relative;">
-                                    <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                                        *ngIf="introductionFile != null">
-                                        <p class="text-truncate pt-3"><strong>Minutes Copy:
-                                            </strong>{{introductionFile.name}}
+                        <div formArrayName="meetings" *ngFor="let item of getControls(); let i = index;">
+                            <ng-container [formGroupName]="i">
+                                <div class="row my-3">
+                                    <div class="col-12 col-md-1">
+                                        <p class="h6 text-start pt-3">
+                                            {{i + 1}}
                                         </p>
-                                        <button mat-icon-button color="accent"
-                                            aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
-                                            (click)="fileRemoved(introductionFile.fid); introductionFile = null">
-                                            <mat-icon>close</mat-icon>
-                                        </button>
                                     </div>
-                                    <p-fileUpload *ngIf="introductionFile == null" mode="basic" [customUpload]="true"
-                                        (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'white',
-                                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                        [chooseLabel]="'Select Report'"></p-fileUpload>
-                                    <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                                </div>
+                                    <div class="col-12 col-md-2">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Enter IEC Activity</mat-label>
+                                                <input formControlName="activity" matInput placeholder="IEC Activity">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Enter Estimated Amount</mat-label>
+                                                <input formControlName="amount" matInput placeholder="IFSC Code">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Select Conducting Date</mat-label>
+                                                <input matInput [matDatepicker]="dp3" readonly (click)="dp3.open()"
+                                                    formControlName="date">
+                                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Enter Expenditure</mat-label>
+                                                <input formControlName="expenditure" matInput placeholder="IFSC Code">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <div class="mt-1" style="position: relative;">
+                                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                                *ngIf="getControls()[i].value.reportIndex?.length > 0">
+                                                <p class="text-truncate pt-3"><strong>Report:
+                                                    </strong>{{filesToUpload[i].file.name}}
+                                                </p>
+                                                <button mat-icon-button color="accent"
+                                                    aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                                    (click)="fileRemoved(filesToUpload[i].file.fid, i); getControls()[i].value.reportIndex = ''">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </div>
+                                            <p-fileUpload *ngIf="getControls()[i].value.reportIndex?.length == 0 || !getControls()[i].value.reportIndex" mode="basic" [customUpload]="true"
+                                                (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                                [chooseLabel]="'Select Report'"></p-fileUpload>
+                                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </ng-container>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12" *ngIf="submitting">
+                                <p class="small text-center">
+                                    Uploading files(If any) and submiting Application...
+                                </p>
+                                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+                            </div>
+                            <div class="col-12 text-center mt-3">
+                                <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+                                    Application</button>
                             </div>
                         </div>
                     </form>

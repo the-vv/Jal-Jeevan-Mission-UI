@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ const moment = _rollupMoment || _moment;
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY', 
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
@@ -33,6 +33,9 @@ export class GpIecActivitiesComponent implements OnInit {
   formdata: Application = {
     files: []
   };
+
+  filesToUpload: any[] = [];
+  iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
   introductionFile: any = null;
@@ -52,12 +55,39 @@ export class GpIecActivitiesComponent implements OnInit {
     private rest: RestapiService
   ) { }
 
+  addMeeting() {
+    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
+    const group = this.formBuilder.group({
+      activity: '',
+      amount: '',
+      date: [moment('')],
+      expenditure: '',
+      reportIndex: ''
+    });
+    this.iecActivities.push(group);
+  }
+
+  getControls() {
+    return (this.applicationForm.get('meetings') as FormArray).controls;
+  }
+
   ngOnInit(): void {
+    this.applicationForm = this.formBuilder.group({
+      meetings: this.formBuilder.array([
+        this.formBuilder.group({
+          activity: '',
+          amount: '',
+          date: [moment('')],
+          expenditure: '',
+          reportIndex: ''
+        })
+      ])
+    })
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
-        if(res.length > 0) {
+        if (res.length > 0) {
           this.showForm = false;
         }
         else {
@@ -68,21 +98,15 @@ export class GpIecActivitiesComponent implements OnInit {
       this.formdata.name = val[0].path
       console.log(val[0].path)
     })
-    this.applicationForm = this.formBuilder.group({
-      index: [1],
-      iecActivity: [''],
-      estimatedAmount: [''],
-      conductingDate: [''],
-      expenditure: [moment('')],
-    })
   }
   get f() { return this.applicationForm.controls }
 
   onSubmit() {
+    console.log(this.applicationForm.value);
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.introductionFile && !this.InterDepartmentFile && !this.GpBoardMeetingFile && !this.jontAccountFile) {
+    if (!this.filesToUpload.length) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -93,26 +117,19 @@ export class GpIecActivitiesComponent implements OnInit {
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
     else {
-      // console.log(this.agreementFile)
+      // console.log(this.agreementFile)=
       let form: FormData = new FormData();
-      if (this.introductionFile && !this.introductionFile.fid) {
-        form.append('file1', this.introductionFile, 'introductionAttatchement.' + this.introductionFile.name.split('.')[this.introductionFile.name.split('.').length - 1]);
-      }
-      if (this.InterDepartmentFile && !this.InterDepartmentFile.fid) {
-        form.append('file2', this.InterDepartmentFile, 'interDepartmentAttatchment.' + this.InterDepartmentFile.name.split('.')[this.InterDepartmentFile.name.split('.').length - 1]);
-      }
-      if (this.GpBoardMeetingFile && !this.GpBoardMeetingFile.fid) {
-        form.append('file3', this.GpBoardMeetingFile, 'gpBoardMeetingAttatchment.' + this.GpBoardMeetingFile.name.split('.')[this.GpBoardMeetingFile.name.split('.').length - 1]);
-      }
-      if (this.jontAccountFile && !this.jontAccountFile.fid) {
-        form.append('file4', this.jontAccountFile, 'jointAccountAttatchment.' + this.jontAccountFile.name.split('.')[this.jontAccountFile.name.split('.').length - 1]);
-      }
+      this.filesToUpload.forEach(f => {
+        if (!f.file.fid) {
+          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+        }
+      })
       this.submitting = true;
       this.rest.uploadFiles(form)
         .subscribe((res) => {
           console.log(res)
           res.forEach((element: any) => {
-            let name = element.name.split('_')[0];
+            let name = element.name.split('_')[0].split('-')[1];
             this.formdata.files?.push({
               name: element.name,
               fieldName: name,
@@ -141,20 +158,14 @@ export class GpIecActivitiesComponent implements OnInit {
     }
   }
 
-  fileSelected(event: any, name: string) {
-    console.log(event.files)
-    if (name === 'introductionAttatchement') {
-      this.introductionFile = event.files[0]
-    }
-    else if (name === 'interDepartmentAttatchment') {
-      this.InterDepartmentFile = event.files[0]
-    }
-    else if (name === 'gpBoardMeetingAttatchment') {
-      this.GpBoardMeetingFile = event.files[0]
-    }
-    else if (name === 'jointAccountAttatchment') {
-      this.jontAccountFile = event.files[0]
-    }
+  fileSelected(event: any, index: number) {
+    // console.log(event.files)
+    this.filesToUpload.push({
+      fname: `f${index}`,
+      file: event.files[0]
+    })
+    let tform = this.applicationForm.get('meetings')?.value[index]
+    tform.reportIndex = `f${index}`;
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -205,13 +216,18 @@ export class GpIecActivitiesComponent implements OnInit {
     }
   }
 
-  fileRemoved(id: string) {
+  fileRemoved(id: string, index: number) {
     if (id && id.length > 0) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
+      this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
         console.log(el.fid, id)
         return el.fid != id
+      })
+      this.filesToUpload.filter(el => {
+        console.log(el, index)
+        return el.fname != `f${index}` 
       })
       console.log(this.formdata)
       this.sendApplication(this.formdata, true, true)
@@ -220,6 +236,9 @@ export class GpIecActivitiesComponent implements OnInit {
           console.log('file deleted', res)
         }, err => console.log(err.error))
     }
+    else {
+      console.log('invalid file id', id, this.filesToUpload[index])
+    }
   }
 
   applicSelected(app: Application) {
@@ -227,23 +246,11 @@ export class GpIecActivitiesComponent implements OnInit {
     this.applicationForm.patchValue(app.values);
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[])?.forEach(el => {
-        if (el.fieldName === 'introductionAttatchement') {
-          this.introductionFile = el;
-          this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'interDepartmentAttatchment') {
-          this.InterDepartmentFile = el;
-          this, this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'gpBoardMeetingAttatchment') {
-          this.GpBoardMeetingFile = el;
-          this, this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'jointAccountAttatchment') {
-          this.jontAccountFile = el;
-          this.formdata.files?.push(el)
-        }
+      (app.files as ApplicationFile[]).forEach(f => {
+        this.filesToUpload.push({
+          fname: f.fieldName,
+          file: f
+        })
       })
     }
   }
@@ -251,12 +258,10 @@ export class GpIecActivitiesComponent implements OnInit {
   onReset() {
     this.showForm = false;
     this.editingId = '';
-    this.applicationForm.reset()
-    this.introductionFile = null;
-    this.GpBoardMeetingFile = null;
-    this.InterDepartmentFile = null;
-    this.jontAccountFile = null;
+    this.applicationForm.reset();
+    this.filesToUpload = []
     this.formdata.files = []
+    console.log(this.applicationForm)
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
