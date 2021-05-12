@@ -145,7 +145,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
           this.sendApplication(this.formdata, this.editingId.length > 0)
           console.log(this.formdata)
         }, err => {
-          console.warn(err.error.status)
+          console.warn(err.error)
           if (err.error.status == 'Empty file') {
             this.formdata.values = this.applicationForm.value;
             this.formdata.category = this.data.selectedDetails;
@@ -166,6 +166,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
     })
     let tform = this.applicationForm.get('meetings')?.value[index]
     tform.reportIndex = `f${index}`;
+    console.log(tform)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -249,6 +250,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
   applicSelected(app: Application) {
     this.showForm = true
     this.iecActivities.clear();
+    this.editingId = app._id
     for (let i = 0; i < app.values.meetings.length; i++) {
       this.addMeeting()
     }
@@ -273,8 +275,8 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
     this.applicationForm.reset();
     this.filesToUpload = []
     this.formdata.files = []
-    // this.iecActivities.clear();
-    // this.addMeeting()
+    this.iecActivities.clear();
+    this.addMeeting()
   }
  
   hasAttatchment(files: ApplicationFile[] | undefined) {

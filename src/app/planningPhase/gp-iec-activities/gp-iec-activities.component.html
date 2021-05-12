@@ -21,157 +21,53 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <!-- <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h4">Field Name</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="h4">Date</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="h4">Attatchements</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h5 text-start">Introduction Meeting</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="text-start"><strong>Date: </strong> {{appl.values.introductionDate | date:
-                                        'd/M/y'}}</p>
-                                </div>
-                                <div class="col-4 text-start"
-                                    [innerHtml]="getAttatchemenstIfAny(appl, 'introductionAttatchement', 'Minutes Copy')">
-                                </div>
-                            </div>
+                        <div class="col-1">
+                            <p class="h5">No.</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">IEC Activities</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Estimated Amount
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Conducting Date
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Expenditure
+                            </p>
+                        </div>
+                        <div class="col-3">
+                            <p class="h5">
+                                Report
+                            </p>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h5 text-start">IEC Plan</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start"><strong>No. Of Training: </strong>{{appl.values.iecPlanNo}}
-                                    </p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start"><strong>Total Amount: </strong>{{appl.values.iecPlanAmount}}
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="row" *ngFor="let row of appl.values.meetings; let i=index">
+                        <div class="col-1">
+                            <p class="h5 text-start">{{i + 1}}</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h5 text-start">Inter Department Meeting</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.interDepartmentDate |
-                                        date: 'd/M/y'}}</p>
-                                </div>
-                                <div class="col-4 text-start"
-                                    [innerHtml]="getAttatchemenstIfAny(appl, 'interDepartmentAttatchment', 'Minutes')">
-                                </div>
-                            </div>
+                        <div class="col-2">
+                            <p class="text-start">{{row.activity}}</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h5 text-start">GP Board Meeting for 15% Contribution, O&M</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.GpBoardMeetingDate |
-                                        date: 'd/M/y'}}</p>
-                                </div>
-                                <div class="col-4 text-start"
-                                    [innerHtml]="getAttatchemenstIfAny(appl, 'gpBoardMeetingAttatchment', 'Resolution')">
-                                </div>
-                            </div>
+                        <div class="col-2">
+                            <p class="text-start">{{row.amount}}</p>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <p class="h5 text-start">Joint Account</p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start">
-                                        <strong>Account No. : </strong>{{appl.values.JointAccountNo}}
-                                    </p>
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start"><strong>Date: </strong>{{appl.values.jointAccountDate | date:
-                                        'd/M/y'}}</p>
-                                </div>
-                            </div>
+                        <div class="col-2">
+                            <p class="text-start">{{row.date | date:
+                                'd/M/y'}}</p>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start">
-                                        <strong>Name of the Bank: </strong>{{appl.values.jointAccountBank}}
-                                    </p>
-                                </div>
-                                <div class="col-4">
-                                    <p class="text-start"><strong>Branch: </strong>{{appl.values.jointAccountBranch}}
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="col-2">
+                            <p class="text-start">{{row.expenditure}}</p>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start">
-                                        <strong>IFSC Code: </strong>{{appl.values.jointAccointIFSC}}
-                                    </p>
-                                </div>
-                                <div class="col-4 text-start"
-                                    [innerHtml]="getAttatchemenstIfAny(appl, 'jointAccountAttatchment', 'Passbook Copy')">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-4">
-                                    <!-- <p class="h6 text-start">Community Facilitator</p> -->
-                                </div>
-                                <div class="col-4">
-                                    <p class=" text-start">
-                                        <strong>Address: </strong>
-                                        <span class="col-4">
-                                            <p class=" text-start"
-                                                style="white-space: pre-wrap;overflow-wrap: break-word">
-                                                {{appl.values.jointAccointAddress}}
-                                            </p>
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="col-3 text-start"
+                            [innerHtml]="getAttatchemenstIfAny(appl, row.reportIndex, 'Report')">
                         </div>
                     </div>
                 </ng-template>
@@ -226,7 +122,8 @@
                         </div>
                     </div>
                     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-                        <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
+                        <div formArrayName="meetings"
+                            *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
                             <ng-container [formGroupName]="i">
                                 <div class="row my-3">
                                     <div class="col-12 col-md-1">
@@ -277,13 +174,16 @@
                                                     </strong>{{getFileFromIndex(i).file.name}}
                                                 </p>
                                                 <button mat-icon-button color="accent"
-                                                    aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
+                                                    aria-label="Example icon button with a menu icon"
+                                                    style="margin-top: 4.5px"
                                                     (click)="fileRemoved(i,getFileFromIndex(i).file.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
                                                     <mat-icon>close</mat-icon>
                                                 </button>
                                             </div>
-                                            <p-fileUpload *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex" mode="basic" [customUpload]="true"
-                                                (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                                            <p-fileUpload
+                                                *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
+                                                mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)"
+                                                [style]="{backgroundColor: 'white',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                                                 [chooseLabel]="'Select Report'"></p-fileUpload>
@@ -291,14 +191,15 @@
                                             style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </ng-container>
                         </div>
                         <div class="row">
-                            <div class="col-12 text-end mt-2">
-                                <span mat-raised-button color="primary" class="px-5 py-1" type="button" (click)="addMeeting()">
-                                    Add Row
-                                </span>
+                            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                                <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                                    (click)="addMeeting()">
+                                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                                </button>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -309,7 +210,8 @@
                                 <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
                             </div>
                             <div class="col-12 text-center mt-3">
-                                <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+                                <button type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                                    [disabled]="submitting">Save
                                     Application</button>
                             </div>
                         </div>
