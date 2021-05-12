@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-                        <div formArrayName="meetings" *ngFor="let item of getControls(); let i = index;">
+                        <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
                             <ng-container [formGroupName]="i">
                                 <div class="row my-3">
                                     <div class="col-12 col-md-1">
@@ -272,17 +272,17 @@
                                     <div class="col-12 col-md-3">
                                         <div class="mt-1" style="position: relative;">
                                             <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                                                *ngIf="getControls()[i].value.reportIndex?.length > 0">
+                                                *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
                                                 <p class="text-truncate pt-3"><strong>Report:
-                                                    </strong>{{filesToUpload[i].file.name}}
+                                                    </strong>{{getFileFromIndex(i).file.name}}
                                                 </p>
                                                 <button mat-icon-button color="accent"
                                                     aria-label="Example icon button with a menu icon" style="margin-top: 4.5px"
-                                                    (click)="fileRemoved(filesToUpload[i].file.fid, i); getControls()[i].value.reportIndex = ''">
+                                                    (click)="fileRemoved(i,getFileFromIndex(i).file.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
                                                     <mat-icon>close</mat-icon>
                                                 </button>
                                             </div>
-                                            <p-fileUpload *ngIf="getControls()[i].value.reportIndex?.length == 0 || !getControls()[i].value.reportIndex" mode="basic" [customUpload]="true"
+                                            <p-fileUpload *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex" mode="basic" [customUpload]="true"
                                                 (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
@@ -294,6 +294,13 @@
                                 </div>                                
                             </ng-container>
                         </div>
+                        <div class="row">
+                            <div class="col-12 text-end mt-2">
+                                <span mat-raised-button color="primary" class="px-5 py-1" type="button" (click)="addMeeting()">
+                                    Add Row
+                                </span>
+                            </div>
+                        </div>
                         <div class="row mt-2">
                             <div class="col-12" *ngIf="submitting">
                                 <p class="small text-center">
@@ -302,7 +309,7 @@
                                 <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
                             </div>
                             <div class="col-12 text-center mt-3">
-                                <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+                                <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
                                     Application</button>
                             </div>
                         </div>

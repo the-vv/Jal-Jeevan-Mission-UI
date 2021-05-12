@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -28,7 +28,7 @@ export const MY_FORMATS = {
   templateUrl: './gp-iec-activities.component.html',
   styleUrls: ['./gp-iec-activities.component.scss']
 })
-export class GpIecActivitiesComponent implements OnInit {
+export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
 
   formdata: Application = {
     files: []
@@ -52,8 +52,13 @@ export class GpIecActivitiesComponent implements OnInit {
     private formBuilder: FormBuilder,
     public data: DataService,
     private route: ActivatedRoute,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) { }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
 
   addMeeting() {
     this.iecActivities = this.applicationForm.get('meetings') as FormArray;
@@ -65,10 +70,6 @@ export class GpIecActivitiesComponent implements OnInit {
       reportIndex: ''
     });
     this.iecActivities.push(group);
-  }
-
-  getControls() {
-    return (this.applicationForm.get('meetings') as FormArray).controls;
   }
 
   ngOnInit(): void {
@@ -102,7 +103,6 @@ export class GpIecActivitiesComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   onSubmit() {
-    console.log(this.applicationForm.value);
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
@@ -184,6 +184,7 @@ export class GpIecActivitiesComponent implements OnInit {
             this.jontAccountFile = null;
             this.formdata.files = []
           }
+          console.log(this.submittedApplcations)
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
@@ -216,34 +217,44 @@ export class GpIecActivitiesComponent implements OnInit {
     }
   }
 
-  fileRemoved(id: string, index: number) {
-    if (id && id.length > 0) {
+  fileRemoved(index: number, fid: string) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fid, id)
-        return el.fid != id
+        console.log(el.fieldName,index)
+        return el.fieldName != `f${index}`
       })
-      this.filesToUpload.filter(el => {
+      this.filesToUpload = this.filesToUpload.filter(el => {
         console.log(el, index)
         return el.fname != `f${index}` 
       })
       console.log(this.formdata)
       this.sendApplication(this.formdata, true, true)
-      this.rest.deleteFile(id)
-        .subscribe((res) => {
-          console.log('file deleted', res)
-        }, err => console.log(err.error))
-    }
-    else {
-      console.log('invalid file id', id, this.filesToUpload[index])
-    }
+      if(fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
+  }
+
+  getFileFromIndex(index: number) {
+    // console.log(this.filesToUpload)
+    return this.filesToUpload.filter(el => {
+      return el.fname == `f${index}`
+    })[0]
   }
 
   applicSelected(app: Application) {
     this.showForm = true
+    this.iecActivities.clear();
+    for (let i = 0; i < app.values.meetings.length; i++) {
+      this.addMeeting()
+    }
     this.applicationForm.patchValue(app.values);
+    console.log(this.applicationForm)
+    console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
       (app.files as ApplicationFile[]).forEach(f => {
@@ -252,6 +263,7 @@ export class GpIecActivitiesComponent implements OnInit {
           file: f
         })
       })
+      this.formdata.files = app.files
     }
   }
 
@@ -261,9 +273,10 @@ export class GpIecActivitiesComponent implements OnInit {
     this.applicationForm.reset();
     this.filesToUpload = []
     this.formdata.files = []
-    console.log(this.applicationForm)
+    // this.iecActivities.clear();
+    // this.addMeeting()
   }
-
+ 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
