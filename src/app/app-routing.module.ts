@@ -12,6 +12,7 @@ import { PhaseComponentsComponent } from './phase-components/phase-components.co
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
 import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
 import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
+import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'isapositioning', component: IsaPositioningComponent },
       { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: 'gpiec', component: GpIecActivitiesComponent },
+      { path: 'communityorientation', component: CommunityOrientationComponent },
       { path: '**', redirectTo: 'district', pathMatch: 'full' },
     ]
   },
@@ -41,6 +43,7 @@ const routes: Routes = [
       { path: 'isapositioning', component: IsaPositioningComponent },
       { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: 'gpiec', component: GpIecActivitiesComponent },
+      { path: 'communityorientation', component: CommunityOrientationComponent },
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },

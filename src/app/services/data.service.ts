@@ -13,28 +13,79 @@ export class DataService {
   constructor(
     private router: Router,
     private route: ActivatedRoute
-  ) {    
-   }
+  ) {
+  }
 
-  getGPs(district: string = '') {
+  getGPs(district: string): string[] {
+    switch (district) {
+      case "Idukki":
+        return [
+          "Adimali",
+          "Ayyappancoil",
+          "Chakkupallam",
+          "Irattayar",
+          "Konnathadi",
+          "Rajakumari",
+          "Santhanpara",
+          "Vazhathoppu"
+        ]
+      // break;
+      case "Ernakulam":
+        return [
+          "Pallarimangalam",
+          "Kalavangadu",
+          "Maneed",
+          "Mazhuvannoor",
+          "Nellikuzhy",
+          "Paipra",
+          "Pindimana",
+          "Ramamangalam"
+        ]
+      // break
+      case "Kottayam":
+        return [
+          "Ayarkunnam",
+          "Elikulam",
+          "Kooroppada",
+          "Pampady"
+        ]
+      // break
+      case "Pathanamthitta":
+        return [
+          "Enadimangalam",
+          "Erathu",
+          "Naranamoozhy",
+          "Ranni Angadi",
+          "Ranni Pazhavangadi",
+          "Vechoochira"
+        ]
+      // break
+      default:
+        return []
+        // break;
+    }
+  }
+
+  getDistricts(): string[] {
     return [
-      'Karimannur',
-      'Alakodu',
-      'Edavetty'
+      "Idukki",
+      "Ernakulam",
+      "Kottayam",
+      "Pathanamthitta"
     ]
   }
 
   selectComponent(phaseComponent: string): string {
     let [phase, component] = phaseComponent.split('/');
-    this.selectedDetails.phase  = phase;
+    this.selectedDetails.phase = phase;
     this.selectedDetails.component = component;
     for (const ph in this.phaseComponents) {
       if (Object.prototype.hasOwnProperty.call(this.phaseComponents, ph)) {
-        if(phase != ph) {
+        if (phase != ph) {
           continue;
         }
         for (const comp of (this.phaseComponents as any)[ph]) {
-          if(comp[0] === component) {
+          if (comp[0] === component) {
             return comp[1];
           }
         }
@@ -47,13 +98,18 @@ export class DataService {
     for (const ph in this.phaseComponents) {
       if (Object.prototype.hasOwnProperty.call(this.phaseComponents, ph)) {
         for (const comp of (this.phaseComponents as any)[ph]) {
-          if(comp[1] === name) {
+          if (comp[1] === name) {
             return comp[0];
           }
         }
       }
     }
     return ''
+  }
+
+  getWardList(gp: string) {
+    console.log(this.selectedDetails);
+    
   }
 
   phaseComponents = {

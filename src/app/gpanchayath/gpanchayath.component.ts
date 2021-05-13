@@ -19,7 +19,8 @@ export class GpanchayathComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.gramaPanchataths = this.data.getGPs()
+    this.gramaPanchataths = this.data.getGPs(this.data.selectedDetails.district)
+    console.log(this.gramaPanchataths)
   }
 
   onSelect() {

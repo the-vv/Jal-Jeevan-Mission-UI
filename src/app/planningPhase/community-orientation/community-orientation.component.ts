@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
-
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 const moment = _rollupMoment || _moment;
@@ -15,7 +12,7 @@ const moment = _rollupMoment || _moment;
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY', 
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
@@ -26,28 +23,24 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-isa-positioning',
-  templateUrl: './isa-positioning.component.html',
-  styleUrls: ['./isa-positioning.component.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ]
+  selector: 'app-community-orientation',
+  templateUrl: './community-orientation.component.html',
+  styleUrls: ['./community-orientation.component.scss']
 })
-export class IsaPositioningComponent implements OnInit {
+export class CommunityOrientationComponent implements OnInit {
 
   formdata: Application = {
     files: []
   };
+
+  filesToUpload: any[] = [];
+  iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
-  canUpload: boolean = false;
   applicationForm!: FormGroup;
-  dsmMeetingFile: any = null;
-  agreementFile: any = null;
+  introductionFile: any = null;
+  InterDepartmentFile: any = null;
+  GpBoardMeetingFile: any = null;
+  jontAccountFile: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -58,15 +51,43 @@ export class IsaPositioningComponent implements OnInit {
     private formBuilder: FormBuilder,
     public data: DataService,
     private route: ActivatedRoute,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) { }
 
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  addMeeting() {
+    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
+    const group = this.formBuilder.group({
+      activity: '',
+      amount: '',
+      date: [moment('')],
+      expenditure: '',
+      reportIndex: ''
+    });
+    this.iecActivities.push(group);
+  }
+ 
   ngOnInit(): void {
+    this.applicationForm = this.formBuilder.group({
+      meetings: this.formBuilder.array([
+        this.formBuilder.group({
+          activity: '',
+          amount: '',
+          date: [moment('')],
+          expenditure: '',
+          reportIndex: ''
+        })
+      ])
+    })
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
-        if(res.length > 0) {
+        if (res.length > 0) {
           this.showForm = false;
         }
         else {
@@ -77,18 +98,6 @@ export class IsaPositioningComponent implements OnInit {
       this.formdata.name = val[0].path
       console.log(val[0].path)
     })
-    this.canUpload = !this.user.isAdmin;
-    this.applicationForm = this.formBuilder.group({
-      dwsmDate: [moment('')],
-      agreementDate: [moment('')],
-      officeStartingDate: [moment('')],
-      teamLeaderAddress: [''],
-      teamLeaderNo: [''],
-      comminityEngAddress: [''],
-      communityEngNo: [''],
-      communityfacilAddress: [''],
-      communityFacilNo: ['']
-    })
   }
   get f() { return this.applicationForm.controls }
 
@@ -96,7 +105,7 @@ export class IsaPositioningComponent implements OnInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.agreementFile && !this.dsmMeetingFile) {
+    if (!this.filesToUpload.length) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -107,20 +116,19 @@ export class IsaPositioningComponent implements OnInit {
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
     else {
-      console.log(this.agreementFile)
+      // console.log(this.agreementFile)=
       let form: FormData = new FormData();
-      if (this.agreementFile && !this.agreementFile.fid) {
-        form.append('file1', this.agreementFile, 'agreementAttatchment.' + this.agreementFile.name.split('.')[this.agreementFile.name.split('.').length - 1]);
-      }
-      if (this.dsmMeetingFile && !this.dsmMeetingFile.fid) {
-        form.append('file2', this.dsmMeetingFile, 'dsmMeetingAttatchment.' + this.dsmMeetingFile.name.split('.')[this.dsmMeetingFile.name.split('.').length - 1]);
-      }
+      this.filesToUpload.forEach(f => {
+        if (!f.file.fid) {
+          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+        }
+      })
       this.submitting = true;
       this.rest.uploadFiles(form)
         .subscribe((res) => {
           console.log(res)
           res.forEach((element: any) => {
-            let name = element.name.split('_')[0];
+            let name = element.name.split('_')[0].split('-')[1];
             this.formdata.files?.push({
               name: element.name,
               fieldName: name,
@@ -136,7 +144,7 @@ export class IsaPositioningComponent implements OnInit {
           this.sendApplication(this.formdata, this.editingId.length > 0)
           console.log(this.formdata)
         }, err => {
-          console.warn(err.error.status)
+          console.warn(err.error)
           if (err.error.status == 'Empty file') {
             this.formdata.values = this.applicationForm.value;
             this.formdata.category = this.data.selectedDetails;
@@ -149,14 +157,15 @@ export class IsaPositioningComponent implements OnInit {
     }
   }
 
-  fileSelected(event: any, name: string) {
-    // console.log(event.target.files)
-    if (name === 'agreement') {
-      this.agreementFile = event.target.files[0]
-    }
-    else if (name === 'dsmMeeting') {
-      this.dsmMeetingFile = event.target.files[0]
-    }
+  fileSelected(event: any, index: number) {
+    // console.log(event.files)
+    this.filesToUpload.push({
+      fname: `f${index}`,
+      file: event.files[0]
+    })
+    let tform = this.applicationForm.get('meetings')?.value[index]
+    tform.reportIndex = `f${index}`;
+    console.log(tform)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -169,10 +178,13 @@ export class IsaPositioningComponent implements OnInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
+            this.introductionFile = null;
+            this.GpBoardMeetingFile = null;
+            this.InterDepartmentFile = null;
+            this.jontAccountFile = null;
             this.formdata.files = []
           }
+          console.log(this.submittedApplcations)
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
@@ -191,8 +203,10 @@ export class IsaPositioningComponent implements OnInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
+            this.introductionFile = null;
+            this.GpBoardMeetingFile = null;
+            this.InterDepartmentFile = null;
+            this.jontAccountFile = null;
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
@@ -203,67 +217,83 @@ export class IsaPositioningComponent implements OnInit {
     }
   }
 
-  fileRemoved(id: string) {
-    if (id && id.length > 0) {
+  fileRemoved(index: number, fid: string) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
+      this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fid, id)
-        return el.fid != id
+        console.log(el.fieldName,index)
+        return el.fieldName != `f${index}`
       })
-      // console.log(this.formdata)
+      this.filesToUpload = this.filesToUpload.filter(el => {
+        console.log(el, index)
+        return el.fname != `f${index}` 
+      })
+      console.log(this.formdata)
       this.sendApplication(this.formdata, true, true)
-      this.rest.deleteFile(id)
-        .subscribe((res) => {
-          console.log('file deleted', res)
-        }, err => console.log(err.error))
-    }
+      if(fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
+  }
+
+  getFileFromIndex(index: number) {
+    // console.log(this.filesToUpload)
+    return this.filesToUpload.filter(el => {
+      return el.fname == `f${index}`
+    })[0]
   }
 
   applicSelected(app: Application) {
     this.showForm = true
+    this.iecActivities.clear();
+    this.editingId = app._id
+    for (let i = 0; i < app.values.meetings.length; i++) {
+      this.addMeeting()
+    }
     this.applicationForm.patchValue(app.values);
+    console.log(this.applicationForm)
+    console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[])?.forEach(el => {
-        if (el.fieldName === 'agreementAttatchment') {
-          this.agreementFile = el;
-          this, this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'dsmMeetingAttatchment') {
-          this.dsmMeetingFile = el;
-          this, this.formdata.files?.push(el)
-        }
+      (app.files as ApplicationFile[]).forEach(f => {
+        this.filesToUpload.push({
+          fname: f.fieldName,
+          file: f
+        })
       })
+      this.formdata.files = app.files
     }
   }
 
   onReset() {
     this.showForm = false;
     this.editingId = '';
-    this.applicationForm.reset()
-    this.agreementFile = null;
-    this.dsmMeetingFile = null;
+    this.applicationForm.reset();
+    this.filesToUpload = []
     this.formdata.files = []
+    this.iecActivities.clear();
+    this.addMeeting()
   }
-
+ 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string) {
-    let toReturn: string = 'File Not Attatched';
+  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
+    let toReturn: string = `${dname} not Attatched`;
     appl.files?.forEach(f => {
       if (f.fieldName === fname) {
         toReturn = `
-        <a href="${f.url}" download target="_blank">
-          View Attatchement 
+        <a href="${f.url}" download target="_blank" class="">
+          View ${dname} 
         </a>
         `
-      } 
+      }
     })
     return toReturn
   }
 
 }
-

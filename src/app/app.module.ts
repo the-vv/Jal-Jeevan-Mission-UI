@@ -44,6 +44,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
 import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
 import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
+import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
  
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-i
     NotfoundComponent,
     IsaPositioningComponent,
     OrientationToGpComponent,
-    GpIecActivitiesComponent
+    GpIecActivitiesComponent,
+    CommunityOrientationComponent
   ],
   imports: [
     BrowserModule,
