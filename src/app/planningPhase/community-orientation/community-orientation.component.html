@@ -94,125 +94,171 @@
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
                     <div class="row">
-                        <div class="col-1">
-                            <p class="h5">No.</p>
+                        <div class="col-3">
+                            <p class="h5">Cluster Meeting</p>
                         </div>
                         <div class="col-2">
-                            <p class="h5">IEC Activities</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">
-                                Estimated Amount
-                            </p>
+                            <p class="h5">Date</p>
                         </div>
                         <div class="col-2">
                             <p class="h5">
-                                Conducting Date
-                            </p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">
-                                Expenditure
+                                Participation Type
                             </p>
                         </div>
                         <div class="col-3">
                             <p class="h5">
-                                Report
+                                Attendances
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p class="h5">
+                                Attendance Sheet & Report
                             </p>
                         </div>
                     </div>
                     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-                        <div formArrayName="meetings"
-                            *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
-                            <ng-container [formGroupName]="i">
-                                <div class="row my-3">
-                                    <div class="col-12 col-md-1">
-                                        <p class="h6 text-start pt-3">
-                                            {{i + 1}}
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <p>
-                                            <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Enter IEC Activity</mat-label>
-                                                <input formControlName="activity" matInput placeholder="IEC Activity">
-                                            </mat-form-field>
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <p>
-                                            <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Enter Estimated Amount</mat-label>
-                                                <input formControlName="amount" matInput placeholder="IFSC Code">
-                                            </mat-form-field>
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <p>
-                                            <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Select Conducting Date</mat-label>
-                                                <input matInput [matDatepicker]="dp3" readonly (click)="dp3.open()"
-                                                    formControlName="date">
-                                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                            </mat-form-field>
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <p>
-                                            <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Enter Expenditure</mat-label>
-                                                <input formControlName="expenditure" matInput placeholder="IFSC Code">
-                                            </mat-form-field>
-                                        </p>
-                                    </div>
-                                    <div class="col-12 col-md-3">
-                                        <div class="mt-1" style="position: relative;">
-                                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                                                *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
-                                                <p class="text-truncate pt-3"><strong>Report:
-                                                    </strong>{{getFileFromIndex(i).file.name}}
+                        <div class="my-3" formArrayName="wards">
+                            <div *ngFor="let ward of wards().controls; let i=index">
+                                <div [formGroupName]="i">
+                                    <div formArrayName="meetings">
+                                        <div class="row mt-2">
+                                            <div class="col-1">
+                                                <p class="h6 text-start pt-3">
+                                                    {{'Ward ' + (i + 1)}}
                                                 </p>
-                                                <button mat-icon-button color="accent"
-                                                    aria-label="Example icon button with a menu icon"
-                                                    style="margin-top: 4.5px"
-                                                    (click)="fileRemoved(i,getFileFromIndex(i).file.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
-                                                    <mat-icon>close</mat-icon>
-                                                </button>
                                             </div>
-                                            <p-fileUpload
-                                                *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
-                                                mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)"
-                                                [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                                [chooseLabel]="'Select Report'"></p-fileUpload>
-                                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                                            <div class="col-11">
+                                                <div *ngFor="let meeting of wardMeetings(i).controls; let j=index">
+                                                    <div [formGroupName]=j class="row">
+                                                        <div class="col-12 col-md-2">
+                                                            <p class="h6 text-start pt-3">
+                                                                {{'Meeting ' + (j + 1)}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-12 col-md-2">
+                                                            <p>
+                                                                <mat-form-field appearance="outline" class="w-100">
+                                                                    <mat-label>Select Conducting Date</mat-label>
+                                                                    <input matInput [matDatepicker]="dp3" readonly
+                                                                        (click)="dp3.open()" formControlName="date">
+                                                                    <mat-datepicker-toggle matSuffix [for]="dp3">
+                                                                    </mat-datepicker-toggle>
+                                                                    <mat-datepicker #dp3 disabled="false">
+                                                                    </mat-datepicker>
+                                                                </mat-form-field>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <p>
+                                                                <mat-form-field appearance="outline" class="w-100">
+                                                                    <mat-label>Enter Participation Type</mat-label>
+                                                                    <input formControlName="participationType" matInput
+                                                                        placeholder="Participation Type">
+                                                                </mat-form-field>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p>
+                                                                        <mat-form-field appearance="outline"
+                                                                            class="w-100">
+                                                                            <mat-label>M
+                                                                            </mat-label>
+                                                                            <input formControlName="attendanceM"
+                                                                                matInput placeholder="M">
+                                                                        </mat-form-field>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p>
+                                                                        <mat-form-field appearance="outline"
+                                                                            class="w-100">
+                                                                            <mat-label>F
+                                                                            </mat-label>
+                                                                            <input formControlName="attendanceF"
+                                                                                matInput placeholder="F">
+                                                                        </mat-form-field>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p>
+                                                                        <mat-form-field appearance="outline"
+                                                                            class="w-100">
+                                                                            <mat-label>T
+                                                                            </mat-label>
+                                                                            <input formControlName="attendanceT"
+                                                                                matInput placeholder="T">
+                                                                        </mat-form-field>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-2">
+                                                            <div class="mt-1" style="position: relative;">File Selection pending
+                                                                <!-- <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
+                                                                    <p class="text-truncate pt-3"><strong>Report:
+                                                                        </strong>{{getFileFromIndex(i).file.name}}
+                                                                    </p>
+                                                                    <button mat-icon-button color="accent"
+                                                                        aria-label="Example icon button with a menu icon"
+                                                                        style="margin-top: 4.5px"
+                                                                        (click)="fileRemoved(i,getFileFromIndex(i).file.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
+                                                                        <mat-icon>close</mat-icon>
+                                                                    </button>
+                                                                </div> -->
+                                                                <!-- <p-fileUpload
+                                                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
+                                                                    mode="basic" [customUpload]="true"
+                                                                    (onSelect)="fileSelected($event, i)"
+                                                                    [style]="{backgroundColor: 'white',
+                                                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                                                    [chooseLabel]="'Select Report'"></p-fileUpload>
+                                                                    <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                                                                style="padding: 12px;" (change)="fileSelected($event,
+                                                                'dsmMeeting')">
+                                                                 </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                                                        <button mat-stroked-button color="primary" class="py-1 w-100"
+                                                            type="button" (click)="addMeeting(i)">
+                                                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add
+                                                            Meeting
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </ng-container>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-                                <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
-                                    (click)="addMeeting()">
-                                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
-                                </button>
                             </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-12" *ngIf="submitting">
-                                <p class="small text-center">
-                                    Uploading files(If any) and submiting Application...
-                                </p>
-                                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+                            <!-- </div> -->
+                            <div class="row">
+                                <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                                    <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                                        (click)="addWard()">
+                                        <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Ward
+                                    </button>
+                                </div>
                             </div>
-                            <div class="col-12 text-center mt-3">
-                                <button type="submit" mat-raised-button color="primary" class="px-5 py-1"
-                                    [disabled]="submitting">Save
-                                    Application</button>
+                            <div class="row mt-2">
+                                <div class="col-12" *ngIf="submitting">
+                                    <p class="small text-center">
+                                        Uploading files(If any) and submiting Application...
+                                    </p>
+                                    <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+                                </div>
+                                <div class="col-12 text-center mt-3">
+                                    <button type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                                        [disabled]="submitting">Save
+                                        Application</button>
+                                </div>
                             </div>
                         </div>
                     </form>
