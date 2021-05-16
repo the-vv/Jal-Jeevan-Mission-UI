@@ -163,6 +163,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   }
 
   fileSelected(event: any, name: string) {
+    this.submitted = false
     // console.log(event.target.files)
     if (name === 'agreement') {
       this.agreementFile = event.files[0]
@@ -284,6 +285,12 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
 
   navigate(event: any) {
     console.log(event.item)
+  }
+
+  viewFile(file: ApplicationFile) {
+    if(file.url) {
+      window.open(file.url)
+    }
   }
 
 }

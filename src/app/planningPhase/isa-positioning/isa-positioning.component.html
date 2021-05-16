@@ -178,7 +178,8 @@
         </div>
         <div class="col-12 col-md-2">
             <div class="mt-1">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="dsmMeetingFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="dsmMeetingFile != null"
+                    (click)="viewFile(dsmMeetingFile)" style="cursor: pointer">
                     <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{dsmMeetingFile.name}}
                     </p>
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -222,7 +223,8 @@
         </div>
         <div class="col-12 col-md-2">
             <div class="mt-1">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="agreementFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="agreementFile != null"
+                (click)="viewFile(agreementFile)" style="cursor: pointer">
                     <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{agreementFile.name}}
                     </p>
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -342,7 +344,7 @@
             <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
                 Application</button>
         </div>
-        <div class="col-6 mt-3 mx-auto" *ngIf="submitted">
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
             <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                 <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
                     <path
@@ -354,7 +356,7 @@
                     <use xlink:href="#check-circle-fill" />
                 </svg>
                 <div>
-                    Form Submitted Successfully
+                    Application Submitted Successfully
                 </div>
             </div>
         </div>
