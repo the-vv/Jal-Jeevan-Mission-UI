@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -15,7 +15,7 @@ const moment = _rollupMoment || _moment;
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY', 
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
@@ -38,7 +38,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
-export class IsaPositioningComponent implements OnInit {
+export class IsaPositioningComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
@@ -52,6 +52,7 @@ export class IsaPositioningComponent implements OnInit {
   submittedApplcations: Application[] = [];
   editingId: string = '';
   showForm: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private user: UserService,
@@ -61,12 +62,19 @@ export class IsaPositioningComponent implements OnInit {
     private rest: RestapiService
   ) { }
 
+  ngAfterViewInit() {
+    if (this.submittedApplcations.length > 0) {
+      this.applicSelected(this.submittedApplcations[0])
+    }
+  }
+
   ngOnInit(): void {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
-        if(res.length > 0) {
+        if (res.length > 0) {
+          this.applicSelected(res[0])
           this.showForm = false;
         }
         else {
@@ -80,7 +88,9 @@ export class IsaPositioningComponent implements OnInit {
     this.canUpload = !this.user.isAdmin;
     this.applicationForm = this.formBuilder.group({
       dwsmDate: [moment('')],
+      dwsmNo: [''],
       agreementDate: [moment('')],
+      agreementNo: [''],
       officeStartingDate: [moment('')],
       teamLeaderAddress: [''],
       teamLeaderNo: [''],
@@ -88,6 +98,9 @@ export class IsaPositioningComponent implements OnInit {
       communityEngNo: [''],
       communityfacilAddress: [''],
       communityFacilNo: ['']
+    })
+    this.applicationForm.valueChanges.subscribe(() => {
+      this.submitted = false;
     })
   }
   get f() { return this.applicationForm.controls }
@@ -152,10 +165,10 @@ export class IsaPositioningComponent implements OnInit {
   fileSelected(event: any, name: string) {
     // console.log(event.target.files)
     if (name === 'agreement') {
-      this.agreementFile = event.target.files[0]
+      this.agreementFile = event.files[0]
     }
     else if (name === 'dsmMeeting') {
-      this.dsmMeetingFile = event.target.files[0]
+      this.dsmMeetingFile = event.files[0]
     }
   }
 
@@ -177,6 +190,8 @@ export class IsaPositioningComponent implements OnInit {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
+          this,this.applicSelected(res);
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
@@ -196,6 +211,8 @@ export class IsaPositioningComponent implements OnInit {
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
+          this,this.applicSelected(res);
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
@@ -260,9 +277,13 @@ export class IsaPositioningComponent implements OnInit {
           View Attatchement 
         </a>
         `
-      } 
+      }
     })
     return toReturn
+  }
+
+  navigate(event: any) {
+    console.log(event.item)
   }
 
 }

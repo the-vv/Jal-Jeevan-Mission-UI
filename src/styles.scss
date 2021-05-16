@@ -17,3 +17,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: rgb(248, 215, 215) !important;
     color: black !important;
 }
+
+.navigator {
+    a.p-menuitem-link	{
+        cursor: pointer!important;
+    }
+
+    a.p-menuitem-link:hover	{
+        cursor: pointer!important;
+        text-decoration: underline;
+    }
+}
