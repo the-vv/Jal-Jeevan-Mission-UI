@@ -197,6 +197,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
+          // this.applicationForm.reset()
           this, this.applicSelected(res);
           this.submitted = true;
         }, e => {
@@ -219,6 +220,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
+          // this.applicationForm.reset()
           this, this.applicSelected(res);
           this.submitted = true;
         }, e => {
@@ -230,6 +232,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   }
 
   fileRemoved(id: string) {
+    this.submitted = false;
     if (id && id.length > 0) {
       console.log(this.formdata)
       this.formdata._id = this.editingId

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -10,6 +10,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const moment = _rollupMoment || _moment;
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -31,15 +32,13 @@ export const MY_FORMATS = {
   templateUrl: './orientation-to-gp.component.html',
   styleUrls: ['./orientation-to-gp.component.scss']
 })
-export class OrientationToGpComponent implements OnInit {
+export class OrientationToGpComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
   };
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
-  // dsmMeetingFile: any = null;
-  // agreementFile: any = null;
   introductionFile: any = null;
   InterDepartmentFile: any = null;
   GpBoardMeetingFile: any = null;
@@ -48,42 +47,56 @@ export class OrientationToGpComponent implements OnInit {
   submittedApplcations: Application[] = [];
   editingId: string = '';
   showForm: boolean = false;
+  submitted = false;
 
   constructor(
     private user: UserService,
     private formBuilder: FormBuilder,
     public data: DataService,
     private route: ActivatedRoute,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit() {
     this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        console.log(res)
-        this.submittedApplcations = res;
-        if(res.length > 0) {
-          this.showForm = false;
-        }
-        else {
-          this.showForm = true;
-        }
-      }, e => console.log(e.error))
+    .subscribe(res => {
+      console.log(res)
+      this.submittedApplcations = res;
+      if(res.length > 0) {
+        this.showForm = false;
+        this.applicSelected(res[0])
+      }
+      else {
+        this.showForm = true;
+      }
+    }, e => {
+      console.log(e.error)
+      this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+    })
+  }
+
+  ngOnInit(): void {    
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
       console.log(val[0].path)
     })
     this.applicationForm = this.formBuilder.group({
       introductionDate: [moment('')],
+      introductionNo: [''],
       iecPlanNo: [''],
       iecPlanAmount: [''],
       interDepartmentDate: [moment('')],
+      interDepartmentNo: [''],
       GpBoardMeetingDate: [moment('')],
+      GpBoardMeetingNo: [''],
       JointAccountNo: [''],
       jointAccountDate: [''],
       jointAccountBank: [''],
       jointAccountBranch: [''],
       jointAccointIFSC: [''],
+      jointAccountSecretary: [''],
+      jointAccountPresident: [''],
       jointAccointAddress: ['']
     })
   }
@@ -148,11 +161,16 @@ export class OrientationToGpComponent implements OnInit {
             this.sendApplication(this.formdata, this.editingId.length > 0)
             console.log(this.formdata)
           }
+          else {
+            this.submitting = false;
+            this.snackBar.open('Error uploading file, Please try again later', 'Dismiss', { duration: 5000 })
+          }
         })
     }
   }
 
   fileSelected(event: any, name: string) {
+    this.submitted = false;
     console.log(event.files)
     if (name === 'introductionAttatchement') {
       this.introductionFile = event.files[0]
@@ -188,9 +206,13 @@ export class OrientationToGpComponent implements OnInit {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
+          // this.applicationForm.reset();
+          this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
@@ -209,14 +231,19 @@ export class OrientationToGpComponent implements OnInit {
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
+          // this.applicationForm.reset();
+          this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
   fileRemoved(id: string) {
+    this.submitted = false;
     if (id && id.length > 0) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
@@ -286,6 +313,12 @@ export class OrientationToGpComponent implements OnInit {
       }
     })
     return toReturn
+  }
+  
+  viewFile(file: ApplicationFile) {
+    if (file.url) {
+      window.open(file.url)
+    }
   }
 
 }

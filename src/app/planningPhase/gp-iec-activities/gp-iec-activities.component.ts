@@ -213,7 +213,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
-          this.applicationForm.reset()
+          // this.applicationForm.reset()
           this.applicSelected(res)
           this.submitted = true;
         }, e => {
@@ -238,7 +238,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
             this.formdata.files = [];
           }
           this.submittedApplcations.unshift(res);
-          this.applicationForm.reset()
+          // this.applicationForm.reset()
           this.applicSelected(res)
           this.submitted = true;
         }, e => {
@@ -250,6 +250,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
   }
 
   fileRemoved(index: number, fid: string) {
+    this.submitted = false;
     console.log(this.formdata)
     this.formdata._id = this.editingId
     this.formdata.values = this.applicationForm.value
@@ -281,6 +282,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
 
   applicSelected(app: Application) {
     this.showForm = true
+    this.iecActivities = this.applicationForm.get('meetings') as FormArray
     this.iecActivities.clear();
     this.editingId = app._id
     for (let i = 0; i < app.values.meetings.length; i++) {
@@ -307,6 +309,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
     this.applicationForm.reset();
     this.filesToUpload = []
     this.formdata.files = []
+    this.iecActivities = this.applicationForm.get('meetings') as FormArray
     this.iecActivities.clear();
     this.addMeeting()
   }
