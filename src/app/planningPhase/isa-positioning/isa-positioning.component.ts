@@ -10,6 +10,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const moment = _rollupMoment || _moment;
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -59,16 +60,11 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     public data: DataService,
     private route: ActivatedRoute,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngAfterViewInit() {
-    if (this.submittedApplcations.length > 0) {
-      this.applicSelected(this.submittedApplcations[0])
-    }
-  }
-
-  ngOnInit(): void {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         console.log(res)
@@ -80,7 +76,13 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
         else {
           this.showForm = true;
         }
-      }, e => console.log(e.error))
+      }, e => {
+        console.log(e.error);
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+      })
+  }
+
+  ngOnInit(): void {
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
       console.log(val[0].path)
@@ -158,6 +160,10 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.sendApplication(this.formdata, this.editingId.length > 0)
             console.log(this.formdata)
           }
+          else {
+            this,this.submitting = false;
+            this.snackBar.open('Error uploading File(s), Please try again later', 'Dismiss', { duration: 5000 })
+          }
         })
     }
   }
@@ -191,11 +197,12 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
-          this,this.applicSelected(res);
+          this, this.applicSelected(res);
           this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error Submitting Application, please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
@@ -212,11 +219,12 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
-          this,this.applicSelected(res);
+          this, this.applicSelected(res);
           this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error Submitting Application, please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
@@ -288,7 +296,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   }
 
   viewFile(file: ApplicationFile) {
-    if(file.url) {
+    if (file.url) {
       window.open(file.url)
     }
   }

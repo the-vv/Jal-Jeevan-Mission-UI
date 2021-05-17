@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const moment = _rollupMoment || _moment;
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -28,7 +29,7 @@ export const MY_FORMATS = {
   templateUrl: './gp-iec-activities.component.html',
   styleUrls: ['./gp-iec-activities.component.scss']
 })
-export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
+export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, AfterViewInit {
 
   formdata: Application = {
     files: []
@@ -46,6 +47,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
   submittedApplcations: Application[] = [];
   editingId: string = '';
   showForm: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private user: UserService,
@@ -53,11 +55,30 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) { }
 
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngAfterViewInit() {
+    this.rest.getApplications(this.data.selectedDetails)
+      .subscribe(res => {
+        console.log(res)
+        this.submittedApplcations = res;
+        if (res.length > 0) {
+          this.showForm = false;
+          this.applicSelected(res[0]);
+        }
+      }, e => {
+        console.log(e.error)
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+      })
+    this.applicationForm.valueChanges.subscribe(() => {
+      this.submitted = false;
+    })
   }
 
   addMeeting() {
@@ -72,6 +93,15 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
     this.iecActivities.push(group);
   }
 
+  removeMeeting(index: number) {
+    if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
+      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
+      console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
+    }
+    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
+    this.iecActivities.removeAt(index)
+  }
+
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       meetings: this.formBuilder.array([
@@ -84,17 +114,6 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
         })
       ])
     })
-    this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        console.log(res)
-        this.submittedApplcations = res;
-        if (res.length > 0) {
-          this.showForm = false;
-        }
-        else {
-          this.showForm = true;
-        }
-      }, e => console.log(e.error))
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
       console.log(val[0].path)
@@ -154,6 +173,10 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
             this.sendApplication(this.formdata, this.editingId.length > 0)
             console.log(this.formdata)
           }
+          else {
+            this,this.submitting = false;
+            this.snackBar.open('Error uploadfing file, Please try again later', 'Dismiss', { duration: 5000 })
+          }
         })
     }
   }
@@ -183,16 +206,20 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
-            this.formdata.files = []
+            this.formdata.files = [];
           }
           console.log(this.submittedApplcations)
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
+          this.applicationForm.reset()
+          this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submiting applucation, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
@@ -208,36 +235,41 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
-            this.formdata.files = []
+            this.formdata.files = [];
           }
           this.submittedApplcations.unshift(res);
+          this.applicationForm.reset()
+          this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submiting applucation, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
   fileRemoved(index: number, fid: string) {
-      console.log(this.formdata)
-      this.formdata._id = this.editingId
-      this.formdata.values = this.applicationForm.value
-      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fieldName,index)
-        return el.fieldName != `f${index}`
-      })
-      this.filesToUpload = this.filesToUpload.filter(el => {
-        console.log(el, index)
-        return el.fname != `f${index}` 
-      })
-      console.log(this.formdata)
-      this.sendApplication(this.formdata, true, true)
-      if(fid) {
-        this.rest.deleteFile(fid)
-          .subscribe((res) => {
-            console.log('file deleted', res)
-          }, err => console.log(err.error))
-      }
+    console.log(this.formdata)
+    this.formdata._id = this.editingId
+    this.formdata.values = this.applicationForm.value
+    this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
+      console.log(el.fieldName, index)
+      return el.fieldName != `f${index}`
+    })
+    this.filesToUpload = this.filesToUpload.filter(el => {
+      console.log(el, index)
+      return el.fname != `f${index}`
+    })
+    this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
+    console.log(this.formdata)
+    this.sendApplication(this.formdata, true, true)
+    if (fid) {
+      this.rest.deleteFile(fid)
+        .subscribe((res) => {
+          console.log('file deleted', res)
+        }, err => console.log(err.error))
+    }
   }
 
   getFileFromIndex(index: number) {
@@ -255,7 +287,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
       this.addMeeting()
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
@@ -278,7 +310,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
     this.iecActivities.clear();
     this.addMeeting()
   }
- 
+
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
@@ -295,6 +327,12 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked {
       }
     })
     return toReturn
+  }
+
+  viewFile(file: ApplicationFile) {
+    if (file.url) {
+      window.open(file.url)
+    }
   }
 
 }
