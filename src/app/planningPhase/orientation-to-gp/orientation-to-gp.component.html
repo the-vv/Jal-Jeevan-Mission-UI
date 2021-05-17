@@ -206,8 +206,8 @@
         </div>
         <div class="col-12 col-md-3">
             <div class="mt-1" style="position: relative;">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                    (click)="fileRemoved(introductionFile)" *ngIf="introductionFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(introductionFile)" *ngIf="introductionFile != null">
                     <p class="text-truncate pt-3"><strong>Minutes Copy:
                         </strong>{{introductionFile.name}}
                     </p>
@@ -274,8 +274,8 @@
         </div>
         <div class="col-12 col-md-3">
             <div class="mt-1" style="position: relative;">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                    (click)="fileRemoved(InterDepartmentFile)" *ngIf="InterDepartmentFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(InterDepartmentFile)" *ngIf="InterDepartmentFile != null">
                     <p class="text-truncate pt-3"><strong>Minutes:
                         </strong>{{InterDepartmentFile.name}}
                     </p>
@@ -290,8 +290,6 @@
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Minutes'"></p-fileUpload>
-                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
             </div>
         </div>
     </div>
@@ -322,8 +320,8 @@
         </div>
         <div class="col-12 col-md-3">
             <div class="mt-1" style="position: relative;">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                    (click)="fileRemoved(GpBoardMeetingFile)" *ngIf="GpBoardMeetingFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(GpBoardMeetingFile)" *ngIf="GpBoardMeetingFile != null">
                     <p class="text-truncate pt-3"><strong>Resolution:
                         </strong>{{GpBoardMeetingFile.name}}
                     </p>
@@ -397,8 +395,8 @@
         </div>
         <div class="col-12 col-md-4">
             <div class="mt-1" style="position: relative;">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                    (click)="fileRemoved(jontAccountFile)" *ngIf="jontAccountFile != null">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(jontAccountFile)" *ngIf="jontAccountFile != null">
                     <p class="text-truncate pt-3"><strong>Passbook Copy:
                         </strong>{{jontAccountFile.name}}
                     </p>
@@ -474,48 +472,3 @@
         </div>
     </div>
 </form>
-
-<!-- <div class="col-12" *ngIf="!isAdmin">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="editingId.length == 0">
-                            Submit a new Application
-                        </span>
-                        <span *ngIf="editingId.length > 0">
-                            Edit an Application
-                        </span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          This is a summary of the content
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Applications that are already submitted
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          Currently I am
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <mat-list>
-                        <mat-list-item *ngFor="let appl of submittedApplcations">
-                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
-                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="icon"
-                                    style="margin-top: 4.5px" (click)="applicSelected(appl)" class="">
-                                    View/ Edit
-                                </button>
-                            </p>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div> -->
