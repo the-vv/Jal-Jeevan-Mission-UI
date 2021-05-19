@@ -46,7 +46,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   submittedApplcations: Application[] = [];
   editingId: string = '';
   showForm: boolean = false;
-  submitted = false;
+  submitted: boolean = false;
 
   constructor(
     private user: UserService,
@@ -77,7 +77,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
         console.log(e.error)
         this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
       })
-    this.applicationForm.valueChanges.subscribe(() => {
+    this.applicationForm.statusChanges.subscribe(() => {
       this.submitted = false;
     })
   }
@@ -233,11 +233,12 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
-          this.submitted = true;
           this.submittedApplcations.unshift(res);
           this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
+          // this.submitted = false;
           this.submitting = false;
           this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
@@ -257,9 +258,9 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
             this.jontAccountFile = null;
             this.formdata.files = []
           }
-          this.submitted = true;
           this.submittedApplcations.unshift(res);
           this.applicSelected(res)
+          this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
@@ -294,14 +295,13 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   }
 
   getFileFromIndex(windex: number, mindex: number) {
-    console.log(this.filesToUpload)
+    // console.log(this.filesToUpload)
     return this.filesToUpload.filter(el => {
       return el.fname == `fC${windex}M${mindex}`
     })[0]
   }
 
   applicSelected(app: Application) {
-    this.showForm = true
     this.wards().clear();
     this.editingId = app._id
     for (let i = 0; i < app.values.wards.length; i++) {
