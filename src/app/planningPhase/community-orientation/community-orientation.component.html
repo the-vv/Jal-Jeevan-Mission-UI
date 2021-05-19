@@ -173,7 +173,7 @@
                                     <div class="col-12 col-md-3">
                                         <div class="mt-1" style="position: relative;">
                                             <div class="hasfile d-flex justify-content-between border px-2 rounded"
-                                                (click)="viewFile(getFileFromIndex(i, j).file)"
+                                                (click)="viewFile(getFileFromIndex(i, j).file)" style="cursor: pointer;"
                                                 *ngIf="getMeeting(i, j).reportIndex?.length > 0">
                                                 <p class="text-truncate pt-3"><strong>Report:
                                                     </strong>{{getFileFromIndex(i, j).file.name}}

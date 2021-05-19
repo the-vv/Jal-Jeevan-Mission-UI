@@ -315,6 +315,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
+      this.filesToUpload = [];
       (app.files as ApplicationFile[]).forEach(f => {
         this.filesToUpload.push({
           fname: f.fieldName,
