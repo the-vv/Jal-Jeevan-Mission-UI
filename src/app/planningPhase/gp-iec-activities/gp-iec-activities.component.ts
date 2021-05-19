@@ -131,7 +131,6 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
       this.formdata.category = this.data.selectedDetails;
       this.formdata.datetime = new Date();
       console.log(this.formdata)
-      console.log(new Date(this.formdata.values.dwsmDate))
       this.submitting = true;
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
@@ -174,7 +173,7 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
             console.log(this.formdata)
           }
           else {
-            this,this.submitting = false;
+            this, this.submitting = false;
             this.snackBar.open('Error uploadfing file, Please try again later', 'Dismiss', { duration: 5000 })
           }
         })
@@ -244,32 +243,34 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting applucation, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
   fileRemoved(index: number, fid: string) {
     this.submitted = false;
-    console.log(this.formdata)
-    this.formdata._id = this.editingId
-    this.formdata.values = this.applicationForm.value
-    this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-      console.log(el.fieldName, index)
-      return el.fieldName != `f${index}`
-    })
     this.filesToUpload = this.filesToUpload.filter(el => {
       console.log(el, index)
       return el.fname != `f${index}`
     })
     this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
-    console.log(this.formdata)
-    this.sendApplication(this.formdata, true, true)
-    if (fid) {
-      this.rest.deleteFile(fid)
-        .subscribe((res) => {
-          console.log('file deleted', res)
-        }, err => console.log(err.error))
+    if (fid?.length) {
+      console.log(this.formdata)
+      this.formdata._id = this.editingId
+      this.formdata.values = this.applicationForm.value
+      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
+        console.log(el.fieldName, index)
+        return el.fieldName != `f${index}`
+      })
+      console.log(this.formdata)
+      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
+      if (fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
     }
   }
 

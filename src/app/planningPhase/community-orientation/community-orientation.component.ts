@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const moment = _rollupMoment || _moment;
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
@@ -27,7 +28,7 @@ export const MY_FORMATS = {
   templateUrl: './community-orientation.component.html',
   styleUrls: ['./community-orientation.component.scss']
 })
-export class CommunityOrientationComponent implements OnInit {
+export class CommunityOrientationComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
@@ -45,6 +46,7 @@ export class CommunityOrientationComponent implements OnInit {
   submittedApplcations: Application[] = [];
   editingId: string = '';
   showForm: boolean = false;
+  submitted = false;
 
   constructor(
     private user: UserService,
@@ -52,42 +54,43 @@ export class CommunityOrientationComponent implements OnInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) { }
 
-  ngAfterViewChecked(): void {
-    this.changeDetectorRef.detectChanges();
-  }
-
-  // addMeeting() {
-  //   this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-  //   const group = this.formBuilder.group({
-  //     activity: '',
-  //     amount: '',
-  //     date: [moment('')],
-  //     expenditure: '',
-  //     reportIndex: ''
-  //   });
-  //   this.iecActivities.push(group);
-  // }
-
-  ngOnInit(): void {
-    this.applicationForm = this.formBuilder.group({
-      wards: this.formBuilder.array([])
-    })
-    this.addWard()
-    console.log((this.applicationForm.get('wards') as FormArray).controls)
+  ngAfterViewInit() {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
         if (res.length > 0) {
           this.showForm = false;
+          this, this.applicSelected(res[0])
         }
         else {
           this.showForm = true;
+          for (let i = 0; i < 10; i++) {
+            this.addWard()
+          }
         }
-      }, e => console.log(e.error))
+      }, e => {
+        console.log(e.error)
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+      })
+    this.applicationForm.valueChanges.subscribe(() => {
+      this.submitted = false;
+    })
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnInit(): void {
+    this.applicationForm = this.formBuilder.group({
+      wards: this.formBuilder.array([])
+    })
+    // console.log((this.applicationForm.get('wards') as FormArray).controls)    
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
       console.log(val[0].path)
@@ -97,6 +100,12 @@ export class CommunityOrientationComponent implements OnInit {
 
   wards() {
     return this.applicationForm.get('wards') as FormArray
+  }
+
+  getMeeting(windex: number, mindex: number) {
+    let w = (this.wards().at(windex).get('meetings') as FormArray).at(mindex).value
+    // console.log(`w`, w)
+    return w
   }
 
   newWard() {
@@ -185,18 +194,22 @@ export class CommunityOrientationComponent implements OnInit {
             this.sendApplication(this.formdata, this.editingId.length > 0)
             console.log(this.formdata)
           }
+          else {
+            this.snackBar.open('Error uploading file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          }
         })
     }
   }
 
-  fileSelected(event: any, index: number) {
+  fileSelected(event: any, windex: number, mindex: number) {
     // console.log(event.files)
+    this.submitted = false;
     this.filesToUpload.push({
-      fname: `f${index}`,
+      fname: `fC${windex}M${mindex}`,
       file: event.files[0]
     })
-    let tform = this.applicationForm.get('meetings')?.value[index]
-    tform.reportIndex = `f${index}`;
+    let tform = this.getMeeting(windex, mindex)
+    tform.reportIndex = `fC${windex}M${mindex}`;
     console.log(tform)
   }
 
@@ -220,10 +233,13 @@ export class CommunityOrientationComponent implements OnInit {
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
+          this.submitted = true;
           this.submittedApplcations.unshift(res);
+          this.applicSelected(res)
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
@@ -241,49 +257,58 @@ export class CommunityOrientationComponent implements OnInit {
             this.jontAccountFile = null;
             this.formdata.files = []
           }
+          this.submitted = true;
           this.submittedApplcations.unshift(res);
+          this.applicSelected(res)
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
-  fileRemoved(index: number, fid: string) {
+  fileRemoved(windex: number, mindex: number, fid: string) {
+    this.submitted = false;
     console.log(this.formdata)
-    this.formdata._id = this.editingId
-    this.formdata.values = this.applicationForm.value
-    this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-      console.log(el.fieldName, index)
-      return el.fieldName != `f${index}`
-    })
     this.filesToUpload = this.filesToUpload.filter(el => {
-      console.log(el, index)
-      return el.fname != `f${index}`
+      // console.log(el, index)
+      return el.fname != `fC${windex}M${mindex}`
     })
-    console.log(this.formdata)
-    this.sendApplication(this.formdata, true, true)
-    if (fid) {
-      this.rest.deleteFile(fid)
-        .subscribe((res) => {
-          console.log('file deleted', res)
-        }, err => console.log(err.error))
+    this.getMeeting(windex, mindex).reportIndex = ''
+    if (fid?.length > 0) {
+      this.formdata._id = this.editingId
+      this.formdata.values = this.applicationForm.value
+      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
+        // console.log(el.fieldName, index)
+        return el.fieldName != `fC${windex}M${mindex}`
+      })
+      fid?.length && this.sendApplication(this.formdata, true, true)
+      if (fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
     }
   }
 
-  getFileFromIndex(index: number) {
-    // console.log(this.filesToUpload)
+  getFileFromIndex(windex: number, mindex: number) {
+    console.log(this.filesToUpload)
     return this.filesToUpload.filter(el => {
-      return el.fname == `f${index}`
+      return el.fname == `fC${windex}M${mindex}`
     })[0]
   }
 
   applicSelected(app: Application) {
     this.showForm = true
-    this.iecActivities.clear();
+    this.wards().clear();
     this.editingId = app._id
-    for (let i = 0; i < app.values.meetings.length; i++) {
-      // this.addMeeting()
+    for (let i = 0; i < app.values.wards.length; i++) {
+      this.addWard()
+      for (let j = 1; j < app.values.wards[i].meetings.length; j++) {
+        this.addMeeting(i)
+      }
     }
     this.applicationForm.patchValue(app.values);
     console.log(this.applicationForm)
@@ -326,6 +351,12 @@ export class CommunityOrientationComponent implements OnInit {
       }
     })
     return toReturn
+  }
+
+  viewFile(file: ApplicationFile) {
+    if (file.url) {
+      window.open(file.url)
+    }
   }
 
 }
