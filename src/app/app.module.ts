@@ -1,31 +1,31 @@
-import { BrowserModule,} from '@angular/platform-browser';
+import { BrowserModule, } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule,} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Imports 
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatButtonModule} from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
-import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {LayoutModule} from '@angular/cdk/layout';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 // PrimeNg Imports
-import {MenuModule} from 'primeng/menu';
-import {TieredMenuModule} from 'primeng/tieredmenu';
-import {PanelMenuModule} from 'primeng/panelmenu';
-import {BreadcrumbModule} from 'primeng/breadcrumb';
-import {FileUploadModule} from 'primeng/fileupload';
-import {InputTextareaModule} from 'primeng/inputtextarea';
-import {ButtonModule} from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +45,8 @@ import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-pos
 import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
 import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
 import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
- 
+import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,7 +60,8 @@ import { CommunityOrientationComponent } from './planningPhase/community-orienta
     IsaPositioningComponent,
     OrientationToGpComponent,
     GpIecActivitiesComponent,
-    CommunityOrientationComponent
+    CommunityOrientationComponent,
+    GpActionPlanComponent
   ],
   imports: [
     BrowserModule,

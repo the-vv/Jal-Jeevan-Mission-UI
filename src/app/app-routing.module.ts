@@ -13,6 +13,7 @@ import { PhaseSelectionComponent } from './phase-selection/phase-selection.compo
 import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
 import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
 import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
+import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: 'gpiec', component: GpIecActivitiesComponent },
       { path: 'communityorientation', component: CommunityOrientationComponent },
+      { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
       { path: '**', redirectTo: 'district', pathMatch: 'full' },
     ]
   },
@@ -44,6 +46,7 @@ const routes: Routes = [
       { path: 'orientationtogp', component: OrientationToGpComponent },
       { path: 'gpiec', component: GpIecActivitiesComponent },
       { path: 'communityorientation', component: CommunityOrientationComponent },
+      { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
