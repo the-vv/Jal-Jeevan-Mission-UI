@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -26,19 +26,19 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-    this.user.checkLogin()    
-    .then((res) => {
-      if (res.admin) {
-        this.router.navigate(['admin'], { replaceUrl: true })
-      }
-      else {
-        this.router.navigate(['client'], { replaceUrl: true })
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-      // this.snackBar.open(err, 'Dismiss', {duration: 5000})
-    })
+    this.user.checkLogin()
+      .then((res) => {
+        if (res.admin) {
+          this.router.navigate(['admin'], { replaceUrl: true })
+        }
+        else {
+          this.router.navigate(['client'], { replaceUrl: true })
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        // this.snackBar.open(err, 'Dismiss', {duration: 5000})
+      })
   }
   get f() { return this.loginForm.controls; }
 
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         console.log(err)
-        this.snackBar.open(err, 'Dismiss', {duration: 5000})
+        this.snackBar.open(err, 'Dismiss', { duration: 5000 })
       })
   }
 }

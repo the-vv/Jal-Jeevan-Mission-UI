@@ -77,6 +77,8 @@ export class GpActionPlanComponent implements OnInit {
       })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
+      console.log(this.filesToUpload, this.applicationForm.value);
+
     })
   }
 
@@ -104,10 +106,10 @@ export class GpActionPlanComponent implements OnInit {
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       baselineSurwey: this.formBuilder.array([
-        this,this.formBuilder.group({
+        this.formBuilder.group({
           totalHHS: '',
           waterSupplyCovered: '',
-          kaConverged: ''
+          notConverged: ''
         })
       ]),
       existingWssName: this.formBuilder.array([
@@ -115,7 +117,7 @@ export class GpActionPlanComponent implements OnInit {
           nameofWss: '',
           ward: '',
           totalHHS: '',
-          totalCapacity: '',
+          tankCapacity: '',
           typeOfSource: '',
           anyIssues: ''
         })
@@ -125,19 +127,19 @@ export class GpActionPlanComponent implements OnInit {
           nameofWss: '',
           ward: '',
           totalHHS: '',
-          typeOfSource: '', 
+          typeOfSource: '',
           anyIssues: ''
         })
       ]),
-      identificationNoSource: this.formBuilder.array([
+      uncoveredArea: this.formBuilder.array([
         this.formBuilder.group({
           area: '',
           ward: '',
           totalHHS: '',
-          technologyOption: '', 
+          technologyOption: '',
         })
       ]),
-      uncovereArea: this.formBuilder.array([
+      identificationNewSource: this.formBuilder.array([
         this.formBuilder.group({
           area: '',
           ward: '',
@@ -152,7 +154,7 @@ export class GpActionPlanComponent implements OnInit {
       praDate: [moment('')],
       praPlace: '',
       reportIndex: '',
-      photos: '',
+      photoIndex: '',
       meetings: this.formBuilder.array([
         this.formBuilder.group({
           activity: '',
@@ -169,6 +171,74 @@ export class GpActionPlanComponent implements OnInit {
     })
   }
   get f() { return this.applicationForm.controls }
+
+  addBaselineSurwey() {
+    let blsArray = this.applicationForm.get('baselineSurwey') as FormArray;
+    blsArray.push(
+      this.formBuilder.group({
+        totalHHS: '',
+        waterSupplyCovered: '',
+        kaConverged: ''
+      }))
+  }
+
+  addExistingWssName() {
+    let existingwssn = this.applicationForm.get('existingWssName') as FormArray;
+    existingwssn.push(
+      this.formBuilder.group({
+        nameofWss: '',
+        ward: '',
+        totalHHS: '',
+        totalCapacity: '',
+        typeOfSource: '',
+        anyIssues: ''
+      }))
+  }
+
+  addWaterQI() {
+    let wqi = this.applicationForm.get('waterQuality') as FormArray;
+    wqi.push(
+      this.formBuilder.group({
+        nameofWss: '',
+        ward: '',
+        totalHHS: '',
+        typeOfSource: '',
+        anyIssues: ''
+      })
+    )
+  }
+
+  addidentificationNewSource() {
+    let ins = this.applicationForm.get('identificationNoSource') as FormArray;
+    ins.push(
+      this.formBuilder.group({
+        area: '',
+        ward: '',
+      })
+    )
+  }
+
+  addUncovereArea() {
+    let uca = this.applicationForm.get('uncoveredArea') as FormArray;
+    uca.push(
+      this.formBuilder.group({
+        area: '',
+        ward: '',
+        totalHHS: '',
+        technologyOption: '',
+      })
+    )
+  }
+
+  addApplicationFormWard() {
+    let afw = this.applicationForm.get('applicationFormsWards') as FormArray;
+    afw.push(
+      this.formBuilder.group({
+        distributed: '',
+        relocated: '',
+      })
+    )
+  }
 
   onSubmit() {
     if (this.editingId.length > 0) {
@@ -235,9 +305,17 @@ export class GpActionPlanComponent implements OnInit {
       fname: `f${index}`,
       file: event.files[0]
     })
-    let tform = this.applicationForm.get('meetings')?.value[index]
-    tform.reportIndex = `f${index}`;
-    console.log(tform)
+    if (index === 0) {
+      this.applicationForm.patchValue({
+        reportIndex: `f${index}`
+      })
+    }
+    else if (index === 1) {
+      this.applicationForm.patchValue({
+        photoIndex: `f${index}`
+      })
+    }
+    console.log(this.applicationForm.value)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -303,7 +381,16 @@ export class GpActionPlanComponent implements OnInit {
       console.log(el, index)
       return el.fname != `f${index}`
     })
-    this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
+    if (index === 0) {
+      this.applicationForm.patchValue({
+        reportIndex: ''
+      })
+    }
+    else if (index === 1) {
+      this.applicationForm.patchValue({
+        photoIndex: ''
+      })
+    }
     if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId

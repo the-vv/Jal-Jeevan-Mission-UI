@@ -76,36 +76,449 @@
     </div>
 </div>
 
-<div class="row mt-3">
-    <div class="col-1">
-        <p class="h5">No.</p>
-    </div>
-    <div class="col-2">
-        <p class="h5">IEC Activities</p>
-    </div>
-    <div class="col-2">
-        <p class="h5">
-            Estimated Amount
-        </p>
-    </div>
-    <div class="col-2">
-        <p class="h5">
-            Conducted Date
-        </p>
-    </div>
-    <div class="col-2">
-        <p class="h5">
-            Expenditure
-        </p>
-    </div>
-    <div class="col-2">
-        <p class="h5">
-            Report
-        </p>
-    </div>
-</div>
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-    <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Baseline Survey</p>
+        </div>
+    </div>
+    <div formArrayName="baselineSurwey"
+        *ngFor="let item of this.applicationForm.get('baselineSurwey')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        Ward {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Total HHS</mat-label>
+                            <input formControlName="totalHHS" matInput placeholder="Total HHS">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Water Supply Covered</mat-label>
+                            <input formControlName="waterSupplyCovered" matInput placeholder="Water Supply Covered">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Not Covered</mat-label>
+                            <input formControlName="notConverged" matInput placeholder="Not Covered">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addBaselineSurwey()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Existing WSS</p>
+        </div>
+    </div>
+    <div formArrayName="existingWssName"
+        *ngFor="let item of this.applicationForm.get('existingWssName')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Name of WSS</mat-label>
+                            <input formControlName="nameofWss" matInput placeholder="Name of WSS">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Ward</mat-label>
+                            <input formControlName="ward" matInput placeholder="Ward">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Total HHs</mat-label>
+                            <input formControlName="totalHHS" matInput placeholder="Total HHs">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                <div class="col-12 col-md-3 offset-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Tank Capacity</mat-label>
+                            <input formControlName="tankCapacity" matInput placeholder="Tank Capacity">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Type of Source</mat-label>
+                            <input formControlName="typeOfSource" matInput placeholder="Type of Source">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Any issues</mat-label>
+                            <input formControlName="anyIssues" matInput placeholder="Any issues">
+                        </mat-form-field>
+                    </p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addExistingWssName()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Water Quality Issue</p>
+        </div>
+    </div>
+    <div formArrayName="waterQuality"
+        *ngFor="let item of this.applicationForm.get('waterQuality')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Name of Wss</mat-label>
+                            <input formControlName="nameofWss" matInput placeholder="Name of Wss">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Ward</mat-label>
+                            <input formControlName="ward" matInput placeholder="Ward">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Total HHS</mat-label>
+                            <input formControlName="totalHHS" matInput placeholder="Total HHS">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                <div class="col-12 col-md-3 offset-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Type of Source</mat-label>
+                            <input formControlName="typeOfSource" matInput placeholder="Type of Source">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Issue</mat-label>
+                            <input formControlName="anyIssues" matInput placeholder="Issues">
+                        </mat-form-field>
+                    </p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addWaterQI()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Identification New Source</p>
+        </div>
+    </div>
+    <div formArrayName="identificationNewSource"
+        *ngFor="let item of this.applicationForm.get('identificationNewSource')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-5">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Area</mat-label>
+                            <input formControlName="area" matInput placeholder="Area">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Ward</mat-label>
+                            <input formControlName="ward" matInput placeholder="Ward">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                (click)="addidentificationNewSource()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Uncovered Area</p>
+        </div>
+    </div>
+    <div formArrayName="uncoveredArea"
+        *ngFor="let item of this.applicationForm.get('uncoveredArea')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Area</mat-label>
+                            <input formControlName="area" matInput placeholder="Area">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Ward</mat-label>
+                            <input formControlName="ward" matInput placeholder="Ward">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Total HHS</mat-label>
+                            <input formControlName="totalHHS" matInput placeholder="Total HHS">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Technology Option</mat-label>
+                            <input formControlName="technologyOption" matInput placeholder="Technology Option">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addUncovereArea()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row mt-3">
+        <div class="col-6">
+            <p class="h5 text-start p-0">Baseline Survey</p>
+        </div>
+    </div>
+    <div formArrayName="applicationFormsWards"
+        *ngFor="let item of this.applicationForm.get('applicationFormsWards')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-2">
+                    <p class="h6 text-center pt-3">
+                        Ward {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Distributed</mat-label>
+                            <input formControlName="distributed" matInput placeholder="Distributed">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-5">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Relocatted</mat-label>
+                            <input formControlName="relocated" matInput placeholder="Relocatted">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                (click)="addApplicationFormWard()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row my-3">
+        <div class="col-12 col-md-2">
+            <p class="h6 text-center pt-3">
+                PRA
+            </p>
+        </div>
+        <div class="col-12 col-md-3">
+            <p>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Conducting Date</mat-label>
+                    <input formControlName="praDate" matInput placeholder="Conducting Date">
+                </mat-form-field>
+            </p>
+        </div>
+        <div class="col-12 col-md-3">
+            <p>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Place</mat-label>
+                    <input formControlName="praDate" matInput placeholder="Place">
+                </mat-form-field>
+            </p>
+        </div>
+        <div class="col-12 col-md-4">
+            <p>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Place</mat-label>
+                    <input formControlName="praDate" matInput placeholder="Place">
+                </mat-form-field>
+            </p>
+        </div>
+        <div class="col-12 col-md-3 offset-md-2">
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromIndex(0).file)"
+                    *ngIf="this.applicationForm.value.reportIndex?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Report:
+                        </strong>{{getFileFromIndex(0)?.file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px"
+                        (click)="fileRemoved(0,getFileFromIndex(0)?.file?.fid); this.applicationForm.value.reportIndex = ''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload
+                    *ngIf="this.applicationForm.value.reportIndex?.length == 0 || !this.applicationForm.value.reportIndex"
+                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, 0)" [style]="{backgroundColor: 'white',
+                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Report'"></p-fileUpload>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 offset-md-2">
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromIndex(1).file)"
+                    *ngIf="this.applicationForm.value.photoIndex?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Report:
+                        </strong>{{getFileFromIndex(1).file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px"
+                        (click)="fileRemoved(1,getFileFromIndex(1)?.file?.fid); this.applicationForm.value.photoIndex = ''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload
+                    *ngIf="this.applicationForm.value.photoIndex?.length == 0 || !this.applicationForm.value.photoIndex"
+                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'white',
+                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Report'"></p-fileUpload>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
             <div class="row my-3">
                 <div class="col-12 col-md-1">
@@ -167,9 +580,7 @@
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Report'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
+                        </div>
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -186,7 +597,10 @@
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>
-    </div>
+    </div> -->
+
+
+
     <div class="row mt-2">
         <div class="col-12" *ngIf="submitting">
             <p class="small text-center">
