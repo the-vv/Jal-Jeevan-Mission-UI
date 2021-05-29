@@ -82,26 +82,26 @@ export class GpActionPlanComponent implements OnInit {
     })
   }
 
-  addMeeting() {
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-    const group = this.formBuilder.group({
-      activity: '',
-      amount: '',
-      date: [moment('')],
-      expenditure: '',
-      reportIndex: ''
-    });
-    this.iecActivities.push(group);
-  }
+  // addMeeting() {
+  //   this.iecActivities = this.applicationForm.get('meetings') as FormArray;
+  //   const group = this.formBuilder.group({
+  //     activity: '',
+  //     amount: '',
+  //     date: [moment('')],
+  //     expenditure: '',
+  //     reportIndex: ''
+  //   });
+  //   this.iecActivities.push(group);
+  // }
 
-  removeMeeting(index: number) {
-    if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
-      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-      console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
-    }
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-    this.iecActivities.removeAt(index)
-  }
+  // removeMeeting(index: number) {
+  //   if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
+  //     this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
+  //     console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
+  //   }
+  //   this.iecActivities = this.applicationForm.get('meetings') as FormArray;
+  //   this.iecActivities.removeAt(index)
+  // }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
@@ -178,8 +178,12 @@ export class GpActionPlanComponent implements OnInit {
       this.formBuilder.group({
         totalHHS: '',
         waterSupplyCovered: '',
-        kaConverged: ''
+        notConverged: ''
       }))
+  }
+
+  removeBaselineSurwey(index: number) {
+    (this.applicationForm.get('baselineSurwey') as FormArray).removeAt(index)
   }
 
   addExistingWssName() {
@@ -189,10 +193,14 @@ export class GpActionPlanComponent implements OnInit {
         nameofWss: '',
         ward: '',
         totalHHS: '',
-        totalCapacity: '',
+        tankCapacity: '',
         typeOfSource: '',
         anyIssues: ''
       }))
+  }
+
+  removeExistingWssName(index: number) {
+    (this.applicationForm.get('existingWssName') as FormArray).removeAt(index)
   }
 
   addWaterQI() {
@@ -208,14 +216,22 @@ export class GpActionPlanComponent implements OnInit {
     )
   }
 
+  removeWaterQi(index: number) {
+    (this.applicationForm.get('waterQuality') as FormArray).removeAt(index)
+  }
+
   addidentificationNewSource() {
-    let ins = this.applicationForm.get('identificationNoSource') as FormArray;
+    let ins = this.applicationForm.get('identificationNewSource') as FormArray;
     ins.push(
       this.formBuilder.group({
         area: '',
         ward: '',
       })
     )
+  }
+
+  removeidentificationNewSource(index: number) {
+    (this.applicationForm.get('identificationNewSource') as FormArray).removeAt(index)
   }
 
   addUncovereArea() {
@@ -230,6 +246,10 @@ export class GpActionPlanComponent implements OnInit {
     )
   }
 
+  removeUncovereArea(index: number) {
+    (this.applicationForm.get('uncoveredArea') as FormArray).removeAt(index)
+  }
+
   addApplicationFormWard() {
     let afw = this.applicationForm.get('applicationFormsWards') as FormArray;
     afw.push(
@@ -238,6 +258,10 @@ export class GpActionPlanComponent implements OnInit {
         relocated: '',
       })
     )
+  }
+
+  removeApplicationFormWard(index: number) {
+    (this.applicationForm.get('applicationFormsWards') as FormArray).removeAt(index)
   }
 
   onSubmit() {
@@ -417,13 +441,16 @@ export class GpActionPlanComponent implements OnInit {
     })[0]
   }
 
+  // FIXME: fix application selcted and include all add array methods in loop
   applicSelected(app: Application) {
     this.showForm = true
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray
-    this.iecActivities.clear();
+    this.onReset()
     this.editingId = app._id
     for (let i = 0; i < app.values.meetings.length; i++) {
-      this.addMeeting()
+      // this.addMeeting()
+    }
+    for (let i = 0; i < app.values.meetings.length; i++) {
+      // this.addMeeting()
     }
     this.applicationForm.patchValue(app.values);
     // console.log(this.applicationForm)
@@ -448,7 +475,13 @@ export class GpActionPlanComponent implements OnInit {
     this.formdata.files = []
     this.iecActivities = this.applicationForm.get('meetings') as FormArray
     this.iecActivities.clear();
-    this.addMeeting()
+    // this.addMeeting()
+    this.addApplicationFormWard();
+    this.addBaselineSurwey()
+    this.addExistingWssName()
+    this.addUncovereArea()
+    this.addWaterQI()
+    this.addidentificationNewSource()
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {

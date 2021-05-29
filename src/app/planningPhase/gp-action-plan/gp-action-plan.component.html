@@ -117,7 +117,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeBaselineSurwey(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -172,7 +172,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeExistingWssName(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -251,7 +251,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeWaterQi(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -314,7 +314,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeidentificationNewSource(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -378,7 +378,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeUncovereArea(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -425,7 +425,7 @@
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        style="margin-top: 10px" (click)="removeApplicationFormWard(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -447,31 +447,25 @@
                 PRA
             </p>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-5">
             <p>
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Conducting Date</mat-label>
-                    <input formControlName="praDate" matInput placeholder="Conducting Date">
+                    <mat-label>Conducted Date</mat-label>
+                    <input matInput [matDatepicker]="dp" formControlName="praDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp disabled="false"></mat-datepicker>
                 </mat-form-field>
             </p>
         </div>
-        <div class="col-12 col-md-3">
-            <p>
-                <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Place</mat-label>
-                    <input formControlName="praDate" matInput placeholder="Place">
-                </mat-form-field>
-            </p>
-        </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-5">
             <p>
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Place</mat-label>
-                    <input formControlName="praDate" matInput placeholder="Place">
+                    <input formControlName="praPlace" matInput placeholder="Place">
                 </mat-form-field>
             </p>
         </div>
-        <div class="col-12 col-md-3 offset-md-2">
+        <div class="col-12 col-md-5 offset-md-2">
             <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(getFileFromIndex(0).file)"
@@ -493,7 +487,7 @@
                     [chooseLabel]="'Report'"></p-fileUpload>
             </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-5">
             <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(getFileFromIndex(1).file)"
