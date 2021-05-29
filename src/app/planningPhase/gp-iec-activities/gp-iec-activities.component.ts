@@ -185,10 +185,11 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
     this.filesToUpload.push({
       fname: `f${index}`,
       file: event.files[0]
-    })
-    let tform = this.applicationForm.get('meetings')?.value[index]
-    tform.reportIndex = `f${index}`;
-    console.log(tform)
+    });
+    // let tform = this.applicationForm.get('meetings')?.value[index]
+    // tform.reportIndex = `f${index}`;
+    // console.log(tform)
+    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -253,8 +254,9 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
     this.filesToUpload = this.filesToUpload.filter(el => {
       console.log(el, index)
       return el.fname != `f${index}`
-    })
-    this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
+    });
+    // this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
+    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
     if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId

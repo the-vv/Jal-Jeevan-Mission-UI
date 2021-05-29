@@ -103,7 +103,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   }
 
   getMeeting(windex: number, mindex: number) {
-    let w = (this.wards().at(windex).get('meetings') as FormArray).at(mindex).value
+    let w = (this.wards().at(windex).get('meetings') as FormArray).at(mindex)
     // console.log(`w`, w)
     return w
   }
@@ -209,7 +209,8 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
       file: event.files[0]
     })
     let tform = this.getMeeting(windex, mindex)
-    tform.reportIndex = `fC${windex}M${mindex}`;
+    // tform.reportIndex = `fC${windex}M${mindex}`;
+    tform.patchValue({ reportIndex: `fC${windex}M${mindex}` })
     console.log(tform)
   }
 
@@ -276,7 +277,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
       // console.log(el, index)
       return el.fname != `fC${windex}M${mindex}`
     })
-    this.getMeeting(windex, mindex).reportIndex = ''
+    this.getMeeting(windex, mindex).patchValue({ reportIndex: '' })
     if (fid?.length > 0) {
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
