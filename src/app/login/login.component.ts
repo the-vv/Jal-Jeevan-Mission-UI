@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         console.log(err)
-        this.snackBar.open(err, 'Dismiss', { duration: 5000 })
+        this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
       })
   }
 }

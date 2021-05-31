@@ -77,7 +77,7 @@ export class GpActionPlanComponent implements OnInit {
       })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
-      console.log(this.filesToUpload, this.applicationForm.value);
+      // console.log(this.filesToUpload, this.applicationForm.value);
 
     })
   }
@@ -155,15 +155,6 @@ export class GpActionPlanComponent implements OnInit {
       praPlace: '',
       reportIndex: '',
       photoIndex: '',
-      meetings: this.formBuilder.array([
-        this.formBuilder.group({
-          activity: '',
-          amount: '',
-          date: [moment('')],
-          expenditure: '',
-          reportIndex: ''
-        })
-      ])
     })
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
@@ -282,7 +273,7 @@ export class GpActionPlanComponent implements OnInit {
       let form: FormData = new FormData();
       this.filesToUpload.forEach(f => {
         if (!f.file.fid) {
-          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+          form.append(`PRAFile-${f.fname}`, f.file, `PRAFile-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
         }
       })
       this.submitting = true;
@@ -441,19 +432,37 @@ export class GpActionPlanComponent implements OnInit {
     })[0]
   }
 
-  // FIXME: fix application selcted and include all add array methods in loop
   applicSelected(app: Application) {
     this.showForm = true
     this.onReset()
+    // console.log(this.applicationForm);    
     this.editingId = app._id
-    for (let i = 0; i < app.values.meetings.length; i++) {
-      // this.addMeeting()
+    for (let i = 1; i < app.values.baselineSurwey.length; i++) {
+      this.addBaselineSurwey()
+      console.log(1)
     }
-    for (let i = 0; i < app.values.meetings.length; i++) {
-      // this.addMeeting()
+    for (let i = 1; i < app.values.existingWssName.length; i++) {
+      this.addExistingWssName()
+      console.log(2)
+    }
+    for (let i = 1; i < app.values.waterQuality.length; i++) {
+      this.addWaterQI()
+      console.log(3)
+    }
+    for (let i = 1; i < app.values.uncoveredArea.length; i++) {
+      this.addUncovereArea()
+      console.log(4)
+    }
+    for (let i = 1; i < app.values.identificationNewSource.length; i++) {
+      this.addidentificationNewSource()
+      console.log(5)
+    }
+    for (let i = 1; i < app.values.applicationFormsWards.length; i++) {
+      this.addApplicationFormWard()
+      console.log(6)
     }
     this.applicationForm.patchValue(app.values);
-    // console.log(this.applicationForm)
+    console.log(this.applicationForm)
     console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
@@ -470,13 +479,16 @@ export class GpActionPlanComponent implements OnInit {
   onReset() {
     this.showForm = false;
     this.editingId = '';
-    this.applicationForm.reset();
+    this.applicationForm.reset()
     this.filesToUpload = []
-    this.formdata.files = []
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray
-    this.iecActivities.clear();
-    // this.addMeeting()
-    this.addApplicationFormWard();
+    this.formdata.files = [];
+    (this.applicationForm.get('baselineSurwey') as FormArray).clear();
+    (this.applicationForm.get('existingWssName') as FormArray).clear();
+    (this.applicationForm.get('waterQuality') as FormArray).clear();
+    (this.applicationForm.get('uncoveredArea') as FormArray).clear();
+    (this.applicationForm.get('identificationNewSource') as FormArray).clear();
+    (this.applicationForm.get('applicationFormsWards') as FormArray).clear();
+    this.addApplicationFormWard()
     this.addBaselineSurwey()
     this.addExistingWssName()
     this.addUncovereArea()

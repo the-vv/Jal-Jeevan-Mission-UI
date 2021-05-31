@@ -395,7 +395,7 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Baseline Survey</p>
+            <p class="h5 text-start p-0">Application Form</p>
         </div>
     </div>
     <div formArrayName="applicationFormsWards"
@@ -492,7 +492,7 @@
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(getFileFromIndex(1).file)"
                     *ngIf="this.applicationForm.value.photoIndex?.length > 0">
-                    <p class="text-truncate pt-3"><strong>Report:
+                    <p class="text-truncate pt-3"><strong>Photo:
                         </strong>{{getFileFromIndex(1).file.name}}
                     </p>
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -506,7 +506,7 @@
                     mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'white',
                 color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                 borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                    [chooseLabel]="'Report'"></p-fileUpload>
+                    [chooseLabel]="'Photo'"></p-fileUpload>
             </div>
         </div>
     </div>
