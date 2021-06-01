@@ -62,7 +62,7 @@ export class DataService {
       // break
       default:
         return []
-        // break;
+      // break;
     }
   }
 
@@ -109,7 +109,7 @@ export class DataService {
 
   getWardList(gp: string) {
     console.log(this.selectedDetails);
-    
+
   }
 
   phaseComponents = {
