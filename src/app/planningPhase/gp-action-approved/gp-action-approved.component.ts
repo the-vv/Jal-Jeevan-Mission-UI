@@ -88,11 +88,14 @@ export class GpActionApprovedComponent implements OnInit {
 
   newMeeting() {
     return this.formBuilder.group({
-      activity: '',
-      amount: '',
-      date: [moment('')],
-      expenditure: '',
-      reportIndex: ''
+      date: '',
+      place: '',
+      attM: '',
+      attF: '',
+      attT: '',
+      minutesIndex: '',
+      photoIndex: '',
+      beneficiaryIndex: ''
     })
   }
 
