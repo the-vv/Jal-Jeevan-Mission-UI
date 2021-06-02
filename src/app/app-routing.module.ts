@@ -15,6 +15,7 @@ import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-i
 import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
 import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
+import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 
 const routes: Routes = [
   {
@@ -35,7 +36,8 @@ const routes: Routes = [
       { path: 'gpiec', component: GpIecActivitiesComponent },
       { path: 'communityorientation', component: CommunityOrientationComponent },
       { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
-      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent},
+      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
+      { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
       { path: '**', redirectTo: 'district', pathMatch: 'full' },
     ]
   },
@@ -49,7 +51,8 @@ const routes: Routes = [
       { path: 'gpiec', component: GpIecActivitiesComponent },
       { path: 'communityorientation', component: CommunityOrientationComponent },
       { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
-      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent},
+      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
+      { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },

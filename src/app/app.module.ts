@@ -47,6 +47,7 @@ import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-i
 import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
 import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
+import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-boa
     GpIecActivitiesComponent,
     CommunityOrientationComponent,
     GpActionPlanComponent,
-    GpBoardMeetingComponent
+    GpBoardMeetingComponent,
+    GpActionApprovedComponent
   ],
   imports: [
     BrowserModule,
