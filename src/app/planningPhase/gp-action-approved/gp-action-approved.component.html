@@ -159,23 +159,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col offset-md-2">
+                <div class="col-3 offset-md-2">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Minutes:
-                                </strong>{{getFileFromIndex(i).file.name}}
+                            (click)="viewFile(getFileFromIndex(i, 1).file)"
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length > 0">
+                            <p class="text-truncate pt-3 d-inline-block"><strong>Minutes:
+                                </strong>{{getFileFromIndex(i, 1).file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
+                                (click)="fileRemoved(i,getFileFromIndex(i, 1)?.file?.fid, 1); this.applicationForm.get('meetings')['controls'][i].value.minutesIndex = ''">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
                         <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.minutesIndex"
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 1)" [style]="{backgroundColor: 'white',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Minutes'"></p-fileUpload>
@@ -183,23 +183,23 @@
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
+                            (click)="viewFile(getFileFromIndex(i, 2).file)"
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length > 0">
                             <p class="text-truncate pt-3"><strong>Photo:
-                                </strong>{{getFileFromIndex(i).file.name}}
+                                </strong>{{getFileFromIndex(i, 2).file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
+                                (click)="fileRemoved(i,getFileFromIndex(i, 2)?.file?.fid, 2); this.applicationForm.get('meetings')['controls'][i].value.photoIndex = ''">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
                         <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.photoIndex"
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 2)" [style]="{backgroundColor: 'white',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Photo'"></p-fileUpload>
@@ -207,23 +207,23 @@
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-3">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
+                            (click)="viewFile(getFileFromIndex(i, 3).file)"
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex?.length > 0">
                             <p class="text-truncate pt-3"><strong>Beneficiary:
-                                </strong>{{getFileFromIndex(i).file.name}}
+                                </strong>{{getFileFromIndex(i, 3).file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
+                                (click)="fileRemoved(i,getFileFromIndex(i, 3)?.file?.fid, 3); this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex = ''">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
                         <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex"
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 3)" [style]="{backgroundColor: 'white',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Beneficiary'"></p-fileUpload>
@@ -231,7 +231,6 @@
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
                 </div>
-                <!-- // TODO: Add facilitation committee wards form -->
             </div>
         </ng-container>
     </div>
@@ -245,7 +244,7 @@
     <p class="h4 text-start">Facilitation Committee</p>
     <div formArrayName="committee" *ngFor="let item of this.applicationForm.get('committee')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
-            <div class="row mt-3 py-3">
+            <div class="row mt-3">
                 <div class="col-md-2">
                     <p class="h6 text-center pt-3">
                         Ward {{i + 1}}

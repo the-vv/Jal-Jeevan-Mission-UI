@@ -9,24 +9,10 @@ import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 const moment = _rollupMoment || _moment;
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 @Component({
   selector: 'app-gp-action-approved',
   templateUrl: './gp-action-approved.component.html',
-  styleUrls: ['./gp-action-approved.component.scss']
+  styleUrls: ['./gp-action-approved.component.scss'],
 })
 export class GpActionApprovedComponent implements OnInit {
 
@@ -106,9 +92,17 @@ export class GpActionApprovedComponent implements OnInit {
   }
 
   removeMeeting(index: number) {
-    if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
-      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
+    if (this.applicationForm.get('meetings')['controls'][index].value.minutesIndex?.length > 0) {
+      this.fileRemoved(index, this.getFileFromIndex(index, 1).file.fid, 1);
       console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
+    }
+    if (this.applicationForm.get('meetings')['controls'][index].value.photoIndex?.length > 0) {
+      this.fileRemoved(index, this.getFileFromIndex(index, 2).file.fid, 2);
+      console.log(this.applicationForm.get('meetings')['controls'][index].value.photoIndex)
+    }
+    if (this.applicationForm.get('meetings')['controls'][index].value.beneficiaryIndex?.length > 0) {
+      this.fileRemoved(index, this.getFileFromIndex(index, 3).file.fid, 3);
+      console.log(this.applicationForm.get('meetings')['controls'][index].value.beneficiaryIndex)
     }
     this.iecActivities = this.applicationForm.get('meetings') as FormArray;
     this.iecActivities.removeAt(index)
@@ -124,8 +118,8 @@ export class GpActionApprovedComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
-      meetings: this.formBuilder.array([ this.newMeeting() ]),
-      committee: this.formBuilder.array([ this.newCommittee() ])
+      meetings: this.formBuilder.array([this.newMeeting()]),
+      committee: this.formBuilder.array([this.newCommittee()])
     })
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
@@ -192,16 +186,23 @@ export class GpActionApprovedComponent implements OnInit {
     }
   }
 
-  fileSelected(event: any, index: number) {
+  fileSelected(event: any, index: number, filei: number) {
     // console.log(event.files)
     this.filesToUpload.push({
-      fname: `f${index}`,
+      fname: `f${index}${filei}`,
       file: event.files[0]
     });
-    // let tform = this.applicationForm.get('meetings')?.value[index]
-    // tform.reportIndex = `f${index}`;
-    // console.log(tform)
-    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
+    switch (filei) {
+      case 1:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ minutesIndex: `f${index}${filei}` })
+        break;
+      case 2:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ photoIndex: `f${index}${filei}` })
+        break;
+      case 3:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ beneficiaryIndex: `f${index}${filei}` })
+        break;
+    }
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -261,21 +262,31 @@ export class GpActionApprovedComponent implements OnInit {
     }
   }
 
-  fileRemoved(index: number, fid: string) {
+  fileRemoved(index: number, fid: string, filei) {
     this.submitted = false;
     this.filesToUpload = this.filesToUpload.filter(el => {
       console.log(el, index)
-      return el.fname != `f${index}`
+      return el.fname != `f${index}${filei}`
     });
-    // this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
-    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: '' })
+    // this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';    
+    switch (filei) {
+      case 1:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ minutesIndex: '' })
+        break;
+      case 2:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ photoIndex: '' })
+        break;
+      case 3:
+        (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ beneficiaryIndex: '' })
+        break;
+    }
     if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
         console.log(el.fieldName, index)
-        return el.fieldName != `f${index}`
+        return el.fieldName != `f${index}${filei}`
       })
       console.log(this.formdata)
       fid?.length > 0 && this.sendApplication(this.formdata, true, true)
@@ -288,10 +299,10 @@ export class GpActionApprovedComponent implements OnInit {
     }
   }
 
-  getFileFromIndex(index: number) {
+  getFileFromIndex(index: number, filei) {
     // console.log(this.filesToUpload)
     return this.filesToUpload.filter(el => {
-      return el.fname == `f${index}`
+      return el.fname == `f${index}${filei}`
     })[0]
   }
 
@@ -299,9 +310,13 @@ export class GpActionApprovedComponent implements OnInit {
     this.showForm = true
     this.iecActivities = this.applicationForm.get('meetings') as FormArray
     this.iecActivities.clear();
+    (this.applicationForm.get('committee') as FormArray).clear();
     this.editingId = app._id
     for (let i = 0; i < app.values.meetings.length; i++) {
       this.addMeeting()
+    }
+    for (let i = 0; i < app.values.committee.length; i++) {
+      this.addCommitee()
     }
     this.applicationForm.patchValue(app.values);
     // console.log(this.applicationForm)
@@ -325,7 +340,7 @@ export class GpActionApprovedComponent implements OnInit {
     this.filesToUpload = []
     this.formdata.files = [];
     (this.applicationForm.get('meetings') as FormArray).clear();
-    (this.applicationForm.get('commitee') as FormArray).clear()
+    (this.applicationForm.get('committee') as FormArray).clear()
     this.addMeeting();
   }
 

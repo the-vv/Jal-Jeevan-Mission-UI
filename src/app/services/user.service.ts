@@ -21,19 +21,19 @@ export class UserService {
     private router: Router
   ) { }
 
-  logout() {    
+  logout() {
     this.rest.logout().toPromise()
-    .then(() => {
-      this.userChange.next(null);
-      this.isloggedin = true;
-      this.isAdmin = false;
-      this.currentUser = null;
-      this.data.selectedDetails = {}
-      this.router.navigate(['login'])
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+      .then(() => {
+        this.userChange.next(null);
+        this.isloggedin = true;
+        this.isAdmin = false;
+        this.currentUser = null;
+        this.data.selectedDetails = {}
+        this.router.navigate(['login'])
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   checkLogin() {

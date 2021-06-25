@@ -8,7 +8,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import {
+  DateAdapter, MatNativeDateModule, MatRippleModule,
+  MAT_DATE_FORMATS, MAT_DATE_LOCALE
+} from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -27,6 +30,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +52,18 @@ import { CommunityOrientationComponent } from './planningPhase/community-orienta
 import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -98,7 +114,9 @@ import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp
   providers: [
     DataService,
     RestapiService,
-    UserService
+    UserService,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
   bootstrap: [AppComponent],
   schemas: []
