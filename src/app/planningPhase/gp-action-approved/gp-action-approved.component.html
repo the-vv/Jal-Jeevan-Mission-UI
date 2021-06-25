@@ -107,7 +107,7 @@
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
-            <div class="row my-3">
+            <div class="row mt-3 py-3">
                 <div class="col-md-2">
                     <p class="h6 text-center pt-3">
                         Ward {{i + 1}}
@@ -231,13 +231,56 @@
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
                 </div>
-                // FIXME: Add facilitation committee wards form
+                <!-- // TODO: Add facilitation committee wards form -->
             </div>
         </ng-container>
     </div>
     <div class="row">
         <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
             <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addMeeting()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <p class="h4 text-start">Facilitation Committee</p>
+    <div formArrayName="committee" *ngFor="let item of this.applicationForm.get('committee')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row mt-3 py-3">
+                <div class="col-md-2">
+                    <p class="h6 text-center pt-3">
+                        Ward {{i + 1}}
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Name and Address</mat-label>
+                            <input formControlName="nameAndAddress" matInput placeholder="Name and Address">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Phone</mat-label>
+                            <input formControlName="phone" matInput placeholder="Phone">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Position</mat-label>
+                            <input formControlName="position" matInput placeholder="position">
+                        </mat-form-field>
+                    </p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addCommitee()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>

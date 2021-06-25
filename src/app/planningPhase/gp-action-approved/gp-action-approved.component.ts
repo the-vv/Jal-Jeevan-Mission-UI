@@ -86,6 +86,12 @@ export class GpActionApprovedComponent implements OnInit {
     this.iecActivities.push(group);
   }
 
+  addCommitee() {
+    this.iecActivities = this.applicationForm.get('committee') as FormArray;
+    const group = this.newCommittee();
+    this.iecActivities.push(group);
+  }
+
   newMeeting() {
     return this.formBuilder.group({
       date: '',
@@ -317,10 +323,10 @@ export class GpActionApprovedComponent implements OnInit {
     this.editingId = '';
     this.applicationForm.reset();
     this.filesToUpload = []
-    this.formdata.files = []
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray
-    this.iecActivities.clear();
-    this.addMeeting()
+    this.formdata.files = [];
+    (this.applicationForm.get('meetings') as FormArray).clear();
+    (this.applicationForm.get('commitee') as FormArray).clear()
+    this.addMeeting();
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
