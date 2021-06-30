@@ -16,6 +16,22 @@ import { CommunityOrientationComponent } from './planningPhase/community-orienta
 import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
+import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
+import { Route } from '@angular/compiler/src/core';
+
+
+let commonRoutes: Routes = [
+  { path: 'phase', component: PhaseSelectionComponent },
+  { path: 'components', component: PhaseComponentsComponent },
+  { path: 'isapositioning', component: IsaPositioningComponent },
+  { path: 'orientationtogp', component: OrientationToGpComponent },
+  { path: 'gpiec', component: GpIecActivitiesComponent },
+  { path: 'communityorientation', component: CommunityOrientationComponent },
+  { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
+  { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
+  { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
+  { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
+];
 
 const routes: Routes = [
   {
@@ -29,30 +45,14 @@ const routes: Routes = [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },
-      { path: 'phase', component: PhaseSelectionComponent },
-      { path: 'components', component: PhaseComponentsComponent },
-      { path: 'isapositioning', component: IsaPositioningComponent },
-      { path: 'orientationtogp', component: OrientationToGpComponent },
-      { path: 'gpiec', component: GpIecActivitiesComponent },
-      { path: 'communityorientation', component: CommunityOrientationComponent },
-      { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
-      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
-      { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
+      ...commonRoutes,
       { path: '**', redirectTo: 'district', pathMatch: 'full' },
     ]
   },
   {
     path: 'client', component: HomeComponent, canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
-      { path: 'phase', component: PhaseSelectionComponent },
-      { path: 'components', component: PhaseComponentsComponent },
-      { path: 'isapositioning', component: IsaPositioningComponent },
-      { path: 'orientationtogp', component: OrientationToGpComponent },
-      { path: 'gpiec', component: GpIecActivitiesComponent },
-      { path: 'communityorientation', component: CommunityOrientationComponent },
-      { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
-      { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
-      { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
+      ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
