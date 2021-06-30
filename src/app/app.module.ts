@@ -20,7 +20,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
@@ -54,6 +53,7 @@ import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-boa
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
+import { BreadCrumbComponent } from './bread-crumb/bread-crumb.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -85,7 +85,8 @@ export const MY_FORMATS = {
     GpBoardMeetingComponent,
     GpActionApprovedComponent,
     GpwcBoardMeetingComponent,
-    BeneficiaryContributionComponent
+    BeneficiaryContributionComponent,
+    BreadCrumbComponent
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,5 @@
 <div class="col-12 col-md-12 mx-auto navigator" *ngIf="formdata.name">
-    <p-breadcrumb [model]="[
-        {label: isAdmin ? 'Admin' : 'Client'},
-        {label: data.selectedDetails?.district},
-        {label: data.selectedDetails?.gp},
-        {label: data.selectedDetails?.phase},
-        {label: data.getLongName(formdata.name)}
-        ]" (onItemClick)="navigate($event)">
-    </p-breadcrumb>
+    <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
 <div class="col-12" *ngIf="isAdmin">
     <div class="row mt-4">

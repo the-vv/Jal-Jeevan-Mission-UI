@@ -19,6 +19,7 @@ export class GpanchayathComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('gp page');
     this.gramaPanchataths = this.data.getGPs(this.data.selectedDetails.district)
     console.log(this.gramaPanchataths)
   }

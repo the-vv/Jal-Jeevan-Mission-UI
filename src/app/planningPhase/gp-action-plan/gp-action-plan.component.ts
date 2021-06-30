@@ -439,27 +439,21 @@ export class GpActionPlanComponent implements OnInit {
     this.editingId = app._id
     for (let i = 1; i < app.values.baselineSurwey.length; i++) {
       this.addBaselineSurwey()
-      console.log(1)
     }
     for (let i = 1; i < app.values.existingWssName.length; i++) {
       this.addExistingWssName()
-      console.log(2)
     }
     for (let i = 1; i < app.values.waterQuality.length; i++) {
       this.addWaterQI()
-      console.log(3)
     }
     for (let i = 1; i < app.values.uncoveredArea.length; i++) {
       this.addUncovereArea()
-      console.log(4)
     }
     for (let i = 1; i < app.values.identificationNewSource.length; i++) {
       this.addidentificationNewSource()
-      console.log(5)
     }
     for (let i = 1; i < app.values.applicationFormsWards.length; i++) {
       this.addApplicationFormWard()
-      console.log(6)
     }
     this.applicationForm.patchValue(app.values);
     console.log(this.applicationForm)

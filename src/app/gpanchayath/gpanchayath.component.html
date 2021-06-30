@@ -1,6 +1,15 @@
 <div class="col-12 animate__animated animate__slideInRight animate__faster">
     <div class="col-12 col-md-6 offset-md-3">
-        <p-breadcrumb [model]="[{label: 'Admin'}, {label: data.selectedDetails?.district}, {label: 'Grama Panchayath'}]"></p-breadcrumb>
+        <div class="border rounded my-2 px-3 pt-3 text">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb text-decoration-none">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                    <li class="breadcrumb-item" aria-current="page"><a
+                            routerLink="['admin/district']">{{data.selectedDetails?.district}}</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Grama Panchayath</li>
+                </ol>
+            </nav>
+        </div>
     </div>
     <p class="h5 mt-4">Name of Grama Panchayath</p>
     <mat-form-field appearance="outline" class="col-10 col-md-4">

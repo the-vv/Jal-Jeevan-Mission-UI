@@ -1,7 +1,12 @@
 <div class="col-12 col-md-6 offset-md-3">
-    <p-breadcrumb
-        [model]="[{label: 'Admin'}, {label: 'District'}]">
-    </p-breadcrumb>
+    <div class="border rounded my-2 px-3 pt-3 text">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-decoration-none">
+              <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+              <li class="breadcrumb-item" aria-current="page">District</li>
+            </ol>
+          </nav>
+    </div> 
 </div>
 <div class="col-12 mt-3">
     <p class="h5">Select District</p>

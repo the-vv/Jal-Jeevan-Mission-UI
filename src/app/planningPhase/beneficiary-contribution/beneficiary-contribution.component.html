@@ -1,109 +1,35 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
-    <p-breadcrumb [model]="[
-        {label: isAdmin ? 'Admin' : 'Client'},
-        {label: data.selectedDetails?.district},
-        {label: data.selectedDetails?.gp},
-        {label: data.selectedDetails?.phase},
-        {label: data.getLongName(formdata.name)}
-        ]">
-    </p-breadcrumb>
+    <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
-<div class="col-12" *ngIf="isAdmin">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel *ngFor="let appl of submittedApplcations">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <strong>Submitted on:</strong>&nbsp;{{appl.datetime | date: "MMM d, y, h:mm:ss a"}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        {{hasAttatchment(appl.files) ? 'Has Attatchements' : 'Has no attatchements'}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <div class="row">
-                        <div class="col-1">
-                            <p class="h5">No.</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">IEC Activities</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">
-                                Estimated Amount
-                            </p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">
-                                Conducting Date
-                            </p>
-                        </div>
-                        <div class="col-2">
-                            <p class="h5">
-                                Expenditure
-                            </p>
-                        </div>
-                        <div class="col-3">
-                            <p class="h5">
-                                Report
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row" *ngFor="let row of appl.values.contribution; let i=index">
-                        <div class="col-1">
-                            <p class="h5 text-start">{{i + 1}}</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="text-start">{{row.activity}}</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="text-start">{{row.amount}}</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="text-start">{{row.date | date:
-                                'd/M/y'}}</p>
-                        </div>
-                        <div class="col-2">
-                            <p class="text-start">{{row.expenditure}}</p>
-                        </div>
-                        <div class="col-3 text-start"
-                            [innerHtml]="getAttatchemenstIfAny(appl, row.reportIndex, 'Report')">
-                        </div>
-                    </div>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div>
-
-<div class="row mt-3">
+<!-- 
+<div class="row mt-2">
     <div class="col-1">
-        <p class="h5">No.</p>
+        <p class="h5">Ward No.</p>
     </div>
     <div class="col-2">
-        <p class="h5">IEC Activities</p>
+        <p class="h5">Total beneficiary</p>
     </div>
-    <div class="col-2">
+    <div class="col-3">
         <p class="h5">
-            Estimated Amount
+            Fully Contribution Remitted
+        </p>
+    </div>
+    <div class="col-3">
+        <p class="h5">
+            Partially Contribution Remitted
         </p>
     </div>
     <div class="col-2">
         <p class="h5">
-            Conducted Date
+            Total Amount
         </p>
     </div>
-    <div class="col-2">
+    <div class="col-1">
         <p class="h5">
-            Expenditure
+            Delete
         </p>
     </div>
-    <div class="col-2">
-        <p class="h5">
-            Report
-        </p>
-    </div>
-</div>
+</div> -->
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div formArrayName="contribution" *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
@@ -190,49 +116,3 @@
         </div>
     </div>
 </form>
-<!-- <div class="col-12" *ngIf="!isAdmin">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="editingId.length == 0">
-                            Submit a new Application
-                        </span>
-                        <span *ngIf="editingId.length > 0">
-                            Edit an Application
-                        </span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          This is a summary of the content
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                </ng-template>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Applications that are already submitted
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          Currently I am
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <mat-list>
-                        <mat-list-item *ngFor="let appl of submittedApplcations">
-                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
-                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="icon" style="margin-top: 4.5px"
-                                    (click)="applicSelected(appl)" class="">
-                                    View/ Edit
-                                </button>
-                            </p>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div> -->

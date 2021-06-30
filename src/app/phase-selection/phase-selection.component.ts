@@ -20,6 +20,7 @@ export class PhaseSelectionComponent implements OnInit {
   screenObserver: Observable<any> = this.width.observe(['(max-width: 768px)']);
   isSmallScreen: boolean = false;
   isAdmin: boolean = false;
+  routeUser: string = this.isAdmin ? 'admin' : 'client';
 
   constructor(
     public data: DataService,
@@ -57,6 +58,10 @@ export class PhaseSelectionComponent implements OnInit {
         this.menuItems.push(menuitem)
       }
     }
+  }
+
+  gotoGP() {
+    this.router.navigate(['../grama-panchayath'], { relativeTo: this.route })
   }
 
 }
