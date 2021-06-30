@@ -53,6 +53,7 @@ import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
+import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -83,7 +84,8 @@ export const MY_FORMATS = {
     GpActionPlanComponent,
     GpBoardMeetingComponent,
     GpActionApprovedComponent,
-    GpwcBoardMeetingComponent
+    GpwcBoardMeetingComponent,
+    BeneficiaryContributionComponent
   ],
   imports: [
     BrowserModule,

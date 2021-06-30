@@ -18,6 +18,7 @@ import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-boa
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { Route } from '@angular/compiler/src/core';
+import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 
 
 let commonRoutes: Routes = [
@@ -31,6 +32,7 @@ let commonRoutes: Routes = [
   { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
   { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
   { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
+  { path: 'beneficiarycontributioncollection', component: BeneficiaryContributionComponent }
 ];
 
 const routes: Routes = [
