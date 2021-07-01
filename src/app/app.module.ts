@@ -1,7 +1,9 @@
 import { BrowserModule, } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { NgxSpinnerModule } from "ngx-spinner";
 
 // Angular Material Imports 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -54,6 +56,7 @@ import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { BreadCrumbComponent } from './bread-crumb/bread-crumb.component';
+import { SpinnerService } from './services/spinner.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -114,16 +117,18 @@ export const MY_FORMATS = {
     InputTextareaModule,
     MatProgressBarModule,
     MatExpansionModule,
-    ButtonModule
+    ButtonModule,
+    NgxSpinnerModule
   ],
   providers: [
     DataService,
     RestapiService,
     UserService,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true }
   ],
   bootstrap: [AppComponent],
-  schemas: []
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

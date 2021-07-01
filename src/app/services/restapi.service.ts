@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Application } from '../models/application';
 import { Selected } from '../models/selected';
-
-
 @Injectable({
   providedIn: 'root'
 })
