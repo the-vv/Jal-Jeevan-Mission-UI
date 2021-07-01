@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
 import { Selected } from '../models/selected';
 
 @Injectable({
@@ -9,70 +8,61 @@ import { Selected } from '../models/selected';
 export class DataService {
 
   selectedDetails: Selected = {};
+  allGramaPanchayaths = {}
+
+  AllDataWithCount = {
+    Idukki: {
+      Adimali : 21,
+      Konnathady: 19,
+      Ayyappancoil: 13,
+      Chakkupallam: 15,
+      Erattayar: 14,
+      Rajakumari: 13,
+      Santhanpara: 13,
+      Vazhathoppu: 14
+    },
+    Kottayam: {
+      Ayarkunnam: 20,
+      Elikkulam: 16,
+      Kooroppada: 17,
+      Pambadi: 20
+    },
+    Ernakulam: {
+      Kavalangad: 18,
+      Pallarimangalam: 13,
+      Nellikkuzhy: 21,
+      Pindimana: 13,
+      Maneed: 13,
+      Mazhuvannoor: 19,
+      Payipra: 22,
+      Ramamangalam: 13
+    },
+    Pathanamthitta: {
+      Enadimangalam: 15,
+      Erathu: 17,
+      Naranamoozhy: 13,
+      'Ranni Angadi': 13,
+      'Ranni Pazhavangadi': 17,
+      Vechoochira: 15
+    }
+  }
 
   constructor(
     private router: Router,
     private route: ActivatedRoute
-  ) {
+  ) {   
   }
 
+  getWardCount(district: string, ward: string): number {
+    return this.AllDataWithCount[district][ward];
+  }
+ 
   getGPs(district: string): string[] {
-    switch (district) {
-      case "Idukki":
-        return [
-          "Adimali",
-          "Ayyappancoil",
-          "Chakkupallam",
-          "Irattayar",
-          "Konnathadi",
-          "Rajakumari",
-          "Santhanpara",
-          "Vazhathoppu"
-        ]
-      // break;
-      case "Ernakulam":
-        return [
-          "Pallarimangalam",
-          "Kalavangadu",
-          "Maneed",
-          "Mazhuvannoor",
-          "Nellikuzhy",
-          "Paipra",
-          "Pindimana",
-          "Ramamangalam"
-        ]
-      // break
-      case "Kottayam":
-        return [
-          "Ayarkunnam",
-          "Elikulam",
-          "Kooroppada",
-          "Pampady"
-        ]
-      // break
-      case "Pathanamthitta":
-        return [
-          "Enadimangalam",
-          "Erathu",
-          "Naranamoozhy",
-          "Ranni Angadi",
-          "Ranni Pazhavangadi",
-          "Vechoochira"
-        ]
-      // break
-      default:
-        return []
-      // break;
-    }
+    return Object.keys(this.AllDataWithCount[district]).sort();
   }
 
   getDistricts(): string[] {
-    return [
-      "Idukki",
-      "Ernakulam",
-      "Kottayam",
-      "Pathanamthitta"
-    ]
+    return Object.keys(this.AllDataWithCount).sort()
   }
 
   selectComponent(phaseComponent: string): string {
@@ -125,5 +115,7 @@ export class DataService {
       ['Beneficiary contribution Collection', 'beneficiarycontributioncollection']
     ]
   }
+
+
 
 }

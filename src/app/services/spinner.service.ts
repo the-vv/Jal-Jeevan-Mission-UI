@@ -9,7 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class SpinnerService implements HttpInterceptor {
   constructor(public loaderService: NgxSpinnerService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!req.url.includes('/upload')) {
+    if (!req.url.includes('/upload') && !req.url.includes('/application')) {
       this.loaderService.show();
     }
     return next.handle(req).pipe(
