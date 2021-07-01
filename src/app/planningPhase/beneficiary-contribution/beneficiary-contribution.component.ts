@@ -101,6 +101,9 @@ export class BeneficiaryContributionComponent implements OnInit {
       this.formdata.name = val[0].path
       console.log(val[0].path)
     })
+    for (let index = 1; index < this.data.getWardCount(); index++) {
+      this.addContribution();
+    }
   }
   get f() { return this.applicationForm.controls }
 

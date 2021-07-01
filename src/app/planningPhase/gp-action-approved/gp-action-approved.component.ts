@@ -124,6 +124,12 @@ export class GpActionApprovedComponent implements OnInit {
     this.route.url.subscribe((val) => {
       this.formdata.name = val[0].path
     })
+    for (let index = 1; index < this.data.getWardCount(); index++) {
+      this.addCommitee();
+    }
+    for (let index = 1; index < this.data.getWardCount(); index++) {
+      this.addMeeting();
+    }
   }
   get f() { return this.applicationForm.controls }
 

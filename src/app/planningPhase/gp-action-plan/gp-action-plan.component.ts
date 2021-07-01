@@ -80,6 +80,12 @@ export class GpActionPlanComponent implements OnInit {
       // console.log(this.filesToUpload, this.applicationForm.value);
 
     })
+    for (let i = 1; i < this.data.getWardCount(); i++) {
+      this.addBaselineSurwey()
+    }
+    for (let i = 1; i < this.data.getWardCount(); i++) {
+      this.addApplicationFormWard()
+    }
   }
 
   // addMeeting() {

@@ -12,7 +12,7 @@ export class DataService {
 
   AllDataWithCount = {
     Idukki: {
-      Adimali : 21,
+      Adimali: 21,
       Konnathady: 19,
       Ayyappancoil: 13,
       Chakkupallam: 15,
@@ -47,16 +47,35 @@ export class DataService {
     }
   }
 
+  phaseComponents = {
+    'Planning Phase': [
+      ['ISA Positioning', 'isapositioning'],
+      ['Orientation to GP & Staff, Special Board Meeting', 'orientationtogp'],
+      ['GP IEC', 'gpiec'],
+      ['Community Orientation', 'communityorientation'],
+      ['GP action plan except DER', 'gpactionplanexceptder'],
+      ['GP Board meetting for Gramasabha', 'gpboardmeettingforgramasabha'],
+      ['Gramasabha action plan approved', 'gramasabhaactionplanapproved'],
+      ['GPWSC & GP Board meetting', 'gpwscgpboardmeetting'],
+      ['Beneficiary contribution Collection', 'beneficiarycontributioncollection']
+    ]
+  }
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute
-  ) {   
+  ) {
   }
 
-  getWardCount(district: string, ward: string): number {
-    return this.AllDataWithCount[district][ward];
+  getWardCount(): number {
+    if(this.selectedDetails.district && this.selectedDetails.gp) {      
+      return this.AllDataWithCount[this.selectedDetails.district][this.selectedDetails.gp];
+    } else {
+      return 1
+    }
   }
- 
+
   getGPs(district: string): string[] {
     return Object.keys(this.AllDataWithCount[district]).sort();
   }
@@ -101,21 +120,5 @@ export class DataService {
     console.log(this.selectedDetails);
 
   }
-
-  phaseComponents = {
-    'Planning Phase': [
-      ['ISA Positioning', 'isapositioning'],
-      ['Orientation to GP & Staff, Special Board Meeting', 'orientationtogp'],
-      ['GP IEC', 'gpiec'],
-      ['Community Orientation', 'communityorientation'],
-      ['GP action plan except DER', 'gpactionplanexceptder'],
-      ['GP Board meetting for Gramasabha', 'gpboardmeettingforgramasabha'],
-      ['Gramasabha action plan approved', 'gramasabhaactionplanapproved'],
-      ['GPWSC & GP Board meetting', 'gpwscgpboardmeetting'],
-      ['Beneficiary contribution Collection', 'beneficiarycontributioncollection']
-    ]
-  }
-
-
 
 }

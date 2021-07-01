@@ -69,7 +69,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
         }
         else {
           this.showForm = true;
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < this.data.getWardCount(); i++) {
             this.addWard()
           }
         }
