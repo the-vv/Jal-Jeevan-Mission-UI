@@ -3,7 +3,7 @@
         <div class="border rounded my-2 px-3 pt-3 text">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb text-decoration-none">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">{{this.isAdmin ? 'admin' : 'client'}}</a></li>
                     <li class="breadcrumb-item" aria-current="page"><a routerLink="[routeUser, 'district']">{{data.selectedDetails?.district}}</a></li>
                     <li class="breadcrumb-item" aria-current="page"><a href="javascript:void(0)" (click)="gotoGP()">{{data.selectedDetails?.gp}}</a></li>
                     <li class="breadcrumb-item" aria-current="page">Phase Components</li>
