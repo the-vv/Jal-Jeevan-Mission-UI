@@ -43,6 +43,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   InterDepartmentFile: any = null;
   GpBoardMeetingFile: any = null;
   jontAccountFile: any = null;
+  interDepartmentPhoto: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -109,7 +110,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.introductionFile && !this.InterDepartmentFile && !this.GpBoardMeetingFile && !this.jontAccountFile) {
+    if (!this.introductionFile && !this.InterDepartmentFile && !this.GpBoardMeetingFile && !this.jontAccountFile && !this.interDepartmentPhoto) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -133,6 +134,9 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       }
       if (this.jontAccountFile && !this.jontAccountFile.fid) {
         form.append('file4', this.jontAccountFile, 'jointAccountAttatchment.' + this.jontAccountFile.name.split('.')[this.jontAccountFile.name.split('.').length - 1]);
+      }
+      if (this.interDepartmentPhoto && !this.interDepartmentPhoto.fid) {
+        form.append('file4', this.interDepartmentPhoto, 'interDepartmentPhoto.' + this.interDepartmentPhoto.name.split('.')[this.interDepartmentPhoto.name.split('.').length - 1]);
       }
       this.submitting = true;
       this.rest.uploadFiles(form)
@@ -187,6 +191,9 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     else if (name === 'jointAccountAttatchment') {
       this.jontAccountFile = event.files[0]
     }
+    else if (name === 'interDepartmentPhoto') {
+      this.interDepartmentPhoto = event.files[0]
+    }
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -203,6 +210,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
+            this.interDepartmentPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
@@ -231,6 +239,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
             this.GpBoardMeetingFile = null;
             this.InterDepartmentFile = null;
             this.jontAccountFile = null;
+            this.interDepartmentPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
@@ -285,6 +294,10 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
           this.jontAccountFile = el;
           this.formdata.files?.push(el)
         }
+        if (el.fieldName === 'interDepartmentPhoto') {
+          this.interDepartmentPhoto = el;
+          this.formdata.files?.push(el)
+        }
       })
     }
   }
@@ -297,6 +310,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     this.GpBoardMeetingFile = null;
     this.InterDepartmentFile = null;
     this.jontAccountFile = null;
+    this.interDepartmentPhoto = null;
     this.formdata.files = []
   }
 

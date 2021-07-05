@@ -76,7 +76,7 @@
                 Inter Department Meeting
             </p>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-2">
             <p>
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label>Date</mat-label>
@@ -95,7 +95,7 @@
                 </mat-form-field>
             </p>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-2">
             <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(InterDepartmentFile)" *ngIf="InterDepartmentFile != null">
@@ -109,10 +109,30 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="InterDepartmentFile == null" mode="basic" [customUpload]="true"
-                    (onSelect)="fileSelected($event, 'interDepartmentAttatchment')" [style]="{backgroundColor: 'white',
+                    (onSelect)="fileSelected($event, 'interDepartmentPhoto')" [style]="{backgroundColor: 'white',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Minutes'"></p-fileUpload>
+            </div>
+        </div>
+        <div class="col-12 col-md-2">
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(interDepartmentPhoto)" *ngIf="interDepartmentPhoto != null">
+                    <p class="text-truncate pt-3"><strong>Photo:
+                        </strong>{{interDepartmentPhoto.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px"
+                        (click)="fileRemoved(interDepartmentPhoto.fid); interDepartmentPhoto = null">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="interDepartmentPhoto == null" mode="basic" [customUpload]="true"
+                    (onSelect)="fileSelected($event, 'interDepartmentPhoto')" [style]="{backgroundColor: 'white',
+                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Photo'"></p-fileUpload>
             </div>
         </div>
     </div>
