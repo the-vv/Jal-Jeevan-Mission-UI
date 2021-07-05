@@ -38,10 +38,6 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
-  introductionFile: any = null;
-  InterDepartmentFile: any = null;
-  GpBoardMeetingFile: any = null;
-  jontAccountFile: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -132,7 +128,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
 
   newMeeting() {
     return this.formBuilder.group({
-      date: [moment('')],
+      date: [''],
       participationType: '',
       attendanceM: '',
       attendanceF: '',
@@ -227,10 +223,6 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.introductionFile = null;
-            this.GpBoardMeetingFile = null;
-            this.InterDepartmentFile = null;
-            this.jontAccountFile = null;
             this.formdata.files = []
           }
           console.log(this.submittedApplcations)
@@ -256,10 +248,6 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.introductionFile = null;
-            this.GpBoardMeetingFile = null;
-            this.InterDepartmentFile = null;
-            this.jontAccountFile = null;
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
