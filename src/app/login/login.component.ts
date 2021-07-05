@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private user: UserService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private data: DataService
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +34,13 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['admin'], { replaceUrl: true })
         }
         else {
-          this.router.navigate(['client'], { replaceUrl: true })
+          // if(this.data.targetUrl) {
+          //   console.log(this.data.targetUrl);          
+          //   this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+          // }
+          // else {            
+            this.router.navigate(['client'], { replaceUrl: true })
+          // }
         }
       })
       .catch((err) => {

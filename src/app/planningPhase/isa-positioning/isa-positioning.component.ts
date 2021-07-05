@@ -49,6 +49,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   applicationForm!: FormGroup;
   dsmMeetingFile: any = null;
   agreementFile: any = null;
+  officeStartingPhoto: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -84,8 +85,11 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.url.subscribe((val) => {
-      this.formdata.name = val[0].path
-      console.log(val[0].path)
+      if (!this.data.selectedDetails.phase) {
+        this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      }
+      this.formdata.name = val.map(v => v.path).join('/')
+      console.log(val.map(v => v.path).join('/'))
     })
     this.canUpload = !this.user.isAdmin;
     this.applicationForm = this.formBuilder.group({
@@ -111,7 +115,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.agreementFile && !this.dsmMeetingFile) {
+    if (!this.agreementFile && !this.dsmMeetingFile && !this.officeStartingPhoto) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -129,6 +133,9 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
       }
       if (this.dsmMeetingFile && !this.dsmMeetingFile.fid) {
         form.append('file2', this.dsmMeetingFile, 'dsmMeetingAttatchment.' + this.dsmMeetingFile.name.split('.')[this.dsmMeetingFile.name.split('.').length - 1]);
+      }
+      if (this.officeStartingPhoto && !this.officeStartingPhoto.fid) {
+        form.append('file2', this.officeStartingPhoto, 'officeStartingPhoto.' + this.officeStartingPhoto.name.split('.')[this.officeStartingPhoto.name.split('.').length - 1]);
       }
       this.submitting = true;
       this.rest.uploadFiles(form)
@@ -161,7 +168,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             console.log(this.formdata)
           }
           else {
-            this,this.submitting = false;
+            this, this.submitting = false;
             this.snackBar.open('Error uploading File(s), Please try again later', 'Dismiss', { duration: 5000 })
           }
         })
@@ -177,6 +184,9 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     else if (name === 'dsmMeeting') {
       this.dsmMeetingFile = event.files[0]
     }
+    else if (name === 'officeStartingPhoto') {
+      this.officeStartingPhoto = event.files[0]
+    }
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -191,6 +201,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
+            this.officeStartingPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
@@ -217,6 +228,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.applicationForm.reset()
             this.agreementFile = null;
             this.dsmMeetingFile = null;
+            this.officeStartingPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
@@ -263,6 +275,10 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
           this.dsmMeetingFile = el;
           this, this.formdata.files?.push(el)
         }
+        if (el.fieldName === 'officeStartingPhoto') {
+          this.officeStartingPhoto = el;
+          this, this.formdata.files?.push(el)
+        }
       })
     }
   }
@@ -273,6 +289,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     this.applicationForm.reset()
     this.agreementFile = null;
     this.dsmMeetingFile = null;
+    this.officeStartingPhoto = null;
     this.formdata.files = []
   }
 

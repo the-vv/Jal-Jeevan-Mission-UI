@@ -122,7 +122,11 @@ export class GpActionApprovedComponent implements OnInit {
       committee: this.formBuilder.array([this.newCommittee()])
     })
     this.route.url.subscribe((val) => {
-      this.formdata.name = val[0].path
+      if (!this.data.selectedDetails.phase) {
+        this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      }
+      this.formdata.name = val.map(v => v.path).join('/')
+      console.log(val.map(v => v.path).join('/'))
     })
     for (let index = 1; index < this.data.getWardCount(); index++) {
       this.addCommitee();

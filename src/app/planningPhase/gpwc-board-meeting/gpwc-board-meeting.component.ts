@@ -101,8 +101,11 @@ export class GpwcBoardMeetingComponent implements OnInit {
       ])
     })
     this.route.url.subscribe((val) => {
-      this.formdata.name = val[0].path
-      console.log(val[0].path)
+      if (!this.data.selectedDetails.phase) {
+        this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      }
+      this.formdata.name = val.map(v => v.path).join('/')
+      console.log(val.map(v => v.path).join('/'))
     })
   }
   get f() { return this.applicationForm.controls }

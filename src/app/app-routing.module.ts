@@ -23,16 +23,16 @@ import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-co
 
 let commonRoutes: Routes = [
   { path: 'phase', component: PhaseSelectionComponent },
-  { path: 'components', component: PhaseComponentsComponent },
-  { path: 'isapositioning', component: IsaPositioningComponent },
-  { path: 'orientationtogp', component: OrientationToGpComponent },
-  { path: 'gpiec', component: GpIecActivitiesComponent },
-  { path: 'communityorientation', component: CommunityOrientationComponent },
-  { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
-  { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
-  { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
-  { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
-  { path: 'beneficiarycontributioncollection', component: BeneficiaryContributionComponent }
+  { path: 'planningphase/components', component: PhaseComponentsComponent },
+  { path: 'planningphase/isapositioning', component: IsaPositioningComponent },
+  { path: 'planningphase/orientationtogp', component: OrientationToGpComponent },
+  { path: 'planningphase/gpiec', component: GpIecActivitiesComponent },
+  { path: 'planningphase/communityorientation', component: CommunityOrientationComponent },
+  { path: 'planningphase/gpactionplanexceptder', component: GpActionPlanComponent },
+  { path: 'planningphase/gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
+  { path: 'planningphase/gramasabhaactionplanapproved', component: GpActionApprovedComponent },
+  { path: 'planningphase/gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
+  { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent }
 ];
 
 const routes: Routes = [

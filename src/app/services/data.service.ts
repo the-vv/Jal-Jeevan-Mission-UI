@@ -8,7 +8,8 @@ import { Selected } from '../models/selected';
 export class DataService {
 
   selectedDetails: Selected = {};
-  allGramaPanchayaths = {}
+  allGramaPanchayaths = {};
+  targetUrl: string = null;
 
   AllDataWithCount = {
     Idukki: {
@@ -49,15 +50,15 @@ export class DataService {
 
   phaseComponents = {
     'Planning Phase': [
-      ['ISA Positioning', 'isapositioning'],
-      ['Orientation to GP & Staff, Special Board Meeting', 'orientationtogp'],
-      ['GP IEC', 'gpiec'],
-      ['Community Orientation', 'communityorientation'],
-      ['GP action plan except DER', 'gpactionplanexceptder'],
-      ['GP Board meetting for Gramasabha', 'gpboardmeettingforgramasabha'],
-      ['Gramasabha action plan approved', 'gramasabhaactionplanapproved'],
-      ['GPWSC & GP Board meetting', 'gpwscgpboardmeetting'],
-      ['Beneficiary contribution Collection', 'beneficiarycontributioncollection']
+      ['ISA Positioning', 'planningphase/isapositioning'],
+      ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
+      ['GP IEC', 'planningphase/gpiec'],
+      ['Community Orientation', 'planningphase/communityorientation'],
+      ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
+      ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
+      ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
+      ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
+      ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
     ]
   }
 

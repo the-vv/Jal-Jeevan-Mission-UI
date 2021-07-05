@@ -78,8 +78,11 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {    
     this.route.url.subscribe((val) => {
-      this.formdata.name = val[0].path
-      console.log(val[0].path)
+      if (!this.data.selectedDetails.phase) {
+        this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      }
+      this.formdata.name = val.map(v => v.path).join('/')
+      console.log(val.map(v => v.path).join('/'))
     })
     this.applicationForm = this.formBuilder.group({
       introductionDate: [moment('')],
