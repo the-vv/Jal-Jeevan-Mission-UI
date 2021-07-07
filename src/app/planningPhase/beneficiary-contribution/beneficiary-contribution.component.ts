@@ -57,10 +57,17 @@ export class BeneficiaryContributionComponent implements OnInit {
         if (res.length > 0) {
           this.showForm = false;
           this.applicSelected(res[0]);
+        } else {
+          for (let index = 1; index < this.data.getWardCount(); index++) {
+            this.addContribution();
+          }
         }
       }, e => {
         console.log(e.error)
         this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        for (let index = 1; index < this.data.getWardCount(); index++) {
+          this.addContribution();
+        }
       })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
@@ -104,9 +111,6 @@ export class BeneficiaryContributionComponent implements OnInit {
       this.formdata.name = val.map(v => v.path).join('/')
       console.log(val.map(v => v.path).join('/'))
     })
-    for (let index = 1; index < this.data.getWardCount(); index++) {
-      this.addContribution();
-    }
   }
   get f() { return this.applicationForm.controls }
 

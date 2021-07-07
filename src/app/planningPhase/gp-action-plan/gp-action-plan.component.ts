@@ -70,22 +70,30 @@ export class GpActionPlanComponent implements OnInit {
         if (res.length > 0) {
           this.showForm = false;
           this.applicSelected(res[0]);
+        } else {
+          for (let i = 1; i < this.data.getWardCount(); i++) {
+            this.addBaselineSurwey()
+          }
+          for (let i = 1; i < this.data.getWardCount(); i++) {
+            this.addApplicationFormWard()
+          }
         }
       }, e => {
         console.log(e.error)
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 });
+        for (let i = 1; i < this.data.getWardCount(); i++) {
+          this.addBaselineSurwey()
+        }
+        for (let i = 1; i < this.data.getWardCount(); i++) {
+          this.addApplicationFormWard()
+        }
       })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
       // console.log(this.filesToUpload, this.applicationForm.value);
 
     })
-    for (let i = 1; i < this.data.getWardCount(); i++) {
-      this.addBaselineSurwey()
-    }
-    for (let i = 1; i < this.data.getWardCount(); i++) {
-      this.addApplicationFormWard()
-    }
+    
   }
 
   // addMeeting() {
