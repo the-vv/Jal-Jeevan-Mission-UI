@@ -81,9 +81,9 @@ export class BeneficiaryContributionComponent implements OnInit {
   }
 
   removeContribution(index: number) {
-    // if (this.applicationForm.get('contribution')['controls'][index].value.reportIndex?.length > 0) {
+    // if (this.applicationForm.get('contribution')['controls'][index].value.bankIndex?.length > 0) {
     //   this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-    //   console.log(this.applicationForm.get('contribution')['controls'][index].value.reportIndex)
+    //   console.log(this.applicationForm.get('contribution')['controls'][index].value.bankIndex)
     // }
     this.iecActivities = this.applicationForm.get('contribution') as FormArray;
     this.iecActivities.removeAt(index)
@@ -94,7 +94,8 @@ export class BeneficiaryContributionComponent implements OnInit {
       totalBeneficiary: '',
       fullyContributionRemitted: '',
       partiallyContributionRemitted: '',
-      totalAmount: ''
+      totalAmount: '',
+      bankIndex: ''
     })
   }
 
@@ -132,7 +133,7 @@ export class BeneficiaryContributionComponent implements OnInit {
       let form: FormData = new FormData();
       this.filesToUpload.forEach(f => {
         if (!f.file.fid) {
-          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+          form.append(`bankStatement-${f.fname}`, f.file, `bankStatement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
         }
       })
       this.submitting = true;
@@ -180,9 +181,9 @@ export class BeneficiaryContributionComponent implements OnInit {
       file: event.files[0]
     });
     // let tform = this.applicationForm.get('contribution')?.value[index]
-    // tform.reportIndex = `f${index}`;
+    // tform.bankIndex = `f${index}`;
     // console.log(tform)
-    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
+    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ bankIndex: `f${index}` })
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -248,8 +249,8 @@ export class BeneficiaryContributionComponent implements OnInit {
       console.log(el, index)
       return el.fname != `f${index}`
     });
-    // this.applicationForm.get('contribution')['controls'][index].value.reportIndex = '';
-    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ reportIndex: '' })
+    // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
+    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ bankIndex: '' })
     if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId

@@ -47,7 +47,7 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Fully Contributed Remitted</mat-label>
@@ -55,7 +55,7 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Partially Contributed Remitted</mat-label>
@@ -70,6 +70,30 @@
                             <input formControlName="totalAmount" matInput placeholder="Total Amount">
                         </mat-form-field>
                     </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="mt-1" style="position: relative;">
+                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                            (click)="viewFile(getFileFromIndex(i).file)"
+                            *ngIf="this.applicationForm.get('contribution')['controls'][i].value.bankIndex?.length > 0">
+                            <p class="text-truncate pt-3"><strong>Bank Stmt:
+                                </strong>{{getFileFromIndex(i).file.name}}
+                            </p>
+                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                style="margin-top: 4.5px"
+                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('contribution')['controls'][i].value.bankIndex = ''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                        <p-fileUpload
+                            *ngIf="this.applicationForm.get('contribution')['controls'][i].value.bankIndex?.length == 0 || !this.applicationForm.get('contribution')['controls'][i].value.bankIndex"
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
+                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                            [chooseLabel]="'Bank Statement'"></p-fileUpload>
+                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                    </div>
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
