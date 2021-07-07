@@ -134,6 +134,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
       attendanceF: '',
       attendanceT: '',
       reportIndex: '',
+      minutesIndex: ''
     })
   }
 
@@ -156,11 +157,11 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
     else {
-      // console.log(this.agreementFile)=
+      // console.log(this.agreementFile)
       let form: FormData = new FormData();
       this.filesToUpload.forEach(f => {
         if (!f.file.fid) {
-          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+          form.append(`ClusterMeetingAtatchement-${f.fname}`, f.file, `ClusterMeetingAtatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
         }
       })
       this.submitting = true;
@@ -200,16 +201,20 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fileSelected(event: any, windex: number, mindex: number) {
+  fileSelected(event: any, windex: number, mindex: number, ftype: number) {
     // console.log(event.files)
     this.submitted = false;
     this.filesToUpload.push({
-      fname: `fC${windex}M${mindex}`,
+      fname: `fC${windex}M${mindex}T${ftype}`,
       file: event.files[0]
     })
     let tform = this.getMeeting(windex, mindex)
-    // tform.reportIndex = `fC${windex}M${mindex}`;
-    tform.patchValue({ reportIndex: `fC${windex}M${mindex}` })
+    // tform.reportIndex = `fC${windex}M${mindex}T${ftype}`;
+    if(ftype === 0) {
+      tform.patchValue({ reportIndex: `fC${windex}M${mindex}T${ftype}` })
+    } else {
+      tform.patchValue({ minutesIndex: `fC${windex}M${mindex}T${ftype}` })
+    }
     console.log(tform)
   }
 
@@ -261,20 +266,24 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fileRemoved(windex: number, mindex: number, fid: string) {
+  fileRemoved(windex: number, mindex: number, fid: string, ftype: number) {
     this.submitted = false;
     console.log(this.formdata)
     this.filesToUpload = this.filesToUpload.filter(el => {
       // console.log(el, index)
-      return el.fname != `fC${windex}M${mindex}`
+      return el.fname != `fC${windex}M${mindex}T${ftype}`
     })
-    this.getMeeting(windex, mindex).patchValue({ reportIndex: '' })
+    if(ftype === 0) {
+      this.getMeeting(windex, mindex).patchValue({ reportIndex: '' })
+    } else {
+      this.getMeeting(windex, mindex).patchValue({ minutesIndex: '' })
+    }
     if (fid?.length > 0) {
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
         // console.log(el.fieldName, index)
-        return el.fieldName != `fC${windex}M${mindex}`
+        return el.fieldName != `fC${windex}M${mindex}T${ftype}`
       })
       fid?.length && this.sendApplication(this.formdata, true, true)
       if (fid) {
@@ -286,10 +295,10 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getFileFromIndex(windex: number, mindex: number) {
+  getFileFromIndex(windex: number, mindex: number, ftype: number) {
     // console.log(this.filesToUpload)
     return this.filesToUpload.filter(el => {
-      return el.fname == `fC${windex}M${mindex}`
+      return el.fname == `fC${windex}M${mindex}T${ftype}`
     })[0]
   }
 
