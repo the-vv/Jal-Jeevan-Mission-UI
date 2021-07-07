@@ -123,7 +123,8 @@ export class GpActionPlanComponent implements OnInit {
         this.formBuilder.group({
           totalHHS: '',
           waterSupplyCovered: '',
-          notConverged: ''
+          notConvered: '',
+          jjmBeneficiary: ''
         })
       ]),
       existingWssName: this.formBuilder.array([
@@ -162,7 +163,7 @@ export class GpActionPlanComponent implements OnInit {
       applicationFormsWards: this.formBuilder.array([
         this.formBuilder.group({
           distributed: '',
-          relocated: '',
+          recieved: '',
         })
       ]),
       praDate: [moment('')],
@@ -186,7 +187,8 @@ export class GpActionPlanComponent implements OnInit {
       this.formBuilder.group({
         totalHHS: '',
         waterSupplyCovered: '',
-        notConverged: ''
+        notConvered: '',
+        jjmBeneficiary: ''
       }))
   }
 
@@ -263,7 +265,7 @@ export class GpActionPlanComponent implements OnInit {
     afw.push(
       this.formBuilder.group({
         distributed: '',
-        relocated: '',
+        recieved: '',
       })
     )
   }

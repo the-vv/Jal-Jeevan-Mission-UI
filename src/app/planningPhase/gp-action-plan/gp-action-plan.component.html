@@ -17,7 +17,7 @@
                         Ward {{i + 1}}
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Total HHS</mat-label>
@@ -25,7 +25,7 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Water Supply Covered</mat-label>
@@ -33,11 +33,19 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Not Covered</mat-label>
-                            <input formControlName="notConverged" matInput placeholder="Not Covered">
+                            <input formControlName="notConvered" matInput placeholder="Not Covered">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>JJM Beneficiary</mat-label>
+                            <input formControlName="jjmBeneficiary" matInput placeholder="JJM Beneficiary">
                         </mat-form-field>
                     </p>
                 </div>
@@ -344,8 +352,8 @@
                 <div class="col-12 col-md-5">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Relocatted</mat-label>
-                            <input formControlName="relocated" matInput placeholder="Relocatted">
+                            <mat-label>Recieved</mat-label>
+                            <input formControlName="recieved" matInput placeholder="Recieved">
                         </mat-form-field>
                     </p>
                 </div>

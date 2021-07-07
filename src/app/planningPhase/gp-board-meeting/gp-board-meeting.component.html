@@ -54,7 +54,7 @@
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                             (click)="viewFile(getFileFromIndex(i, 'report').file)"
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Minutes Resolution:
+                            <p class="text-truncate pt-3"><strong>Resolution:
                                 </strong>{{getFileFromIndex(i, 'report').file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -68,7 +68,7 @@
                             mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'report')" [style]="{backgroundColor: 'white',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Minutes Resolution'"></p-fileUpload>
+                            [chooseLabel]="'Resolution'"></p-fileUpload>
                         <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
