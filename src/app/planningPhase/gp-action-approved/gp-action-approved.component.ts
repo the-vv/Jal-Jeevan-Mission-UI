@@ -162,7 +162,7 @@ export class GpActionApprovedComponent implements OnInit {
       let form: FormData = new FormData();
       this.filesToUpload.forEach(f => {
         if (!f.file.fid) {
-          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+          form.append(`Attatchement-${f.fname}`, f.file, `Attatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
         }
       })
       this.submitting = true;
@@ -324,6 +324,7 @@ export class GpActionApprovedComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
+    this.onReset();
     this.showForm = true
     this.iecActivities = this.applicationForm.get('meetings') as FormArray
     this.iecActivities.clear();

@@ -19,6 +19,7 @@ import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { Route } from '@angular/compiler/src/core';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
+import { AdministrationComponent } from './administration/administration.component';
 
 
 let commonRoutes: Routes = [
@@ -45,6 +46,7 @@ const routes: Routes = [
   {
     path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
+      { path: 'administration', component: AdministrationComponent },
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },
       ...commonRoutes,

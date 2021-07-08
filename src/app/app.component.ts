@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
-import Darkmode from 'darkmode-js';
+// import Darkmode from 'darkmode-js';
 
 @Component({
   selector: 'app-root',

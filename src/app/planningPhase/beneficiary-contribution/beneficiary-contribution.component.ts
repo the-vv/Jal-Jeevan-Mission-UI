@@ -81,10 +81,10 @@ export class BeneficiaryContributionComponent implements OnInit {
   }
 
   removeContribution(index: number) {
-    // if (this.applicationForm.get('contribution')['controls'][index].value.bankIndex?.length > 0) {
-    //   this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-    //   console.log(this.applicationForm.get('contribution')['controls'][index].value.bankIndex)
-    // }
+    if (this.applicationForm.get('contribution')['controls'][index].value.bankIndex?.length > 0) {
+      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
+      // console.log(this.applicationForm.get('contribution')['controls'][index].value.bankIndex)
+    }
     this.iecActivities = this.applicationForm.get('contribution') as FormArray;
     this.iecActivities.removeAt(index)
   }
@@ -278,6 +278,7 @@ export class BeneficiaryContributionComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
+    this.onReset();
     this.showForm = true
     this.iecActivities = this.applicationForm.get('contribution') as FormArray
     this.iecActivities.clear();

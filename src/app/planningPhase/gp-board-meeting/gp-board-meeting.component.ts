@@ -289,6 +289,7 @@ export class GpBoardMeetingComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
+    this.onReset();
     this.showForm = true
     this.boardMeetings = this.applicationForm.get('meetings') as FormArray
     this.boardMeetings.clear();
