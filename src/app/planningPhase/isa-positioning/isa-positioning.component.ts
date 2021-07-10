@@ -5,51 +5,22 @@ import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
-
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import * as _moment from 'moment';
-import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-const moment = _rollupMoment || _moment;
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-isa-positioning',
   templateUrl: './isa-positioning.component.html',
-  styleUrls: ['./isa-positioning.component.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ]
+  styleUrls: ['./isa-positioning.component.scss']
 })
 export class IsaPositioningComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
   };
+  filesToUpload: any[] = [];
   isAdmin: boolean = this.user.isAdmin;
   canUpload: boolean = false;
   applicationForm!: FormGroup;
-  dsmMeetingFile: any = null;
-  agreementFile: any = null;
-  officeStartingPhoto: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -93,17 +64,23 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     })
     this.canUpload = !this.user.isAdmin;
     this.applicationForm = this.formBuilder.group({
-      dwsmDate: [moment('')],
+      dwsmDate: [''],
       dwsmNo: [''],
-      agreementDate: [moment('')],
+      dwsmAttatchement: '',
+      agreementDate: [''],
       agreementNo: [''],
-      officeStartingDate: [moment('')],
+      agreementIndex: '',
+      officeStartingDate: [''],
+      officeStartingPhotoIndeex: '',
       teamLeaderAddress: [''],
       teamLeaderNo: [''],
+      teamLeaderCVIndex: '',
       comminityEngAddress: [''],
       communityEngNo: [''],
+      communityEngCVIndex: '',
       communityfacilAddress: [''],
-      communityFacilNo: ['']
+      communityFacilNo: [''],
+      communityFacilitatorCVIndex: ''
     })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
@@ -115,7 +92,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.agreementFile && !this.dsmMeetingFile && !this.officeStartingPhoto) {
+    if (!this.filesToUpload.length) {
       console.log('No attatchments, continuing');
       this.formdata.values = this.applicationForm.value;
       this.formdata.category = this.data.selectedDetails;
@@ -126,23 +103,19 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
       this.sendApplication(this.formdata, this.editingId.length > 0)
     }
     else {
-      console.log(this.agreementFile)
+      // console.log(this.agreementFile)
       let form: FormData = new FormData();
-      if (this.agreementFile && !this.agreementFile.fid) {
-        form.append('file1', this.agreementFile, 'agreementAttatchment.' + this.agreementFile.name.split('.')[this.agreementFile.name.split('.').length - 1]);
-      }
-      if (this.dsmMeetingFile && !this.dsmMeetingFile.fid) {
-        form.append('file2', this.dsmMeetingFile, 'dsmMeetingAttatchment.' + this.dsmMeetingFile.name.split('.')[this.dsmMeetingFile.name.split('.').length - 1]);
-      }
-      if (this.officeStartingPhoto && !this.officeStartingPhoto.fid) {
-        form.append('file2', this.officeStartingPhoto, 'officeStartingPhoto.' + this.officeStartingPhoto.name.split('.')[this.officeStartingPhoto.name.split('.').length - 1]);
-      }
+      this.filesToUpload.forEach(f => {
+        if (!f.file.fid) {
+          form.append(`Attatchement-${f.fname}`, f.file, `Attatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+        }
+      })
       this.submitting = true;
       this.rest.uploadFiles(form)
         .subscribe((res) => {
           console.log(res)
           res.forEach((element: any) => {
-            let name = element.name.split('_')[0];
+            let name = element.name.split('_')[0].split('-')[1];
             this.formdata.files?.push({
               name: element.name,
               fieldName: name,
@@ -178,14 +151,33 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   fileSelected(event: any, name: string) {
     this.submitted = false
     // console.log(event.target.files)
+    this.filesToUpload.push({
+      fname: `f${name}`,
+      file: event.files[0]
+    });
     if (name === 'agreement') {
-      this.agreementFile = event.files[0]
+      this.applicationForm.patchValue({ agreementIndex: `f${name}` })
+      // this.agreementFile = event.files[0]
     }
     else if (name === 'dsmMeeting') {
-      this.dsmMeetingFile = event.files[0]
+      this.applicationForm.patchValue({ dwsmAttatchement: `f${name}` })
+      // this.dsmMeetingFile = event.files[0]
     }
     else if (name === 'officeStartingPhoto') {
-      this.officeStartingPhoto = event.files[0]
+      this.applicationForm.patchValue({ officeStartingPhotoIndeex: `f${name}` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    else if (name === 'leaderCV') {
+      this.applicationForm.patchValue({ teamLeaderCVIndex: `f${name}` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    else if (name === 'CommunutyEngCV') {
+      this.applicationForm.patchValue({ communityEngCVIndex: `f${name}` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    else if (name === 'CommunityFacilCV') {
+      this.applicationForm.patchValue({ communityFacilitatorCVIndex: `f${name}` })
+      // this.officeStartingPhoto = event.files[0]
     }
   }
 
@@ -199,9 +191,6 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
-            this.officeStartingPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations = this.submittedApplcations.filter(el => {
@@ -226,14 +215,11 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.agreementFile = null;
-            this.dsmMeetingFile = null;
-            this.officeStartingPhoto = null;
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
           // this.applicationForm.reset()
-          this, this.applicSelected(res);
+          this.applicSelected(res);
           this.submitted = true;
         }, e => {
           console.log(e.error.status)
@@ -243,55 +229,82 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fileRemoved(id: string) {
+  fileRemoved(name: string, fid: string) {
     this.submitted = false;
-    if (id && id.length > 0) {
+    this.filesToUpload = this.filesToUpload.filter(el => {
+      console.log(el, name)
+      return el.fname != `f${name}`
+    });
+    // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
+    if (name === 'agreement') {
+      this.applicationForm.patchValue({ agreementIndex: `` })
+    }
+    else if (name === 'dsmMeeting') {
+      this.applicationForm.patchValue({ dwsmAttatchement: `` })
+    }
+    else if (name === 'officeStartingPhoto') {
+      this.applicationForm.patchValue({ officeStartingPhotoIndeex: `` })
+    } 
+    else if (name === 'leaderCV') {
+      this.applicationForm.patchValue({ teamLeaderCVIndex: `` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    else if (name === 'CommunutyEngCV') {
+      this.applicationForm.patchValue({ communityEngCVIndex: `` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    else if (name === 'CommunityFacilCV') {
+      this.applicationForm.patchValue({ communityFacilitatorCVIndex: `` })
+      // this.officeStartingPhoto = event.files[0]
+    }
+    if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId
+      this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fid, id)
-        return el.fid != id
+        return el.fieldName != `f${name}`
       })
-      // console.log(this.formdata)
-      this.sendApplication(this.formdata, true, true)
-      this.rest.deleteFile(id)
-        .subscribe((res) => {
-          console.log('file deleted', res)
-        }, err => console.log(err.error))
+      console.log(this.formdata)
+      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
+      if (fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
     }
   }
 
   applicSelected(app: Application) {
+    this.onReset();
     this.showForm = true
     this.applicationForm.patchValue(app.values);
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[])?.forEach(el => {
-        if (el.fieldName === 'agreementAttatchment') {
-          this.agreementFile = el;
-          this, this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'dsmMeetingAttatchment') {
-          this.dsmMeetingFile = el;
-          this, this.formdata.files?.push(el)
-        }
-        if (el.fieldName === 'officeStartingPhoto') {
-          this.officeStartingPhoto = el;
-          this, this.formdata.files?.push(el)
-        }
+      (app.files as ApplicationFile[])?.forEach(f => {
+        this.filesToUpload.push({
+          fname: f.fieldName,
+          file: f
+        })
       })
-    }
+      this.formdata.files = app.files
+    }    
+  }
+
+  getFileFromName(name: string) {
+    return this.filesToUpload.filter(el => {
+      return el.fname == `f${name}`
+    })[0]
   }
 
   onReset() {
     this.showForm = false;
     this.editingId = '';
     this.applicationForm.reset()
-    this.agreementFile = null;
-    this.dsmMeetingFile = null;
-    this.officeStartingPhoto = null;
+    this.filesToUpload = [];
     this.formdata.files = []
   }
+
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0

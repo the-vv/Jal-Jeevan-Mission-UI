@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
@@ -15,7 +15,7 @@ const moment = _rollupMoment || _moment;
   templateUrl: './beneficiary-contribution.component.html',
   styleUrls: ['./beneficiary-contribution.component.scss']
 })
-export class BeneficiaryContributionComponent implements OnInit {
+export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
