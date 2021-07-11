@@ -25,10 +25,6 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
   iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
-  introductionFile: any = null;
-  InterDepartmentFile: any = null;
-  GpBoardMeetingFile: any = null;
-  jontAccountFile: any = null;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -103,7 +99,9 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     this.applicationForm = this.formBuilder.group({
       contribution: this.formBuilder.array([
         this.newContribution()
-      ])
+      ]),
+      bankStatementIndex: '',
+      statementDate: ''
     })
     this.route.url.subscribe((val) => {
       if (!this.data.selectedDetails.phase) {
@@ -183,7 +181,7 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     // let tform = this.applicationForm.get('contribution')?.value[index]
     // tform.bankIndex = `f${index}`;
     // console.log(tform)
-    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ bankIndex: `f${index}` })
+    this.applicationForm.patchValue({ bankStatementIndex: `f${index}` })
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -196,10 +194,6 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.introductionFile = null;
-            this.GpBoardMeetingFile = null;
-            this.InterDepartmentFile = null;
-            this.jontAccountFile = null;
             this.formdata.files = [];
           }
           console.log(this.submittedApplcations)
@@ -225,10 +219,6 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
             this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.introductionFile = null;
-            this.GpBoardMeetingFile = null;
-            this.InterDepartmentFile = null;
-            this.jontAccountFile = null;
             this.formdata.files = [];
           }
           this.submittedApplcations.unshift(res);
@@ -250,7 +240,7 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
       return el.fname != `f${index}`
     });
     // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
-    (this.applicationForm.get('contribution') as FormArray).at(index).patchValue({ bankIndex: '' })
+    this.applicationForm.patchValue({ bankStatementIndex: '' })
     if (fid?.length) {
       console.log(this.formdata)
       this.formdata._id = this.editingId

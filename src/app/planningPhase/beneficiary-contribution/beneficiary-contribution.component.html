@@ -31,47 +31,54 @@
     </div>
 </div> -->
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-    <div formArrayName="contribution" *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
+    <div formArrayName="contribution"
+        *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
             <div class="row my-3">
                 <div class="col-12 col-md-1">
                     <p class="h6 text-center pt-3">
-                        {{i + 1}}
+                        Ward {{i + 1}}
                     </p>
                 </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Total Beneficiary</mat-label>
-                            <input formControlName="totalBeneficiary" matInput placeholder="Total Beneficiary">
-                        </mat-form-field>
-                    </p>
+                <div class="col-12 col-md-10">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Total Beneficiary</mat-label>
+                                    <input formControlName="totalBeneficiary" matInput placeholder="Total Beneficiary">
+                                </mat-form-field>
+                            </p>
+                        </div> 
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Fully Contributed Remitted</mat-label>
+                                    <input formControlName="fullyContributionRemitted" matInput
+                                        placeholder="Fully Contributed Remitted">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Partially Contributed Remitted</mat-label>
+                                    <input formControlName="partiallyContributionRemitted" matInput
+                                        placeholder="Partially Contributed Remitted">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Total Amount</mat-label>
+                                    <input formControlName="totalAmount" matInput placeholder="Total Amount">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Fully Contributed Remitted</mat-label>
-                            <input formControlName="fullyContributionRemitted" matInput placeholder="Fully Contributed Remitted">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Partially Contributed Remitted</mat-label>
-                            <input formControlName="partiallyContributionRemitted" matInput placeholder="Partially Contributed Remitted">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Total Amount</mat-label>
-                            <input formControlName="totalAmount" matInput placeholder="Total Amount">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
+                <!-- <div class="col-12 col-md-2">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                             (click)="viewFile(getFileFromIndex(i).file)"
@@ -91,10 +98,8 @@
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Bank Statement'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
-                </div>
+                </div> -->
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                         style="margin-top: 10px" (click)="removeContribution(i)">
@@ -105,10 +110,42 @@
         </ng-container>
     </div>
     <div class="row">
-        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mb-3">
             <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addContribution()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-1">
+            <p>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Statement Date</mat-label>
+                    <input matInput [matDatepicker]="dp0" formControlName="statementDate">
+                    <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
+                    <mat-datepicker #dp0 disabled="false"></mat-datepicker>
+                </mat-form-field>
+            </p>
+        </div>
+        <div class="col-12 col-md-5">
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromIndex(1).file)"
+                    *ngIf="this.applicationForm.controls.bankStatementIndex.value?.length">
+                    <p class="text-truncate pt-3"><strong>Bank Stmt:
+                        </strong>{{getFileFromIndex(1).file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px" (click)="fileRemoved(1,getFileFromIndex(1)?.file?.fid)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="!this.applicationForm.controls.bankStatementIndex.value?.length" mode="basic"
+                    [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'white',
+                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Bank Statement'"></p-fileUpload>
+            </div>
         </div>
     </div>
     <div class="row mt-2">

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { Selected } from '../models/selected';
 
 @Injectable({
@@ -70,7 +71,10 @@ export class DataService {
   }
 
   getWardCount(): number {
-    if(this.selectedDetails.district && this.selectedDetails.gp) {      
+    if (this.selectedDetails.district && this.selectedDetails.gp) {
+      if (!environment.production) {
+        return 2
+      }
       return this.AllDataWithCount[this.selectedDetails.district][this.selectedDetails.gp];
     } else {
       return 1
