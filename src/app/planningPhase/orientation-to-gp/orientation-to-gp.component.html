@@ -30,16 +30,16 @@
         <div class="col-12 col-md-3">
             <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                    (click)="viewFile(introductionFile)" *ngIf="introductionFile != null">
+                    (click)="viewFile(getFileFromName('introductionAttatchement').file)"  *ngIf="applicationForm.get('introductionMinutesIndex').value?.length > 0">
                     <p class="text-truncate pt-3"><strong>Minutes Copy:
-                        </strong>{{introductionFile.name}}
+                        </strong>{{getFileFromName('introductionAttatchement').file.name}}
                     </p>
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 4.5px" (click)="fileRemoved(introductionFile.fid); introductionFile = null">
+                        style="margin-top: 4.5px" (click)="fileRemoved('introductionAttatchement', getFileFromName('introductionAttatchement').file.fid)">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
-                <p-fileUpload *ngIf="introductionFile == null" mode="basic" [customUpload]="true"
+                <p-fileUpload *ngIf="!applicationForm.get('introductionMinutesIndex').value?.length" mode="basic" [customUpload]="true"
                     (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'white',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
@@ -96,7 +96,7 @@
             </p>
         </div>
         <div class="col-12 col-md-2">
-            <div class="mt-1" style="position: relative;">
+            <!-- <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(InterDepartmentFile)" *ngIf="InterDepartmentFile != null">
                     <p class="text-truncate pt-3"><strong>Minutes:
@@ -113,10 +113,27 @@
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Minutes'"></p-fileUpload>
+            </div> -->
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromName('interDepartmentAttatchment').file)"  *ngIf="applicationForm.get('interDepartmentMinutesIndex').value?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Minutes:
+                        </strong>{{getFileFromName('interDepartmentAttatchment').file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px" (click)="fileRemoved('interDepartmentAttatchment', getFileFromName('interDepartmentAttatchment').file.fid)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="!applicationForm.get('interDepartmentMinutesIndex').value?.length" mode="basic" [customUpload]="true"
+                    (onSelect)="fileSelected($event, 'interDepartmentAttatchment')" [style]="{backgroundColor: 'white',
+                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Minutes'"></p-fileUpload>
             </div>
         </div>
         <div class="col-12 col-md-2">
-            <div class="mt-1" style="position: relative;">
+            <!-- <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(interDepartmentPhoto)" *ngIf="interDepartmentPhoto != null">
                     <p class="text-truncate pt-3"><strong>Photo:
@@ -129,6 +146,23 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="interDepartmentPhoto == null" mode="basic" [customUpload]="true"
+                    (onSelect)="fileSelected($event, 'interDepartmentPhoto')" [style]="{backgroundColor: 'white',
+                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Photo'"></p-fileUpload>
+            </div> -->
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromName('interDepartmentPhoto').file)"  *ngIf="applicationForm.get('interDepartmentPhotoIndex').value?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Photo:
+                        </strong>{{getFileFromName('interDepartmentPhoto').file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px" (click)="fileRemoved('interDepartmentPhoto', getFileFromName('interDepartmentPhoto').file.fid)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="!applicationForm.get('interDepartmentPhotoIndex').value?.length" mode="basic" [customUpload]="true"
                     (onSelect)="fileSelected($event, 'interDepartmentPhoto')" [style]="{backgroundColor: 'white',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
@@ -162,7 +196,7 @@
             </p>
         </div>
         <div class="col-12 col-md-3">
-            <div class="mt-1" style="position: relative;">
+            <!-- <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(GpBoardMeetingFile)" *ngIf="GpBoardMeetingFile != null">
                     <p class="text-truncate pt-3"><strong>Resolution:
@@ -179,8 +213,23 @@
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Resolution'"></p-fileUpload>
-                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+            </div> -->
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromName('gpBoardMeetingAttatchment').file)"  *ngIf="applicationForm.get('GpBoardMeetingResolutionIndex').value?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Resolution:
+                        </strong>{{getFileFromName('gpBoardMeetingAttatchment').file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px" (click)="fileRemoved('gpBoardMeetingAttatchment', getFileFromName('gpBoardMeetingAttatchment').file.fid)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="!applicationForm.get('GpBoardMeetingResolutionIndex').value?.length" mode="basic" [customUpload]="true"
+                    (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'white',
+                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Resolution'"></p-fileUpload>
             </div>
         </div>
     </div>
@@ -237,7 +286,7 @@
             </p>
         </div>
         <div class="col-12 col-md-4">
-            <div class="mt-1" style="position: relative;">
+            <!-- <div class="mt-1" style="position: relative;">
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(jontAccountFile)" *ngIf="jontAccountFile != null">
                     <p class="text-truncate pt-3"><strong>Passbook Copy:
@@ -253,8 +302,23 @@
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Passbook Copy'"></p-fileUpload>
-                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                    style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+            </div> -->
+            <div class="mt-1" style="position: relative;">
+                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                    (click)="viewFile(getFileFromName('jointAccountAttatchment').file)"  *ngIf="applicationForm.get('jointAccountPassbookIndex').value?.length > 0">
+                    <p class="text-truncate pt-3"><strong>Passbook Copy:
+                        </strong>{{getFileFromName('jointAccountAttatchment').file.name}}
+                    </p>
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 4.5px" (click)="fileRemoved('jointAccountAttatchment', getFileFromName('jointAccountAttatchment').file.fid)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <p-fileUpload *ngIf="!applicationForm.get('jointAccountPassbookIndex').value?.length" mode="basic" [customUpload]="true"
+                    (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'white',
+                    color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                    borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                    [chooseLabel]="'Passbook Copy'"></p-fileUpload>
             </div>
         </div>
     </div>
