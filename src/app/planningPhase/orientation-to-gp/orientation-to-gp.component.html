@@ -76,10 +76,15 @@
                 Inter Department Meetings
             </p>
         </div>
-        <div class="col-8">            
-            <div class="" formArrayName="interDepartmentMeeting" *ngFor="let item of this.applicationForm.get('interDepartmentMeeting')['controls']; let i = index;">
+        <div class="col-12 col-md-8">            
+            <div class="" formArrayName="interDepartmentMeeting" *ngFor="let item of this.applicationForm.get('interDepartmentMeeting')['controls']; let i = index; let l = last">
                 <ng-container [formGroupName]="i">
                     <div class="row">
+                        <div class="col-12 col-md-1">
+                            <p class="h6 text-start pt-3 ">
+                                {{i + 1}}
+                            </p>
+                        </div>
                         <div class="col-12 col-md-3">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
@@ -118,7 +123,7 @@
                                     [chooseLabel]="'Minutes'"></p-fileUpload>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-2">
                             <div class="mt-1" style="position: relative;">
                                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                                     (click)="viewFile(getFileFromName('interDepartmentPhoto').file)"  *ngIf="applicationForm.get('interDepartmentMeeting')['controls'][i].value?.interDepartmentPhotoIndex?.length > 0">
@@ -144,7 +149,7 @@
                             </button>
                         </div>
                     </div>
-                    <hr>
+                    <!-- <hr *ngIf="!l"> -->
                 </ng-container>
             </div>
         </div>
