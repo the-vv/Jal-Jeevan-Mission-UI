@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -37,23 +37,47 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.rest.getApplications(this.data.selectedDetails)
-    .subscribe(res => {
-      console.log(res)
-      this.submittedApplcations = res;
-      if(res.length > 0) {
-        this.showForm = false;
-        this.applicSelected(res[0])
-      }
-      else {
-        this.showForm = true;
-      }
-    }, e => {
-      console.log(e.error)
-      this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+      .subscribe(res => {
+        console.log(res)
+        this.submittedApplcations = res;
+        if (res.length > 0) {
+          this.showForm = false;
+          this.applicSelected(res[0])
+        }
+        else {
+          this.showForm = true;
+        }
+      }, e => {
+        console.log(e.error)
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+      })
+  }
+
+  newInterDepartment(): FormGroup {
+    return this.formBuilder.group({
+      interDepartmentDate: [''],
+      interDepartmentNo: [''],
+      interDepartmentMinutesIndex: '',
+      interDepartmentPhotoIndex: ''
     })
   }
 
-  ngOnInit(): void {    
+  addInterDepartment() {
+    (this.applicationForm.get('interDepartmentMeeting') as FormArray)
+      .push(this.newInterDepartment());
+  }
+
+  removeInterDepartment(index: number) {
+    if (this.applicationForm.get('interDepartmentMeeting')['controls'][index].value.interDepartmentMinutesIndex?.length > 0) {
+      this.fileRemoved('interDepartmentAttatchment', this.getFileFromName('interDepartmentAttatchment').file.fid, index);
+    }
+    if (this.applicationForm.get('interDepartmentMeeting')['controls'][index].value.interDepartmentPhotoIndex?.length > 0) {
+      this.fileRemoved('interDepartmentPhoto', this.getFileFromName('interDepartmentPhoto').file.fid, index);
+    }
+    (this.applicationForm.get('interDepartmentMeeting') as FormArray).removeAt(index);
+  }
+
+  ngOnInit(): void {
     this.route.url.subscribe((val) => {
       if (!this.data.selectedDetails.phase) {
         this.data.selectComponent(`Planning Phase/${val[1].path}`)
@@ -67,10 +91,9 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       introductionMinutesIndex: '',
       iecPlanNo: [''],
       iecPlanAmount: [''],
-      interDepartmentDate: [''],
-      interDepartmentNo: [''],
-      interDepartmentMinutesIndex: '',
-      interDepartmentPhotoIndex: '',
+      interDepartmentMeeting: this.formBuilder.array([
+        this.newInterDepartment()
+      ]),      
       GpBoardMeetingDate: [''],
       GpBoardMeetingNo: [''],
       GpBoardMeetingResolutionIndex: '',
@@ -147,7 +170,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fileSelected(event: any, name: string) {
+  fileSelected(event: any, name: string, index: number = -1) {
     this.submitted = false;
     // console.log(event.files)
     this.filesToUpload.push({
@@ -160,7 +183,11 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
     else if (name === 'interDepartmentAttatchment') {
       // this.InterDepartmentFile = event.files[0]
-      this.applicationForm.patchValue({ interDepartmentMinutesIndex: `${name}` })
+      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentMinutesIndex: `${name}` })
+    }
+    else if (name === 'interDepartmentPhoto') {
+      // this.interDepartmentPhoto = event.files[0]
+      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentPhotoIndex: `${name}` })
     }
     else if (name === 'gpBoardMeetingAttatchment') {
       // this.GpBoardMeetingFile = event.files[0]
@@ -169,10 +196,6 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     else if (name === 'jointAccountAttatchment') {
       // this.jontAccountFile = event.files[0]
       this.applicationForm.patchValue({ jointAccountPassbookIndex: `${name}` })
-    }
-    else if (name === 'interDepartmentPhoto') {
-      // this.interDepartmentPhoto = event.files[0]
-      this.applicationForm.patchValue({ interDepartmentPhotoIndex: `${name}` })
     }
   }
 
@@ -224,7 +247,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
   }
 
-  fileRemoved(name: string, fid: string) {
+  fileRemoved(name: string, fid: string, index: number = -1) {
     this.submitted = false;
     this.filesToUpload = this.filesToUpload.filter(el => {
       console.log(el, name)
@@ -237,7 +260,11 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
     else if (name === 'interDepartmentAttatchment') {
       // this.InterDepartmentFile = event.files[0]
-      this.applicationForm.patchValue({ interDepartmentMinutesIndex: `` })
+      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentMinutesIndex: `` })
+    }
+    else if (name === 'interDepartmentPhoto') {
+      // this.interDepartmentPhoto = event.files[0]
+      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentPhotoIndex: `` })
     }
     else if (name === 'gpBoardMeetingAttatchment') {
       // this.GpBoardMeetingFile = event.files[0]
@@ -246,10 +273,6 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     else if (name === 'jointAccountAttatchment') {
       // this.jontAccountFile = event.files[0]
       this.applicationForm.patchValue({ jointAccountPassbookIndex: `` })
-    }
-    else if (name === 'interDepartmentPhoto') {
-      // this.interDepartmentPhoto = event.files[0]
-      this.applicationForm.patchValue({ interDepartmentPhotoIndex: `` })
     }
     if (fid?.length) {
       console.log(this.formdata)
@@ -271,7 +294,10 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
 
   applicSelected(app: Application) {
     this.onReset();
-    this.showForm = true
+    this.showForm = true;
+    for (let i = 0; i < app.values.interDepartmentMeeting.length; i++) {
+      this.addInterDepartment()
+    }
     this.applicationForm.patchValue(app.values);
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
@@ -282,9 +308,9 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
         })
       })
       this.formdata.files = app.files
-    }    
+    }
   }
-  
+
   getFileFromName(name: string) {
     return this.filesToUpload.filter(el => {
       return el.fname == `${name}`
@@ -297,7 +323,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     this.editingId = '';
     this.applicationForm.reset()
     this.filesToUpload = [];
-    this.formdata.files = []
+    this.formdata.files = [];
+    (this.applicationForm.get('interDepartmentMeeting') as FormArray).clear();
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
@@ -317,7 +344,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     })
     return toReturn
   }
-  
+
   viewFile(file: ApplicationFile) {
     if (file.url) {
       window.open(file.url)
@@ -325,4 +352,3 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   }
 
 }
-  
