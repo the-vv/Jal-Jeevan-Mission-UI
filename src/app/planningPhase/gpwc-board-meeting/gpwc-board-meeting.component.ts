@@ -69,13 +69,19 @@ export class GpwcBoardMeetingComponent implements OnInit {
 
   addMeeting() {
     this.boardMeetings = this.applicationForm.get('meetings') as FormArray;
-    const group = this.formBuilder.group({
+    
+    this.boardMeetings.push(this.newMeeting());
+  }
+
+  newMeeting(): FormGroup {
+    return this.formBuilder.group({
+      number: '',
       date: '',
       gpShare: '',
+      totalApproved: '',
       beneficiaryListIndex: '',
       resolutionIndex: '',
     });
-    this.boardMeetings.push(group);
   }
 
   removeMeeting(index: number) {
@@ -92,12 +98,7 @@ export class GpwcBoardMeetingComponent implements OnInit {
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       meetings: this.formBuilder.array([
-        this.formBuilder.group({
-          date: '',
-          gpShare: '',
-          beneficiaryListIndex: '',
-          resolutionIndex: '',
-        })
+        this.newMeeting()
       ])
     })
     this.route.url.subscribe((val) => {
