@@ -11,7 +11,7 @@
         </div>
         <div class="col-12 col-md-8">
             <div class="row">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Date</mat-label>
@@ -21,7 +21,7 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Number</mat-label>
@@ -29,7 +29,17 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Proceeding Date</mat-label>
+                            <input matInput [matDatepicker]="dp0" formControlName="dwsmProceedingDate">
+                            <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
+                            <mat-datepicker #dp0 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
                     <div class="mt-1">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('dwsmAttatchement').value?.length > 0"
                             (click)="viewFile(getFileFromName('dsmMeeting').file)" style="cursor: pointer">
@@ -175,7 +185,7 @@
                     <div class="mt-1">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('teamLeaderCVIndex').value?.length > 0"
                             (click)="viewFile(getFileFromName('leaderCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{getFileFromName('leaderCV').file.name}}
+                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('leaderCV').file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px" (click)="fileRemoved('leaderCV', getFileFromName('leaderCV').file.fid)">
@@ -186,7 +196,7 @@
                             (onSelect)="fileSelected($event, 'leaderCV')" [style]="{backgroundColor: 'white',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Attatchement'"></p-fileUpload>
+                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
                         <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
                             style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
@@ -222,7 +232,7 @@
                     <div class="mt-1">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('communityEngCVIndex').value?.length > 0"
                             (click)="viewFile(getFileFromName('CommunutyEngCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{getFileFromName('CommunutyEngCV').file.name}}
+                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('CommunutyEngCV').file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px" (click)="fileRemoved('CommunutyEngCV', getFileFromName('CommunutyEngCV').file.fid)">
@@ -233,7 +243,7 @@
                             (onSelect)="fileSelected($event, 'CommunutyEngCV')" [style]="{backgroundColor: 'white',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Attatchement'"></p-fileUpload>
+                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
                         <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
                             style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
@@ -269,7 +279,7 @@
                     <div class="mt-1">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('communityFacilitatorCVIndex').value?.length > 0"
                             (click)="viewFile(getFileFromName('CommunityFacilCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{getFileFromName('CommunityFacilCV').file.name}}
+                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('CommunityFacilCV').file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                                 style="margin-top: 4.5px" (click)="fileRemoved('CommunityFacilCV', getFileFromName('CommunityFacilCV').file.fid)">
@@ -280,7 +290,7 @@
                             (onSelect)="fileSelected($event, 'CommunityFacilCV')" [style]="{backgroundColor: 'white',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Attatchement'"></p-fileUpload>
+                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
                         <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
                             style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
@@ -317,44 +327,3 @@
         </div>
     </div>
 </form>
-
-
-<!-- <div class="col-12">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="editingId.length == 0">
-                            Submit a new Application
-                        </span>
-                        <span *ngIf="editingId.length > 0">
-                            Edit an Application
-                        </span>
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Applications that are already submitted
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <mat-list>
-                        <mat-list-item *ngFor="let appl of submittedApplcations">
-                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
-                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="Example icon button with a menu icon"
-                                    style="margin-top: 4.5px" (click)="applicSelected(appl)" class="">
-                                    View/ Edit
-                                </button>
-                            </p>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div> -->

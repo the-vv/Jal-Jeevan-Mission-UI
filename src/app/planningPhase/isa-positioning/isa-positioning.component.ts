@@ -66,6 +66,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     this.applicationForm = this.formBuilder.group({
       dwsmDate: [''],
       dwsmNo: [''],
+      dwsmProceedingDate: '',
       dwsmAttatchement: '',
       agreementDate: [''],
       agreementNo: [''],
