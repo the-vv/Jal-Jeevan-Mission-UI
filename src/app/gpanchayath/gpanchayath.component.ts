@@ -13,13 +13,16 @@ export class GpanchayathComponent implements OnInit {
   public gPanchayath: string = ''
 
   constructor(
-    public data: DataService, 
+    public data: DataService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     console.log('gp page');
+    if (!this.data.selectedDetails.district) {
+      this.router.navigate(['../district'], { relativeTo: this.route })
+    }
     this.gramaPanchataths = this.data.getGPs(this.data.selectedDetails.district)
     console.log(this.gramaPanchataths)
   }

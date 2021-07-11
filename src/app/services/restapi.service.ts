@@ -61,5 +61,10 @@ export class RestapiService {
     return this.http.post<Application[]>(this.URL + '/getApplications', query)
   }
 
+  getUsers(): Observable<any> {
+    return this.http.get<any>(this.URL + '/getUsers', {
+      withCredentials: true
+    })
+  }
 
 }

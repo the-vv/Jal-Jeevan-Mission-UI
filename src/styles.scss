@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin     : 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    --bs-breadcrumb-divider: '>';
+}
 
 
 
@@ -10,21 +18,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 ::-webkit-file-upload-button {
-    background-color: white!important;
+    background-color: white !important;
 }
 
-.p-fileupload-buttonbar	 {
+.p-fileupload-buttonbar {
     background-color: rgb(248, 215, 215) !important;
-    color: black !important;
+    color           : black !important;
 }
 
 .navigator {
-    a.p-menuitem-link	{
-        cursor: pointer!important;
+    a.p-menuitem-link {
+        cursor: pointer !important;
     }
 
-    a.p-menuitem-link:hover	{
-        cursor: pointer!important;
+    a.p-menuitem-link:hover {
+        cursor         : pointer !important;
         text-decoration: underline;
     }
 }

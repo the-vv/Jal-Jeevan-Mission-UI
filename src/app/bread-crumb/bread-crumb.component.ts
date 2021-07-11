@@ -25,11 +25,11 @@ export class BreadCrumbComponent implements OnInit {
   }
 
   gotoGP() {
-    this.router.navigate([`../grama-panchayath`], { relativeTo: this.route })
+    this.router.navigate([`../../grama-panchayath`], { relativeTo: this.route })
   }
 
   gotoPhase() {
-    this.router.navigate([`../phase`], { relativeTo: this.route })
+    this.router.navigate([`../../phase`], { relativeTo: this.route })
   }
 
 }

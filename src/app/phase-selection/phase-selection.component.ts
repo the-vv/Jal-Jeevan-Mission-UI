@@ -37,6 +37,9 @@ export class PhaseSelectionComponent implements OnInit {
         this.isAdmin = val?.admin
       }
     })
+    if(!this.data.selectedDetails.district || !this.data.selectedDetails.gp) {
+      this.router.navigate(['../district'], { relativeTo: this.route })
+    }
     this.screenObserver.pipe(map(v => v.matches)).subscribe(val => {
       this.isSmallScreen = val;
     })

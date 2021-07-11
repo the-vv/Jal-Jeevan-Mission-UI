@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -120,7 +121,8 @@ export const MY_FORMATS = {
     MatProgressBarModule,
     MatExpansionModule,
     ButtonModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatTabsModule
   ],
   providers: [
     DataService,
