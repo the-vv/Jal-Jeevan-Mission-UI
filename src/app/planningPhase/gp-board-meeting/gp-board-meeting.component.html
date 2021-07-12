@@ -39,17 +39,29 @@
                         Board meeting {{i + 1}}
                     </p>
                 </div>
-                <div class="col-12 col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Conducted Date</mat-label>
-                            <input matInput [matDatepicker]="dp3" formControlName="date">
-                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-5">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Number</mat-label>
+                                    <input formControlName="number" matInput placeholder="Number" type="text">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Conducted Date</mat-label>
+                                    <input matInput [matDatepicker]="dp3" formControlName="date">
+                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                </div>                
+                <div class="col-12 col-md-2">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                             (click)="viewFile(getFileFromIndex(i, 'report').file)"
@@ -73,7 +85,7 @@
                         style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
                     </div>
                 </div>
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-2">
                     <div class="mt-1" style="position: relative;">
                         <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                             (click)="viewFile(getFileFromIndex(i, 'photo').file)"

@@ -6,15 +6,25 @@ body {
 }
 
 body {
-    margin     : 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin                 : 0;
+    font-family            : Roboto, "Helvetica Neue", sans-serif;
     --bs-breadcrumb-divider: '>';
 }
 
+.p-fileupload, .hasfile {
+    margin-bottom: 1rem;
+}
 
+.mat-form-field-wrapper {
+    padding-bottom: unset;
+}
 
 .p-tieredmenu {
     width: 100% !important;
+}
+
+.p-menuitem-text {
+    text-align: left !important;
 }
 
 ::-webkit-file-upload-button {

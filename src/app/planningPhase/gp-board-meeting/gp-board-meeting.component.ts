@@ -84,6 +84,7 @@ export class GpBoardMeetingComponent implements OnInit {
   addMeeting() {
     this.boardMeetings = this.applicationForm.get('meetings') as FormArray;
     const group = this.formBuilder.group({
+      number: '',
       date: '',
       minutesIndex: '',
       photoIndex: '',
@@ -106,6 +107,7 @@ export class GpBoardMeetingComponent implements OnInit {
     this.applicationForm = this.formBuilder.group({
       meetings: this.formBuilder.array([
         this.formBuilder.group({
+          number: '',
           date: '',
           minutesIndex: '',
           photoIndex: '',

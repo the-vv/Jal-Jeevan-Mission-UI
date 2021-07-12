@@ -56,7 +56,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   newInterDepartment(): FormGroup {
     return this.formBuilder.group({
       interDepartmentDate: [''],
-      interDepartmentNo: [''],
+      interDepartmentPlace: [''],
       interDepartmentMinutesIndex: '',
       interDepartmentPhotoIndex: ''
     })
