@@ -9,62 +9,69 @@ import { Selected } from '../models/selected';
 })
 export class RestapiService {
 
-  private URL: string = environment.production ? '/api' : 'http://localhost:3000/api'
+  private UserUrl: string = environment.production ? 'users' : 'http://localhost:3000/users'
+  private applUrl: string = environment.production ? 'applications' : 'http://localhost:3000/applications'
 
   constructor(
     private http: HttpClient
   ) { }
 
   logout(): Observable<any> {
-    return this.http.get(this.URL + '/logout', {
+    return this.http.get(this.UserUrl + '/logout', {
       withCredentials: true
     })
   }
 
   login(values: Object): Observable<any> {
-    return this.http.post<any>(this.URL + '/login', values, {
+    return this.http.post<any>(this.UserUrl + '/login', values, {
       withCredentials: true
     })
   }
 
   verify(): Observable<any> {
-    return this.http.post(this.URL + '/verify', null, {
+    return this.http.post(this.UserUrl + '/verify', null, {
       withCredentials: true
     })
   }
 
   uploadFiles(files: any): Observable<any> {
-    return this.http.post<any>(this.URL + '/upload', files, {
+    return this.http.post<any>(this.applUrl + '/upload', files, {
       withCredentials: true
     })
   }
 
   submitApplication(values: Application): Observable<Application> {
-    return this.http.post<Application>(this.URL + '/application', values, {
+    return this.http.post<Application>(this.applUrl + '/application', values, {
       withCredentials: true
     })
   }
 
   editApplication(values: Application): Observable<Application> {
-    return this.http.post<Application>(this.URL + '/applicationEdited', values, {
+    return this.http.post<Application>(this.applUrl + '/applicationEdited', values, {
       withCredentials: true
     })
   }
 
   deleteFile(id: string): Observable<any> {
-    return this.http.post<any>(this.URL + '/deleteFile', { id }, {
+    return this.http.post<any>(this.applUrl + '/deleteFile', { id }, {
       withCredentials: true
     })
   }
 
   getApplications(query: Selected): Observable<Application[]> {
-    return this.http.post<Application[]>(this.URL + '/getApplications', query, {
+    return this.http.post<Application[]>(this.applUrl + '/getApplications', query, {
+      withCredentials: true
+    })
+  }
+
+  getAllTargetDate(query: Selected): Observable<any[]> {
+    return this.http.post<any[]>(this.applUrl + '/getClientTargets', query, {
       withCredentials: true
     })
   }
 
   getUsers(): Observable<any> {
-    return this.http.get<any>(this.URL + '/getUsers', {
+    return this.http.get<any>(this.UserUrl + '/getUsers', {
       withCredentials: true
     })
   }

@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -31,6 +32,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
 
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -59,6 +61,7 @@ import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-co
 import { BreadCrumbComponent } from './bread-crumb/bread-crumb.component';
 import { SpinnerService } from './services/spinner.service';
 import { AdministrationComponent } from './administration/administration.component';
+import { MessageService } from 'primeng/api';
 
 export const MY_FORMATS = {
   parse: {
@@ -122,7 +125,9 @@ export const MY_FORMATS = {
     MatExpansionModule,
     ButtonModule,
     NgxSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule,
+    ToastModule
   ],
   providers: [
     DataService,
@@ -130,7 +135,8 @@ export const MY_FORMATS = {
     UserService,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
+    MessageService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

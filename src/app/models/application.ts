@@ -6,7 +6,8 @@ export interface Application {
     values?: any,
     files?: ApplicationFile[],
     category?: Selected,
-    datetime?: Date
+    datetime?: Date,
+    targetDate?: Date
 }
 
 export interface ApplicationFile {

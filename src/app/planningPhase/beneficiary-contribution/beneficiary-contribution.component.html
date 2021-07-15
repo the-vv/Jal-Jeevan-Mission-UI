@@ -1,35 +1,19 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
     <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
-<!-- 
-<div class="row mt-2">
-    <div class="col-1">
-        <p class="h5">Ward No.</p>
+<mat-card>
+    <p class="h5">Set Target date for {{data.getLongName(formdata.name)}}</p>
+    <div class="d-flex justify-content-center">
+        <mat-form-field appearance="outline">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="targetDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button mat-stroked-button color="primary" class="my-1 ms-3" (click)="setTarget()">Set Date <i
+                class="pi pi-spin pi-spinner" *ngIf="settingDateProgress"></i></button>
     </div>
-    <div class="col-2">
-        <p class="h5">Total beneficiary</p>
-    </div>
-    <div class="col-3">
-        <p class="h5">
-            Fully Contribution Remitted
-        </p>
-    </div>
-    <div class="col-3">
-        <p class="h5">
-            Partially Contribution Remitted
-        </p>
-    </div>
-    <div class="col-2">
-        <p class="h5">
-            Total Amount
-        </p>
-    </div>
-    <div class="col-1">
-        <p class="h5">
-            Delete
-        </p>
-    </div>
-</div> -->
+</mat-card>
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div formArrayName="contribution"
         *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
@@ -49,7 +33,7 @@
                                     <input formControlName="totalBeneficiary" matInput placeholder="Total Beneficiary">
                                 </mat-form-field>
                             </p>
-                        </div> 
+                        </div>
                         <div class="col-12 col-md-3">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
@@ -78,28 +62,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-12 col-md-2">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('contribution')['controls'][i].value.bankIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Bank Stmt:
-                                </strong>{{getFileFromIndex(i).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('contribution')['controls'][i].value.bankIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('contribution')['controls'][i].value.bankIndex?.length == 0 || !this.applicationForm.get('contribution')['controls'][i].value.bankIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'white',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Bank Statement'"></p-fileUpload>
-                    </div>
-                </div> -->
                 <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                         style="margin-top: 10px" (click)="removeContribution(i)">

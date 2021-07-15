@@ -18,6 +18,9 @@ body {
 .mat-form-field-wrapper {
     padding-bottom: unset;
 }
+mat-error, mat-hint {
+    margin-top: 13px;
+}
 
 .p-tieredmenu {
     width: 100% !important;

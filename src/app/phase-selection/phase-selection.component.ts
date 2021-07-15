@@ -1,18 +1,20 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { DataService } from '../services/data.service';
+import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-phase-selection',
   templateUrl: './phase-selection.component.html',
   styleUrls: ['./phase-selection.component.scss']
 })
-export class PhaseSelectionComponent implements OnInit {
+export class PhaseSelectionComponent implements OnInit, AfterViewInit {
 
   phases: string[] = []
   phase: string = '';
@@ -27,8 +29,9 @@ export class PhaseSelectionComponent implements OnInit {
     private width: BreakpointObserver,
     private user: UserService,
     private router: Router,
-    private route: ActivatedRoute
-
+    private route: ActivatedRoute,
+    private rest: RestapiService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +40,7 @@ export class PhaseSelectionComponent implements OnInit {
         this.isAdmin = val?.admin
       }
     })
-    if(!this.data.selectedDetails.district || !this.data.selectedDetails.gp) {
+    if (!this.data.selectedDetails.district || !this.data.selectedDetails.gp) {
       this.router.navigate(['../district'], { relativeTo: this.route })
     }
     this.screenObserver.pipe(map(v => v.matches)).subscribe(val => {
@@ -65,6 +68,22 @@ export class PhaseSelectionComponent implements OnInit {
 
   gotoGP() {
     this.router.navigate(['../grama-panchayath'], { relativeTo: this.route })
+  }
+
+  ngAfterViewInit() {
+    console.log(this.data.selectedDetails)
+    this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
+      console.log(res);
+      res.forEach(el => {
+        if (el.targetDate) {
+          this.messageService.add({life: 7000,  severity: 'warn', summary: `Target Date: ${new Date(el.targetDate).toDateString()}`,
+          detail: `${el.phase}/ ${el.component}` });
+        }
+      });
+    },
+      e => {
+        console.log(e);
+      })
   }
 
 }
