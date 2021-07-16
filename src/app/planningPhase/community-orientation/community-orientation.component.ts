@@ -48,8 +48,18 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
         console.log(res)
         this.submittedApplcations = res;
         if (res.length > 0) {
+          this.editingId = res[0]._id;
+          this.targetDate = res[0].targetDate;
           this.showForm = false;
-          this, this.applicSelected(res[0])
+          if(res[0].values) {
+            this.applicSelected(res[0])
+          }
+          else {
+            this.showForm = true;
+            for (let i = 0; i < this.data.getWardCount(); i++) {
+              this.addWard()
+            }
+          }
         }
         else {
           this.showForm = true;
@@ -354,7 +364,12 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     if (this.isAdmin) {
       let datedForm: Application = {};
       if (!this.editingId.length) {
-        datedForm.targetDate = new Date(this.targetDate);
+        if(this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
         this.settingDateProgress = true;
         datedForm.category = this.data.selectedDetails;
         this.rest.submitApplication(datedForm)
@@ -369,7 +384,12 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
           })
       }
       else {
-        datedForm.targetDate = new Date(this.targetDate);
+        if(this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
         datedForm._id = this.editingId;
         datedForm.category = this.data.selectedDetails;
         this.settingDateProgress = true;

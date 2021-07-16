@@ -33,6 +33,8 @@ export class GpActionApprovedComponent implements OnInit {
   editingId: string = '';
   showForm: boolean = false;
   submitted: boolean = false;
+  targetDate: Date;
+  settingDateProgress: boolean = false;
 
   constructor(
     private user: UserService,
@@ -55,7 +57,19 @@ export class GpActionApprovedComponent implements OnInit {
         this.submittedApplcations = res;
         if (res.length > 0) {
           this.showForm = false;
-          this.applicSelected(res[0]);
+          this.targetDate = res[0].targetDate;
+          this.editingId = res[0]._id;
+          if (res[0].values) {
+            this.applicSelected(res[0]);
+          }
+          else {
+            for (let index = 1; index < this.data.getWardCount(); index++) {
+              this.addCommitee();
+            }
+            for (let index = 1; index < this.data.getWardCount(); index++) {
+              this.addMeeting();
+            }
+          }
         } else {
           for (let index = 1; index < this.data.getWardCount(); index++) {
             this.addCommitee();
@@ -324,6 +338,7 @@ export class GpActionApprovedComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
+    this.targetDate = app.targetDate;
     this.onReset();
     this.showForm = true
     this.iecActivities = this.applicationForm.get('meetings') as FormArray
@@ -383,6 +398,55 @@ export class GpActionApprovedComponent implements OnInit {
   viewFile(file: ApplicationFile) {
     if (file.url) {
       window.open(file.url)
+    }
+  }
+
+  setTarget() {
+    if (this.isAdmin) {
+      let datedForm: Application = {};
+      if (!this.editingId.length) {
+        if (this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
+        this.settingDateProgress = true;
+        datedForm.category = this.data.selectedDetails;
+        this.rest.submitApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      else {
+        if (this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
+        datedForm._id = this.editingId;
+        datedForm.category = this.data.selectedDetails;
+        this.settingDateProgress = true;
+        this.rest.editApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      console.log(datedForm);
+
     }
   }
 

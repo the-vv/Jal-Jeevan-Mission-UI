@@ -25,6 +25,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   editingId: string = '';
   showForm: boolean = false;
   submitted = false;
+  targetDate: Date;
+  settingDateProgress: boolean = false;
 
   constructor(
     private user: UserService,
@@ -38,8 +40,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
-        console.log(res)
         this.submittedApplcations = res;
+        this.editingId = res[0]._id;
         if (res.length > 0) {
           this.showForm = false;
           this.applicSelected(res[0])
@@ -293,6 +295,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   }
 
   applicSelected(app: Application) {
+    this.targetDate = app.targetDate;
     this.onReset();
     this.showForm = true;
     for (let i = 0; i < app.values.interDepartmentMeeting.length; i++) {
@@ -351,4 +354,50 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setTarget() {
+    if (this.isAdmin) {
+      let datedForm: Application = {};
+      if (!this.editingId.length) {
+        if(this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
+        this.settingDateProgress = true;
+        datedForm.category = this.data.selectedDetails;
+        this.rest.submitApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      else {
+        if(this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
+        datedForm._id = this.editingId;
+        datedForm.category = this.data.selectedDetails;
+        this.settingDateProgress = true;
+        this.rest.editApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+    }
+  }
 }

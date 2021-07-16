@@ -24,7 +24,7 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
   filesToUpload: any[] = [];
   iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
-  applicationForm!: FormGroup;
+  applicationForm: FormGroup;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
   editingId: string = '';
@@ -53,8 +53,16 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
         console.log(res)
         this.submittedApplcations = res;
         if (res.length > 0) {
+          this.targetDate = res[0].targetDate;
           this.showForm = false;
-          this.applicSelected(res[0]);
+          if (res[0].values) {
+            this.applicSelected(res[0]);
+          }
+          else {
+            for (let index = 1; index < this.data.getWardCount(); index++) {
+              this.addContribution();
+            }
+          }
         } else {
           for (let index = 1; index < this.data.getWardCount(); index++) {
             this.addContribution();
@@ -329,12 +337,16 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
   setTarget() {
     if (this.isAdmin) {
       let datedForm: Application = {};
       if (!this.editingId.length) {
-        datedForm.targetDate = new Date(this.targetDate);
+        if (this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
         this.settingDateProgress = true;
         datedForm.category = this.data.selectedDetails;
         this.rest.submitApplication(datedForm)
@@ -349,7 +361,12 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
           })
       }
       else {
-        datedForm.targetDate = new Date(this.targetDate);
+        if (this.targetDate) {
+          datedForm.targetDate = new Date(this.targetDate);
+        }
+        else {
+          datedForm.targetDate = this.targetDate;
+        }
         datedForm._id = this.editingId;
         datedForm.category = this.data.selectedDetails;
         this.settingDateProgress = true;
@@ -364,8 +381,6 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
             this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
           })
       }
-      console.log(datedForm);
-
     }
   }
 }
