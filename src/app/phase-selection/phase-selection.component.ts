@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators'
+import { map, take } from 'rxjs/operators'
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
@@ -37,6 +37,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.user.userChange.subscribe((val) => {
       if (val !== null) {
+        // this.data.targetsWarningShown = false;
         this.isAdmin = val?.admin
       }
     })
@@ -71,19 +72,21 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.data.selectedDetails)
-    this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
-      console.log(res); 
-      res.forEach(el => {
-        if (el.targetDate) {
-          this.messageService.add({life: 7000,  severity: 'warn', summary: `Target Date: ${new Date(el.targetDate).toDateString()}`,
-          detail: `${el.phase}/ ${el.component}` });
-        }
-      });
-    },
-      e => {
-        console.log(e);
-      })
+    if (!this.isAdmin && !this.data.targetsWarningShown) {
+      this.data.targetsWarningShown = true;
+      this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
+        console.log(res);
+        res.forEach(el => {
+          if (el.targetDate) {
+            this.messageService.add({life: 7000,  severity: 'warn', summary: `${new Date(el.targetDate).toDateString()}`,
+            detail: `${el.phase}/ ${el.component}` });            
+          }
+        });
+      },
+        e => {
+          console.log(e);
+        })        
+    }
   }
 
 }

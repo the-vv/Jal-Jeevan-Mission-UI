@@ -11,6 +11,7 @@ export class DataService {
   selectedDetails: Selected = {};
   allGramaPanchayaths = {};
   targetUrl: string = null;
+  targetsWarningShown: boolean = false;
 
   AllDataWithCount = {
     Idukki: {

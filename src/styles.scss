@@ -49,3 +49,8 @@ mat-error, mat-hint {
         text-decoration: underline;
     }
 }
+
+.p-toast-message-content	 {
+    display: flex;
+    align-items: center !important;
+}

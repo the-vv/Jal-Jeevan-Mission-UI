@@ -1,7 +1,11 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
     <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
-<mat-card>
+<mat-card *ngIf="targetDate && !isAdmin">
+    <p class="fs-6 text-success"><span style="font-weight: 500;">Target date for {{data.getLongName(formdata.name)}}:</span> {{targetDate | date:
+        'fullDate'}}</p>
+</mat-card>
+<mat-card *ngIf="isAdmin">
     <p class="h5">Set Target date for {{data.getLongName(formdata.name)}}</p>
     <div class="d-flex justify-content-center">
         <mat-form-field appearance="outline">

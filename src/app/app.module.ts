@@ -32,7 +32,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
-import {ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
