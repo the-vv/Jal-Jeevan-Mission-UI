@@ -73,7 +73,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     console.log(this.data.selectedDetails)
     this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
-      console.log(res);
+      console.log(res); 
       res.forEach(el => {
         if (el.targetDate) {
           this.messageService.add({life: 7000,  severity: 'warn', summary: `Target Date: ${new Date(el.targetDate).toDateString()}`,

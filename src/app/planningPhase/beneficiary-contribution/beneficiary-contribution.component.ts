@@ -329,43 +329,44 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     }
   }
 
+  
   setTarget() {
-    // if(this.isAdmin) {      
-    // } 
-    let datedForm: Application = {};
-    if (!this.editingId.length) {
-      datedForm.targetDate = new Date(this.targetDate);
-      datedForm._id = this.editingId;
-      this.settingDateProgress = true;
-      this.rest.submitApplication(datedForm)
-        .subscribe(res => {
-          this.settingDateProgress = false;
-          console.log(res);
-          this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-        }, e => {
-          this.settingDateProgress = false;
-          console.log(e.error.status)
-          this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-        })
-    }
-    else {
-      datedForm.targetDate = new Date(this.targetDate);
-      datedForm._id = this.editingId;
-      datedForm.category = this.data.selectedDetails;
-      this.settingDateProgress = true;
-      this.rest.editApplication(datedForm)
-        .subscribe(res => {
-          this.settingDateProgress = false;
-          console.log(res);
-          this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-        }, e => {
-          this.settingDateProgress = false;
-          console.log(e.error.status)
-          this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-        })
-    }
-    console.log(datedForm);
+    if (this.isAdmin) {
+      let datedForm: Application = {};
+      if (!this.editingId.length) {
+        datedForm.targetDate = new Date(this.targetDate);
+        this.settingDateProgress = true;
+        datedForm.category = this.data.selectedDetails;
+        this.rest.submitApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      else {
+        datedForm.targetDate = new Date(this.targetDate);
+        datedForm._id = this.editingId;
+        datedForm.category = this.data.selectedDetails;
+        this.settingDateProgress = true;
+        this.rest.editApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      console.log(datedForm);
 
+    }
   }
 }
 

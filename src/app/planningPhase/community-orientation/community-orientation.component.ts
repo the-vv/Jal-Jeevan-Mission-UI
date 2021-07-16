@@ -8,20 +8,6 @@ import { RestapiService } from '../../services/restapi.service';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-const moment = _rollupMoment || _moment;
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-community-orientation',
@@ -43,6 +29,8 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   editingId: string = '';
   showForm: boolean = false;
   submitted: boolean = false;
+  targetDate: Date;
+  settingDateProgress: boolean = false;
 
   constructor(
     private user: UserService,
@@ -303,6 +291,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
   }
 
   applicSelected(app: Application) {
+    this.targetDate = app.targetDate;
     this.wards().clear();
     this.editingId = app._id
     for (let i = 0; i < app.values.wards.length; i++) {
@@ -361,4 +350,42 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     }
   }
 
+  setTarget() {
+    if (this.isAdmin) {
+      let datedForm: Application = {};
+      if (!this.editingId.length) {
+        datedForm.targetDate = new Date(this.targetDate);
+        this.settingDateProgress = true;
+        datedForm.category = this.data.selectedDetails;
+        this.rest.submitApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      else {
+        datedForm.targetDate = new Date(this.targetDate);
+        datedForm._id = this.editingId;
+        datedForm.category = this.data.selectedDetails;
+        this.settingDateProgress = true;
+        this.rest.editApplication(datedForm)
+          .subscribe(res => {
+            this.settingDateProgress = false;
+            console.log(res);
+            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+          }, e => {
+            this.settingDateProgress = false;
+            console.log(e.error.status)
+            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      console.log(datedForm);
+
+    }
+  }
 }
