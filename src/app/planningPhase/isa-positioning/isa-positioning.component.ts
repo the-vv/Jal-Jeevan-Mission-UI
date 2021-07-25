@@ -80,12 +80,18 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
       teamLeaderAddress: [''],
       teamLeaderNo: [''],
       teamLeaderCVIndex: '',
+      teamLeaderExperience: '',
+      teamLeaderQualification: '',
       comminityEngAddress: [''],
       communityEngNo: [''],
       communityEngCVIndex: '',
+      communityEngExperience: '',
+      communityEngQualification: '',
       communityfacilAddress: [''],
       communityFacilNo: [''],
-      communityFacilitatorCVIndex: ''
+      communityFacilitatorCVIndex: '',
+      communityFacilExperience: '',
+      communityFacilQualification: ''
     })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
