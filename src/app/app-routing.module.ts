@@ -20,6 +20,7 @@ import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gp
 import { Route } from '@angular/compiler/src/core';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdministrationComponent } from './administration/administration.component';
+import { ReportHomeComponent } from './report-home/report-home.component';
 
 
 let commonRoutes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
   {
     path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
+      { path: 'reports', component: ReportHomeComponent },
       { path: 'administration', component: AdministrationComponent },
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },

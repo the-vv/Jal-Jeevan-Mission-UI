@@ -18,6 +18,10 @@
             *ngIf="user.isloggedin && user.isAdmin">Administration</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="admin/reports" routerLinkActive="active"
+            *ngIf="user.isloggedin && user.isAdmin">Reports</a>
+        </li>
+        <li class="nav-item">
           <span class="nav-link" (click)="user.logout()">Logout</span>
         </li>
       </ul>
