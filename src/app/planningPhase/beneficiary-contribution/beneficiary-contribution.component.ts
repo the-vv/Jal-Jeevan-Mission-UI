@@ -53,6 +53,7 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
         console.log(res)
         this.submittedApplcations = res;
         if (res.length > 0) {
+          this.editingId = res[0]._id;
           this.targetDate = res[0].targetDate;
           this.showForm = false;
           if (res[0].values) {

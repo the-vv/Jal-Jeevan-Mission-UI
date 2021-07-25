@@ -41,8 +41,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
         this.submittedApplcations = res;
-        this.editingId = res[0]._id;
         if (res.length > 0) {
+          this.editingId = res[0]._id;
           this.showForm = false;
           this.applicSelected(res[0])
         }

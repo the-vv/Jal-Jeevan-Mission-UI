@@ -43,8 +43,8 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
       .subscribe(res => {
         console.log(res)
         this.submittedApplcations = res;
-        this.editingId = res[0]._id;
         if (res.length > 0) {
+          this.editingId = res[0]._id;
           this.applicSelected(res[0])
           this.showForm = false;
         }
