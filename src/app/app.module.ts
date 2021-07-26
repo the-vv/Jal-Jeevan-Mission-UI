@@ -23,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -63,6 +64,7 @@ import { SpinnerService } from './services/spinner.service';
 import { AdministrationComponent } from './administration/administration.component';
 import { MessageService } from 'primeng/api';
 import { ReportHomeComponent } from './report-home/report-home.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -97,7 +99,8 @@ export const MY_FORMATS = {
     BeneficiaryContributionComponent,
     BreadCrumbComponent,
     AdministrationComponent,
-    ReportHomeComponent
+    ReportHomeComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +132,8 @@ export const MY_FORMATS = {
     NgxSpinnerModule,
     MatTabsModule,
     MatCardModule,
-    ToastModule
+    ToastModule,
+    MatSidenavModule
   ],
   providers: [
     DataService,

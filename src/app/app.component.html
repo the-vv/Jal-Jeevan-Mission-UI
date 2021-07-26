@@ -1,124 +1,149 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <!-- <img src="../assets/c.jpg" alt="" class="navbar-image"> -->
-      Jal Jeevan Mssion
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login" routerLinkActive="active" aria-current="page">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="admin/administration" routerLinkActive="active"
-            *ngIf="user.isloggedin && user.isAdmin">Administration</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="admin/reports" routerLinkActive="active"
-            *ngIf="user.isloggedin && user.isAdmin">Reports</a>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link" (click)="user.logout()">Logout</span>
-        </li>
-      </ul>
-    </div>
-    <!-- <span class="navbar-text">
+<mat-drawer-container class="example-container" autosize [hasBackdrop]="true">
+  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+    <app-sidebar></app-sidebar>
+  </mat-drawer>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <!-- <img src="../assets/c.jpg" alt="" class="navbar-image"> -->
+        Jal Jeevan Mssion
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="login" routerLinkActive="active" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="admin/administration" routerLinkActive="active"
+              *ngIf="user.isloggedin && user.isAdmin">Administration</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="admin/reports" routerLinkActive="active"
+              *ngIf="user.isloggedin && user.isAdmin">Reports</a>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link" (click)="user.logout()">Logout</span>
+          </li>
+          <li class="nav-item d-flex align-items-center text-white">
+            <button mat-icon-button  aria-label="Example icon button with a menu icon" (click)="drawer.toggle()">
+              <mat-icon>mark_chat_unread</mat-icon>
+            </button>
+          </li>
+          <li class="nav-item d-flex align-items-center ms-2 text-white">
+            <!-- <button class="btn btn-outline-light"> -->
+              <button mat-icon-button  aria-label="Example icon button with a menu icon"  (click)="drawer.toggle()">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <!-- <i class="bi bi-list " style="vertical-align: bottom;"></i> -->
+            <!-- </button> -->
+          </li>
+        </ul>
+      </div>
+      <!-- <span class="navbar-text">
         Solidarity Movement of India
       </span> -->
-  </div>
-</nav>
+    </div>
+  </nav>
 
-<router-outlet></router-outlet>
-<div class="mt-5 pt-5"></div>
-<footer class="bg-light text-center text-lg-left mt-5 border-top">
-  <!-- Grid container -->
-  <div class="container p-4">
-    <!--Grid row-->
-    <div class="row">
-      <!--Grid column-->
-      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-        <h3 class="text-uppercase">Jal Jeevan Mission</h3>
-        <p style="text-align: justify; text-justify: inter-word;">
-          Jal Jeevan Mission, is envisioned to provide safe and adequate drinking water through individual household tap
-          connections by 2024 to all households in rural India. The programme will also implement source sustainability
-          measures as mandatory elements, such as recharge and reuse through grey water management, water conservation,
-          rain water harvesting. The Jal Jeevan Mission will be based on a community approach to water and will include
-          extensive Information, Education and communication as a key component of the mission.
-        </p>
-      </div>
-      <!--Grid column-->
+  <router-outlet></router-outlet>
+  <div class="mt-5 pt-5"></div>
+  <footer class="bg-light text-center text-lg-left mt-5 border-top">
+    <!-- Grid container -->
+    <div class="container p-4">
+      <!--Grid row-->
+      <div class="row">
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <h3 class="text-uppercase">Jal Jeevan Mission</h3>
+          <p style="text-align: justify; text-justify: inter-word;">
+            Jal Jeevan Mission, is envisioned to provide safe and adequate drinking water through individual household
+            tap
+            connections by 2024 to all households in rural India. The programme will also implement source
+            sustainability
+            measures as mandatory elements, such as recharge and reuse through grey water management, water
+            conservation,
+            rain water harvesting. The Jal Jeevan Mission will be based on a community approach to water and will
+            include
+            extensive Information, Education and communication as a key component of the mission.
+          </p>
+        </div>
+        <!--Grid column-->
 
-      <!--Grid column-->
-      <div class="col-lg-3 offset-md-3 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase">Quick Links</h5>
+        <!--Grid column-->
+        <div class="col-lg-3 offset-md-3 col-md-6 mb-4 mb-md-0">
+          <h5 class="text-uppercase">Quick Links</h5>
 
-        <ul class="list-unstyled mb-0">
-          <li>
-            <a href="https://jaljeevanmission.gov.in/" target="_blank" class="text-dark">Jal Jeevan Mission</a>
-          </li>
-          <!-- <li>
+          <ul class="list-unstyled mb-0">
+            <li>
+              <a href="https://jaljeevanmission.gov.in/" target="_blank" class="text-dark">Jal Jeevan Mission</a>
+            </li>
+            <!-- <li>
             <a href="#" target="_blank" class="text-dark">Some links</a>
           </li>
           <li>
             <a href="#" target="_blank" class="text-dark">Some Links</a>
           </li> -->
-        </ul>
+          </ul>
+        </div>
+        <!--Grid column-->
       </div>
-      <!--Grid column-->
+      <!--Grid row-->
     </div>
-    <!--Grid row-->
-  </div>
-  <!-- Grid container -->
+    <!-- Grid container -->
 
-  <!-- Copyright -->
-  <div class="text-center p-3 pb-0 display-5" style="background-color: rgba(0, 0, 0, 0.2); font-size: 1.3em;">
-    <div class="col-12">
-      Developed and maintained By: <strong>Vishnu Vinod</strong>
-      <!-- <a class="text-dark" href="mailto:vishnuvinod2772001@gmail.com">vishnuvinod2772001@gmail.com</a> -->
+    <!-- Copyright -->
+    <div class="text-center p-3 pb-0 display-5" style="background-color: rgba(0, 0, 0, 0.2); font-size: 1.3em;">
+      <div class="col-12">
+        Developed and maintained By: <strong>Vishnu Vinod</strong>
+        <!-- <a class="text-dark" href="mailto:vishnuvinod2772001@gmail.com">vishnuvinod2772001@gmail.com</a> -->
+      </div>
+      <div class="col-12">
+        <a href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=vishnuvinod2772001@gmail.com&su=About+JalJeevanMission+Online+Portal&body=Content+here&ui=2"
+          target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-envelope"
+            class="p-button-rounded p-button-text text-danger"></button>
+        </a>
+        <a href="https://wa.me/919605145050" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-whatsapp"
+            class="p-button-rounded p-button-text text-success"></button>
+        </a>
+        <a href="https://t.me/the_vv_01" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-telegram"
+            class="p-button-rounded p-button-text text-primary"></button>
+        </a>
+        <a href="https://www.linkedin.com/in/the-vv01/" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-linkedin" class="p-button-rounded p-button-text"></button>
+        </a>
+        <a href="https://github.com/the-vv" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-github"
+            class="p-button-rounded p-button-text text-dark"></button>
+        </a>
+        <a href="https://www.facebook.com/vishnu.vinod.01/" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-facebook"
+            class="p-button-rounded p-button-text text-primary"></button>
+        </a>
+        <a href="https://www.instagram.com/_the_vv_/" target="_blank" rel="noopener noreferrer">
+          <button pButton pRipple type="button" icon="bi bi-instagram"
+            class="p-button-rounded p-button-text text-danger"></button>
+        </a>
+      </div>
+      <div class="col-12 social-buttons">
+      </div>
     </div>
-    <div class="col-12">
-      <a href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=vishnuvinod2772001@gmail.com&su=About+JalJeevanMission+Online+Portal&body=Content+here&ui=2"
-        target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-envelope"
-          class="p-button-rounded p-button-text text-danger"></button>
-      </a>
-      <a href="https://wa.me/919605145050" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-whatsapp"
-          class="p-button-rounded p-button-text text-success"></button>
-      </a>
-      <a href="https://t.me/the_vv_01" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-telegram"
-          class="p-button-rounded p-button-text text-primary"></button>
-      </a>
-      <a href="https://www.linkedin.com/in/the-vv01/" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-linkedin" class="p-button-rounded p-button-text"></button>
-      </a>
-      <a href="https://github.com/the-vv" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-github"
-          class="p-button-rounded p-button-text text-dark"></button>
-      </a>
-      <a href="https://www.facebook.com/vishnu.vinod.01/" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-facebook"
-          class="p-button-rounded p-button-text text-primary"></button>
-      </a>
-      <a href="https://www.instagram.com/_the_vv_/" target="_blank" rel="noopener noreferrer">
-        <button pButton pRipple type="button" icon="bi bi-instagram"
-          class="p-button-rounded p-button-text text-danger"></button>
-      </a>
-    </div>
-    <div class="col-12 social-buttons">
-    </div>
-  </div>
-  <!-- Copyright -->
-</footer>
+    <!-- Copyright -->
+  </footer>
 
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple"
-  [fullScreen]="true">
-  <p style="color: white"> Loading... </p>
-</ngx-spinner>
- 
-<p-toast position="bottom-right"></p-toast> 
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple"
+    [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+  </ngx-spinner>
+
+  <p-toast position="bottom-right"></p-toast>
+
+
+</mat-drawer-container>
