@@ -87,9 +87,14 @@
         <div class="col-12 col-md-8">
             <p>
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Implementing Agency</mat-label>
-                    <input matInput formControlName="implementingAgency">
-                </mat-form-field>
+                    <mat-label>Select an Implementing Agency</mat-label>
+                    <mat-select formControlName="implementingAgency">
+                      <mat-option>None</mat-option>
+                      <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)</mat-option>
+                      <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala Rural Water Supply and Sanitation Agency (KRWSA)</mat-option>
+                      <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)</mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </p>
         </div>
     </div>

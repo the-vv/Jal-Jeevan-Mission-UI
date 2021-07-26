@@ -49,6 +49,10 @@ export class GpActionPlanComponent implements OnInit {
   submitted: boolean = false;
   targetDate: Date;
   settingDateProgress: boolean = false;
+  totalTotalHHS: number = 0;
+  totalWaterSupplyCovered: number = 0;
+  totalNotConvered: number = 0;
+  totalJjmBeneficiary: number = 0;
 
   constructor(
     private user: UserService,
@@ -105,9 +109,23 @@ export class GpActionPlanComponent implements OnInit {
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
       // console.log(this.filesToUpload, this.applicationForm.value);
-
+      this.calculateTotals();
     })
 
+  }
+
+  calculateTotals() {
+    this.totalTotalHHS = 0;
+    this.totalWaterSupplyCovered = 0;
+    this.totalNotConvered = 0;
+    this.totalJjmBeneficiary = 0;
+    // console.log(this.applicationForm.value.baselineSurwey);
+    this.applicationForm.value.baselineSurwey.forEach(el => {
+      this.totalTotalHHS += Number(el.totalHHS);
+      this.totalWaterSupplyCovered += Number(el.waterSupplyCovered);
+      this.totalNotConvered += Number(el.notConvered);
+      this.totalJjmBeneficiary += Number(el.jjmBeneficiary);
+    });
   }
 
   // addMeeting() {

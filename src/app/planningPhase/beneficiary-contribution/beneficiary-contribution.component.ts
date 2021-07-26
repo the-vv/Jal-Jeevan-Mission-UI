@@ -32,6 +32,10 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
   submitted: boolean = false;
   targetDate: Date;
   settingDateProgress: boolean = false;
+  totalBeneficiary: number = 0;
+  totalFullyContributedRemitted: number = 0;
+  totalPartiallyContributedRemitted: number = 0;
+  totalAmount: number = 0;
 
   constructor(
     private user: UserService,
@@ -78,7 +82,25 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
       })
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
+      this.calculateTotals();
     })
+  }
+
+  calculateTotals() {    
+    this.totalBeneficiary = 0;
+    this.totalFullyContributedRemitted = 0;
+    this.totalPartiallyContributedRemitted = 0;
+    this.totalAmount = 0;
+    console.log(this.applicationForm.value.contribution);
+    this.applicationForm.value.contribution.forEach(el => {
+      this.totalBeneficiary += Number(el.totalBeneficiary);
+      this.totalFullyContributedRemitted += Number(el.fullyContributionRemitted);
+      this.totalPartiallyContributedRemitted += Number(el.partiallyContributionRemitted);
+      this.totalAmount += Number(el.totalAmount);
+    });
+    // for (let i = 0; i < this.applicationForm.value.contribution.length; i++) {
+    //   this.addContribution()
+    // }
   }
 
   addContribution() {

@@ -2,7 +2,8 @@
     <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
 <mat-card *ngIf="targetDate && !isAdmin">
-    <p class="fs-6 text-success"><span style="font-weight: 500;">Target date for {{data.getLongName(formdata.name)}}:</span> {{targetDate | date:
+    <p class="fs-6 text-success"><span style="font-weight: 500;">Target date for
+            {{data.getLongName(formdata.name)}}:</span> {{targetDate | date:
         'fullDate'}}</p>
 </mat-card>
 <mat-card *ngIf="isAdmin">
@@ -21,7 +22,7 @@
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Baseline Survey</p>
+            <p class="h5 text-start p-0">Baseline Details</p>
         </div>
     </div>
     <div formArrayName="baselineSurwey"
@@ -33,54 +34,88 @@
                         Ward {{i + 1}}
                     </p>
                 </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Total HHS</mat-label>
-                            <input formControlName="totalHHS" matInput placeholder="Total HHS">
-                        </mat-form-field>
-                    </p>
+                <div class="col-12 col-md-10">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Total HHS</mat-label>
+                                    <input formControlName="totalHHS" matInput placeholder="Total HHS" type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Water Supply Covered</mat-label>
+                                    <input formControlName="waterSupplyCovered" matInput
+                                        placeholder="Water Supply Covered" type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Not Covered</mat-label>
+                                    <input formControlName="notConvered" matInput placeholder="Not Covered"
+                                        type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>JJM Beneficiary</mat-label>
+                                    <input formControlName="jjmBeneficiary" matInput placeholder="JJM Beneficiary"
+                                        type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Water Supply Covered</mat-label>
-                            <input formControlName="waterSupplyCovered" matInput placeholder="Water Supply Covered">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Not Covered</mat-label>
-                            <input formControlName="notConvered" matInput placeholder="Not Covered">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>JJM Beneficiary</mat-label>
-                            <input formControlName="jjmBeneficiary" matInput placeholder="JJM Beneficiary">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-1 text-center">
+                <!-- <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                         style="margin-top: 10px" (click)="removeBaselineSurwey(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
-                </div>
+                </div> -->
             </div>
         </ng-container>
     </div>
-    <div class="">
+    <hr class="col-12 col-md-10 offset-md-2">
+    <div class="row">
+        <div class="col-10 offset-md-2">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <p class="h6 text-center pt-3">
+                        Total HHS: {{totalTotalHHS}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p class="h6 text-center pt-3">
+                        Total Water Supply Covered: {{totalWaterSupplyCovered}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p class="h6 text-center pt-3">
+                        Total Not Covered: {{totalNotConvered}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <p class="h6 text-center pt-3">
+                        Total JJM Beneficiary: {{totalJjmBeneficiary}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="">
         <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
             <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addBaselineSurwey()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>
-    </div>
+    </div> -->
     <hr>
     <div class="row mt-3">
         <div class="col-6">
@@ -357,7 +392,7 @@
                         Ward {{i + 1}}
                     </p>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-5">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Distributed</mat-label>
@@ -373,23 +408,40 @@
                         </mat-form-field>
                     </p>
                 </div>
-                <div class="col-12 col-md-1 text-center">
+                <!-- <div class="col-12 col-md-1 text-center">
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
                         style="margin-top: 10px" (click)="removeApplicationFormWard(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
-                </div>
+                </div> -->
             </div>
         </ng-container>
     </div>
-    <div class="">
+    <hr class="col-12 col-md-10 offset-md-2">
+    <div class="row">
+        <div class="col-10 offset-md-2">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <p class="h6 text-center pt-3">
+                        Total Distributed: {{totalTotalHHS}}
+                    </p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <p class="h6 text-center pt-3">
+                        Total Recieved{{totalWaterSupplyCovered}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="">
         <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
             <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
                 (click)="addApplicationFormWard()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>
-    </div>
+    </div> -->
     <hr>
     <div class="row my-3">
         <div class="col-12 col-md-2">

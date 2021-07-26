@@ -56,7 +56,9 @@ export class GpIecActivitiesComponent implements OnInit, AfterViewChecked, After
           this.showForm = false;
           this.editingId = res[0]._id;
           this.targetDate = res[0].targetDate;
-          this.applicSelected(res[0]);
+          if(res[0].values) {
+            this.applicSelected(res[0]);
+          }
         }
       }, e => {
         // console.log(e.error)
