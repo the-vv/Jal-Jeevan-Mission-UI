@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Application, ApplicationFile } from '../../models/application';
+import { Application, ApplicationFile, TargetDate } from '../../models/application';
 import { DataService } from '../../services/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-orientation-to-gp',
@@ -25,7 +26,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   editingId: string = '';
   showForm: boolean = false;
   submitted = false;
-  targetDate: Date;
+  targetDate: TargetDate;
   settingDateProgress: boolean = false;
 
   constructor(
@@ -34,7 +35,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngAfterViewInit() {
@@ -95,7 +97,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       iecPlanAmount: [''],
       interDepartmentMeeting: this.formBuilder.array([
         this.newInterDepartment()
-      ]),      
+      ]),
       GpBoardMeetingDate: [''],
       GpBoardMeetingNo: [''],
       GpBoardMeetingResolutionIndex: '',
@@ -295,7 +297,10 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   }
 
   applicSelected(app: Application) {
-    this.targetDate = app.targetDate;
+    this.targetDate = app.targets;
+    if (!app.values) {
+      return;
+    }
     this.onReset();
     this.showForm = true;
     for (let i = 0; i < app.values.interDepartmentMeeting.length; i++) {
@@ -354,16 +359,15 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setTarget() {
+  setTarget(sectionName: string, targetDate: string) {
     if (this.isAdmin) {
-      let datedForm: Application = {};
+      let datedForm: Application = {
+        targets: this.targetDate
+      };
+      datedForm.targets.dates[sectionName] = targetDate;
+      datedForm.targets.applicationName = this.data.getLongName(this.formdata.name);
+      datedForm.targets.path = this.formdata.name;
       if (!this.editingId.length) {
-        if(this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
         this.settingDateProgress = true;
         datedForm.category = this.data.selectedDetails;
         this.rest.submitApplication(datedForm)
@@ -378,14 +382,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
           })
       }
       else {
-        if(this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
         datedForm._id = this.editingId;
-        datedForm.category = this.data.selectedDetails;
         this.settingDateProgress = true;
         this.rest.editApplication(datedForm)
           .subscribe(res => {
