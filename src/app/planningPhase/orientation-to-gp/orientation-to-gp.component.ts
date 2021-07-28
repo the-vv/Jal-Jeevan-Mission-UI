@@ -6,7 +6,9 @@ import { DataService } from '../../services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import _ from 'lodash';
+import { MatDialog } from '@angular/material/dialog';
+import { DateDialogComponent } from 'src/app/date-dialog/date-dialog.component';
+
 
 @Component({
   selector: 'app-orientation-to-gp',
@@ -36,7 +38,8 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private rest: RestapiService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngAfterViewInit() {
@@ -297,7 +300,6 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
   }
 
   applicSelected(app: Application) {
-    this.targetDate = app.targets;
     if (!app.values) {
       return;
     }
@@ -359,42 +361,50 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openDateDialogue(section: string) {
+    this.dialog.open(DateDialogComponent, {
+      data: {
+        section
+      }
+    });
+  }
+
   setTarget(sectionName: string, targetDate: string) {
-    if (this.isAdmin) {
-      let datedForm: Application = {
-        targets: this.targetDate
-      };
-      datedForm.targets.dates[sectionName] = targetDate;
-      datedForm.targets.applicationName = this.data.getLongName(this.formdata.name);
-      datedForm.targets.path = this.formdata.name;
-      if (!this.editingId.length) {
-        this.settingDateProgress = true;
-        datedForm.category = this.data.selectedDetails;
-        this.rest.submitApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      else {
-        datedForm._id = this.editingId;
-        this.settingDateProgress = true;
-        this.rest.editApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-    }
+    // if (this.isAdmin) {
+    //   let datedForm: Application = {
+    //     targets: this.targetDate
+    //   };
+    //   datedForm.targets.dates[sectionName] = targetDate;
+    //   datedForm.targets.applicationName = this.data.getLongName(this.formdata.name);
+    //   datedForm.targets.path = this.formdata.name;
+    //   if (!this.editingId.length) {
+    //     this.settingDateProgress = true;
+    //     datedForm.category = this.data.selectedDetails;
+    //     this.rest.submitApplication(datedForm)
+    //       .subscribe(res => {
+    //         this.settingDateProgress = false;
+    //         console.log(res);
+    //         this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+    //       }, e => {
+    //         this.settingDateProgress = false;
+    //         console.log(e.error.status)
+    //         this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+    //       })
+    //   }
+    //   else {
+    //     datedForm._id = this.editingId;
+    //     this.settingDateProgress = true;
+    //     this.rest.editApplication(datedForm)
+    //       .subscribe(res => {
+    //         this.settingDateProgress = false;
+    //         console.log(res);
+    //         this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
+    //       }, e => {
+    //         this.settingDateProgress = false;
+    //         console.log(e.error.status)
+    //         this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
+    //       })
+    //   }
+    // }
   }
 }

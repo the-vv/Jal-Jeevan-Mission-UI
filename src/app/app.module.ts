@@ -24,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -65,6 +66,8 @@ import { AdministrationComponent } from './administration/administration.compone
 import { MessageService } from 'primeng/api';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { DateDialogComponent } from './date-dialog/date-dialog.component';
+import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -100,7 +103,9 @@ export const MY_FORMATS = {
     BreadCrumbComponent,
     AdministrationComponent,
     ReportHomeComponent,
-    SidebarComponent
+    SidebarComponent,
+    DateDialogComponent,
+    ScheduleMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +138,8 @@ export const MY_FORMATS = {
     MatTabsModule,
     MatCardModule,
     ToastModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule
   ],
   providers: [
     DataService,

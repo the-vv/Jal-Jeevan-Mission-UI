@@ -3,22 +3,11 @@
 </div>
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div class="row mt-3">
-        <div class="col-12 col-md-4 border-bottom">
+        <div class="col-12 col-md-4">
             <p class="h5 text-start pt-3">
                 Introduction Meeting
+                <app-schedule-menu [section]="'Introduction Meeting'"></app-schedule-menu>
             </p>
-            <div class="d-flex justify-content-evenly" *ngIf="!isAdmin">
-                <mat-form-field appearance="outline">
-                    <mat-label>Target Date</mat-label>
-                    <input matInput [matDatepicker]="picker" #IMTarget>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <button mat-stroked-button color="primary" class="my-1 ms-3"
-                    (click)="setTarget('Introduction Meeting', IMTarget.value)">Set Date <i
-                        class="pi pi-spin pi-spinner" *ngIf="settingDateProgress"></i></button>
-
-            </div>
         </div>
         <div class="col-12 col-md-3">
             <p>
