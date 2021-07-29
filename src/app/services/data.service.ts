@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { TargetDate } from '../models/application';
 import { Selected } from '../models/selected';
+import _ from 'lodash';
+import { RestapiService } from './restapi.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,8 @@ export class DataService {
   allGramaPanchayaths = {};
   targetUrl: string = null;
   targetsWarningShown: boolean = false;
+  clientSchedules: TargetDate[] = [];
+  schedulesFetched: boolean = false;
 
   AllDataWithCount = {
     Idukki: {
@@ -64,11 +69,26 @@ export class DataService {
     ]
   }
 
-
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private rest: RestapiService
   ) {
+  }
+
+  getSectionSchedule(section: string): Promise<TargetDate> {
+    return new Promise((resolve, reject) => {
+      if(!this.schedulesFetched) {
+        this.rest.getSchedules(this.selectedDetails)
+        .subscribe(res => {
+          this.schedulesFetched = true;
+          this.clientSchedules = res;
+          return resolve(_.find(this.clientSchedules, { section }))
+        })
+      } else {        
+       return resolve(_.find(this.clientSchedules, { section }))
+      }
+    })
   }
 
   getWardCount(): number {

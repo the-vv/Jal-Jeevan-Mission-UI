@@ -25,6 +25,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -139,7 +140,8 @@ export const MY_FORMATS = {
     MatCardModule,
     ToastModule,
     MatSidenavModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ],
   providers: [
     DataService,

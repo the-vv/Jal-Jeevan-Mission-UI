@@ -15,7 +15,7 @@ export interface TargetDate {
     applicationName: string,
     path: string,    
     section: string,
-    date: Date| number | string,
+    date: number,
     category: Selected
 }
 

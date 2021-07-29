@@ -1,17 +1,22 @@
-<h1 mat-dialog-title>Set Target Date for {{inputData.section}}</h1>
+<h1 mat-dialog-title>{{inputData.section}}</h1>
 <div mat-dialog-content>
     <p>Set the target date</p>
-    <p>
-        <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Target Date</mat-label>
-            <input matInput [matDatepicker]="dp1" [(ngModel)]="selectedDate" (input)="checkDate()">
-            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-            <mat-error class="mt-3" *ngIf="invalidDate">The Date entered is invalid</mat-error>
-        </mat-form-field>
-    </p>
+    <form [formGroup]="dateForm">
+        <p class="">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Target Date</mat-label>
+                <input matInput [matDatepicker]="dp1" formControlName="date" (input)="checkDate()">
+                <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                <mat-error class="mt-3" *ngIf="invalidDate">The Date entered is invalid</mat-error>
+            </mat-form-field>
+        </p>
+    </form>
 </div>
 <div mat-dialog-actions [align]="'end'">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button cdkFocusInitial color="primary" (click)="saveDate()">Save</button>
+    <button mat-button cdkFocusInitial color="primary" (click)="saveDate()">
+        Save
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="showLoader"></i>
+    </button>
 </div>

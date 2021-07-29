@@ -1,3 +1,23 @@
-<button type="button" mat-button aria-label="Example icon button" class="text-danger" (click)="openDateDialogue('Introduction Meeting')">
-    Schedule <mat-icon>event</mat-icon>
-</button>
+<div class="d-inline-block" *ngIf="!target">
+    <button type="button" *ngIf="!iconOnly" type="button" mat-button aria-label="Example icon button"
+        class="text-danger" (click)="openDateDialogue()">
+        <span>Schedule</span>
+        <mat-icon>event</mat-icon>
+    </button>
+
+    <button type="button" *ngIf="iconOnly" style="min-width: 10px; width: unset;" mat-icon-button aria-label=""
+        class="text-danger" (click)="openDateDialogue()" matTooltip="Not Scheduled" [matTooltipPosition]="'right'"
+        [matTooltipClass]="'fs-6'" [matTooltipDisabled]="!iconOnly">
+        <mat-icon>event</mat-icon>
+    </button>
+</div>
+
+<div class="d-inline-block border rounded fs-6" [ngClass]="isDateExceeded() ? 'text-danger border-danger' : 'text-success border-success'"
+    *ngIf="target">
+    <span style=" vertical-align: middle;" *ngIf="!iconOnly">{{getDate() | date: 'd/M/yy'}}</span>
+    <mat-icon matTooltip="{{getDate() | date: 'd/M/yy'}}" [matTooltipPosition]="'right'" [matTooltipClass]="'fs-6'"
+        [matTooltipDisabled]="!iconOnly"
+        style="font-size: 1.05em; height: unset; cursor: pointer; width: unset; margin-left: 5px; vertical-align: middle;"
+        (click)="openDateDialogue()">edit
+    </mat-icon>
+</div>

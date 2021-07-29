@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Application } from '../models/application';
+import { Application, TargetDate } from '../models/application';
 import { Selected } from '../models/selected';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RestapiService {
 
-  private UserUrl: string = environment.production ? 'users' : 'http://localhost:3000/users'
+  private userUrl: string = environment.production ? 'users' : 'http://localhost:3000/users'
   private applUrl: string = environment.production ? 'applications' : 'http://localhost:3000/applications'
 
   constructor(
@@ -17,19 +18,19 @@ export class RestapiService {
   ) { }
 
   logout(): Observable<any> {
-    return this.http.get(this.UserUrl + '/logout', {
+    return this.http.get(this.userUrl + '/logout', {
       withCredentials: true
     })
   }
 
   login(values: Object): Observable<any> {
-    return this.http.post<any>(this.UserUrl + '/login', values, {
+    return this.http.post<any>(this.userUrl + '/login', values, {
       withCredentials: true
     })
   }
 
   verify(): Observable<any> {
-    return this.http.post(this.UserUrl + '/verify', null, {
+    return this.http.post(this.userUrl + '/verify', null, {
       withCredentials: true
     })
   }
@@ -71,7 +72,19 @@ export class RestapiService {
   }
 
   getUsers(): Observable<any> {
-    return this.http.get<any>(this.UserUrl + '/getUsers', {
+    return this.http.get<any>(this.userUrl + '/getUsers', {
+      withCredentials: true
+    })
+  }
+
+  postSchedule(schedule: TargetDate): Observable<TargetDate[]> {
+    return this.http.post<TargetDate[]>(this.applUrl + '/schedule', schedule, {
+      withCredentials: true
+    })
+  }
+
+  getSchedules(category: Selected): Observable<TargetDate[]> {
+    return this.http.post<TargetDate[]>(this.applUrl + '/getSchedules', category, {
       withCredentials: true
     })
   }

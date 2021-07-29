@@ -53,6 +53,7 @@
         <div class="col-12 col-md-4">
             <p class="h5 text-start pt-3">
                 IEC Plan
+                <app-schedule-menu [section]="'IEC Plan'"></app-schedule-menu>
             </p>
         </div>
         <div class="col-12 col-md-4">
@@ -76,6 +77,7 @@
         <div class="col-12 col-md-4">
             <p class="h5 text-start pt-3">
                 Inter Department Meetings
+                <app-schedule-menu [section]="'Inter Department Meetings'"></app-schedule-menu>
             </p>
         </div>
         <div class="col-12 col-md-8">
@@ -84,8 +86,9 @@
                 <ng-container [formGroupName]="i">
                     <div class="row">
                         <div class="col-12 col-md-1">
-                            <p class="h6 text-start pt-3 ">
-                                {{i + 1}}
+                            <p class="h5 text-start pt-3 d-flex align-items-center justify-content-center">
+                                {{i + 1}}&nbsp;
+                                <app-schedule-menu [section]="'Inter Department Meeting ' + (i + 1)" [iconOnly]="true"></app-schedule-menu>
                             </p>
                         </div>
                         <div class="col-12 col-md-10">
@@ -184,6 +187,7 @@
         <div class="col-12 col-md-4">
             <p class="h5 text-start pt-3">
                 GP Board Meeting for 15% Contribution, O&M
+                <app-schedule-menu [section]="'GP Board Meeting for 15% Contribution, O&M'"></app-schedule-menu>
             </p>
         </div>
         <div class="col-12 col-md-3">
@@ -248,6 +252,7 @@
         <div class="col-12 col-md-4">
             <p class="h5 text-start pt-3">
                 Joint Account
+                <app-schedule-menu [section]="'Joint Account'"></app-schedule-menu>
             </p>
         </div>
         <div class="col-12 col-md-4">
