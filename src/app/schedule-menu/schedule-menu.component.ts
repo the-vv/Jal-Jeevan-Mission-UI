@@ -4,6 +4,7 @@ import { DateDialogComponent } from '../date-dialog/date-dialog.component';
 import { TargetDate } from '../models/application';
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-schedule-menu',
@@ -23,11 +24,17 @@ export class ScheduleMenuComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private data: DataService,
-    private rest: RestapiService
+    private rest: RestapiService,
+    public user: UserService
   ) { }
 
   async ngOnInit() {
-    this.target = await this.data.getSectionSchedule(this.sectionName);
+    let sch = this.data.getSectionSchedule(this.sectionName)
+    if (sch === -1) {
+      // TODO
+    } else {
+      this.target = sch as TargetDate;
+    }
     console.log(this.target)
   }
 
@@ -37,7 +44,12 @@ export class ScheduleMenuComponent implements OnInit {
         section: this.sectionName
       }
     }).afterClosed().subscribe(async (e) => {
-      this.target = await this.data.getSectionSchedule(this.sectionName);
+      let sch = this.data.getSectionSchedule(this.sectionName)
+      if (sch === -1) {
+        // TODO
+      } else {
+        this.target = sch as TargetDate;
+      }
     });
   }
 

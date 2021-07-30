@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TargetDate } from '../models/application';
 import { Selected } from '../models/selected';
-import _ from 'lodash';
+import _, { trimEnd } from 'lodash';
 import { RestapiService } from './restapi.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { templateJitUrl } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,7 @@ export class DataService {
   targetsWarningShown: boolean = false;
   clientSchedules: TargetDate[] = [];
   schedulesFetched: boolean = false;
+  scheduleApiNotificationshow: boolean = true;
 
   AllDataWithCount = {
     Idukki: {
@@ -72,22 +75,37 @@ export class DataService {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private snackbar: MatSnackBar
   ) {
   }
 
-  getSectionSchedule(section: string): Promise<TargetDate> {
+  getSectionSchedule(section: string) {
+    if(!this.schedulesFetched) {    
+      if(this.scheduleApiNotificationshow) {
+        this.snackbar.open('Loading Schedules..., Please try again later', 'Dismiss', { duration: 5000 });
+        this.scheduleApiNotificationshow = false;
+        setTimeout(() => {
+          this.scheduleApiNotificationshow = true;
+        }, 10000);
+      }  
+      return -1
+    }
+    return _.find(this.clientSchedules, { section })
+  }
+
+  getAllSchedules(): Promise<TargetDate[]> {
     return new Promise((resolve, reject) => {
-      if(!this.schedulesFetched) {
-        this.rest.getSchedules(this.selectedDetails)
+      this.rest.getSchedules(this.selectedDetails)
         .subscribe(res => {
           this.schedulesFetched = true;
           this.clientSchedules = res;
-          return resolve(_.find(this.clientSchedules, { section }))
+          resolve(res)
+        }, err => {
+          this.schedulesFetched = true;
+          this.snackbar.open(err.error.status || err.statusText, 'Dismiss', { duration: 5000 });
+          reject(err)
         })
-      } else {        
-       return resolve(_.find(this.clientSchedules, { section }))
-      }
     })
   }
 

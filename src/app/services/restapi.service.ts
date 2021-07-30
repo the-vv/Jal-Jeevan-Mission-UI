@@ -89,4 +89,10 @@ export class RestapiService {
     })
   }
 
+  deleteSchedule(category: Selected, section: string): Observable<TargetDate[]> {
+    return this.http.post<TargetDate[]>(this.applUrl + '/deleteSchedule', { category, section }, {
+      withCredentials: true
+    })
+  }
+
 }

@@ -8,6 +8,7 @@ import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
 import { MessageService } from 'primeng/api';
+import { TargetDate } from '../models/application';
 
 @Component({
   selector: 'app-phase-selection',
@@ -71,21 +72,24 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
     this.router.navigate(['../grama-panchayath'], { relativeTo: this.route })
   }
 
-  ngAfterViewInit() {
-    if (!this.isAdmin && !this.data.targetsWarningShown) {
+  async ngAfterViewInit() {
+    if (!this.data.targetsWarningShown) {
       this.data.targetsWarningShown = true;
-      this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
-        console.log(res);
-        res.forEach(el => {
-          if (el.targetDate) {
-            this.messageService.add({life: 7000,  severity: 'warn', summary: `${new Date(el.targetDate).toDateString()}`,
-            detail: `${el.phase}/ ${el.component}` });            
-          }
-        });
-      },
-        e => {
-          console.log(e);
-        })        
+      let res = await this.data.getAllSchedules()
+      console.log(res);
+      
+      // this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
+      //   console.log(res);
+      //   res.forEach(el => {
+      //     if (el.targetDate) {
+      //       this.messageService.add({life: 7000,  severity: 'warn', summary: `${new Date(el.targetDate).toDateString()}`,
+      //       detail: `${el.phase}/ ${el.component}` });            
+      //     }
+      //   });
+      // },
+      //   e => {
+      //     console.log(e);
+      //   })        
     }
   }
 
