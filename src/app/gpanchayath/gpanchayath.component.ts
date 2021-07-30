@@ -19,6 +19,7 @@ export class GpanchayathComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.data.clearUserData();
     console.log('gp page');
     if (!this.data.selectedDetails.district) {
       this.router.navigate(['../district'], { relativeTo: this.route })

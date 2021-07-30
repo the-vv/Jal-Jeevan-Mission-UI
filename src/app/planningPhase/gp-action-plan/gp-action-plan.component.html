@@ -1,28 +1,14 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
     <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
-<mat-card *ngIf="targetDate && !isAdmin">
-    <p class="fs-6 text-success"><span style="font-weight: 500;">Target date for
-            {{data.getLongName(formdata.name)}}:</span> {{targetDate | date:
-        'fullDate'}}</p>
-</mat-card>
-<mat-card *ngIf="isAdmin">
-    <p class="h5">Set Target date for {{data.getLongName(formdata.name)}}</p>
-    <div class="d-flex justify-content-center">
-        <mat-form-field appearance="outline">
-            <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="targetDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button mat-stroked-button color="primary" class="my-1 ms-3" (click)="setTarget()">Set Date <i
-                class="pi pi-spin pi-spinner" *ngIf="settingDateProgress"></i></button>
-    </div>
-</mat-card>
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Baseline Details</p>
+            <p class="h5 text-start p-0">
+                Baseline Details
+                <app-schedule-menu [section]="'Baseline Details'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="baselineSurwey"
@@ -32,6 +18,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         Ward {{i + 1}}
+                        <app-schedule-menu [section]="'Baseline Details Ward ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-10">
@@ -119,7 +107,11 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Existing WSS</p>
+            <p class="h5 text-start p-0">
+                Existing WSS
+                <app-schedule-menu [section]="'Existing WSS'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="existingWssName"
@@ -129,6 +121,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         {{i + 1}}
+                        <app-schedule-menu [section]="'Existing WSS ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-3">
@@ -198,7 +192,11 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Water Quality Issue</p>
+            <p class="h5 text-start p-0">
+                Water Quality Issue
+                <app-schedule-menu [section]="'Water Quality Issues'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="waterQuality"
@@ -208,6 +206,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         {{i + 1}}
+                        <app-schedule-menu [section]="'Water Quality issue ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-3">
@@ -269,7 +269,11 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Identification New Source</p>
+            <p class="h5 text-start p-0">
+                Identification New Source
+                <app-schedule-menu [section]="'Identification New Source'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="identificationNewSource"
@@ -279,6 +283,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         {{i + 1}}
+                        <app-schedule-menu [section]="'Identification New Source ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-5">
@@ -317,7 +323,11 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Uncovered Area</p>
+            <p class="h5 text-start p-0">
+                Uncovered Area
+                <app-schedule-menu [section]="'Uncoverer Area'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="uncoveredArea"
@@ -327,6 +337,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         {{i + 1}}
+                        <app-schedule-menu [section]="'Uncoverer Area ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-3">
@@ -380,7 +392,11 @@
     <hr>
     <div class="row mt-3">
         <div class="col-6">
-            <p class="h5 text-start p-0">Application Form</p>
+            <p class="h5 text-start p-0">
+                Application Form
+                <app-schedule-menu [section]="'Application Form'" [iconOnly]="false">
+                </app-schedule-menu>
+            </p>
         </div>
     </div>
     <div formArrayName="applicationFormsWards"
@@ -390,6 +406,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         Ward {{i + 1}}
+                        <app-schedule-menu [section]="'Application Form Ward ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-5">
@@ -447,6 +465,8 @@
         <div class="col-12 col-md-2">
             <p class="h6 text-center pt-3">
                 PRA
+                <app-schedule-menu [section]="'PRA'" [iconOnly]="false">
+                </app-schedule-menu>
             </p>
         </div>
         <div class="col-12 col-md-5">

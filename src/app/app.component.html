@@ -1,9 +1,10 @@
-<mat-drawer-container class="example-container" autosize [hasBackdrop]="true">
-  <mat-drawer #drawer class="example-sidenav" mode="over" position="end">
+<mat-drawer-container class="example-container" autosize [hasBackdrop]="true" style="padding-top: 52px;">
+  <mat-drawer #drawer class="example-sidenav" mode="over" position="end" [opened]="data.isSidebarOpened"
+    (openedStart)="data.isSidebarOpened = true" (closedStart)="data.isSidebarOpened = false">
     <app-sidebar></app-sidebar>
   </mat-drawer>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <!-- <img src="../assets/c.jpg" alt="" class="navbar-image"> -->
@@ -14,7 +15,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
           <li class="nav-item">
             <a class="nav-link" routerLink="login" routerLinkActive="active" aria-current="page">Home</a>
           </li>
@@ -29,18 +30,12 @@
           <li class="nav-item">
             <span class="nav-link" (click)="user.logout()">Logout</span>
           </li>
-          <li class="nav-item d-flex align-items-center text-white">
-            <button mat-icon-button  aria-label="Example icon button with a menu icon" (click)="drawer.toggle()">
-              <mat-icon>mark_chat_unread</mat-icon>
+          <li class="nav-item d-flex align-items-center text-white" *ngIf="data.clientSchedules.length != 0">
+            <button mat-icon-button aria-label="" (click)="drawer.toggle()" class="animate__animated animate__repeat-3"
+              [ngClass]="data.clientSchedules.length > 0 ? 'animate__wobble' : ''">
+              <mat-icon [matBadge]="data.clientSchedules.length" matBadgeColor="warn"
+                [hidden]="data.clientSchedules.length == 0">markunread</mat-icon>
             </button>
-          </li>
-          <li class="nav-item d-flex align-items-center ms-2 text-white">
-            <!-- <button class="btn btn-outline-light"> -->
-              <button mat-icon-button  aria-label="Example icon button with a menu icon"  (click)="drawer.toggle()">
-                <mat-icon>menu</mat-icon>
-              </button>
-              <!-- <i class="bi bi-list " style="vertical-align: bottom;"></i> -->
-            <!-- </button> -->
           </li>
         </ul>
       </div>

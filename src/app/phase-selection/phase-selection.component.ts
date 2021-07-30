@@ -9,6 +9,7 @@ import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
 import { MessageService } from 'primeng/api';
 import { TargetDate } from '../models/application';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-phase-selection',
@@ -32,7 +33,8 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -77,20 +79,41 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
       this.data.targetsWarningShown = true;
       let res = await this.data.getAllSchedules()
       console.log(res);
-      
-      // this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
-      //   console.log(res);
-      //   res.forEach(el => {
-      //     if (el.targetDate) {
-      //       this.messageService.add({life: 7000,  severity: 'warn', summary: `${new Date(el.targetDate).toDateString()}`,
-      //       detail: `${el.phase}/ ${el.component}` });            
-      //     }
-      //   });
-      // },
-      //   e => {
-      //     console.log(e);
-      //   })        
+      if (!this.user.isAdmin) {
+        res.forEach(el => {
+          this.messageService.add({
+            life: 7000, severity: this.isDateExceeded(el.date) ? 'error' : 'success',
+            summary: `${this.isDateExceeded(el.date) ? '' : 'Upcoming '}Target${this.isDateExceeded(el.date) ? ' Exceeded' : ''}: ${this.getFormattedDate(+el.date)}`,
+            detail: `${el.applicationName} - ${el.section}`
+          });
+        })
+      }
     }
+    // this.rest.getAllTargetDate(this.data.selectedDetails).subscribe((res) => {
+    //   console.log(res);
+    //   res.forEach(el => {
+    //     if (el.targetDate) {
+    //       this.messageService.add({life: 7000,  severity: 'warn', summary: `${new Date(el.targetDate).toDateString()}`,
+    //       detail: `${el.phase}/ ${el.component}` });            
+    //     }
+    //   });
+    // },
+    //   e => {
+    //     console.log(e);
+    //   })  
+  }
+
+  isDateExceeded(date: number): boolean {
+    let tDate = new Date(Number(date));
+    let now = new Date();
+    if (tDate.setHours(24, 0, 0, 0) <= now.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+    return false;
+  }
+
+  getFormattedDate(date: number) {
+    return this.datePipe.transform(new Date(+date), 'mediumDate');
   }
 
 }

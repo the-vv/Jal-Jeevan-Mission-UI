@@ -20,6 +20,7 @@ export class DataService {
   clientSchedules: TargetDate[] = [];
   schedulesFetched: boolean = false;
   scheduleApiNotificationshow: boolean = true;
+  isSidebarOpened: boolean = false;
 
   AllDataWithCount = {
     Idukki: {
@@ -91,7 +92,7 @@ export class DataService {
       }  
       return -1
     }
-    return _.find(this.clientSchedules, { section })
+    return _.find(this.clientSchedules, { section, category: this.selectedDetails })
   }
 
   getAllSchedules(): Promise<TargetDate[]> {
@@ -129,6 +130,7 @@ export class DataService {
   }
 
   selectComponent(phaseComponent: string): string {
+    // console.log(phaseComponent);
     let [phase, component] = phaseComponent.split('/');
     this.selectedDetails.phase = phase;
     this.selectedDetails.component = component;
@@ -163,6 +165,13 @@ export class DataService {
   getWardList(gp: string) {
     console.log(this.selectedDetails);
 
+  }
+
+
+  clearUserData() {
+    this.scheduleApiNotificationshow = true;
+    this.clientSchedules = [];
+    this.targetsWarningShown = false;
   }
 
 }

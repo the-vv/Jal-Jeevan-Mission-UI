@@ -2,6 +2,7 @@ import { BrowserModule, } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -26,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -141,7 +143,8 @@ export const MY_FORMATS = {
     ToastModule,
     MatSidenavModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule
   ],
   providers: [
     DataService,
@@ -150,7 +153,8 @@ export const MY_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
-    MessageService
+    MessageService,
+    DatePipe
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

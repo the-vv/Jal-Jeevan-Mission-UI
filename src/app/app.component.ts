@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
 // import Darkmode from 'darkmode-js';
 
@@ -11,7 +12,8 @@ export class AppComponent implements OnInit {
   title = 'Jal-Jeevan-Mission';
 
   constructor(
-    public user: UserService
+    public user: UserService,
+    public data: DataService
   ) {
 
   }

@@ -1,23 +1,6 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
     <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
 </div>
-<mat-card *ngIf="targetDate && !isAdmin">
-    <p class="fs-6 text-success"><span style="font-weight: 500;">Target date for {{data.getLongName(formdata.name)}}:</span> {{targetDate | date:
-        'fullDate'}}</p>
-</mat-card>
-<mat-card *ngIf="isAdmin">
-    <p class="h5">Set Target date for {{data.getLongName(formdata.name)}}</p>
-    <div class="d-flex justify-content-center">
-        <mat-form-field appearance="outline">
-            <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="targetDate">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button mat-stroked-button color="primary" class="my-1 ms-3" (click)="setTarget()">Set Date <i
-                class="pi pi-spin pi-spinner" *ngIf="settingDateProgress"></i></button>
-    </div>
-</mat-card>
 <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
     <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
@@ -25,6 +8,8 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         Board meeting {{i + 1}}
+                        <app-schedule-menu [section]="'Board Meeting ' + (i + 1)" [iconOnly]="true">
+                        </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-10">

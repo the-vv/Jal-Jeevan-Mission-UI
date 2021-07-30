@@ -27,8 +27,8 @@
 </div>
 
 <div *ngIf="!user.isAdmin" class="d-inline-block">
-    <div class="d-inline-block border rounded fs-6"
-        [ngClass]="[isDateExceeded() ? 'text-danger border-danger' : 'text-success border-success', iconOnly ? 'px-0' : 'px-1']"
+    <div class="d-inline-block border rounded fs-6 animate__animated animate__flash"
+        [ngClass]="[isDateExceeded() ? 'text-danger border-danger  animate__infinite animate__slower' : 'text-success border-success', iconOnly ? 'px-0' : 'px-1']"
         *ngIf="target">
         <span style=" vertical-align: middle;" *ngIf="!iconOnly">{{getDate() | date: 'd/M/yy'}}</span>
         <mat-icon matTooltip="{{getDate() | date: 'd/M/yy'}}" [matTooltipPosition]="'right'" [matTooltipClass]="'fs-6'"

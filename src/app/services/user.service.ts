@@ -29,7 +29,8 @@ export class UserService {
         this.isAdmin = false;
         this.currentUser = null;
         this.data.selectedDetails = {}
-        this.router.navigate(['login'])
+        this.router.navigate(['login']);
+        this.data.clearUserData();
       })
       .catch((e) => {
         console.log(e)

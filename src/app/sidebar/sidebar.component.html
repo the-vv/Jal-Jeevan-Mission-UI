@@ -1,3 +1,28 @@
-<div style="width: 300px;">
-    Side Menu & Notifications
+<div style="max-width:400px">
+    <div class="d-flex justify-content-between">
+        <p class="h4 p-2 d-inline-block">Scheduled Target Dates</p>
+        <button mat-icon-button color="primary" (click)="data.isSidebarOpened = false">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <p *ngFor="let tar of data.clientSchedules">
+        <mat-card class="mx-1" [ngClass]="isDateExceeded(tar.date) ? 'bg-danger' : 'bg-success'">
+            <!-- <mat-card-header> -->
+            <mat-card-title>{{tar.section}}</mat-card-title>
+            <mat-card-subtitle style="font-size: 1.2em;"><strong>{{tar.applicationName}}</strong> - {{tar.category.phase}}</mat-card-subtitle>
+            <!-- </mat-card-header> -->
+            <mat-card-content>
+                <p class="mb-0 pb-0">
+                    {{isDateExceeded(tar.date) ? 'Exceeded Target!' : 'Upcoming target'}}
+                </p>
+                <p class="strong h5 mt-0 pt-0">
+                    {{getDate(tar.date) | date: 'fullDate'}}
+                </p>
+            </mat-card-content>
+            <mat-card-actions [align]="'end'">
+                <button mat-stroked-button (click)="gotoForm(tar.path, tar.category.phase, tar.category.component)">Open
+                    Application</button>
+            </mat-card-actions>
+        </mat-card>
+    </p>
 </div>
