@@ -31,7 +31,6 @@ export class ScheduleMenuComponent implements OnInit {
   async ngOnInit() {
     let sch = this.data.getSectionSchedule(this.sectionName)
     if (sch === -1) {
-      // TODO
     } else {
       this.target = sch as TargetDate;
     }
@@ -46,7 +45,6 @@ export class ScheduleMenuComponent implements OnInit {
     }).afterClosed().subscribe(async (e) => {
       let sch = this.data.getSectionSchedule(this.sectionName)
       if (sch === -1) {
-        // TODO
       } else {
         this.target = sch as TargetDate;
       }

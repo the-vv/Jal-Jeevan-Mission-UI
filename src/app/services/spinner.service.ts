@@ -17,12 +17,12 @@ export class SpinnerService implements HttpInterceptor {
       !req.url.includes('/deleteSchedule')
     ) {
       // this.loaderCount++;
-      this.loaderService.show();
+      this.loaderService.show('httpSpinner');
     }
     return next.handle(req).pipe(
       finalize(() => {
         // if (--this.loaderCount === 0) { 
-          this.loaderService.hide()
+          this.loaderService.hide('httpSpinner')
         // }
       })
     );

@@ -84,7 +84,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
           this.messageService.add({
             life: 7000, severity: this.isDateExceeded(el.date) ? 'error' : 'success',
             summary: `${this.isDateExceeded(el.date) ? '' : 'Upcoming '}Target${this.isDateExceeded(el.date) ? ' Exceeded' : ''}: ${this.getFormattedDate(+el.date)}`,
-            detail: `${el.applicationName} - ${el.section}`
+            detail: `${el.applicationName}: ${el.section}`
           });
         })
       }

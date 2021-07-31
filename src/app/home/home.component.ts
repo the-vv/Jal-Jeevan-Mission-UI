@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppConfig } from '../configs/app-config.enum';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -8,6 +9,7 @@ import { DataService } from '../services/data.service';
 })
 export class HomeComponent implements OnInit {
 
+  public appConfig: any = AppConfig;
 
   constructor(
     public data: DataService

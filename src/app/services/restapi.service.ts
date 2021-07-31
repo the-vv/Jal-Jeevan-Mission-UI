@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Application, TargetDate } from '../models/application';
 import { Selected } from '../models/selected';
+import { ContactDetails } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -91,6 +92,18 @@ export class RestapiService {
 
   deleteSchedule(category: Selected, section: string): Observable<TargetDate[]> {
     return this.http.post<TargetDate[]>(this.applUrl + '/deleteSchedule', { category, section }, {
+      withCredentials: true
+    })
+  }
+
+  getContact(id: string): Observable<ContactDetails> {
+    return this.http.post<ContactDetails>(this.applUrl + '/getContact', { user: id }, {
+      withCredentials: true
+    })
+  }
+
+  postContact(value: ContactDetails): Observable<ContactDetails> {
+    return this.http.post<ContactDetails>(this.applUrl + '/contact', value, {
       withCredentials: true
     })
   }

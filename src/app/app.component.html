@@ -8,7 +8,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <!-- <img src="../assets/c.jpg" alt="" class="navbar-image"> -->
-        Jal Jeevan Mssion
+        {{appConfig.appTitle}}
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
         aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,6 +26,9 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="admin/reports" routerLinkActive="active"
               *ngIf="user.isloggedin && user.isAdmin">Reports</a>
+          </li>
+          <li class="nav-item" (click)="openContactDialoge()">
+            <a class="nav-link" *ngIf="user.isloggedin && !user.isAdmin">Contact Details</a>
           </li>
           <li class="nav-item">
             <span class="nav-link" (click)="user.logout()">Logout</span>
@@ -91,51 +94,66 @@
     </div>
     <!-- Grid container -->
 
-    <!-- Copyright -->
-    <div class="text-center p-3 pb-0 display-5" style="background-color: rgba(0, 0, 0, 0.2); font-size: 1.3em;">
-      <div class="col-12">
-        Developed and maintained By: <strong>Vishnu Vinod</strong>
-        <!-- <a class="text-dark" href="mailto:vishnuvinod2772001@gmail.com">vishnuvinod2772001@gmail.com</a> -->
-      </div>
-      <div class="col-12">
-        <a href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=vishnuvinod2772001@gmail.com&su=About+JalJeevanMission+Online+Portal&body=Content+here&ui=2"
-          target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-envelope"
-            class="p-button-rounded p-button-text text-danger"></button>
-        </a>
-        <a href="https://wa.me/919605145050" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-whatsapp"
-            class="p-button-rounded p-button-text text-success"></button>
-        </a>
-        <a href="https://t.me/the_vv_01" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-telegram"
-            class="p-button-rounded p-button-text text-primary"></button>
-        </a>
-        <a href="https://www.linkedin.com/in/the-vv01/" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-linkedin" class="p-button-rounded p-button-text"></button>
-        </a>
-        <a href="https://github.com/the-vv" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-github"
-            class="p-button-rounded p-button-text text-dark"></button>
-        </a>
-        <a href="https://www.facebook.com/vishnu.vinod.01/" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-facebook"
-            class="p-button-rounded p-button-text text-primary"></button>
-        </a>
-        <a href="https://www.instagram.com/_the_vv_/" target="_blank" rel="noopener noreferrer">
-          <button pButton pRipple type="button" icon="bi bi-instagram"
-            class="p-button-rounded p-button-text text-danger"></button>
-        </a>
-      </div>
-      <div class="col-12 social-buttons">
+    <!-- Copyright --> 
+    <div class="text-center p-3  display-5" style="background-color: rgba(0, 0, 0, 0.2); font-size: 1.3em;">
+      <div class="d-flex-justify-content-between row">
+        <div class="col-12 col-md-4 d-flex align-items-center  justify-content-md-start justify-content-center">
+         <div>
+          <img src="assets/ct.png" alt="" class="img-fluid" style="max-height: 80px;">
+         </div>
+        </div> 
+        <div class="col-12 col-md-4 d-flex align-items-center justify-content-center py-2 py-md-0">
+          <div class="row">
+            <div class="col-12">
+              Developed and maintained By: <strong>Vishnu Vinod</strong>
+              <!-- <a class="text-dark" href="mailto:vishnuvinod2772001@gmail.com">vishnuvinod2772001@gmail.com</a> -->
+            </div>
+            <div class="col-12">
+              <a href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&to=vishnuvinod2772001@gmail.com&su=About+JalJeevanMission+Online+Portal&body=Content+here&ui=2"
+                target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-envelope"
+                  class="p-button-rounded p-button-text text-danger"></button>
+              </a>
+              <a href="https://wa.me/919605145050" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-whatsapp"
+                  class="p-button-rounded p-button-text text-success"></button>
+              </a>
+              <a href="https://t.me/the_vv_01" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-telegram"
+                  class="p-button-rounded p-button-text text-primary"></button>
+              </a>
+              <a href="https://www.linkedin.com/in/the-vv01/" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-linkedin"
+                  class="p-button-rounded p-button-text"></button>
+              </a>
+              <a href="https://github.com/the-vv" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-github"
+                  class="p-button-rounded p-button-text text-dark"></button>
+              </a>
+              <a href="https://www.facebook.com/vishnu.vinod.01/" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-facebook"
+                  class="p-button-rounded p-button-text text-primary"></button>
+              </a>
+              <a href="https://www.instagram.com/_the_vv_/" target="_blank" rel="noopener noreferrer">
+                <button pButton pRipple type="button" icon="bi bi-instagram"
+                  class="p-button-rounded p-button-text text-danger"></button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 text-center d-flex align-items-center justify-content-md-end justify-content-center">
+          <div class="h1 smi fs-3 text-center">
+            {{appConfig.appName}}
+        </div>
+        </div>
       </div>
     </div>
     <!-- Copyright -->
   </footer>
 
   <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple"
-    [fullScreen]="true">
-    <p style="color: white"> Loading... </p>
+    [fullScreen]="true" [name]="'httpSpinner'">
+    <p style="color: white"> Please Wait... </p>
   </ngx-spinner>
 
   <p-toast position="bottom-right"></p-toast>

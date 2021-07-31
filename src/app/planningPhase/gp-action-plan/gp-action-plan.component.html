@@ -325,7 +325,7 @@
         <div class="col-6">
             <p class="h5 text-start p-0">
                 Uncovered Area
-                <app-schedule-menu [section]="'Uncoverer Area'" [iconOnly]="false">
+                <app-schedule-menu [section]="'Uncovered Area'" [iconOnly]="false">
                 </app-schedule-menu>
             </p>
         </div>
@@ -337,7 +337,7 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         {{i + 1}}
-                        <app-schedule-menu [section]="'Uncoverer Area ' + (i + 1)" [iconOnly]="true">
+                        <app-schedule-menu [section]="'Uncovered Area ' + (i + 1)" [iconOnly]="true">
                         </app-schedule-menu>
                     </p>
                 </div>
@@ -441,12 +441,12 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <p class="h6 text-center pt-3">
-                        Total Distributed: {{totalTotalHHS}}
+                        Total Distributed: {{totalDistributed}}
                     </p>
                 </div>
                 <div class="col-12 col-md-6">
                     <p class="h6 text-center pt-3">
-                        Total Recieved: {{totalWaterSupplyCovered}}
+                        Total Recieved: {{totalRecieved}}
                     </p>
                 </div>
             </div>

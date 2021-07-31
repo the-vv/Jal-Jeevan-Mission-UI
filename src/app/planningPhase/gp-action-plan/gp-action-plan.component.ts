@@ -5,23 +5,7 @@ import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
-import * as _moment from 'moment';
-import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-const moment = _rollupMoment || _moment;
-// See the Moment.js docs for the meaning of these formats:
-// https://momentjs.com/docs/#/displaying/format/
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'app-gp-action-plan',
@@ -53,6 +37,8 @@ export class GpActionPlanComponent implements OnInit {
   totalWaterSupplyCovered: number = 0;
   totalNotConvered: number = 0;
   totalJjmBeneficiary: number = 0;
+  totalDistributed: number = 0;
+  totalRecieved: number = 0;
 
   constructor(
     private user: UserService,
@@ -119,12 +105,18 @@ export class GpActionPlanComponent implements OnInit {
     this.totalWaterSupplyCovered = 0;
     this.totalNotConvered = 0;
     this.totalJjmBeneficiary = 0;
+    this.totalDistributed = 0;
+    this.totalRecieved = 0;
     // console.log(this.applicationForm.value.baselineSurwey);
     this.applicationForm.value.baselineSurwey.forEach(el => {
       this.totalTotalHHS += Number(el.totalHHS);
       this.totalWaterSupplyCovered += Number(el.waterSupplyCovered);
       this.totalNotConvered += Number(el.notConvered);
       this.totalJjmBeneficiary += Number(el.jjmBeneficiary);
+    });
+    this.applicationForm.value.applicationFormsWards.forEach(el => {
+      this.totalDistributed += Number(el.distributed);
+      this.totalRecieved += Number(el.recieved);
     });
   }
 
@@ -198,7 +190,7 @@ export class GpActionPlanComponent implements OnInit {
           recieved: '',
         })
       ]),
-      praDate: [moment('')],
+      praDate: [''],
       praPlace: '',
       reportIndex: '',
       photoIndex: '',

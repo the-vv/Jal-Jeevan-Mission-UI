@@ -11,14 +11,17 @@ body {
     --bs-breadcrumb-divider: '>';
 }
 
-.p-fileupload, .hasfile {
+.p-fileupload,
+.hasfile {
     margin-bottom: 1rem;
 }
 
 .mat-form-field-wrapper {
     padding-bottom: unset;
 }
-mat-error, mat-hint {
+
+mat-error,
+mat-hint {
     margin-top: 13px;
 }
 
@@ -50,11 +53,24 @@ mat-error, mat-hint {
     }
 }
 
-.p-toast-message-content	 {
-    display: flex;
+.p-toast-message-content {
+    display    : flex;
     align-items: center !important;
 }
 
-.p-toast-message-icon{
+.p-toast-message-icon {
     display: none !important;
+}
+
+.p-toast .p-toast-message .p-toast-message-content {
+    padding-left  : 0rem !important;
+    padding-right : 0.5rem !important;
+    padding-top   : 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+@media screen and (max-width: 600px) {
+    .p-toast {
+        transform: translateX(14px) !important;
+    }
 }

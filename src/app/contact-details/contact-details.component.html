@@ -1,0 +1,193 @@
+<h1 mat-dialog-title>Contact Details</h1>
+<div mat-dialog-content style="position: relative;">
+    <p>Fill your Contact Details</p>
+    <form [formGroup]="contactForm">
+        <div class="row d-flex align-items-start">
+            <div class="col-2 col-md-1 pt-3">
+                <p class="h5">
+                    ISA:
+                </p>
+            </div>
+            <div class="col-11">
+                <div formArrayName="isa"
+                    *ngFor="let item of this.contactForm.get('isa')['controls']; let i = index; let f = first">
+                    <ng-container [formGroupName]="i">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Name</mat-label>
+                                                <input formControlName="name" matInput placeholder="Name">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Position</mat-label>
+                                                <input formControlName="position" matInput placeholder="Position">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Number</mat-label>
+                                                <input formControlName="number" matInput placeholder="Number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="addISA()">
+                                        <mat-icon class="text-primary">person_add_alt</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="!f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="removeISA(i)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row d-flex align-items-start">
+            <div class="col-2 col-md-1 pt-3">
+                <p class="h5">
+                    IA:
+                </p>
+            </div>
+            <div class="col-11">
+                <div formArrayName="ia"
+                    *ngFor="let item of this.contactForm.get('ia')['controls']; let i = index; let f = first">
+                    <ng-container [formGroupName]="i">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Name</mat-label>
+                                                <input formControlName="name" matInput placeholder="Name">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Position</mat-label>
+                                                <input formControlName="position" matInput placeholder="Position">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Number</mat-label>
+                                                <input formControlName="number" matInput placeholder="Number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="addIA()">
+                                        <mat-icon class="text-primary">person_add_alt</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="!f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="removeIA(i)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row d-flex align-items-start">
+            <div class="col-2 col-md-1 pt-3">
+                <p class="h5">
+                    GP:
+                </p>
+            </div>
+            <div class="col-11">
+                <div formArrayName="gp"
+                    *ngFor="let item of this.contactForm.get('gp')['controls']; let i = index; let f = first">
+                    <ng-container [formGroupName]="i">
+                        <div class="row">
+                            <div class="col-11">
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Name</mat-label>
+                                                <input formControlName="name" matInput placeholder="Name">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Position</mat-label>
+                                                <input formControlName="position" matInput placeholder="Position">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Number</mat-label>
+                                                <input formControlName="number" matInput placeholder="Number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="addgp()">
+                                        <mat-icon class="text-primary">person_add_alt</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-1" *ngIf="!f">
+                                <div class="col-1 pt-2">
+                                    <button mat-icon-button aria-label="" (click)="removegp(i)">
+                                        <mat-icon class="text-danger">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate-multiple"
+            [fullScreen]="false" [name]="'contact'">
+            <p style="color: white" class="mt-5"> Please Wait... </p>
+        </ngx-spinner>
+    </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button cdkFocusInitial mat-dialog-close>Cancel</button>
+    <button mat-button (click)="saveForm()" color="primary">
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="isLoading"></i>
+        Save
+    </button>
+</div>

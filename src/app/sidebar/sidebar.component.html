@@ -13,7 +13,7 @@
             <!-- </mat-card-header> -->
             <mat-card-content>
                 <p class="mb-0 pb-0">
-                    {{isDateExceeded(tar.date) ? 'Exceeded Target!' : 'Upcoming target'}}
+                    {{isDateExceeded(tar.date) ? 'Target Exceeded!' : 'Upcoming Target'}}
                 </p>
                 <p class="strong h5 mt-0 pt-0">
                     {{getDate(tar.date) | date: 'fullDate'}}

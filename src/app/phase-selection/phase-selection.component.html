@@ -15,7 +15,7 @@
         <p class="h5">Phase and components selection</p>
     </div>
     <div class="col-12 col-md-6" *ngIf="!isSmallScreen">
-        <p-tieredMenu [model]="menuItems"></p-tieredMenu>
+        <p-tieredMenu [model]="menuItems" styleClass="shadow border rounded"></p-tieredMenu>
     </div>
     <div class="col-12" *ngIf="isSmallScreen">
         <p-panelMenu [model]="menuItems" [style]="{'width':'100%'}"></p-panelMenu>

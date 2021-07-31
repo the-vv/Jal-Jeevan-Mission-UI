@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AppConfig } from './configs/app-config.enum';
+import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
 // import Darkmode from 'darkmode-js';
@@ -10,10 +13,12 @@ import { UserService } from './services/user.service';
 })
 export class AppComponent implements OnInit {
   title = 'Jal-Jeevan-Mission';
+  public appConfig: any = AppConfig;
 
   constructor(
     public user: UserService,
-    public data: DataService
+    public data: DataService,
+    private dialog: MatDialog,
   ) {
 
   }
@@ -33,6 +38,12 @@ export class AppComponent implements OnInit {
       autoMatchOsTheme: true // default: true
     }
     // new Darkmode(darkModeptions).showWidget();
+  }
+
+  openContactDialoge() {
+    this.dialog.open(ContactDetailsComponent, {
+      disableClose: true
+    })
   }
 
 }
