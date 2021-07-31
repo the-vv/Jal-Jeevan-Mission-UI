@@ -97,13 +97,13 @@ export class RestapiService {
   }
 
   getContact(id: string): Observable<ContactDetails> {
-    return this.http.post<ContactDetails>(this.applUrl + '/getContact', { user: id }, {
+    return this.http.post<ContactDetails>(this.userUrl + '/getContact', { user: id }, {
       withCredentials: true
     })
   }
 
-  postContact(value: ContactDetails): Observable<ContactDetails> {
-    return this.http.post<ContactDetails>(this.applUrl + '/contact', value, {
+  postContact(value: ContactDetails): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/contact', value, {
       withCredentials: true
     })
   }

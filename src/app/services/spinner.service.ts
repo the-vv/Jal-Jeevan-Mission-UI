@@ -14,6 +14,8 @@ export class SpinnerService implements HttpInterceptor {
       !req.url.includes('/upload') &&
       !req.url.includes('/applications/application') &&
       !req.url.includes('/schedule') &&
+      !req.url.includes('/contact') &&
+      !req.url.includes('/getContact') &&
       !req.url.includes('/deleteSchedule')
     ) {
       // this.loaderCount++;

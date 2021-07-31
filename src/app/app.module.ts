@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ExportAsModule } from 'ngx-export-as';
 
 // Angular Material Imports 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,8 +27,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatBadgeModule} from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
 
 // PrimeNg Imports
 import { MenuModule } from 'primeng/menu';
@@ -146,7 +148,9 @@ export const MY_FORMATS = {
     MatSidenavModule,
     MatDialogModule,
     MatTooltipModule,
-    MatBadgeModule
+    MatBadgeModule,
+    ExportAsModule,
+    MatMenuModule
   ],
   providers: [
     DataService,
