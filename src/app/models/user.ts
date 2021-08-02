@@ -1,3 +1,5 @@
+import { Selected } from "./selected";
+
 export interface User {
     _id?: string,
     username: string,
@@ -12,7 +14,8 @@ export interface ContactDetails {
     isa?: ContactPeople[],
     ia?: ContactPeople[],
     gp?: ContactPeople[],
-    user?: User | string
+    user?: User | string,
+    category?: Selected
 }
  
 export interface ContactPeople {

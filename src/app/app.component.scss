@@ -6,10 +6,19 @@
 .nav-link {
     cursor     : pointer;
     user-select: none;
+    border-radius: 10px;
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
 
 
 .smi {
     font-family: 'Roboto Slab', serif;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-link:hover {
+        background-color: rgba($color: #ffffff, $alpha: 0.2);
+        color: white !important;
+    }
 }

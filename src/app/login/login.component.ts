@@ -33,16 +33,21 @@ export class LoginComponent implements OnInit {
     this.user.checkLogin()
       .then((res) => {
         if (res.admin) {
-          this.router.navigate(['admin'], { replaceUrl: true })
+          if (this.data.targetUrl.indexOf('reports')) {
+            // console.log(this.data.targetUrl);          
+            this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+          } else {
+            this.router.navigate(['admin'], { replaceUrl: true })
+          }
         }
         else {
-          // if(this.data.targetUrl) {
-          //   console.log(this.data.targetUrl);          
-          //   this.router.navigate([this.data.targetUrl], { replaceUrl: true })
-          // }
-          // else {            
+          if (this.data.targetUrl.indexOf('reports')) {
+            // console.log(this.data.targetUrl);          
+            this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+          }
+          else {
             this.router.navigate(['client'], { replaceUrl: true })
-          // }
+          }
         }
       })
       .catch((err) => {

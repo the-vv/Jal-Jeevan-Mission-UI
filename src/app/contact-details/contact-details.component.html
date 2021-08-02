@@ -184,64 +184,85 @@
         </ngx-spinner>
     </form>
 </div>
-<div mat-dialog-content *ngIf="printMode" style="min-width: 500px; position: relative;" id="printContent" #printContent>
-    <p class="h5 text-start">Contact Details for ISA</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ISA No.</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let person of contactForm.value.isa; let i = index;">
-                <th scope="row">{{i + 1}}</th>
-                <td>{{person.name}}</td>
-                <td>{{person.position}}</td>
-                <td>{{person.number}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <p class="h5 text-start mt-4">Contact Details for IA</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">IA No.</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let person of contactForm.value.ia; let i = index;">
-                <th scope="row">{{i + 1}}</th>
-                <td>{{person.name}}</td>
-                <td>{{person.position}}</td>
-                <td>{{person.number}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <p class="h5 text-start mt-4">Contact Details for GP</p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">GP No.</th>
-                <th scope="col">Name</th>
-                <th scope="col">Position</th>
-                <th scope="col">Number</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let person of contactForm.value.gp; let i = index;">
-                <th scope="row">{{i + 1}}</th>
-                <td>{{person.name}}</td>
-                <td>{{person.position}}</td>
-                <td>{{person.number}}</td>
-            </tr>
-        </tbody>
-    </table>
+<div mat-dialog-content *ngIf="printMode" style="min-width: 500px; position: relative;">
+    <div class="d-flex justify-content-center">
+        <!-- <p class="h5">Select District</p> -->
+        <p>
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Filter</mat-label>
+                <mat-select [(ngModel)]="selectedSections" (selectionChange)="onFilter($event)" multiple>
+                    <mat-option [value]="comp" *ngFor="let comp of ['ISA', 'IA', 'GP']">{{comp}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+            <button mat-stroked-button color="primary" class="mt-1 mb-3 ms-4 px-3" (click)="print()">Print <mat-icon>print</mat-icon></button>
+    </div>
+    <hr>
+    <div id="printContent">
+        <div *ngIf="this.selectedSections.includes('ISA')">
+            <p class="h5 text-start">Contact Details for ISA</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let person of contactForm.value.isa; let i = index;">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{person.name}}</td>
+                        <td>{{person.position}}</td>
+                        <td>{{person.number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="this.selectedSections.includes('IA')">
+            <p class="h5 text-start mt-4">Contact Details for IA</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let person of contactForm.value.ia; let i = index;">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{person.name}}</td>
+                        <td>{{person.position}}</td>
+                        <td>{{person.number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="this.selectedSections.includes('GP')">
+            <p class="h5 text-start mt-4">Contact Details for GP</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let person of contactForm.value.gp; let i = index;">
+                        <th scope="row">{{i + 1}}</th>
+                        <td>{{person.name}}</td>
+                        <td>{{person.position}}</td>
+                        <td>{{person.number}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate-multiple"
         [fullScreen]="false" [name]="'contact'">
         <p style="color: white" class="mt-5"> Please Wait... </p>
@@ -252,15 +273,9 @@
     <!-- <button mat-button (click)="print()" color="primary">
         Print
     </button> -->
-    <button mat-button [matMenuTriggerFor]="menu" class="text-primary">Print</button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="print('pdf')">PDF</button>
-        <button mat-menu-item (click)="print('png')">Image</button>
-        <button mat-menu-item (click)="print('xlsx')">Excel</button>
-        <button mat-menu-item (click)="print('txt')">Text</button>
-    </mat-menu>
+    <button mat-button (click)="togglePrintMode()" color="primary">{{printMode ? 'Edit': 'Print Preview'}}</button>
     <button mat-button (click)="saveForm()" color="primary">
         <i class="pi pi-spin pi-spinner ms-1" *ngIf="isLoading"></i>
-        Save
+        Save Changes
     </button>
 </div>

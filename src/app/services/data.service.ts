@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TargetDate } from '../models/application';
 import { Selected } from '../models/selected';
-import _, { trimEnd } from 'lodash';
+import _ from 'lodash';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { templateJitUrl } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -82,14 +81,14 @@ export class DataService {
   }
 
   getSectionSchedule(section: string) {
-    if(!this.schedulesFetched) {    
-      if(this.scheduleApiNotificationshow) {
+    if (!this.schedulesFetched) {
+      if (this.scheduleApiNotificationshow) {
         this.snackbar.open('Loading Schedules..., Please try again later', 'Dismiss', { duration: 5000 });
         this.scheduleApiNotificationshow = false;
         setTimeout(() => {
           this.scheduleApiNotificationshow = true;
         }, 10000);
-      }  
+      }
       return -1
     }
     return _.find(this.clientSchedules, { section, category: this.selectedDetails })
@@ -123,6 +122,17 @@ export class DataService {
 
   getGPs(district: string): string[] {
     return Object.keys(this.AllDataWithCount[district]).sort();
+  }
+
+  getAllGps() {
+    let agps: any = {};
+    for(let d in this.AllDataWithCount) {
+      agps[d] = [];
+      for(let gp in this.AllDataWithCount[d]) {
+        agps[d].push(gp);
+      }
+    }
+    return agps;
   }
 
   getDistricts(): string[] {
@@ -172,6 +182,29 @@ export class DataService {
     this.scheduleApiNotificationshow = true;
     this.clientSchedules = [];
     this.targetsWarningShown = false;
+  }
+
+  printContentByDiv(divId: string) {
+    setTimeout(() => {
+      let mywindow = window.open('', 'PRINT');
+
+      mywindow.document.write('<html><head><title>' + document.title + '</title>');
+      mywindow.document.write('</head><body >');
+      mywindow.document.write('<h1>' + document.title + '</h1>');
+      mywindow.document.write(document.getElementById(divId).innerHTML);
+      mywindow.document.write('</body></html>');
+      mywindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">`);
+      mywindow.document.write(`<script type="text/javascript">window.addEventListener('DOMContentLoaded', function() { window.print(); window.close(); });</script>`);
+
+      mywindow.document.close(); // necessary for IE >= 10
+      mywindow.focus(); // necessary for IE >= 10*/
+
+      // mywindow.print();
+      // mywindow.close();
+
+      // return true;
+    }, 100);
   }
 
 }

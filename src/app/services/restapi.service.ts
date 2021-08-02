@@ -96,8 +96,8 @@ export class RestapiService {
     })
   }
 
-  getContact(id: string): Observable<ContactDetails> {
-    return this.http.post<ContactDetails>(this.userUrl + '/getContact', { user: id }, {
+  getContact(category: Selected): Observable<ContactDetails> {
+    return this.http.post<ContactDetails>(this.userUrl + '/getContact', category, {
       withCredentials: true
     })
   }

@@ -2,7 +2,7 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">{{(user.isAdmin ? 'Admin' : 'Client')}}</a></li>
                 <li class="breadcrumb-item" aria-current="page">Reports</li>
             </ol>
         </nav>
@@ -13,43 +13,56 @@
         <p class="h5">Filter Reports</p>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 mt-2">
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>District</mat-label>
-                <mat-select [(ngModel)]="district" (selectionChange)="onSelectDistrict()">
+                <mat-select [(ngModel)]="selectedDistricts" (selectionChange)="onSelectDistrict()" multiple>
                     <mat-option [value]="dist" *ngFor="let dist of DistrictsList">{{dist}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <!-- <p-multiSelect [options]="cities" [(ngModel)]="selectedCities1" defaultLabel="Select a City"
                 optionLabel="name" selectedItemsLabel="{0} items selected"></p-multiSelect> -->
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-2">
             <!-- <p class="h5">Name of Grama Panchayath</p> -->
             <mat-form-field appearance="outline" class="col-12">
-                <mat-label>{{!district ? 'Select District for Grama Panchayath List' : 'Grama Panchayath'}}</mat-label>
-                <mat-select [(ngModel)]="gPanchayath" (selectionChange)="onSelectDistrict()">
-                    <mat-option [value]="gp" *ngFor="let gp of gramaPanchataths">{{gp}}</mat-option>
+                <mat-label>Grama Panchayath</mat-label>
+                <mat-select [(ngModel)]="selectedGps" (selectionChange)="null" multiple>
+                    <mat-option [value]="gp" *ngFor="let gp of availableGps">{{gp}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-2">
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Phase Components</mat-label>
-                <mat-select [(ngModel)]="SelectedPhase" (selectionChange)="onSelectDistrict()">
+                <mat-select [(ngModel)]="SelectedPhases" (selectionChange)="onSelectPhase()" multiple>
                     <mat-option [value]="phase" *ngFor="let phase of phaseComponents">{{phase}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-2">
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Components</mat-label>
                 <mat-select [(ngModel)]="selectedComponents" (selectionChange)="onSelectComponent($event)" multiple>
-                    <mat-option [value]="comp" *ngFor="let comp of allComponents">{{comp}}</mat-option>
+                    <mat-option [value]="comp" *ngFor="let comp of availableComponents">{{comp}}</mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="col-12 mt-3">
+    <div class="row">
+        <div class="col-12">
+            <p class="text-center h4">{{configData.appTitle}} Report</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <p class="text-start"></p>
         </div>
     </div>
 </div>

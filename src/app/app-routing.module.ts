@@ -58,6 +58,7 @@ const routes: Routes = [
   {
     path: 'client', component: HomeComponent, canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
+      { path: 'reports', component: ReportHomeComponent },
       ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]

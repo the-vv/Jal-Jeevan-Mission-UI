@@ -24,7 +24,9 @@ export class SpinnerService implements HttpInterceptor {
     return next.handle(req).pipe(
       finalize(() => {
         // if (--this.loaderCount === 0) { 
-          this.loaderService.hide('httpSpinner')
+          setTimeout(() => {
+            this.loaderService.hide('httpSpinner')
+          });
         // }
       })
     );

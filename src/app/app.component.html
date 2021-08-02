@@ -24,11 +24,11 @@
               *ngIf="user.isloggedin && user.isAdmin">Administration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="admin/reports" routerLinkActive="active"
-              *ngIf="user.isloggedin && user.isAdmin">Reports</a>
+            <a class="nav-link" [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/reports'" routerLinkActive="active"
+              *ngIf="user.isloggedin">Reports</a>
           </li>
           <li class="nav-item" (click)="openContactDialoge()">
-            <a class="nav-link" *ngIf="user.isloggedin && !user.isAdmin">Contact Details</a>
+            <a class="nav-link" *ngIf="user.isloggedin && data.selectedDetails.gp?.length">Contact Details</a>
           </li>
           <li class="nav-item">
             <span class="nav-link" (click)="user.logout()">Logout</span>

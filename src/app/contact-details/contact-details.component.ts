@@ -4,9 +4,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContactDetails } from '../models/user';
+import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
-import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-contact-details',
@@ -15,11 +15,10 @@ import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 })
 export class ContactDetailsComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('printContent') content: ElementRef;
-
   contactForm: FormGroup;
   isLoading: boolean = false;
   printMode: boolean = false;
+  selectedSections: string[] = ['ISA', 'IA', 'GP'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +27,7 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
     private rest: RestapiService,
     private snackbar: MatSnackBar,
     private dialogRef: MatDialogRef<ContactDetailsComponent>,
-    private exportAsService: ExportAsService
+    public data: DataService
   ) { }
 
   ngOnInit(): void {
@@ -44,12 +43,13 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
     this.spinner.show('contact', {
       fullScreen: false,
     })
-    this.rest.getContact(this.user.currentUser._id)
+    this.rest.getContact(this.data.selectedDetails)
       .subscribe(res => {
         details = res;
         this.spinner.hide('contact');
         // console.log(res)
         if (res._id) {
+          this,this.togglePrintMode();
           for (let i = 1; i < res.gp.length; i++) {
             this.addgp()
           }
@@ -75,7 +75,7 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
   saveForm() {
     let details: ContactDetails;
     details = Object.assign({}, this.contactForm.value);
-    details.user = this.user.currentUser._id;
+    details.category = this.data.selectedDetails;
     // console.log(details);
     this.isLoading = true;
     this.rest.postContact(details)
@@ -116,19 +116,32 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
     (this.contactForm.get('isa') as FormArray).push(this.newPerson());
   }
 
-  print(format: any) {
-    this.printMode = true;
-    setTimeout(() => {
-      let exportAsConfig: ExportAsConfig = {
-        type: format,
-        elementIdOrContent: 'printContent',
-        fileName: 'Contact Details'
-      }
-      // download the file using old school javascript method
-      this.exportAsService.save(exportAsConfig, 'Contact Details').subscribe(() => {
-        this.printMode = false;
-      });
-    }, 1000);
+  // print(format: any) {
+  //   this.printMode = true;
+  //   setTimeout(() => {
+  //     let exportAsConfig: ExportAsConfig = {
+  //       type: format,
+  //       elementIdOrContent: 'printContent',
+  //       fileName: 'Contact Details'
+  //     }
+  //     // download the file using old school javascript method
+  //     this.exportAsService.save(exportAsConfig, 'Contact Details').subscribe(() => {
+  //       this.printMode = false;
+  //     });
+  //   }, 100);
+  // }
+
+  togglePrintMode() {
+    this.printMode = !this.printMode;
   }
 
+  print(divId: string = 'printContent') {
+    this.data.printContentByDiv(divId)
+  }
+
+  onFilter(event: any) {
+    console.log(event);
+    console.log(this.selectedSections);
+    
+  }
 }
