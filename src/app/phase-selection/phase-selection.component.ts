@@ -38,6 +38,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.data.selectedDetails.component = null;
     this.user.userChange.subscribe((val) => {
       if (val !== null) {
         // this.data.targetsWarningShown = false;

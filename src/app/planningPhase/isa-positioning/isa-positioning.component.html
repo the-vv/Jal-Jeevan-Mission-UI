@@ -1,396 +1,545 @@
-<div class="col-12 col-md-12 mx-auto navigator" *ngIf="formdata.name">
-    <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
-</div>
-<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                DWSM Meeting
-            </p>
+<div *ngIf="printMode" class="col-12 text-start">
+    <p class="h3 text-start">{{data.getLongName(currentName)}}</p>
+    <div class="row mt-3">
+        <div class="col-3 fs-5">
+            <p><strong>DWSM Meeting</strong></p>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-9 fs-5">
             <div class="row">
-                <div class="col-12 col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="dp1" formControlName="dwsmDate">
-                            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-                            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
+                <div class="col-3">
+                    <p class="h5 d-inline-block">Date: </p> {{applicationForm.value.dwsmDate | date: 'M/d/y'}}
                 </div>
-                <div class="col-12 col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Number</mat-label>
-                            <input matInput formControlName="dwsmNo">
-                        </mat-form-field>
-                    </p>
+                <div class="col-3">
+                    <p class="h5 d-inline-block">Number: </p> {{applicationForm.value.dwsmNo}}
                 </div>
-                <div class="col-12 col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Proceedings Date</mat-label>
-                            <input matInput [matDatepicker]="dp0" formControlName="dwsmProceedingDate">
-                            <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
-                            <mat-datepicker #dp0 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-3">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('dwsmAttatchement').value?.length > 0"
-                            (click)="viewFile(getFileFromName('dsmMeeting').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{getFileFromName('dsmMeeting').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('dsmMeeting', getFileFromName('dsmMeeting').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('dwsmAttatchement').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'dsmMeeting')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Attatchement'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Implementing Agency
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <p>
-                <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Select an Implementing Agency</mat-label>
-                    <mat-select formControlName="implementingAgency">
-                      <mat-option>None</mat-option>
-                      <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)</mat-option>
-                      <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala Rural Water Supply and Sanitation Agency (KRWSA)</mat-option>
-                      <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Agreement
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Date</mat-label>
-                            <input formControlName="agreementDate" matInput [matDatepicker]="dp2">
-                            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                            <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Number</mat-label>
-                            <input matInput formControlName="agreementNo">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('agreementIndex').value?.length > 0"
-                            (click)="viewFile(getFileFromName('agreement').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Attatchement: </strong>{{getFileFromName('agreement').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('agreement', getFileFromName('agreement').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('agreementIndex').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'agreement')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Attatchement'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-            </div>
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Office Starting Date
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Date</mat-label>
-                            <input formControlName="officeStartingDate" matInput [matDatepicker]="dp3">
-                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('officeStartingPhotoIndeex').value?.length > 0"
-                            (click)="viewFile(getFileFromName('officeStartingPhoto').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>Photo: </strong>{{getFileFromName('officeStartingPhoto').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('officeStartingPhoto', getFileFromName('officeStartingPhoto').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('officeStartingPhotoIndeex').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'officeStartingPhoto')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Photo'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <p class="h4">
-                Staff Positioning
-            </p>
-        </div>
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Team Leader
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Name & Address</mat-label>
-                            <textarea formControlName="teamLeaderAddress" matInput></textarea>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Phone Number</mat-label>
-                            <input formControlName="teamLeaderNo" matInput placeholder="Phone Number" type="number">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('teamLeaderCVIndex').value?.length > 0"
-                            (click)="viewFile(getFileFromName('leaderCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('leaderCV').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('leaderCV', getFileFromName('leaderCV').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('teamLeaderCVIndex').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'leaderCV')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Qualification</mat-label>
-                            <input formControlName="teamLeaderQualification" matInput placeholder="Qualification" type="text">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Experience</mat-label>
-                            <textarea formControlName="teamLeaderExperience" matInput></textarea>
-                        </mat-form-field>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Comminity Engineer
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Name & Address</mat-label>
-                            <textarea formControlName="comminityEngAddress" matInput></textarea>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Phone No</mat-label>
-                            <input formControlName="communityEngNo" matInput placeholder="Phone Number" type="number">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('communityEngCVIndex').value?.length > 0"
-                            (click)="viewFile(getFileFromName('CommunutyEngCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('CommunutyEngCV').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('CommunutyEngCV', getFileFromName('CommunutyEngCV').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('communityEngCVIndex').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'CommunutyEngCV')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Qualification</mat-label>
-                            <input formControlName="communityEngQualification" matInput placeholder="Qualification" type="text">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Experience</mat-label>
-                            <textarea formControlName="communityEngExperience" matInput></textarea>
-                        </mat-form-field>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-md-4">
-            <p class="h5 text-start pt-3">
-                Comminity Facilitator
-            </p>
-        </div>
-        <div class="col-12 col-md-8">
-            <div class="row">
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Name & Address</mat-label>
-                            <textarea formControlName="communityfacilAddress" matInput></textarea>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Phone No</mat-label>
-                            <input formControlName="communityFacilNo" matInput placeholder="Phone Number" type="number">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="mt-1">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" *ngIf="applicationForm.get('communityFacilitatorCVIndex').value?.length > 0"
-                            (click)="viewFile(getFileFromName('CommunityFacilCV').file)" style="cursor: pointer">
-                            <p class="text-truncate pt-3"><strong>CV & Certificates: </strong>{{getFileFromName('CommunityFacilCV').file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px" (click)="fileRemoved('CommunityFacilCV', getFileFromName('CommunityFacilCV').file.fid)">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload *ngIf="!applicationForm.get('communityFacilitatorCVIndex').value?.length" mode="basic" [customUpload]="true"
-                            (onSelect)="fileSelected($event, 'CommunityFacilCV')" [style]="{backgroundColor: 'white',
-                                            color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                            borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'CV & Certificates'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
-                            style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Qualification</mat-label>
-                            <input formControlName="communityFacilQualification" matInput placeholder="Qualification" type="text">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-6">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Experience</mat-label>
-                            <textarea formControlName="communityFacilExperience" matInput></textarea>
-                        </mat-form-field>
-                    </p>
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Proceedings Date: </p> {{applicationForm.value.dwsmProceedingDate |
+                    date: 'M/d/y'}}
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-2">
-        <div class="col-12" *ngIf="submitting">
-            <p class="small text-center">
-                Uploading files(If any) and submiting Application...
-            </p>
-            <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+        <div class="col-3 fs-5">
+            <p><strong>Implementing Agency</strong></p>
         </div>
-        <div class="col-12 text-center mt-3">
-            <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
-                Application</button>
+        <div class="col-9 fs-5">{{applicationForm.value.implementingAgency}}</div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3 fs-5">
+            <p><strong>Agreement</strong></p>
         </div>
-        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
-            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                </symbol>
-            </svg>
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                    <use xlink:href="#check-circle-fill" />
-                </svg>
-                <div>
-                    Application Submitted Successfully
+        <div class="col-9 fs-5">
+            <div class="row">
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Date: </p> {{applicationForm.value.agreementDate | date: 'M/d/y'}}
+                </div>
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Number: </p> {{applicationForm.value.agreementNo}}
                 </div>
             </div>
         </div>
     </div>
-</form>
+    <div class="row mt-2">
+        <div class="col-3 fs-5">
+            <p><strong>Office Starting Date</strong></p>
+        </div>
+        <div class="col-9 fs-5">
+            <p class="h5 d-inline-block">Date: </p> {{applicationForm.value.officeStartingDate}}
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3 fs-5">
+            <p><strong>Team Leader</strong></p>
+        </div>
+        <div class="col-9 fs-5">
+            <div class="row">
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Name & Address: </p>{{applicationForm.value.teamLeaderAddress}}
+                </div>
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Phone Number: </p> {{applicationForm.value.teamLeaderNo}}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Qualification: </p> {{applicationForm.value.teamLeaderExperience}}
+                </div>
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Experience: </p>{{applicationForm.value.teamLeaderQualification}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-3 fs-5">
+            <p><strong>Community Engineer</strong></p>
+        </div>
+        <div class="col-9 fs-5">
+            <div class="row">
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Name & Address: </p>{{applicationForm.value.comminityEngAddress}}
+                </div>
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Phone Number: </p> {{applicationForm.value.communityEngNo}}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Qualification: </p> {{applicationForm.value.communityEngExperience}}
+                </div>
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Experience: </p>{{applicationForm.value.communityEngQualification}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-3 fs-5">
+            <p><strong>Comminity Facilitator</strong></p>
+        </div>
+        <div class="col-9 fs-5">
+            <div class="row">
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Name & Address: </p>{{applicationForm.value.communityfacilAddress}}
+                </div>
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Phone Number: </p> {{applicationForm.value.communityFacilNo}}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <p class="h5 d-inline-block">Qualification: </p> {{applicationForm.value.communityFacilExperience}}
+                </div>
+                <div class="col-6 text-area-value">
+                    <p class="h5 d-inline-block">Experience:
+                    <br>{{applicationForm.value.communityFacilQualification}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto navigator" *ngIf="formdata.name">
+        <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
+    </div>
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    DWSM Meeting
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Date</mat-label>
+                                <input matInput [matDatepicker]="dp1" formControlName="dwsmDate">
+                                <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                                <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Number</mat-label>
+                                <input matInput formControlName="dwsmNo">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Proceedings Date</mat-label>
+                                <input matInput [matDatepicker]="dp0" formControlName="dwsmProceedingDate">
+                                <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
+                                <mat-datepicker #dp0 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('dwsmAttatchement').value?.length > 0"
+                                (click)="viewFile(getFileFromName('dsmMeeting').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>Attatchement:
+                                    </strong>{{getFileFromName('dsmMeeting').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('dsmMeeting', getFileFromName('dsmMeeting').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('dwsmAttatchement').value?.length" mode="basic"
+                                [customUpload]="true" (onSelect)="fileSelected($event, 'dsmMeeting')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'Attatchement'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Implementing Agency
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select an Implementing Agency</mat-label>
+                        <mat-select formControlName="implementingAgency">
+                            <mat-option>None</mat-option>
+                            <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)</mat-option>
+                            <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala Rural
+                                Water Supply and Sanitation Agency (KRWSA)</mat-option>
+                            <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Agreement
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Date</mat-label>
+                                <input formControlName="agreementDate" matInput [matDatepicker]="dp2">
+                                <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Number</mat-label>
+                                <input matInput formControlName="agreementNo">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('agreementIndex').value?.length > 0"
+                                (click)="viewFile(getFileFromName('agreement').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>Attatchement:
+                                    </strong>{{getFileFromName('agreement').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('agreement', getFileFromName('agreement').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('agreementIndex').value?.length" mode="basic"
+                                [customUpload]="true" (onSelect)="fileSelected($event, 'agreement')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'Attatchement'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Office Starting Date
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Date</mat-label>
+                                <input formControlName="officeStartingDate" matInput [matDatepicker]="dp3">
+                                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('officeStartingPhotoIndeex').value?.length > 0"
+                                (click)="viewFile(getFileFromName('officeStartingPhoto').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>Photo:
+                                    </strong>{{getFileFromName('officeStartingPhoto').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('officeStartingPhoto', getFileFromName('officeStartingPhoto').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('officeStartingPhotoIndeex').value?.length"
+                                mode="basic" [customUpload]="true"
+                                (onSelect)="fileSelected($event, 'officeStartingPhoto')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'Photo'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4">
+                    Staff Positioning
+                </p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Team Leader
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="teamLeaderAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Phone Number</mat-label>
+                                <input formControlName="teamLeaderNo" matInput placeholder="Phone Number" type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('teamLeaderCVIndex').value?.length > 0"
+                                (click)="viewFile(getFileFromName('leaderCV').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>CV & Certificates:
+                                    </strong>{{getFileFromName('leaderCV').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('leaderCV', getFileFromName('leaderCV').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('teamLeaderCVIndex').value?.length" mode="basic"
+                                [customUpload]="true" (onSelect)="fileSelected($event, 'leaderCV')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'CV & Certificates'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Qualification</mat-label>
+                                <input formControlName="teamLeaderQualification" matInput placeholder="Qualification"
+                                    type="text">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Experience</mat-label>
+                                <textarea formControlName="teamLeaderExperience" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Comminity Engineer
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="comminityEngAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Phone No</mat-label>
+                                <input formControlName="communityEngNo" matInput placeholder="Phone Number"
+                                    type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('communityEngCVIndex').value?.length > 0"
+                                (click)="viewFile(getFileFromName('CommunutyEngCV').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>CV & Certificates:
+                                    </strong>{{getFileFromName('CommunutyEngCV').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('CommunutyEngCV', getFileFromName('CommunutyEngCV').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('communityEngCVIndex').value?.length" mode="basic"
+                                [customUpload]="true" (onSelect)="fileSelected($event, 'CommunutyEngCV')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'CV & Certificates'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Qualification</mat-label>
+                                <input formControlName="communityEngQualification" matInput placeholder="Qualification"
+                                    type="text">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Experience</mat-label>
+                                <textarea formControlName="communityEngExperience" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p class="h5 text-start pt-3">
+                    Comminity Facilitator
+                </p>
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name & Address</mat-label>
+                                <textarea formControlName="communityfacilAddress" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Phone No</mat-label>
+                                <input formControlName="communityFacilNo" matInput placeholder="Phone Number"
+                                    type="number">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="mt-1">
+                            <div class="hasfile d-flex justify-content-between border px-2 rounded"
+                                *ngIf="applicationForm.get('communityFacilitatorCVIndex').value?.length > 0"
+                                (click)="viewFile(getFileFromName('CommunityFacilCV').file)" style="cursor: pointer">
+                                <p class="text-truncate pt-3"><strong>CV & Certificates:
+                                    </strong>{{getFileFromName('CommunityFacilCV').file.name}}
+                                </p>
+                                <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 4.5px"
+                                    (click)="fileRemoved('CommunityFacilCV', getFileFromName('CommunityFacilCV').file.fid)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                            <p-fileUpload *ngIf="!applicationForm.get('communityFacilitatorCVIndex').value?.length"
+                                mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, 'CommunityFacilCV')"
+                                [style]="{backgroundColor: 'white',
+                                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                                [chooseLabel]="'CV & Certificates'"></p-fileUpload>
+                            <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile"
+                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Qualification</mat-label>
+                                <input formControlName="communityFacilQualification" matInput
+                                    placeholder="Qualification" type="text">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Experience</mat-label>
+                                <textarea formControlName="communityFacilExperience" matInput></textarea>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Uploading files(If any) and submiting Application...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+                    Application</button>
+            </div>
+            <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </symbol>
+                </svg>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                        <use xlink:href="#check-circle-fill" />
+                    </svg>
+                    <div>
+                        Application Submitted Successfully
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

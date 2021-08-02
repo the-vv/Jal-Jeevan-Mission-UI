@@ -34,7 +34,6 @@ export class ReportHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.DistrictsList = this.data.getDistricts();
-    this.selectedDistricts = this.DistrictsList;
     for (const phase in this.data.phaseComponents) {
       if (Object.prototype.hasOwnProperty.call(this.data.phaseComponents, phase)) {        
         this.phaseComponents.push(phase);
@@ -45,13 +44,13 @@ export class ReportHomeComponent implements OnInit {
         }
       }
     }
-    this.selectedDistricts = this.DistrictsList
     this.allGps = this.data.getAllGps();
-    this.onSelectDistrict();
-    this.selectedGps = this.availableGps;
-    this.SelectedPhases = Object.keys(this.allPhases);
-    this.onSelectPhase();
-    this.selectedComponents = this.availableComponents;
+    // this.selectedDistricts = this.DistrictsList;
+    // this.onSelectDistrict();
+    // this.selectedGps = this.availableGps;
+    // this.SelectedPhases = Object.keys(this.allPhases);
+    // this.onSelectPhase();
+    // this.selectedComponents = this.availableComponents;
   }
 
   onSelectDistrict() {

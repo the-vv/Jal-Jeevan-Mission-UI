@@ -2,7 +2,8 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">{{(user.isAdmin ? 'Admin' : 'Client')}}</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">{{(user.isAdmin ? 'Admin' : 'Client')}}</a>
+                </li>
                 <li class="breadcrumb-item" aria-current="page">Reports</li>
             </ol>
         </nav>
@@ -10,7 +11,7 @@
 </div>
 <div class="col-12 mt-3">
     <div class="row">
-        <p class="h5">Filter Reports</p>
+        <p class="h4">Filter Reports</p>
     </div>
     <div class="row">
         <div class="col-md-6 mt-2">
@@ -52,17 +53,29 @@
             </mat-form-field>
         </div>
     </div>
-</div>
-<hr>
-<div class="col-12 mt-3">
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-12">
-            <p class="text-center h4">{{configData.appTitle}} Report</p>
+            <button mat-raised-button (click)="data.printContentByDiv('mainReport')" color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>
-    <div class="row mt-3">
+</div>
+<hr>
+<div class="col-12 mt-3 text-center" id="mainReport">
+    <div class="row">
         <div class="col-12">
-            <p class="text-start"></p>
+            <p class="text-center h1 mb-0">{{configData.appTitle}} Report</p>
+            <p class="h3 mb-0">ISA: {{configData.appName}}</p>
+            <p class="h3">IA: Kerala Water Authority</p>
+        </div>
+    </div>
+    <div class="row mt-3" *ngFor="let district of selectedDistricts">
+        <div class="col-12" *ngFor="let gp of selectedGps">
+            <p class="text-center h4">{{district}} District, {{gp}} Grama Panchayath</p>
+            <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
+                <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
+                    name='planningphase/isapositioning' *ngIf="selectedComponents.includes('ISA Positioning')">
+                </app-isa-positioning>
+            </div>
         </div>
     </div>
 </div>

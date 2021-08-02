@@ -189,8 +189,8 @@ export class DataService {
       let mywindow = window.open('', 'PRINT');
 
       mywindow.document.write('<html><head><title>' + document.title + '</title>');
-      mywindow.document.write('</head><body >');
-      mywindow.document.write('<h1>' + document.title + '</h1>');
+      mywindow.document.write('</head><body class="text-center">');
+      // mywindow.document.write('<h1>' + document.title + '</h1>');
       mywindow.document.write(document.getElementById(divId).innerHTML);
       mywindow.document.write('</body></html>');
       mywindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"

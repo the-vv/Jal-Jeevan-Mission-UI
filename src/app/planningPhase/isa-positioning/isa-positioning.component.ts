@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Selected } from 'src/app/models/selected';
 
 @Component({
   selector: 'app-isa-positioning',
@@ -13,6 +14,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./isa-positioning.component.scss']
 })
 export class IsaPositioningComponent implements OnInit, AfterViewInit {
+
+  @Input('print') public printMode: boolean = false;
+  @Input('district') public currentDistrict: string;
+  @Input('gp') public currentGp: string;
+  @Input('phase') public currentPhase: string;
+  @Input('name') public currentName: string;
 
   formdata: Application = {
     files: []
@@ -35,36 +42,56 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngAfterViewInit() {
-    this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        console.log(res)
-        this.submittedApplcations = res;
+    if (!this.printMode) {
+      this.rest.getApplications(this.data.selectedDetails)
+        .subscribe(res => {
+          console.log(res)
+          this.submittedApplcations = res;
+          if (res.length > 0) {
+            this.editingId = res[0]._id;
+            this.applicSelected(res[0])
+            this.showForm = false;
+          }
+          else {
+            this.showForm = true;
+          }
+        }, e => {
+          console.log(e.error);
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        })
+    } else {
+      let tempCategory: Selected = {
+        district: this.currentDistrict,
+        gp: this.currentGp,
+        phase: this.currentPhase,
+        component: this.data.getLongName(this.currentName)
+      }
+      this.rest.getApplications(tempCategory).subscribe(res => {
         if (res.length > 0) {
-          this.editingId = res[0]._id;
+          console.log(res)
+          // this.editingId = res[0]._id;
           this.applicSelected(res[0])
-          this.showForm = false;
+          // this.showForm = false;
         }
-        else {
-          this.showForm = true;
-        }
-      }, e => {
-        console.log(e.error);
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
       })
+    }
   }
 
   ngOnInit(): void {
-    this.route.url.subscribe((val) => {
-      if (!this.data.selectedDetails.phase) {
-        this.data.selectComponent(`Planning Phase/${val[1].path}`)
-      }
-      this.formdata.name = val.map(v => v.path).join('/')
-      console.log(val.map(v => v.path).join('/'))
-    })
+    if (!this.printMode) {
+      this.route.url.subscribe((val) => {
+        if (!this.data.selectedDetails.phase) {
+          this.data.selectComponent(`Planning Phase/${val[1].path}`)
+        }
+        this.formdata.name = val.map(v => v.path).join('/')
+        console.log(val.map(v => v.path).join('/'))
+      })
+    }
     this.canUpload = !this.user.isAdmin;
     this.applicationForm = this.formBuilder.group({
       dwsmDate: [''],
@@ -255,7 +282,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     }
     else if (name === 'officeStartingPhoto') {
       this.applicationForm.patchValue({ officeStartingPhotoIndeex: `` })
-    } 
+    }
     else if (name === 'leaderCV') {
       this.applicationForm.patchValue({ teamLeaderCVIndex: `` })
       // this.officeStartingPhoto = event.files[0]
@@ -300,7 +327,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
         })
       })
       this.formdata.files = app.files
-    }    
+    }
   }
 
   getFileFromName(name: string) {
@@ -350,7 +377,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     if (this.isAdmin) {
       let datedForm: Application = {};
       if (!this.editingId.length) {
-        if(this.targetDate) {
+        if (this.targetDate) {
           datedForm.targetDate = new Date(this.targetDate);
         }
         else {
@@ -370,7 +397,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
           })
       }
       else {
-        if(this.targetDate) {
+        if (this.targetDate) {
           datedForm.targetDate = new Date(this.targetDate);
         }
         else {
