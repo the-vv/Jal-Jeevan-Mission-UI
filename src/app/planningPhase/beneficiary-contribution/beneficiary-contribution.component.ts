@@ -33,6 +33,7 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
   targetDate: Date;
   settingDateProgress: boolean = false;
   totalBeneficiary: number = 0;
+  totalEstimatedAmount: number = 0;
   totalFullyContributedRemitted: number = 0;
   totalPartiallyContributedRemitted: number = 0;
   totalAmount: number = 0;
@@ -86,17 +87,47 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     })
   }
 
-  calculateTotals() {    
+  calculateTotals() {
     this.totalBeneficiary = 0;
     this.totalFullyContributedRemitted = 0;
     this.totalPartiallyContributedRemitted = 0;
     this.totalAmount = 0;
-    console.log(this.applicationForm.value.contribution);
+    for (let i = 0; i < this.applicationForm.value.contribution.length; i++) {
+      if (Number(this.applicationForm.value.perHouseHoldCost) &&
+        Number(this.applicationForm.value.contribution[i].totalBeneficiary)) {
+        let teamount: number = Number(this.applicationForm.value.perHouseHoldCost) *
+          Number(this.applicationForm.value.contribution[i].totalBeneficiary);
+        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+          { totalEstimatedAmount: teamount },
+          { emitEvent: false }
+        )
+      } else {
+        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+          { totalEstimatedAmount: 0 },
+          { emitEvent: false }
+        )
+      }
+      if (Number(this.applicationForm.value.contribution[i].totalEstimatedAmount &&
+        Number(this.applicationForm.value.contribution[i].collectedAmount))) {
+        let balanceamnt: number = Number(this.applicationForm.value.contribution[i].totalEstimatedAmount) -
+          Number(this.applicationForm.value.contribution[i].collectedAmount);
+        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+          { balanceAmount: balanceamnt },
+          { emitEvent: false }
+        )
+      } else {
+        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+          { balanceAmount: 0 },
+          { emitEvent: false }
+        )
+      }
+    }
+    // console.log(this.applicationForm.value.contribution);
     this.applicationForm.value.contribution.forEach(el => {
       this.totalBeneficiary += Number(el.totalBeneficiary);
       this.totalFullyContributedRemitted += Number(el.fullyContributionRemitted);
       this.totalPartiallyContributedRemitted += Number(el.partiallyContributionRemitted);
-      this.totalAmount += Number(el.totalAmount);
+      this.totalAmount += Number(el.balanceAmount);
     });
     // for (let i = 0; i < this.applicationForm.value.contribution.length; i++) {
     //   this.addContribution()
@@ -121,15 +152,18 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
   newContribution() {
     return this.formBuilder.group({
       totalBeneficiary: '',
+      totalEstimatedAmount: '',
       fullyContributionRemitted: '',
       partiallyContributionRemitted: '',
-      totalAmount: '',
+      collectedAmount: '',
+      balanceAmount: '',
       bankIndex: ''
     })
   }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
+      perHouseHoldCost: '',
       contribution: this.formBuilder.array([
         this.newContribution()
       ]),

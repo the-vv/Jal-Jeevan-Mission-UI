@@ -7,6 +7,25 @@
         <app-schedule-menu [section]="'Beneficiary Contribution Collection'" [iconOnly]="">
         </app-schedule-menu>
     </p>
+    <div class="row">
+        <div class="col-md-2">
+            <p class="h6 pt-3">
+                Per House Hold Cost
+                <app-schedule-menu [section]="'Per House Hold Cost'"
+                    [iconOnly]="true">
+                </app-schedule-menu>
+            </p>
+        </div>
+        <div class="col-md-5">
+            <p>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label> Per House Hold Cost</mat-label>
+                    <input formControlName="perHouseHoldCost" matInput placeholder=" Per House Hold Cost"
+                        type="number">
+                </mat-form-field>
+            </p>
+        </div>
+    </div>
     <div formArrayName="contribution"
         *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
@@ -14,13 +33,14 @@
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
                         Ward {{i + 1}}
-                        <app-schedule-menu [section]="'Beneficiary Contribution Collection Ward ' + (i + 1)" [iconOnly]="true">
+                        <app-schedule-menu [section]="'Beneficiary Contribution Collection Ward ' + (i + 1)"
+                            [iconOnly]="true">
                         </app-schedule-menu>
                     </p>
                 </div>
                 <div class="col-12 col-md-10">
                     <div class="row">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Total Beneficiary</mat-label>
@@ -29,29 +49,47 @@
                                 </mat-form-field>
                             </p>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Fully Contributed Remitted</mat-label>
+                                    <mat-label>Total Estimated Amount</mat-label>
+                                    <input readonly formControlName="totalEstimatedAmount" matInput placeholder="Total Estimated Amount"
+                                        type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Fully Contribution Remitted</mat-label>
                                     <input formControlName="fullyContributionRemitted" matInput type="number"
-                                        placeholder="Fully Contributed Remitted">
+                                        placeholder="Fully Contribution Remitted">
                                 </mat-form-field>
                             </p>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Partially Contributed Remitted</mat-label>
+                                    <mat-label>Partially Contribution Remitted</mat-label>
                                     <input formControlName="partiallyContributionRemitted" matInput type="number"
-                                        placeholder="Partially Contributed Remitted">
+                                        placeholder="Partially Contribution Remitted">
                                 </mat-form-field>
                             </p>
                         </div>
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Total Amount</mat-label>
-                                    <input formControlName="totalAmount" matInput placeholder="Total Amount"
+                                    <mat-label>Collected Amount</mat-label>
+                                    <input formControlName="collectedAmount" matInput placeholder="Collected Amount"
+                                        type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Balance Amount</mat-label>
+                                    <input readonly formControlName="balanceAmount" matInput placeholder="Balance Amount"
                                         type="number">
                                 </mat-form-field>
                             </p>
@@ -69,31 +107,26 @@
     </div>
     <hr class="col-12 offset-md-2 col-md-10">
     <div class="row">
-        <div class="col-md-2">
-            <p class="h6 text-end py-3">
-                Total:
-            </p>
-        </div>
-        <div class="col-10">
+        <div class="col-12">
             <div class="row">
                 <div class="col-md-3">
                     <p class="h6 text-center pt-3">
-                        ₹ {{totalBeneficiary}}
+                        Total Beneficiary: ₹ {{totalBeneficiary}}
                     </p>
                 </div>
                 <div class="col-md-3">
                     <p class="h6 text-center pt-3">
-                        ₹ {{totalFullyContributedRemitted}}
+                        Total Fully Contribution Remitted: ₹ {{totalFullyContributedRemitted}}
                     </p>
                 </div>
                 <div class="col-md-3">
                     <p class="h6 text-center pt-3">
-                        ₹ {{totalPartiallyContributedRemitted}}
+                        Total Partially Contribution Remitted: ₹ {{totalPartiallyContributedRemitted}}
                     </p>
                 </div>
                 <div class="col-md-3">
                     <p class="h6 text-center pt-3">
-                        ₹ {{totalAmount}}
+                        Total Balance Amount ₹ {{totalAmount}}
                     </p>
                 </div>
             </div>
