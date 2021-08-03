@@ -119,7 +119,7 @@
                                                 *ngIf="getMeeting(i, j).value.reportIndex?.length == 0 || !getMeeting(i, j).value.reportIndex"
                                                 mode="basic" [customUpload]="true"
                                                 (onSelect)="fileSelected($event, i, j, 0)"
-                                                [style]="{backgroundColor: 'white',
+                                                [style]="{backgroundColor: 'unset',
                                                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                                                 [chooseLabel]="'    Report'"></p-fileUpload>
@@ -145,7 +145,7 @@
                                                 *ngIf="getMeeting(i, j).value.minutesIndex?.length == 0 || !getMeeting(i, j).value.minutesIndex"
                                                 mode="basic" [customUpload]="true"
                                                 (onSelect)="fileSelected($event, i, j, 1)"
-                                                [style]="{backgroundColor: 'white',
+                                                [style]="{backgroundColor: 'unset',
                                                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                                                 [chooseLabel]="'    Minutes'"></p-fileUpload>

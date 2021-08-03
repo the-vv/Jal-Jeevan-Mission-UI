@@ -68,7 +68,7 @@
                                 </div>
                                 <p-fileUpload
                                     *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex"
-                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'list')" [style]="{backgroundColor: 'white',
+                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'list')" [style]="{backgroundColor: 'unset',
                                 color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                 borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                                     [chooseLabel]="'Approval beneficiary List'"></p-fileUpload>
@@ -92,7 +92,7 @@
                                 </div>
                                 <p-fileUpload
                                     *ngIf="this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex"
-                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'resolution')" [style]="{backgroundColor: 'white',
+                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'resolution')" [style]="{backgroundColor: 'unset',
                                 color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                 borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                                     [chooseLabel]="'Resolution'"></p-fileUpload>

@@ -24,7 +24,6 @@
     "@angular/router": "~11.2.13",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "ngx-export-as": "^1.12.1",
     "ngx-spinner": "^11.0.2",
     "ngx-toastr": "^14.0.0",
     "primeicons": "^4.1.0",

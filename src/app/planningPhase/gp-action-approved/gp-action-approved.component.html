@@ -72,7 +72,7 @@
                         </div>
                         <p-fileUpload
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.minutesIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 1)" [style]="{backgroundColor: 'white',
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 1)" [style]="{backgroundColor: 'unset',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Minutes'"></p-fileUpload>
@@ -96,7 +96,7 @@
                         </div>
                         <p-fileUpload
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.photoIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 2)" [style]="{backgroundColor: 'white',
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 2)" [style]="{backgroundColor: 'unset',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Photo'"></p-fileUpload>
@@ -120,7 +120,7 @@
                         </div>
                         <p-fileUpload
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 3)" [style]="{backgroundColor: 'white',
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 3)" [style]="{backgroundColor: 'unset',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Beneficiary'"></p-fileUpload>

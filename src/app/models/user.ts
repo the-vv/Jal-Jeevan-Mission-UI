@@ -21,5 +21,7 @@ export interface ContactDetails {
 export interface ContactPeople {
     name?: string,
     position?: string,
-    number?: string
+    number?: string,
+    wardNumber?: string,
+    wardName?: string
 }

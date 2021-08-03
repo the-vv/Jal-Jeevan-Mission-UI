@@ -34,7 +34,7 @@ export class ScheduleMenuComponent implements OnInit {
     } else {
       this.target = sch as TargetDate;
     }
-    console.log(this.target)
+    // console.log(this.target)
   }
 
   openDateDialogue() {

@@ -10,7 +10,7 @@
             </div>
             <div class="col-11">
                 <div formArrayName="isa"
-                    *ngFor="let item of this.contactForm.get('isa')['controls']; let i = index; let f = first">
+                    *ngFor="let item of this.contactForm.get('isa')['controls']; let i = index; let f = last">
                     <ng-container [formGroupName]="i">
                         <div class="row">
                             <div class="col-11">
@@ -69,7 +69,7 @@
             </div>
             <div class="col-11">
                 <div formArrayName="ia"
-                    *ngFor="let item of this.contactForm.get('ia')['controls']; let i = index; let f = first">
+                    *ngFor="let item of this.contactForm.get('ia')['controls']; let i = index; let f = last">
                     <ng-container [formGroupName]="i">
                         <div class="row">
                             <div class="col-11">
@@ -128,12 +128,12 @@
             </div>
             <div class="col-11">
                 <div formArrayName="gp"
-                    *ngFor="let item of this.contactForm.get('gp')['controls']; let i = index; let f = first">
+                    *ngFor="let item of this.contactForm.get('gp')['controls']; let i = index; let f = last">
                     <ng-container [formGroupName]="i">
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-11">
                                 <div class="row">
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
                                         <p>
                                             <mat-form-field appearance="outline" class="w-100">
                                                 <mat-label>Name</mat-label>
@@ -141,11 +141,27 @@
                                             </mat-form-field>
                                         </p>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <div class="col-12 col-md-6">
                                         <p>
                                             <mat-form-field appearance="outline" class="w-100">
                                                 <mat-label>Position</mat-label>
                                                 <input formControlName="position" matInput placeholder="Position">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Ward Number</mat-label>
+                                                <input formControlName="wardNumber" matInput placeholder="Ward Number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Ward Name</mat-label>
+                                                <input formControlName="wardName" matInput placeholder="Ward Name">
                                             </mat-form-field>
                                         </p>
                                     </div>
@@ -159,14 +175,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-1" *ngIf="f">
+                            <div class="col-1 d-flex align-items-center mb-3" *ngIf="f">
                                 <div class="col-1 pt-2">
                                     <button mat-icon-button aria-label="" (click)="addgp()">
                                         <mat-icon class="text-primary">person_add_alt</mat-icon>
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-1" *ngIf="!f">
+                            <div class="col-1 d-flex align-items-center mb-3" *ngIf="!f">
                                 <div class="col-1 pt-2">
                                     <button mat-icon-button aria-label="" (click)="removegp(i)">
                                         <mat-icon class="text-danger">delete</mat-icon>
@@ -185,7 +201,7 @@
     </form>
 </div>
 <div mat-dialog-content *ngIf="printMode" style="min-width: 500px; position: relative;">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-3">
         <!-- <p class="h5">Select District</p> -->
         <p>
             <mat-form-field appearance="outline" class="w-100">
@@ -195,12 +211,13 @@
                 </mat-select>
             </mat-form-field>
         </p>
-            <button mat-stroked-button color="primary" class="mt-1 mb-3 ms-4 px-3" (click)="print()">Print <mat-icon>print</mat-icon></button>
+        <button mat-stroked-button color="primary" class="mt-1 mb-3 ms-4 px-3" (click)="print('body *, body p.h4 {font-size: 1.07em !important}')">
+            Print <mat-icon>print</mat-icon></button>
     </div>
     <hr>
     <div id="printContent">
-        <div *ngIf="this.selectedSections.includes('ISA')">
-            <p class="h5 text-start">Contact Details for ISA</p>
+        <div *ngIf="this.selectedSections.includes('ISA')"> 
+            <p class="fs-2 text-start">Contact Details for ISA</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -216,12 +233,12 @@
                         <td>{{person.name}}</td>
                         <td>{{person.position}}</td>
                         <td>{{person.number}}</td>
-                    </tr>
+                    </tr> 
                 </tbody>
             </table>
         </div>
         <div *ngIf="this.selectedSections.includes('IA')">
-            <p class="h5 text-start mt-4">Contact Details for IA</p>
+            <p class="fs-2 text-start mt-5">Contact Details for IA</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -242,13 +259,15 @@
             </table>
         </div>
         <div *ngIf="this.selectedSections.includes('GP')">
-            <p class="h5 text-start mt-4">Contact Details for GP</p>
+            <p class="fs-2 text-start mt-5">Contact Details for GP</p>
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr> 
                         <th scope="col">No.</th>
                         <th scope="col">Name</th>
                         <th scope="col">Position</th>
+                        <th scope="col">Ward Number</th>
+                        <th scope="col">Ward Name</th>
                         <th scope="col">Number</th>
                     </tr>
                 </thead>
@@ -257,6 +276,8 @@
                         <th scope="row">{{i + 1}}</th>
                         <td>{{person.name}}</td>
                         <td>{{person.position}}</td>
+                        <td>{{person.wardNumber}}</td>
+                        <td>{{person.wardName}}</td>
                         <td>{{person.number}}</td>
                     </tr>
                 </tbody>
@@ -273,7 +294,8 @@
     <!-- <button mat-button (click)="print()" color="primary">
         Print
     </button> -->
-    <button mat-button (click)="togglePrintMode()" color="primary">{{printMode ? 'Edit': 'Print Preview'}}</button>
+    <button mat-button (click)="togglePrintMode()" color="primary">{{printMode ? 'Edit Details': 'Print
+        Preview'}}</button>
     <button mat-button (click)="saveForm()" color="primary">
         <i class="pi pi-spin pi-spinner ms-1" *ngIf="isLoading"></i>
         Save Changes

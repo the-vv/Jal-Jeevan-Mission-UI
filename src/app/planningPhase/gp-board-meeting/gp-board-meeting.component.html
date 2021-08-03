@@ -48,7 +48,7 @@
                         </div>
                         <p-fileUpload
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.minutesIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'report')" [style]="{backgroundColor: 'white',
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'report')" [style]="{backgroundColor: 'unset',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Resolution'"></p-fileUpload>
@@ -72,7 +72,7 @@
                         </div>
                         <p-fileUpload
                             *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.photoIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'photo')" [style]="{backgroundColor: 'white',
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'photo')" [style]="{backgroundColor: 'unset',
                         color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                         borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                             [chooseLabel]="'Photo'"></p-fileUpload>

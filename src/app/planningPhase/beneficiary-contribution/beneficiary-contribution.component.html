@@ -156,7 +156,7 @@
                 <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
                     (click)="viewFile(getFileFromIndex(1).file)"
                     *ngIf="this.applicationForm.controls.bankStatementIndex.value?.length">
-                    <p class="text-truncate pt-3"><strong>Bank Stmt:
+                    <p class="text-truncate pt-3"><strong>Bank Statement:
                         </strong>{{getFileFromIndex(1).file.name}}
                     </p>
                     <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
@@ -165,7 +165,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="!this.applicationForm.controls.bankStatementIndex.value?.length" mode="basic"
-                    [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'white',
+                    [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'unset',
                 color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                 borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Bank Statement'"></p-fileUpload>

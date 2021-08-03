@@ -190,10 +190,14 @@ export class GpActionPlanComponent implements OnInit {
           recieved: '',
         })
       ]),
-      praDate: [''],
-      praPlace: '',
-      reportIndex: '',
-      photoIndex: '',
+      pra: this.formBuilder.array([
+        this.formBuilder.group({
+          praDate: [''],
+          praPlace: '',
+          reportIndex: '',
+          photoIndex: ''
+        })
+      ]),
     })
     this.route.url.subscribe((val) => {
       if (!this.data.selectedDetails.phase) {
@@ -204,6 +208,28 @@ export class GpActionPlanComponent implements OnInit {
     })
   }
   get f() { return this.applicationForm.controls }
+
+  addPRA() {
+    (this.applicationForm.get('pra') as FormArray)
+      .push(
+        this.formBuilder.group({
+          praDate: [''],
+          praPlace: '',
+          reportIndex: '',
+          photoIndex: '',
+        })
+      )
+  }
+
+  removePRA(index: number) {
+    if((this.applicationForm.get('pra') as FormArray).at(index).value.reportIndex?.length > 0) {
+      this.fileRemoved(0,this.getFileFromIndex(0, index)?.file?.fid, index)
+    }
+    if((this.applicationForm.get('pra') as FormArray).at(index).value.photoIndex?.length > 0) {
+      this.fileRemoved(1,this.getFileFromIndex(1, index)?.file?.fid, index)
+    }
+    (this.applicationForm.get('pra') as FormArray).removeAt(index);
+  }
 
   addBaselineSurwey() {
     let blsArray = this.applicationForm.get('baselineSurwey') as FormArray;
@@ -351,26 +377,26 @@ export class GpActionPlanComponent implements OnInit {
           }
           else {
             this, this.submitting = false;
-            this.snackBar.open('Error uploadfing file, Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error uploading file, Please try again later', 'Dismiss', { duration: 5000 })
           }
         })
     }
   }
 
-  fileSelected(event: any, index: number) {
+  fileSelected(event: any, index: number, rindex: number) {
     // console.log(event.files)
     this.filesToUpload.push({
-      fname: `f${index}`,
+      fname: `f${index}${rindex}`,
       file: event.files[0]
     })
     if (index === 0) {
-      this.applicationForm.patchValue({
-        reportIndex: `f${index}`
+      (this.applicationForm.get('pra') as FormArray).at(rindex).patchValue({
+        reportIndex: `f${index}${rindex}`
       })
     }
     else if (index === 1) {
-      this.applicationForm.patchValue({
-        photoIndex: `f${index}`
+      (this.applicationForm.get('pra') as FormArray).at(rindex).patchValue({
+        photoIndex: `f${index}${rindex}`
       })
     }
     console.log(this.applicationForm.value)
@@ -433,19 +459,19 @@ export class GpActionPlanComponent implements OnInit {
     }
   }
 
-  fileRemoved(index: number, fid: string) {
+  fileRemoved(index: number, fid: string, rindex: number) {
     this.submitted = false;
     this.filesToUpload = this.filesToUpload.filter(el => {
       console.log(el, index)
-      return el.fname != `f${index}`
+      return el.fname != `f${index}${rindex}`
     })
     if (index === 0) {
-      this.applicationForm.patchValue({
+      (this.applicationForm.get('pra') as FormArray).at(rindex).patchValue({
         reportIndex: ''
       })
     }
     else if (index === 1) {
-      this.applicationForm.patchValue({
+      (this.applicationForm.get('pra') as FormArray).at(rindex).patchValue({
         photoIndex: ''
       })
     }
@@ -454,8 +480,8 @@ export class GpActionPlanComponent implements OnInit {
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fieldName, index)
-        return el.fieldName != `f${index}`
+        // console.log(el.fieldName, index)
+        return el.fieldName != `f${index}${rindex}`
       })
       console.log(this.formdata)
       fid?.length > 0 && this.sendApplication(this.formdata, true, true)
@@ -468,10 +494,10 @@ export class GpActionPlanComponent implements OnInit {
     }
   }
 
-  getFileFromIndex(index: number) {
+  getFileFromIndex(index: number, rid: number) {
     // console.log(this.filesToUpload)
     return this.filesToUpload.filter(el => {
-      return el.fname == `f${index}`
+      return el.fname == `f${index}${rid}`
     })[0]
   }
 
@@ -498,6 +524,9 @@ export class GpActionPlanComponent implements OnInit {
     }
     for (let i = 1; i < app.values.applicationFormsWards.length; i++) {
       this.addApplicationFormWard()
+    }
+    for (let i = 1; i < app.values.pra.length; i++) {
+      this.addPRA()
     }
     this.applicationForm.patchValue(app.values);
     console.log(this.applicationForm)
@@ -526,12 +555,14 @@ export class GpActionPlanComponent implements OnInit {
     (this.applicationForm.get('uncoveredArea') as FormArray).clear();
     (this.applicationForm.get('identificationNewSource') as FormArray).clear();
     (this.applicationForm.get('applicationFormsWards') as FormArray).clear();
+    (this.applicationForm.get('pra') as FormArray).clear();
     this.addApplicationFormWard()
     this.addBaselineSurwey()
     this.addExistingWssName()
     this.addUncovereArea()
     this.addWaterQI()
     this.addidentificationNewSource()
+    this.addPRA();
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {

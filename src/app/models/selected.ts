@@ -4,3 +4,10 @@ export interface Selected {
     phase?: string,
     component?: string
 }
+
+export interface WardConfig {
+    category: Selected,
+    names: {
+        [number: number] : string
+    }
+}

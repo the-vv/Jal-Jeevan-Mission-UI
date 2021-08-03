@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -49,7 +49,7 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
         this.spinner.hide('contact');
         // console.log(res)
         if (res._id) {
-          this,this.togglePrintMode();
+          this.togglePrintMode();
           for (let i = 1; i < res.gp.length; i++) {
             this.addgp()
           }
@@ -68,7 +68,9 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
     return this.formBuilder.group({
       name: '',
       position: '',
-      number: ''
+      number: '',
+      wardNumber: '',
+      wardName: ''
     })
   }
 
@@ -116,27 +118,12 @@ export class ContactDetailsComponent implements OnInit, AfterViewInit {
     (this.contactForm.get('isa') as FormArray).push(this.newPerson());
   }
 
-  // print(format: any) {
-  //   this.printMode = true;
-  //   setTimeout(() => {
-  //     let exportAsConfig: ExportAsConfig = {
-  //       type: format,
-  //       elementIdOrContent: 'printContent',
-  //       fileName: 'Contact Details'
-  //     }
-  //     // download the file using old school javascript method
-  //     this.exportAsService.save(exportAsConfig, 'Contact Details').subscribe(() => {
-  //       this.printMode = false;
-  //     });
-  //   }, 100);
-  // }
-
   togglePrintMode() {
     this.printMode = !this.printMode;
   }
 
-  print(divId: string = 'printContent') {
-    this.data.printContentByDiv(divId)
+  print(styles: string = '', divId: string = 'printContent') {
+    this.data.printContentByDiv(divId, styles)
   }
 
   onFilter(event: any) {

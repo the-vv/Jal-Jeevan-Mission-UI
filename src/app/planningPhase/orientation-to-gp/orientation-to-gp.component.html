@@ -42,7 +42,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="!applicationForm.get('introductionMinutesIndex').value?.length" mode="basic"
-                    [customUpload]="true" (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'white',
+                    [customUpload]="true" (onSelect)="fileSelected($event, 'introductionAttatchement')" [style]="{backgroundColor: 'unset',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Minutes Copy'"></p-fileUpload>
@@ -132,7 +132,7 @@
                                             *ngIf="!applicationForm.get('interDepartmentMeeting')['controls'][i].value?.interDepartmentMinutesIndex?.length"
                                             mode="basic" [customUpload]="true"
                                             (onSelect)="fileSelected($event, 'interDepartmentAttatchment', i)"
-                                            [style]="{backgroundColor: 'white',
+                                            [style]="{backgroundColor: 'unset',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'Minutes'"></p-fileUpload>
                                     </div>
@@ -157,7 +157,7 @@
                                             *ngIf="!applicationForm.get('interDepartmentMeeting')['controls'][i].value?.interDepartmentPhotoIndex?.length"
                                             mode="basic" [customUpload]="true"
                                             (onSelect)="fileSelected($event, 'interDepartmentPhoto', i)"
-                                            [style]="{backgroundColor: 'white',
+                                            [style]="{backgroundColor: 'unset',
                                             color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                                             borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}" [chooseLabel]="'Photo'"></p-fileUpload>
                                     </div>
@@ -222,7 +222,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="GpBoardMeetingFile == null" mode="basic" [customUpload]="true"
-                    (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'white',
+                    (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'unset',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Resolution'"></p-fileUpload>
@@ -241,7 +241,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="!applicationForm.get('GpBoardMeetingResolutionIndex').value?.length" mode="basic"
-                    [customUpload]="true" (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'white',
+                    [customUpload]="true" (onSelect)="fileSelected($event, 'gpBoardMeetingAttatchment')" [style]="{backgroundColor: 'unset',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Resolution'"></p-fileUpload>
@@ -314,7 +314,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="jontAccountFile == null" mode="basic" [customUpload]="true"
-                    (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'white',
+                    (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'unset',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Passbook Copy'"></p-fileUpload>
@@ -333,7 +333,7 @@
                     </button>
                 </div>
                 <p-fileUpload *ngIf="!applicationForm.get('jointAccountPassbookIndex').value?.length" mode="basic"
-                    [customUpload]="true" (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'white',
+                    [customUpload]="true" (onSelect)="fileSelected($event, 'jointAccountAttatchment')" [style]="{backgroundColor: 'unset',
                     color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
                     borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
                     [chooseLabel]="'Passbook Copy'"></p-fileUpload>

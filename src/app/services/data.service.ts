@@ -184,11 +184,12 @@ export class DataService {
     this.targetsWarningShown = false;
   }
 
-  printContentByDiv(divId: string) {
+  printContentByDiv(divId: string, style: string = '') {
     setTimeout(() => {
       let mywindow = window.open('', 'PRINT');
 
       mywindow.document.write('<html><head><title>' + document.title + '</title>');
+      mywindow.document.write(`<style>${style}</style>`)
       mywindow.document.write('</head><body class="text-center">');
       // mywindow.document.write('<h1>' + document.title + '</h1>');
       mywindow.document.write(document.getElementById(divId).innerHTML);

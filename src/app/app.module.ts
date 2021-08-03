@@ -5,7 +5,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 import { NgxSpinnerModule } from "ngx-spinner";
-import { ExportAsModule } from 'ngx-export-as';
 
 // Angular Material Imports 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -149,7 +148,6 @@ export const MY_FORMATS = {
     MatDialogModule,
     MatTooltipModule,
     MatBadgeModule,
-    ExportAsModule,
     MatMenuModule
   ],
   providers: [
