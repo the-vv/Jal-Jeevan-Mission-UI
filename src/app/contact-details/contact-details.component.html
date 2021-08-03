@@ -211,12 +211,13 @@
                 </mat-select>
             </mat-form-field>
         </p>
-        <button mat-stroked-button color="primary" class="mt-1 mb-3 ms-4 px-3" (click)="print('body *, body p.h4 {font-size: 1.07em !important}')">
+        <button mat-stroked-button color="primary" class="mt-1 mb-3 ms-4 px-3"
+            (click)="print('body *, body p.h4 {font-size: 1.07em !important}')">
             Print <mat-icon>print</mat-icon></button>
     </div>
     <hr>
     <div id="printContent">
-        <div *ngIf="this.selectedSections.includes('ISA')"> 
+        <div *ngIf="this.selectedSections.includes('ISA')">
             <p class="fs-2 text-start">Contact Details for ISA</p>
             <table class="table">
                 <thead>
@@ -233,7 +234,7 @@
                         <td>{{person.name}}</td>
                         <td>{{person.position}}</td>
                         <td>{{person.number}}</td>
-                    </tr> 
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -262,7 +263,7 @@
             <p class="fs-2 text-start mt-5">Contact Details for GP</p>
             <table class="table">
                 <thead>
-                    <tr> 
+                    <tr>
                         <th scope="col">No.</th>
                         <th scope="col">Name</th>
                         <th scope="col">Position</th>
@@ -291,9 +292,6 @@
 </div>
 <div mat-dialog-actions [align]="'end'">
     <button mat-button cdkFocusInitial mat-dialog-close>Cancel</button>
-    <!-- <button mat-button (click)="print()" color="primary">
-        Print
-    </button> -->
     <button mat-button (click)="togglePrintMode()" color="primary">{{printMode ? 'Edit Details': 'Print
         Preview'}}</button>
     <button mat-button (click)="saveForm()" color="primary">
