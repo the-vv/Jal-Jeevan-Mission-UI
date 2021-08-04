@@ -8,6 +8,7 @@ export interface Selected {
 export interface WardConfig {
     category: Selected,
     names: {
-        [number: number] : string
-    }
+        wardNumber: number,
+        wardName: string
+    }[]
 }

@@ -17,21 +17,27 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
           <li class="nav-item">
-            <a class="nav-link" routerLink="login" routerLinkActive="active" aria-current="page">Home</a>
+            <a class="nav-link" mat-stroked-button routerLink="login" [ngClass]="user.isloggedin ? '' : 'd-none'"
+              routerLinkActive="active" aria-current="page">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="admin/administration" routerLinkActive="active"
+            <a class="nav-link" routerLink="admin/administration" routerLinkActive="active" mat-stroked-button
               *ngIf="user.isloggedin && user.isAdmin">Administration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/reports'" routerLinkActive="active"
-              *ngIf="user.isloggedin">Reports</a>
+            <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/reports'"
+              routerLinkActive="active" *ngIf="user.isloggedin">Reports</a>
           </li>
           <li class="nav-item" (click)="openContactDialoge()">
-            <a class="nav-link" *ngIf="user.isloggedin && data.selectedDetails.gp?.length">Contact Details</a>
+            <a class="nav-link" mat-stroked-button
+              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()">Contact Details</a>
+          </li>
+          <li class="nav-item" (click)="openWardDialoge()">
+            <a class="nav-link" mat-stroked-button
+              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()">Ward Configuration</a>
           </li>
           <li class="nav-item">
-            <span class="nav-link" (click)="user.logout()">Logout</span>
+            <a class="nav-link" mat-stroked-button *ngIf="user.isloggedin" (click)="user.logout()">Logout</a>
           </li>
           <li class="nav-item d-flex align-items-center text-white" *ngIf="data.clientSchedules.length != 0">
             <button mat-icon-button aria-label="" (click)="drawer.toggle()" class="animate__animated animate__repeat-3"
@@ -94,14 +100,14 @@
     </div>
     <!-- Grid container -->
 
-    <!-- Copyright --> 
+    <!-- Copyright -->
     <div class="text-center p-3  display-5" style="background-color: rgba(0, 0, 0, 0.2); font-size: 1.3em;">
       <div class="d-flex-justify-content-between row">
         <div class="col-12 col-md-4 d-flex align-items-center  justify-content-md-start justify-content-center">
-         <div>
-          <img src="assets/ct.png" alt="" class="img-fluid" style="max-height: 80px;">
-         </div>
-        </div> 
+          <div>
+            <img src="assets/ct.png" alt="" class="img-fluid" style="max-height: 80px;">
+          </div>
+        </div>
         <div class="col-12 col-md-4 d-flex align-items-center justify-content-center py-2 py-md-0">
           <div class="row">
             <div class="col-12">
@@ -141,10 +147,11 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-4 text-center d-flex align-items-center justify-content-md-end justify-content-center">
+        <div
+          class="col-12 col-md-4 text-center d-flex align-items-center justify-content-md-end justify-content-center">
           <div class="h1 smi fs-3 text-center">
             {{appConfig.appName}}
-        </div>
+          </div>
         </div>
       </div>
     </div>

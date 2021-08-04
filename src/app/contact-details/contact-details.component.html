@@ -1,13 +1,13 @@
 <h1 mat-dialog-title>Contact Details</h1>
 <div mat-dialog-content style="position: relative;" *ngIf="!printMode">
-    <p>Fill your Contact Details</p>
+    <p>Fill your Contact Details for {{data.selectedDetails.district}} District, {{data.selectedDetails.gp}} Grama Panchayath</p>
     <form [formGroup]="contactForm">
         <div class="row d-flex align-items-start">
             <div class="col-2 col-md-1 pt-3">
                 <p class="h5">
                     ISA:
                 </p>
-            </div>
+            </div> 
             <div class="col-11">
                 <div formArrayName="isa"
                     *ngFor="let item of this.contactForm.get('isa')['controls']; let i = index; let f = last">
@@ -217,8 +217,9 @@
     </div>
     <hr>
     <div id="printContent">
+        <h1 class="fs-2 mt-3">{{data.selectedDetails.district}} District, {{data.selectedDetails.gp}} Grama Panchayath</h1>
         <div *ngIf="this.selectedSections.includes('ISA')">
-            <p class="fs-2 text-start">Contact Details for ISA</p>
+            <p class="fs-3 text-start">Contact Details for ISA</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -239,7 +240,7 @@
             </table>
         </div>
         <div *ngIf="this.selectedSections.includes('IA')">
-            <p class="fs-2 text-start mt-5">Contact Details for IA</p>
+            <p class="fs-3 text-start mt-5">Contact Details for IA</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -260,7 +261,7 @@
             </table>
         </div>
         <div *ngIf="this.selectedSections.includes('GP')">
-            <p class="fs-2 text-start mt-5">Contact Details for GP</p>
+            <p class="fs-3 text-start mt-5">Contact Details for GP</p>
             <table class="table">
                 <thead>
                     <tr>

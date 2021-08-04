@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TargetDate } from '../models/application';
-import { Selected } from '../models/selected';
+import { Selected, WardConfig } from '../models/selected';
 import _ from 'lodash';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,6 +20,7 @@ export class DataService {
   schedulesFetched: boolean = false;
   scheduleApiNotificationshow: boolean = true;
   isSidebarOpened: boolean = false;
+  wardCongigData: WardConfig = null;
 
   AllDataWithCount = {
     Idukki: {
@@ -126,9 +127,9 @@ export class DataService {
 
   getAllGps() {
     let agps: any = {};
-    for(let d in this.AllDataWithCount) {
+    for (let d in this.AllDataWithCount) {
       agps[d] = [];
-      for(let gp in this.AllDataWithCount[d]) {
+      for (let gp in this.AllDataWithCount[d]) {
         agps[d].push(gp);
       }
     }
@@ -182,30 +183,36 @@ export class DataService {
     this.scheduleApiNotificationshow = true;
     this.clientSchedules = [];
     this.targetsWarningShown = false;
+    this.wardCongigData = null;
   }
 
   printContentByDiv(divId: string, style: string = '') {
     setTimeout(() => {
-      let mywindow = window.open('', 'PRINT');
+      let printWindow = window.open('', 'PRINT');
 
-      mywindow.document.write('<html><head><title>' + document.title + '</title>');
-      mywindow.document.write(`<style>${style}</style>`)
-      mywindow.document.write('</head><body class="text-center">');
-      // mywindow.document.write('<h1>' + document.title + '</h1>');
-      mywindow.document.write(document.getElementById(divId).innerHTML);
-      mywindow.document.write('</body></html>');
-      mywindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      printWindow.document.write('<html><head><title>' + document.title + '</title>');
+      printWindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">`);
-      mywindow.document.write(`<script type="text/javascript">window.addEventListener('DOMContentLoaded', function() { window.print(); window.close(); });</script>`);
+      printWindow.document.write(`<style>${style}</style>`)
+      printWindow.document.write('</head><body class="text-center">');
+      printWindow.document.write(document.getElementById(divId).innerHTML);
+      printWindow.document.write('</body></html>');
+      printWindow.document.write(`<script type="text/javascript">
+        window.addEventListener(
+          'DOMContentLoaded',
+            function() {
+              window.print();
+              window.close();
+            });
+        </script>`
+      );
 
-      mywindow.document.close(); // necessary for IE >= 10
-      mywindow.focus(); // necessary for IE >= 10*/
+      printWindow.document.close(); // necessary for IE >= 10
+      printWindow.focus(); // necessary for IE >= 10*/
 
       // mywindow.print();
       // mywindow.close();
-
-      // return true;
-    }, 100);
+    });
   }
 
 }

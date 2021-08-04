@@ -25,7 +25,7 @@ export class UserService {
     this.rest.logout().toPromise()
       .then(() => {
         this.userChange.next(null);
-        this.isloggedin = true;
+        this.isloggedin = false;
         this.isAdmin = false;
         this.currentUser = null;
         this.data.selectedDetails = {}

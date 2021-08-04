@@ -22,6 +22,7 @@ export class DistrictComponent implements OnInit {
 
   ngOnInit(): void {
     this.DistrictsList = this.data.getDistricts()
+    this.data.clearUserData();
   }
 
   onSelect() {

@@ -6,7 +6,9 @@
 .nav-link {
     cursor     : pointer;
     user-select: none;
-    border-radius: 10px;
+    // border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.493);
+    margin-right: 10px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
@@ -21,4 +23,13 @@
         background-color: rgba($color: #ffffff, $alpha: 0.2);
         color: white !important;
     }
+    
+}
+@media screen and (max-width: 991px) {
+    
+.nav-link {
+    border: unset;
+}
+
+    
 }

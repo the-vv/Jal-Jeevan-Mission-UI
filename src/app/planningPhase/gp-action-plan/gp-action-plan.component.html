@@ -466,9 +466,9 @@
         <ng-container [formGroupName]="i">
             <div class="row my-3">
                 <div class="col-12 col-md-2">
-                    <p class="h6 text-center pt-3">
-                        PRA
-                        <app-schedule-menu [section]="'PRA'" [iconOnly]="false">
+                    <p class="h6 text-center pt-3 ">
+                        PRA {{i + 1}}
+                        <app-schedule-menu [section]="'PRA ' + ( i + 1 )" [iconOnly]="false">
                         </app-schedule-menu>
                     </p>
                 </div>
@@ -479,9 +479,9 @@
                             <input matInput [matDatepicker]="dp" formControlName="praDate">
                             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                             <mat-datepicker #dp disabled="false"></mat-datepicker>
-                        </mat-form-field>
+                        </mat-form-field> 
                     </p>
-                </div>
+                </div> 
                 <div class="col-12 col-md-5">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
@@ -551,90 +551,6 @@
             </button>
         </div>
     </div>
-
-
-    <!-- <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
-        <ng-container [formGroupName]="i">
-            <div class="row my-3">
-                <div class="col-12 col-md-1">
-                    <p class="h6 text-center pt-3">
-                        {{i + 1}}
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>IEC Activity</mat-label>
-                            <input formControlName="activity" matInput placeholder="IEC Activity">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Estimated Amount</mat-label>
-                            <input formControlName="amount" matInput placeholder="IFSC Code">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Conducted Date</mat-label>
-                            <input matInput [matDatepicker]="dp3" formControlName="date">
-                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Expenditure</mat-label>
-                            <input formControlName="expenditure" matInput placeholder="IFSC Code">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Report:
-                                </strong>{{getFileFromIndex(i).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Report'"></p-fileUpload>
-                        </div>
-                </div>
-                <div class="col-12 col-md-1 text-center">
-                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addMeeting()">
-                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
-            </button>
-        </div>
-    </div> -->
-
-
 
     <div class="row mt-2">
         <div class="col-12" *ngIf="submitting">

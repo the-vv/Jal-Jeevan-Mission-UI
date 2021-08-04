@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>Ward Name Configuration</h1>
+<div mat-dialog-content style="position: relative;">
+    <p>Fill your Ward Details</p>
+    <div>
+        <form [formGroup]="wardForm">
+            <div class="row d-flex align-items-start">
+                <div class="col-12">
+                    <div formArrayName="names"
+                        *ngFor="let item of this.wardForm.get('names')['controls']; let i = index;">
+                        <ng-container [formGroupName]="i">
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <p>
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Ward Number</mat-label>
+                                            <input formControlName="wardNumber" matInput placeholder="Ward Number" readonly>
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <p>
+                                        <mat-form-field appearance="outline" class="w-100">
+                                            <mat-label>Ward Name</mat-label>
+                                            <input formControlName="wardName" matInput placeholder="Ward Name">
+                                        </mat-form-field>
+                                    </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate-multiple"
+                [fullScreen]="false" [name]="'contact'">
+                <p style="color: white" class="mt-5"> Please Wait... </p>
+            </ngx-spinner>
+        </form>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="ball-clip-rotate-multiple"
+        [fullScreen]="false" [name]="'ward'">
+        <p style="color: white" class="mt-5"> Please Wait... </p>
+    </ngx-spinner>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button cdkFocusInitial mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="onSubmit()">
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="isLoading"></i>
+        Save Changes
+    </button>
+</div>

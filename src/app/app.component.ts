@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AppConfig } from './configs/app-config.enum';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
+import { WardDetailsComponent } from './ward-details/ward-details.component';
 // import Darkmode from 'darkmode-js';
 
 @Component({
@@ -19,6 +21,7 @@ export class AppComponent implements OnInit {
     public user: UserService,
     public data: DataService,
     private dialog: MatDialog,
+    private router: Router
   ) {
 
   }
@@ -44,6 +47,16 @@ export class AppComponent implements OnInit {
     this.dialog.open(ContactDetailsComponent, {
       disableClose: true
     })
+  }
+
+  openWardDialoge() {
+    this.dialog.open(WardDetailsComponent, {
+      disableClose: true
+    })
+  }
+
+  isPhasePage() {
+    return !(this.router.url.includes('/district') || this.router.url.includes('/grama-panchayath'))
   }
 
 }

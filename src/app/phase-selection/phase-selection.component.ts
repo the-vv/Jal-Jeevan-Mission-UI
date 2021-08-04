@@ -10,6 +10,7 @@ import { UserService } from '../services/user.service';
 import { MessageService } from 'primeng/api';
 import { TargetDate } from '../models/application';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-phase-selection',
@@ -34,7 +35,8 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private rest: RestapiService,
     private messageService: MessageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -69,6 +71,18 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
         this.menuItems.push(menuitem)
       }
     }
+    this.rest.getWard(this.data.selectedDetails).subscribe(res => {
+      if (res === null) {
+        this.data.wardCongigData = {
+          category: this.data.selectedDetails,
+          names: []
+        }
+      } else {
+        this.data.wardCongigData = res;
+      }
+    }, e => {
+      this.snackBar.open('Error fetching Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
+    })
   }
 
   gotoGP() {
