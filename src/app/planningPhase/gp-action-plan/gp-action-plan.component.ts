@@ -120,27 +120,6 @@ export class GpActionPlanComponent implements OnInit {
     });
   }
 
-  // addMeeting() {
-  //   this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-  //   const group = this.formBuilder.group({
-  //     activity: '',
-  //     amount: '',
-  //     date: [moment('')],
-  //     expenditure: '',
-  //     reportIndex: ''
-  //   });
-  //   this.iecActivities.push(group);
-  // }
-
-  // removeMeeting(index: number) {
-  //   if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
-  //     this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-  //     console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
-  //   }
-  //   this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-  //   this.iecActivities.removeAt(index)
-  // }
-
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       baselineSurwey: this.formBuilder.array([
@@ -221,14 +200,32 @@ export class GpActionPlanComponent implements OnInit {
       )
   }
 
-  removePRA(index: number) {
-    if((this.applicationForm.get('pra') as FormArray).at(index).value.reportIndex?.length > 0) {
-      this.fileRemoved(0,this.getFileFromIndex(0, index)?.file?.fid, index)
+  removePRA(rindex: number) {
+    if ((this.applicationForm.get('pra') as FormArray).at(rindex).value.reportIndex?.length > 0) {
+      let fid = this.getFileFromIndex(0, rindex)?.file?.fid;
+      if (fid) {
+        this.rest.deleteFile(fid)
+          .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
+      this.filesToUpload = this.filesToUpload.filter(el => {
+        return el.fname != `f0${rindex}`
+      })
     }
-    if((this.applicationForm.get('pra') as FormArray).at(index).value.photoIndex?.length > 0) {
-      this.fileRemoved(1,this.getFileFromIndex(1, index)?.file?.fid, index)
+    if ((this.applicationForm.get('pra') as FormArray).at(rindex).value.photoIndex?.length > 0) {
+      let fid = this.getFileFromIndex(1, rindex)?.file?.fid;
+      if(fid) {
+        this.rest.deleteFile(fid)
+        .subscribe((res) => {
+            console.log('file deleted', res)
+          }, err => console.log(err.error))
+      }
+      this.filesToUpload = this.filesToUpload.filter(el => {
+        return el.fname != `f1${rindex}`
+      })
     }
-    (this.applicationForm.get('pra') as FormArray).removeAt(index);
+    (this.applicationForm.get('pra') as FormArray).removeAt(rindex);
   }
 
   addBaselineSurwey() {
