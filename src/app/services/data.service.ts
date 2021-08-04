@@ -112,9 +112,9 @@ export class DataService {
 
   getWardCount(): number {
     if (this.selectedDetails.district && this.selectedDetails.gp) {
-      if (!environment.production) {
-        return 2
-      }
+      // if (environment.production) {
+      //   return 2
+      // }
       return this.AllDataWithCount[this.selectedDetails.district][this.selectedDetails.gp];
     } else {
       return 1

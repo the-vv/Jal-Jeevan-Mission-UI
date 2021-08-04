@@ -30,20 +30,27 @@
             <div [formGroupName]="i">
                 <div formArrayName="meetings">
                     <div class="row mt-2">
-                        <div class="col-1">
+                        <div class="col-2">
                             <p class="h5 text-start pt-3">
-                                {{'Ward ' + (i + 1)}}
+                                {{'Ward ' + (i + 1) + ': '}}
+                                {{(data.wardCongigData.names.length > 0 &&
+                                data.wardCongigData.names.length > i &&
+                                data.wardCongigData.names[i] &&
+                                data.wardCongigData.names[i].wardNumber === i + 1 &&
+                                data.wardCongigData.names[i].wardName) || ' '}}
                                 <app-schedule-menu [section]="'Cluster Meeting Ward ' + (i + 1)" [iconOnly]="true">
                                 </app-schedule-menu>
                             </p>
                         </div>
-                        <div class="col-11">
+                        <div class="col-10">
                             <div *ngFor="let meeting of wardMeetings(i).controls; let j=index">
                                 <div [formGroupName]=j class="row">
                                     <div class="col-12 col-md-2">
                                         <p class="h6 text-start pt-3">
                                             {{'Meeting ' + (j + 1)}}
-                                            <app-schedule-menu [section]="'Cluster Meeting Ward ' + (i + 1) + ' - Meeting ' + (j + 1)" [iconOnly]="true">
+                                            <app-schedule-menu
+                                                [section]="'Cluster Meeting Ward ' + (i + 1) + ' - Meeting ' + (j + 1)"
+                                                [iconOnly]="true">
                                             </app-schedule-menu>
                                         </p>
                                     </div>

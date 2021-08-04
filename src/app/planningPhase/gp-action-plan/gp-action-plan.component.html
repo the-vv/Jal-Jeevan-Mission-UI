@@ -17,7 +17,12 @@
             <div class="row my-3">
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
-                        Ward {{i + 1}}
+                        {{'Ward ' + (i + 1) + ': '}}
+                        {{(data.wardCongigData.names.length > 0 &&
+                        data.wardCongigData.names.length > i &&
+                        data.wardCongigData.names[i] &&
+                        data.wardCongigData.names[i].wardNumber === i + 1 &&
+                        data.wardCongigData.names[i].wardName) || ' '}}
                         <app-schedule-menu [section]="'Baseline Details Ward ' + (i + 1)" [iconOnly]="true">
                         </app-schedule-menu>
                     </p>
@@ -405,7 +410,12 @@
             <div class="row my-3">
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
-                        Ward {{i + 1}}
+                        {{'Ward ' + (i + 1) + ': '}}
+                        {{(data.wardCongigData.names.length > 0 &&
+                        data.wardCongigData.names.length > i &&
+                        data.wardCongigData.names[i] &&
+                        data.wardCongigData.names[i].wardNumber === i + 1 &&
+                        data.wardCongigData.names[i].wardName) || ' '}}
                         <app-schedule-menu [section]="'Application Form Ward ' + (i + 1)" [iconOnly]="true">
                         </app-schedule-menu>
                     </p>
@@ -461,8 +471,7 @@
         </div>
     </div> -->
     <hr>
-    <div formArrayName="pra"
-        *ngFor="let item of this.applicationForm.get('pra')['controls']; let i = index;">
+    <div formArrayName="pra" *ngFor="let item of this.applicationForm.get('pra')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
             <div class="row my-3">
                 <div class="col-12 col-md-2">
@@ -479,9 +488,9 @@
                             <input matInput [matDatepicker]="dp" formControlName="praDate">
                             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                             <mat-datepicker #dp disabled="false"></mat-datepicker>
-                        </mat-form-field> 
+                        </mat-form-field>
                     </p>
-                </div> 
+                </div>
                 <div class="col-12 col-md-5">
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
@@ -521,8 +530,7 @@
                                 </strong>{{getFileFromIndex(1, i).file.name}}
                             </p>
                             <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(1,getFileFromIndex(1, i)?.file?.fid, i)">
+                                style="margin-top: 4.5px" (click)="fileRemoved(1,getFileFromIndex(1, i)?.file?.fid, i)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
@@ -545,8 +553,7 @@
     </div>
     <div class="">
         <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
-                (click)="addPRA()">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addPRA()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>

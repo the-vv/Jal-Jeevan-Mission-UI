@@ -11,8 +11,7 @@
         <div class="col-md-2">
             <p class="h6 pt-3">
                 Per House Hold Cost
-                <app-schedule-menu [section]="'Per House Hold Cost'"
-                    [iconOnly]="true">
+                <app-schedule-menu [section]="'Per House Hold Cost'" [iconOnly]="true">
                 </app-schedule-menu>
             </p>
         </div>
@@ -20,8 +19,7 @@
             <p>
                 <mat-form-field appearance="outline" class="w-100">
                     <mat-label> Per House Hold Cost</mat-label>
-                    <input formControlName="perHouseHoldCost" matInput placeholder=" Per House Hold Cost"
-                        type="number">
+                    <input formControlName="perHouseHoldCost" matInput placeholder=" Per House Hold Cost" type="number">
                 </mat-form-field>
             </p>
         </div>
@@ -32,7 +30,12 @@
             <div class="row my-3">
                 <div class="col-12 col-md-2">
                     <p class="h6 text-center pt-3">
-                        Ward {{i + 1}}
+                        {{'Ward ' + (i + 1) + ': '}}
+                        {{(data.wardCongigData.names.length > 0 &&
+                        data.wardCongigData.names.length > i &&
+                        data.wardCongigData.names[i] &&
+                        data.wardCongigData.names[i].wardNumber === i + 1 &&
+                        data.wardCongigData.names[i].wardName) || ' '}}
                         <app-schedule-menu [section]="'Beneficiary Contribution Collection Ward ' + (i + 1)"
                             [iconOnly]="true">
                         </app-schedule-menu>
@@ -53,8 +56,8 @@
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Total Estimated Amount</mat-label>
-                                    <input readonly formControlName="totalEstimatedAmount" matInput placeholder="Total Estimated Amount"
-                                        type="number">
+                                    <input readonly formControlName="totalEstimatedAmount" matInput
+                                        placeholder="Total Estimated Amount" type="number">
                                 </mat-form-field>
                             </p>
                         </div>
@@ -89,8 +92,8 @@
                             <p>
                                 <mat-form-field appearance="outline" class="w-100">
                                     <mat-label>Balance Amount</mat-label>
-                                    <input readonly formControlName="balanceAmount" matInput placeholder="Balance Amount"
-                                        type="number">
+                                    <input readonly formControlName="balanceAmount" matInput
+                                        placeholder="Balance Amount" type="number">
                                 </mat-form-field>
                             </p>
                         </div>
