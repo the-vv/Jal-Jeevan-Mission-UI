@@ -71,18 +71,20 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
         this.menuItems.push(menuitem)
       }
     }
-    this.rest.getWard(this.data.selectedDetails).subscribe(res => {
-      if (res === null) {
-        this.data.wardCongigData = {
-          category: this.data.selectedDetails,
-          names: []
+    if (this.data.wardCongigData === null) {
+      this.rest.getWard(this.data.selectedDetails).subscribe(res => {
+        if (res === null) {
+          this.data.wardCongigData = {
+            category: this.data.selectedDetails,
+            names: []
+          }
+        } else {
+          this.data.wardCongigData = res;
         }
-      } else {
-        this.data.wardCongigData = res;
-      }
-    }, e => {
-      this.snackBar.open('Error fetching Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
-    })
+      }, e => {
+        this.snackBar.open('Error fetching Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
+      })
+    }
   }
 
   gotoGP() {

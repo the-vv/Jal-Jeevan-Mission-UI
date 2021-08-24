@@ -19,16 +19,18 @@ export class SpinnerService implements HttpInterceptor {
       !req.url.includes('/deleteSchedule') &&
       !req.url.includes('/ward')
     ) {
-      // this.loaderCount++;
-      this.loaderService.show('httpSpinner');
+      setTimeout(() => {
+        this.loaderCount++;
+        this.loaderService.show('httpSpinner');
+      });
     }
     return next.handle(req).pipe(
       finalize(() => {
-        // if (--this.loaderCount === 0) { 
+        if (--this.loaderCount === 0) { 
           setTimeout(() => {
             this.loaderService.hide('httpSpinner')
           });
-        // }
+        }
       })
     );
   }

@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
           if (this.data.targetUrl?.indexOf('reports') >=0) {
             // console.log(this.data.targetUrl);          
             this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+            this.data.targetUrl = null;
           } else {
             this.router.navigate(['admin'], { replaceUrl: true })
           }
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit {
           if (this.data.targetUrl?.indexOf('reports') >= 0) {
             // console.log(this.data.targetUrl);          
             this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+            this.data.targetUrl = null;
           }
           else {
             this.router.navigate(['client'], { replaceUrl: true })

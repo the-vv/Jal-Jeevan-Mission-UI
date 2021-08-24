@@ -55,7 +55,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-12">
-            <button mat-raised-button (click)="data.printContentByDiv('mainReport')" color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
+            <button mat-raised-button (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;}')" color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>
 </div>
@@ -64,13 +64,11 @@
     <div class="row">
         <div class="col-12">
             <p class="text-center h1 mb-0">{{configData.appTitle}} Report</p>
-            <p class="h3 mb-0">ISA: {{configData.appName}}</p>
-            <p class="h3">IA: Kerala Water Authority</p>
         </div>
     </div>
-    <div class="row mt-3" *ngFor="let district of selectedDistricts">
-        <div class="col-12" *ngFor="let gp of selectedGps">
-            <p class="text-center h4">{{district}} District, {{gp}} Grama Panchayath</p>
+    <div class="row mb-3" *ngFor="let district of selectedDistricts">
+        <div class="col-12 mb-4" *ngFor="let gp of selectedGps">
+            <p class="text-center h3">{{district}} District, {{gp}} Grama Panchayath</p>
             <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                 <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
                     name='planningphase/isapositioning' *ngIf="selectedComponents.includes('ISA Positioning')">

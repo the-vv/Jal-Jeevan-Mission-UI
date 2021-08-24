@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Selected } from 'src/app/models/selected';
+import { AppConfig } from 'src/app/configs/app-config.enum';
 
 @Component({
   selector: 'app-isa-positioning',
@@ -34,7 +35,8 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   showForm: boolean = false;
   submitted: boolean = false;
   targetDate: Date;
-  settingDateProgress: boolean = false;
+  settingDateProgress: boolean = false;  
+  configData: any = AppConfig;
 
   constructor(
     private user: UserService,
