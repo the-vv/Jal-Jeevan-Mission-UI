@@ -21,9 +21,11 @@ import { Route } from '@angular/compiler/src/core';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
 
 
 let commonRoutes: Routes = [
+  { path: 'calender', component: SchedulerComponent},
   { path: 'phase', component: PhaseSelectionComponent },
   { path: 'planningphase/components', component: PhaseComponentsComponent },
   { path: 'planningphase/isapositioning', component: IsaPositioningComponent },

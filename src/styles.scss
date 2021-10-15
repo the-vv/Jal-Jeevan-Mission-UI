@@ -78,7 +78,12 @@ mat-hint {
 .text-area-value {
     white-space: pre-wrap;
 }
-
+@media print {
+    .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+}
 .bg-shade {
     background-color: #e4e2e2;
+}
+.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
+    background-color: #ffffff3f;
 }

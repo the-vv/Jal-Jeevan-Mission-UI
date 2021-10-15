@@ -20,17 +20,15 @@ export class SpinnerService implements HttpInterceptor {
       !req.url.includes('/ward')
     ) {
       setTimeout(() => {
-        this.loaderCount++;
+        // this.loaderCount++;
         this.loaderService.show('httpSpinner');
       });
     }
     return next.handle(req).pipe(
       finalize(() => {
-        if (--this.loaderCount === 0) { 
-          setTimeout(() => {
-            this.loaderService.hide('httpSpinner')
-          });
-        }
+        setTimeout(() => {
+          this.loaderService.hide('httpSpinner')
+        });
       })
     );
   }

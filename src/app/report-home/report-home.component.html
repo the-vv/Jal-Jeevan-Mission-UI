@@ -55,7 +55,11 @@
     </div>
     <div class="row mt-4">
         <div class="col-12">
-            <button mat-raised-button (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;}')" color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
+            <button mat-raised-button (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;}
+            @media print {
+                .pagebreak { page-break-before: always; }                
+            }')"
+            color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>
 </div>
@@ -67,7 +71,7 @@
         </div>
     </div>
     <div class="row mb-3" *ngFor="let district of selectedDistricts">
-        <div class="col-12 mb-4" *ngFor="let gp of selectedGps">
+        <div class="col-12 mb-4 pagebreak" *ngFor="let gp of selectedGps">
             <p class="text-center h3">{{district}} District, {{gp}} Grama Panchayath</p>
             <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                 <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'

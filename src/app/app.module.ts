@@ -74,8 +74,14 @@ import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
-export const MY_FORMATS = {
+
+export const DATE_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
   },
@@ -86,6 +92,12 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -113,7 +125,8 @@ export const MY_FORMATS = {
     DateDialogComponent,
     ScheduleMenuComponent,
     ContactDetailsComponent,
-    WardDetailsComponent
+    WardDetailsComponent,
+    SchedulerComponent
   ],
   imports: [
     BrowserModule,
@@ -150,14 +163,15 @@ export const MY_FORMATS = {
     MatDialogModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    FullCalendarModule 
   ],
   providers: [
     DataService,
     RestapiService,
     UserService,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
     MessageService,
     DatePipe
