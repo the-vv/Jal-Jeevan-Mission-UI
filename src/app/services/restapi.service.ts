@@ -90,6 +90,12 @@ export class RestapiService {
     })
   }
 
+  getAllSchedules(): Observable<TargetDate[]> {
+    return this.http.get<TargetDate[]>(this.applUrl + '/getAllSchedules', {
+      withCredentials: true
+    })
+  }
+
   deleteSchedule(category: Selected, section: string): Observable<TargetDate[]> {
     return this.http.post<TargetDate[]>(this.applUrl + '/deleteSchedule', { category, section }, {
       withCredentials: true

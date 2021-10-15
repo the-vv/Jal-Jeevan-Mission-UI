@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
+import { EventSourceInput, EventInput } from '@fullcalendar/common'; // useful for typechecking
 import { DateClickArg } from '@fullcalendar/interaction';
-
+import { DataService } from '../services/data.service';
+import { RestapiService } from '../services/restapi.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-scheduler',
@@ -10,34 +14,85 @@ import { DateClickArg } from '@fullcalendar/interaction';
 })
 export class SchedulerComponent implements OnInit {
 
+  schedulerEvents: EventInput[] = [];
+
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     headerToolbar: {
-      left: 'title',
+      center: 'title',
       right: 'prev,next,today',
-      center: 'dayGridMonth,timeGridWeek,timeGridDay'
+      left: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    events: [
-      { title: 'event 1', start: new Date(), end: new Date() },
-      { title: 'event 2', date: new Date() }
-    ],
+    events: this.schedulerEvents,
     dateClick: this.showEvent.bind(this),
     eventClick: (data) => {
       console.log(data.event)
     },
     editable: true,
-    selectable:true,
+    selectable: true,
     selectMirror: true,
     dayMaxEvents: true,
+    droppable: false
   };
 
-  constructor() { }
+  constructor(
+    public data: DataService,
+    private user: UserService,
+    private router: Router,
+    private rest: RestapiService
+  ) { }
 
   ngOnInit(): void {
+    if (this.user.isAdmin) {
+      this.rest.getAllSchedules().subscribe(res => {
+        res.forEach(el => {
+          this.schedulerEvents.push(
+            {
+              title: `${el.section} (${el.category.component})`,
+              date: new Date(Number(el.date)),
+              allDay: true,
+              backgroundColor: this.isDateExceeded(el.date) ? 'red' : 'green',
+              constraint: { category: el.category, path: el.path }
+            }
+          )
+        })
+        this.calendarOptions = { ...this.calendarOptions, events: this.schedulerEvents }
+        // console.log(this.calendarOptions)
+      })
+    } else {
+      // console.log(this.data.clientSchedules)
+      this.data.clientSchedules.forEach(el => {
+        this.schedulerEvents.push(
+          {
+            title: `${el.section} (${el.category.component})`,
+            date: new Date(Number(el.date)),
+            allDay: true,
+            backgroundColor: this.isDateExceeded(el.date) ? 'red' : 'green',
+            constraint: { category: el.category, path: el.path }
+          }
+        )
+      })
+      this.calendarOptions = { ...this.calendarOptions, events: this.schedulerEvents }
+      // console.log(this.calendarOptions)
+    }
   }
 
   showEvent(event: DateClickArg) {
     console.log(event.date);
+  }
+  gotoForm(path: string, phase: string, comp: string) {
+    console.log([this.user.isAdmin ? 'admin' : 'client', path])
+    this.data.selectComponent(`${phase}/${comp}`);
+    this.router.navigate([this.user.isAdmin ? 'admin/' + path : 'client/' + path])
+  }
+
+  isDateExceeded(date: number): boolean {
+    let tDate = new Date(Number(date));
+    let now = new Date();
+    if (tDate.setHours(24, 0, 0, 0) <= now.setHours(0, 0, 0, 0)) {
+      return true;
+    }
+    return false;
   }
 
 }
