@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CalendarOptions } from '@fullcalendar/angular'; // useful for typechecking
-import { EventSourceInput, EventInput } from '@fullcalendar/common'; // useful for typechecking
+import { CalendarOptions } from '@fullcalendar/angular';
+import { EventInput } from '@fullcalendar/common';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
@@ -30,9 +30,7 @@ export class SchedulerComponent implements OnInit {
     },
     editable: true,
     selectable: true,
-    selectMirror: true,
-    dayMaxEvents: true,
-    droppable: false
+    eventStartEditable: false
   };
 
   constructor(
