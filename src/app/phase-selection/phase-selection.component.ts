@@ -63,11 +63,13 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
           menuitem.items?.push({
             label: comp[0],
             command: () => {
-              let toRoute = this.data.selectComponent(`${phase}/${comp[0]}`);
+              let toRoute = this.data.selectComponent(`${phase}~${comp[0]}`);
+              console.log(`${phase}/${comp[0]}`)
               this.router.navigate([`../${toRoute}`], { relativeTo: this.route })
             }
           })
         }
+        console.log(menuitem) 
         this.menuItems.push(menuitem)
       }
     }

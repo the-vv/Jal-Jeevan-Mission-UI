@@ -87,3 +87,12 @@ mat-hint {
 .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
     background-color: #ffffff3f;
 }
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: #00a2ff85!important;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    color: black!important;
+    font-weight: bold;
+}

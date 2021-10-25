@@ -17,7 +17,6 @@ import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-
 import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
-import { Route } from '@angular/compiler/src/core';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
@@ -36,7 +35,8 @@ let commonRoutes: Routes = [
   { path: 'planningphase/gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
   { path: 'planningphase/gramasabhaactionplanapproved', component: GpActionApprovedComponent },
   { path: 'planningphase/gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
-  { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent }
+  { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
+  { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) }
 ];
 
 const routes: Routes = [
@@ -70,7 +70,15 @@ const routes: Routes = [
   },
   {
     path: '404', component: NotfoundComponent
-  }
+  },
+  { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
+  { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
+  { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
+  { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
+  { path: 'wqmsTrainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
+  { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
+  { path: 'shared', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule) },
+  
 ];
 
 @NgModule({

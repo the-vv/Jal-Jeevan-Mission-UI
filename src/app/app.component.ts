@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AppConfig } from './configs/app-config.enum';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
+import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 // import Darkmode from 'darkmode-js';
 
 @Component({
@@ -21,7 +23,8 @@ export class AppComponent implements OnInit {
     public user: UserService,
     public data: DataService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private spinnerService: NgxSpinnerService
   ) {
 
   }
@@ -41,6 +44,14 @@ export class AppComponent implements OnInit {
       autoMatchOsTheme: true // default: true
     }
     // new Darkmode(darkModeptions).showWidget();
+
+    this.router.events.subscribe(event => {
+      if (event instanceof RouteConfigLoadStart) {
+        this.spinnerService.show('httpSpinner')
+      } else if (event instanceof RouteConfigLoadEnd) {
+        this.spinnerService.hide('httpSpinner', 100)
+      }
+    });
   }
 
   openContactDialoge() {

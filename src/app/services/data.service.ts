@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { TargetDate } from '../models/application';
 import { Selected, WardConfig } from '../models/selected';
 import _ from 'lodash';
@@ -70,12 +68,13 @@ export class DataService {
       ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
       ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
       ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
+    ],
+    'IEC/BCC/IPC activities': [
+      ['Wall Writings/ Paintings', 'iec-activities/wall-paintings']
     ]
   }
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private rest: RestapiService,
     private snackbar: MatSnackBar
   ) {
@@ -142,7 +141,7 @@ export class DataService {
 
   selectComponent(phaseComponent: string): string {
     // console.log(phaseComponent);
-    let [phase, component] = phaseComponent.split('/');
+    let [phase, component] = phaseComponent.split('~');
     this.selectedDetails.phase = phase;
     this.selectedDetails.component = component;
     for (const ph in this.phaseComponents) {
