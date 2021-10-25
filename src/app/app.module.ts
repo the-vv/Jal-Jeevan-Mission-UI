@@ -72,7 +72,6 @@ import { ReportHomeComponent } from './report-home/report-home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
-import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -124,7 +123,6 @@ FullCalendarModule.registerPlugins([
     SidebarComponent,
     DateDialogComponent,
     ScheduleMenuComponent,
-    ContactDetailsComponent,
     WardDetailsComponent,
     SchedulerComponent
   ],

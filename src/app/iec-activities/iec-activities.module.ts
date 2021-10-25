@@ -32,6 +32,7 @@ import { ExhibitionsComponent } from './exhibitions/exhibitions.component';
 import { ConferenceInnovationEventsComponent } from './conference-innovation-events/conference-innovation-events.component';
 import { IpcActivitiesComponent } from './ipc-activities/ipc-activities.component';
 import { IecMaterialPreperationComponent } from './iec-material-preperation/iec-material-preperation.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import { IecMaterialPreperationComponent } from './iec-material-preperation/iec-
   ],
   imports: [
     CommonModule,
-    IecActivitiesRoutingModule
+    IecActivitiesRoutingModule,
+    SharedModule
   ]
 })
 export class IecActivitiesModule { }

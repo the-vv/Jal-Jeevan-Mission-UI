@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AppConfig } from './configs/app-config.enum';
-import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ContactDetailsComponent } from './shared/contact-details/contact-details.component';
 
 // import Darkmode from 'darkmode-js';
 
