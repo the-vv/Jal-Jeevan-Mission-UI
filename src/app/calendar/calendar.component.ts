@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CalendarOptions } from '@fullcalendar/angular';
 import { EventInput } from '@fullcalendar/common';
+import { CalendarOptions } from '@fullcalendar/core';
 import { DateClickArg } from '@fullcalendar/interaction';
-import { DataService } from '../services/data.service';
-import { RestapiService } from '../services/restapi.service';
-import { UserService } from '../services/user.service';
+import { DataService } from 'src/app/services/data.service';
+import { RestapiService } from 'src/app/services/restapi.service';
+import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
-  selector: 'app-scheduler',
-  templateUrl: './scheduler.component.html',
-  styleUrls: ['./scheduler.component.scss']
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.scss']
 })
-export class SchedulerComponent implements OnInit {
+export class CalendarComponent implements OnInit {
 
   schedulerEvents: EventInput[] = [];
 

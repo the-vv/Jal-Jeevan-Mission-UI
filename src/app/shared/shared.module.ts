@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { SharedRoutingModule } from './shared-routing.module';
 import { SharedComponent } from './shared.component';
 import { ReportComponent } from './report/report.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { BreadcrumpComponent } from './breadcrump/breadcrump.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
@@ -25,7 +24,6 @@ import { MatOptionModule } from '@angular/material/core';
   declarations: [
     SharedComponent,
     ReportComponent,
-    CalendarComponent,
     BreadcrumpComponent,
     ContactDetailsComponent,
     DateDialogComponent,
@@ -50,13 +48,12 @@ import { MatOptionModule } from '@angular/material/core';
   exports: [
     SharedComponent,
     ReportComponent,
-    CalendarComponent,
     BreadcrumpComponent,
     ContactDetailsComponent,
     DateDialogComponent,
     ScheduleMenuComponent,
     CommonModule,
     FormsModule
-  ]
+  ],
 })
 export class SharedModule { }

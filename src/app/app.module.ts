@@ -73,11 +73,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid';
 
 
 export const DATE_FORMATS = {
@@ -91,12 +86,6 @@ export const DATE_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
-FullCalendarModule.registerPlugins([
-  dayGridPlugin,
-  interactionPlugin,
-  timeGridPlugin
-]);
 
 @NgModule({
   declarations: [
@@ -123,8 +112,7 @@ FullCalendarModule.registerPlugins([
     SidebarComponent,
     DateDialogComponent,
     ScheduleMenuComponent,
-    WardDetailsComponent,
-    SchedulerComponent
+    WardDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -161,8 +149,7 @@ FullCalendarModule.registerPlugins([
     MatDialogModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatMenuModule,
-    FullCalendarModule 
+    MatMenuModule
   ],
   providers: [
     DataService,

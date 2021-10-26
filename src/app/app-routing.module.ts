@@ -20,11 +20,9 @@ import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gp
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdministrationComponent } from './administration/administration.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
-import { SchedulerComponent } from './scheduler/scheduler.component';
 
 
 let commonRoutes: Routes = [
-  { path: 'calender', component: SchedulerComponent},
   { path: 'phase', component: PhaseSelectionComponent },
   { path: 'planningphase/components', component: PhaseComponentsComponent },
   { path: 'planningphase/isapositioning', component: IsaPositioningComponent },
@@ -36,7 +34,8 @@ let commonRoutes: Routes = [
   { path: 'planningphase/gramasabhaactionplanapproved', component: GpActionApprovedComponent },
   { path: 'planningphase/gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
   { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
-  { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) }
+  { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
+  { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
 ];
 
 const routes: Routes = [
@@ -65,19 +64,19 @@ const routes: Routes = [
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
-  {
-    path: '**', redirectTo: '404', pathMatch: 'full'
-  },
-  {
-    path: '404', component: NotfoundComponent
-  },
   { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
   { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
   { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
   { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
   { path: 'wqmsTrainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
   { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
-  { path: 'shared', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule) },
+  {
+    path: '**', redirectTo: '404', pathMatch: 'full'
+  },
+  {
+    path: '404', component: NotfoundComponent
+  },
+  { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
   
 ];
 
