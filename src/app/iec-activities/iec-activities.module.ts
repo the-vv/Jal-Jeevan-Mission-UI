@@ -90,7 +90,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FileUploadModule,
     MatProgressBarModule,
     MatDatepickerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ]
 })
 export class IecActivitiesModule { }

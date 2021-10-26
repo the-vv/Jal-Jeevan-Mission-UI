@@ -76,8 +76,6 @@ const routes: Routes = [
   {
     path: '404', component: NotfoundComponent
   },
-  { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
-  
 ];
 
 @NgModule({

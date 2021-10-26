@@ -70,7 +70,36 @@ export class DataService {
       ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
     ],
     'IEC/BCC/IPC activities': [
-      ['Wall Writings/ Paintings', 'iec-activities/wall-paintings']
+      ['Wall Writings/ Paintings', 'iec-activities/wall-paintings'],
+      ['Hoardings/ Banners', 'iec-activities/hoardings-banners'],
+      ['Radio jingles', 'iec-activities/radio-jingles'],
+      ['TV spots', 'iec-activities/tv-sports'],
+      ['Flipbooks/ charts', 'iec-activities/flipbooks-charts'],
+      ['Posters at tourist locations', 'iec-activities/posters-tourist-locations'],
+      ['Schools', 'iec-activities/schools'],
+      ['Anganwadi centers', 'iec-activities/anganawadi-centers'],
+      ['GP buildings', 'iec-activities/gp-buildings'],
+      ['Laboratories', 'iec-activities/laborotaries'],
+      ['PHE offices', 'iec-activities/phe-offices'],
+      ['Announcement vans', 'iec-activities/announcement-vans'],
+      ['Other Activities', 'iec-activities/other-activities'],
+      ['Water resource mapping exercise', 'iec-activities/water-resource-mapping-exercise'],
+      ['Water Audit/ budget exercise', 'iec-activities/water-audit-budget-exercise'],
+      ['Nukkad natak/ drama/ streetplay', 'iec-activities/nukkad-natak-drama-streetplay'],
+      ['Folksongs/ Kalajatha', 'iec-activities/folksongs-kalajatha'],
+      ['Rallies', 'iec-activities/rallies'],
+      ['Grama sabhas/ Development seminar', 'iec-activities/grama-sabhas-development-seminar'],
+      ['VAP preperation & approval', 'iec-activities/vap-preperation-approval'],
+      ['PRA Activities', 'iec-activities/pra-activities'],
+      ['School competitions', 'iec-activities/school-competitions'],
+      ['SHG involvement', 'iec-activities/shg-involvement'],
+      ['Water safety planning exercise', 'iec-activities/water-safety-planning-exercise'],
+      ['Others', 'iec-activities/others'],
+      ['World Water day events', 'iec-activities/world-water-day-events'],
+      ['Exhibitions', 'iec-activities/exhibitions'],
+      ['Conference on innovation/ Events', 'iec-activities/conference-innovation-events'],
+      ['IPC Activities', 'iec-activities/ipc-activities'],
+      ['IEC material preparation, production & dissemination', 'iec-activities/iec-material-preperation-production-dissemination'],
     ]
   }
 

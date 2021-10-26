@@ -3,12 +3,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 import { UserService } from '../services/user.service';
 import { MessageService } from 'primeng/api';
-import { TargetDate } from '../models/application';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -57,14 +56,16 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
       if (Object.prototype.hasOwnProperty.call(this.data.phaseComponents, phase)) {
         let menuitem: MenuItem = {
           label: phase,
-          items: []
+          items: [],
+          icon: 'pi pi-chart-line'
         }
         for (const comp of (this.data.phaseComponents as any)[phase]) {
           menuitem.items?.push({
             label: comp[0],
+            icon: 'bi bi-file-earmark-text',
             command: () => {
               let toRoute = this.data.selectComponent(`${phase}~${comp[0]}`);
-              console.log(`${phase}/${comp[0]}`)
+              // console.log(`${phase}/${comp[0]}`)
               this.router.navigate([`../${toRoute}`], { relativeTo: this.route })
             }
           })
