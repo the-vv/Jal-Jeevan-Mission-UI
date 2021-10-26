@@ -33,6 +33,15 @@ import { ConferenceInnovationEventsComponent } from './conference-innovation-eve
 import { IpcActivitiesComponent } from './ipc-activities/ipc-activities.component';
 import { IecMaterialPreperationComponent } from './iec-material-preperation/iec-material-preperation.component';
 import { SharedModule } from '../shared/shared.module';
+import { MatProgressBar, MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -71,7 +80,17 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     IecActivitiesRoutingModule,
-    SharedModule
+    SharedModule, 
+    MatIconModule,  
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    FileUploadModule,
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatSnackBarModule
   ]
 })
 export class IecActivitiesModule { }

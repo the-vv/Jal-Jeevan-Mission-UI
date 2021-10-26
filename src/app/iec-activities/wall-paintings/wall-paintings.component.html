@@ -1,3 +1,116 @@
 <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
     <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
 </div>
+<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+    <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
+        <ng-container [formGroupName]="i">
+            <div class="row my-3">
+                <div class="col-12 col-md-1">
+                    <p class="h6 text-center pt-3">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'GP IEC Meeting ' + (i + 1)" [iconOnly]="true"></app-schedule-menu>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>IEC Activity</mat-label>
+                            <input formControlName="activity" matInput placeholder="IEC Activity">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Estimated Amount</mat-label>
+                            <input formControlName="amount" matInput placeholder="Estimated Amount">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Conducted Date</mat-label>
+                            <input matInput [matDatepicker]="dp3" formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Expenditure</mat-label>
+                            <input formControlName="expenditure" matInput placeholder="Expenditure">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="mt-1" style="position: relative;">
+                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
+                            (click)="viewFile(getFileFromIndex(i).file)"
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length > 0">
+                            <p class="text-truncate pt-3"><strong>Report:
+                                </strong>{{getFileFromIndex(i).file.name}}
+                            </p>
+                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                                style="margin-top: 4.5px"
+                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('meetings')['controls'][i].value.reportIndex = ''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                        <p-fileUpload
+                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.reportIndex"
+                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'unset',
+                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
+                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
+                            [chooseLabel]="'Report'"></p-fileUpload>
+                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
+                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
+                    </div>
+                </div>
+                <div class="col-12 col-md-1 text-center">
+                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addMeeting()">
+                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12" *ngIf="submitting">
+            <p class="small text-center">
+                Uploading files(If any) and submiting Application...
+            </p>
+            <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+        </div>
+        <div class="col-12 text-center mt-3">
+            <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+                Application</button>
+        </div>
+    </div>
+    <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+            </symbol>
+        </svg>
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                <use xlink:href="#check-circle-fill" />
+            </svg>
+            <div>
+                Application Submitted Successfully
+            </div>
+        </div>
+    </div>
+</form>

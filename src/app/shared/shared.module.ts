@@ -10,14 +10,15 @@ import { ContactDetailsComponent } from './contact-details/contact-details.compo
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatOptionModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -33,16 +34,18 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     SharedRoutingModule,
-    NgxSpinnerModule,
-    MatFormFieldModule,
+    MatSnackBarModule,
+    MatIconModule,  
     MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatOptionModule,
-    MatSelectModule,
-    FormsModule,
+    MatFormFieldModule,
     MatButtonModule,
-    MatDialogModule
+    ReactiveFormsModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatTooltipModule,
+    NgxSpinnerModule,
+    MatOptionModule,
+    MatSnackBarModule
   ],
   exports: [
     SharedComponent,
