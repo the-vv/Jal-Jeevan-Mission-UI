@@ -4,7 +4,6 @@ import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { NgxSpinnerService } from "ngx-spinner";
 
-
 @Injectable()
 export class SpinnerService implements HttpInterceptor {
   private loaderCount = 0;

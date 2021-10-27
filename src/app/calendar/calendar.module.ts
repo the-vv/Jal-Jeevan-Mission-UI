@@ -7,12 +7,13 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-
+import listPlugin from '@fullcalendar/list';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
   interactionPlugin,
-  timeGridPlugin
+  timeGridPlugin,
+  listPlugin 
 ]);
 
 

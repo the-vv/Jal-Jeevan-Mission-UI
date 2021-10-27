@@ -20,6 +20,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FileUploaderComponent } from './file-uploader/file-uploader.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -29,7 +32,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     BreadcrumpComponent,
     ContactDetailsComponent,
     DateDialogComponent,
-    ScheduleMenuComponent
+    ScheduleMenuComponent,
+    FileUploaderComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +51,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatOptionModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    FileUploadModule,
+    MatProgressBarModule
   ],
   exports: [
     SharedComponent,
@@ -57,7 +63,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     DateDialogComponent,
     ScheduleMenuComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    FileUploaderComponent
   ],
 })
 export class SharedModule { }

@@ -19,7 +19,7 @@ export class WallPaintingsComponent implements OnInit {
   };
 
   filesToUpload: any[] = [];
-  iecActivities: FormArray = new FormArray([]);
+  formFields: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
   submitting: boolean = false;
@@ -28,7 +28,6 @@ export class WallPaintingsComponent implements OnInit {
   showForm: boolean = false;
   submitted: boolean = false;
   targetDate: Date;
-  settingDateProgress: boolean = false;
 
   constructor(
     private user: UserService,
@@ -66,37 +65,36 @@ export class WallPaintingsComponent implements OnInit {
     })
   }
 
-  addMeeting() {
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-    const group = this.formBuilder.group({
-      activity: '',
-      amount: '',
-      date: [''],
-      expenditure: '',
-      reportIndex: ''
+  addRow() {
+    this.formFields = this.applicationForm.get('rows') as FormArray;
+    const group = this.newRow();
+    this.formFields.push(group);
+  }
+
+  newRow() {
+    return this.formBuilder.group({
+      proposedSite: '',
+      proposedArea: '',
+      photoIndex: [''],
+      completedArea: '',
+      photo: '',
+      video: ''
     });
-    this.iecActivities.push(group);
   }
 
   removeMeeting(index: number) {
-    if (this.applicationForm.get('meetings')['controls'][index].value.reportIndex?.length > 0) {
+    if (this.applicationForm.get('rows')['controls'][index].value.reportIndex?.length > 0) {
       this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-      // console.log(this.applicationForm.get('meetings')['controls'][index].value.reportIndex)
+      // console.log(this.applicationForm.get('rows')['controls'][index].value.reportIndex)
     }
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray;
-    this.iecActivities.removeAt(index)
+    this.formFields = this.applicationForm.get('rows') as FormArray;
+    this.formFields.removeAt(index)
   }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
-      meetings: this.formBuilder.array([
-        this.formBuilder.group({
-          activity: '',
-          amount: '',
-          date: [''],
-          expenditure: '',
-          reportIndex: ''
-        })
+      rows: this.formBuilder.array([
+        this.newRow()
       ])
     })
     this.route.url.subscribe((val) => {
@@ -175,10 +173,10 @@ export class WallPaintingsComponent implements OnInit {
       fname: `f${index}`,
       file: event.files[0]
     });
-    // let tform = this.applicationForm.get('meetings')?.value[index]
+    // let tform = this.applicationForm.get('rows')?.value[index]
     // tform.reportIndex = `f${index}`;
     // // console.log(tform)
-    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
+    (this.applicationForm.get('rows') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -238,8 +236,8 @@ export class WallPaintingsComponent implements OnInit {
       console.log(el, index)
       return el.fname != `f${index}`
     });
-    // this.applicationForm.get('meetings')['controls'][index].value.reportIndex = '';
-    (this.applicationForm.get('meetings') as FormArray).at(index).patchValue({ reportIndex: '' })
+    // this.applicationForm.get('rows')['controls'][index].value.reportIndex = '';
+    (this.applicationForm.get('rows') as FormArray).at(index).patchValue({ reportIndex: '' })
     if (fid?.length) {
       // console.log(this.formdata)
       this.formdata._id = this.editingId
@@ -270,11 +268,11 @@ export class WallPaintingsComponent implements OnInit {
     this.targetDate = app.targetDate;
     this.onReset();
     this.showForm = true
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray
-    this.iecActivities.clear();
+    this.formFields = this.applicationForm.get('rows') as FormArray
+    this.formFields.clear();
     this.editingId = app._id
-    for (let i = 0; i < app.values.meetings.length; i++) {
-      this.addMeeting()
+    for (let i = 0; i < app.values.rows.length; i++) {
+      this.addRow()
     }
     this.applicationForm.patchValue(app.values);
     // // console.log(this.applicationForm)
@@ -297,9 +295,9 @@ export class WallPaintingsComponent implements OnInit {
     this.applicationForm.reset();
     this.filesToUpload = []
     this.formdata.files = []
-    this.iecActivities = this.applicationForm.get('meetings') as FormArray
-    this.iecActivities.clear();
-    this.addMeeting()
+    this.formFields = this.applicationForm.get('rows') as FormArray
+    this.formFields.clear();
+    this.addRow()
     console.log(this.filesToUpload, this,this.formdata);
     
   }

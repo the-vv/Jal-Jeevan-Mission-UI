@@ -1,0 +1,18 @@
+<p-fileUpload name="myfile[]" [url]="rest.applUrl + '/upload'" [multiple]="true" [auto]="false" [mode]="'basic'"
+    accept="image/*" [maxFileSize]="1000000" [style]="chooserStyles" [chooseLabel]="'Report'" [withCredentials]="true"
+    (onProgress)="fileUpload($event)" (onUpload)="fileUpload($event)" (onSelect)="fileSelected($event)"
+    *ngIf="!fileinfo">
+</p-fileUpload>
+<div *ngIf="fileinfo" class="d-flex justify-content-between border px-2 rounded"
+    style="cursor: pointer; margin-bottom: -5.5px;margin-top: 4px;" (click)="viewFile(null)">
+    <p class="text-truncate pt-3" [ngClass]="uploadComplete ? 'text-success' : ''">
+        <strong>Report: </strong>{{fileinfo}}
+    </p>
+    <button type="button" mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+        style="margin-top: 4.5px;" (click)="fileRemoved();">
+        <i class="pi pi-spin pi-spinner" *ngIf="fileProgress" style="color: black"></i>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-progress-bar mode="determinate" *ngIf="fileProgress" [value]="fileProgress" [style]="{'border-radius': '10px'}">
+</mat-progress-bar>

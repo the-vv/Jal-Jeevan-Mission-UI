@@ -89,7 +89,7 @@ mat-hint {
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-    background-color: #00a2ff85!important;
+    background-color: #0d6dfd48!important;
 }
 
 .fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
@@ -104,9 +104,13 @@ mat-hint {
 }
 
 .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link:not(.p-disabled):hover {
-    background-color:  #0d6dfd28 !important;
+    background-color: #0d6dfd48 !important;
 }
 
 .p-panelmenu .p-panelmenu-header > a {
+    background-color: #0d6dfd48 !important;
+}
+
+.bg-blue-custom {
     background-color: #0d6dfd48 !important;
 }

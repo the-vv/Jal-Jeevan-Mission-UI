@@ -12,7 +12,7 @@ import { ContactDetails } from '../models/user';
 export class RestapiService {
 
   private userUrl: string = environment.production ? 'users' : 'http://localhost:3000/users'
-  private applUrl: string = environment.production ? 'applications' : 'http://localhost:3000/applications'
+  public applUrl: string = environment.production ? 'applications' : 'http://localhost:3000/applications'
 
   constructor(
     private http: HttpClient
@@ -38,7 +38,9 @@ export class RestapiService {
 
   uploadFiles(files: any): Observable<any> {
     return this.http.post<any>(this.applUrl + '/upload', files, {
-      withCredentials: true
+      withCredentials: true,
+      reportProgress: true,
+      observe: 'events'
     })
   }
 
@@ -56,6 +58,12 @@ export class RestapiService {
 
   deleteFile(id: string): Observable<any> {
     return this.http.post<any>(this.applUrl + '/deleteFile', { id }, {
+      withCredentials: true
+    })
+  }
+
+  deleteBulkFiles(ids: string[]): Observable<any> {
+    return this.http.post<any>(this.applUrl + '/deleteFiles', ids, {
       withCredentials: true
     })
   }

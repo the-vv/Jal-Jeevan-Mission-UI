@@ -1,10 +1,8 @@
-import { ThrowStmt } from '@angular/compiler';
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { identity } from 'lodash';
 import { TargetDate } from '../models/application';
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';

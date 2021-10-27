@@ -18,11 +18,12 @@ export class CalendarComponent implements OnInit {
   schedulerEvents: EventInput[] = [];
 
   calendarOptions: CalendarOptions = {
+    themeSystem:'standard',
     initialView: 'dayGridMonth',
     headerToolbar: {
       center: 'title',
-      right: 'prev,next,today',
-      left: 'dayGridMonth,timeGridWeek,timeGridDay'
+      left: 'prev,next,today',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     events: this.schedulerEvents,
     dateClick: this.showEvent.bind(this),
