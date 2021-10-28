@@ -8,7 +8,7 @@
         <strong>{{labelToShow}}: </strong>{{fileinfo}}
     </p>
     <button type="button" mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-        style="margin-top: 4.5px;" (click)="fileRemoved();">
+        style="margin-top: 4.5px;" (click)="fileRemoved($event);">
         <i class="pi pi-spin pi-spinner" *ngIf="fileProgress" style="color: black"></i>
         <mat-icon>close</mat-icon>
     </button>
