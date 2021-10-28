@@ -1,4 +1,4 @@
-<div class="col-12 col-md-6 offset-md-3">
+<div class="col-12">
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
@@ -28,7 +28,7 @@
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <p>Editing part for Admin Account.</p>
-                        </mat-expansion-panel>                        
+                        </mat-expansion-panel>
                     </mat-accordion>
                 </div>
             </ng-template>
@@ -52,8 +52,37 @@
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <p>Editing part for Client Account.</p>
-                        </mat-expansion-panel>                        
+                        </mat-expansion-panel>
                     </mat-accordion>
+                </div>
+            </ng-template>
+        </mat-tab>
+        <mat-tab label="Form Management">
+            <ng-template matTabContent>
+                <div class="text-start p-2">
+                    <div class="title d-flex justify-content-between p-2">
+                        <p class="h5">Enable Edits From</p>
+                        <button mat-stroked-button>Save Changes</button>
+                    </div>
+                    <div class="d-flex justify-content-center row">
+                        <mat-form-field appearance="outline" class="col-12 col-md-6">
+                            <mat-label>Select a district</mat-label>
+                            <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictSelect()">
+                                <mat-option>None</mat-option>
+                                <mat-option [value]="item" *ngFor="let item of allDistricts">{{item}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="d-flex justify-content-center row">
+                        <div class="col-6">
+                            <p-listbox  scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true" [options]="allGps"
+                                [(ngModel)]="selectedGps" [optionLabel]="'value'" [listStyle]="{'max-height':'300px'}" ></p-listbox>
+                        </div>
+                        <div class="col-6">
+                            <p-listbox  scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true" [options]="allComponents"
+                            [(ngModel)]="selectedComponents" [optionLabel]="'component'" [listStyle]="{'max-height':'300px'}" ></p-listbox>
+                        </div>
+                    </div>
                 </div>
             </ng-template>
         </mat-tab>

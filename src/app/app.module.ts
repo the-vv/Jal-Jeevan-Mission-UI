@@ -66,7 +66,6 @@ import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gp
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { BreadCrumbComponent } from './bread-crumb/bread-crumb.component';
 import { SpinnerService } from './services/spinner.service';
-import { AdministrationComponent } from './administration/administration.component';
 import { MessageService } from 'primeng/api';
 import { ReportHomeComponent } from './report-home/report-home.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -107,7 +106,6 @@ export const DATE_FORMATS = {
     GpwcBoardMeetingComponent,
     BeneficiaryContributionComponent,
     BreadCrumbComponent,
-    AdministrationComponent,
     ReportHomeComponent,
     SidebarComponent,
     DateDialogComponent,

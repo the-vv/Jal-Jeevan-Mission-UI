@@ -18,7 +18,6 @@ import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-boa
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
-import { AdministrationComponent } from './administration/administration.component';
 import { ReportHomeComponent } from './report-home/report-home.component';
 
 
@@ -49,7 +48,7 @@ const routes: Routes = [
     path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
       { path: 'reports', component: ReportHomeComponent },
-      { path: 'administration', component: AdministrationComponent },
+      { path: 'administration', loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },
       ...commonRoutes,

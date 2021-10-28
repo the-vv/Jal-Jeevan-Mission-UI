@@ -12,3 +12,9 @@ export interface WardConfig {
         wardName: string
     }[]
 }
+
+export interface GpConfig {
+    category: Selected,
+    isWholeDisabled: boolean,
+    allowedComponents: string[]
+}

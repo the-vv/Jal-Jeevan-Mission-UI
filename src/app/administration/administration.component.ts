@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 
 @Component({
@@ -13,9 +14,19 @@ export class AdministrationComponent implements OnInit {
   adminUsers: any[] = [];
   clientUsers: any[] = [];
 
+  allDistricts = Object.keys(this.data.AllDataWithCount);
+  selectedDistrict: string = '';
+
+  allGps: any[] = [];
+  allComponents: any[] = [];
+
+  selectedGps: string[] = []
+  selectedComponents: string[] = []
+
   constructor(
     public rest: RestapiService,
     private snackBar: MatSnackBar,
+    public data: DataService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +40,21 @@ export class AdministrationComponent implements OnInit {
       // console.log(err);      
       this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
     })
+
+
+  }
+
+  onDistrictSelect() {
+    this.allGps = Object.keys(this.data.AllDataWithCount[this.selectedDistrict]).map(el => { return {value: el} })
+    this.allComponents = []
+    Object.keys(this.data.phaseComponents).forEach (key => {
+      for(let comp of this.data.phaseComponents[key]) {
+        this.allComponents = [{
+          component: `${comp[0]} - ${key}`
+        }, ...this.allComponents]
+      }
+    })
+    console.log(this.allComponents)
   }
 
 }

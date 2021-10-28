@@ -7,7 +7,6 @@ import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
-import $ from 'jquery';
 
 @Component({
   selector: 'app-wall-paintings',
@@ -85,7 +84,6 @@ export class WallPaintingsComponent implements OnInit {
     let allFilesFieldsToDelete: any = {
       photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex
     }
-    let control = this.applicationForm.get('rows')['controls'][index].value.photoIndex
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
       try {
@@ -110,8 +108,8 @@ export class WallPaintingsComponent implements OnInit {
       }
       catch (e) {
         console.log(e)
-        this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
         this.formFields = this.applicationForm.get('rows') as FormArray;
+        this.formFields.removeAt(index)
       }
     } else {
       this.formFields = this.applicationForm.get('rows') as FormArray;
