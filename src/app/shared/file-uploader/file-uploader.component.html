@@ -1,12 +1,11 @@
 <p-fileUpload name="myfile[]" [url]="rest.applUrl + '/upload'" [multiple]="true" [auto]="false" [mode]="'basic'"
-    accept="image/*" [maxFileSize]="1000000" [style]="chooserStyles" [chooseLabel]="'Report'" [withCredentials]="true"
-    (onProgress)="fileUpload($event)" (onUpload)="fileUpload($event)" (onSelect)="fileSelected($event)"
-    *ngIf="!fileinfo">
+    [style]="chooserStyles" [chooseLabel]="labelToShow" [withCredentials]="true" (onProgress)="fileUpload($event)"
+    (onUpload)="fileUpload($event)" (onSelect)="fileSelected($event)" *ngIf="!fileinfo">
 </p-fileUpload>
 <div *ngIf="fileinfo" class="d-flex justify-content-between border px-2 rounded"
-    style="cursor: pointer; margin-bottom: -5.5px;margin-top: 4px;" (click)="viewFile(null)">
+    style="cursor: pointer; margin-bottom: -5.5px;margin-top: 4px;" [matMenuTriggerFor]="menu">
     <p class="text-truncate pt-3" [ngClass]="uploadComplete ? 'text-success' : ''">
-        <strong>Report: </strong>{{fileinfo}}
+        <strong>{{labelToShow}}: </strong>{{fileinfo}}
     </p>
     <button type="button" mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
         style="margin-top: 4.5px;" (click)="fileRemoved();">
@@ -16,3 +15,16 @@
 </div>
 <mat-progress-bar mode="determinate" *ngIf="fileProgress" [value]="fileProgress" [style]="{'border-radius': '10px'}">
 </mat-progress-bar>
+
+<mat-menu #menu="matMenu" [xPosition]="'before'">
+    <button mat-menu-item *ngIf="!fileDetails">
+        <mat-icon>schedule</mat-icon>
+        Uploading. Please wait...
+    </button>
+    <ng-container *ngIf="fileDetails">
+        <button mat-menu-item *ngFor="let file of fileDetails" (click)="viewFile(file)">
+            <mat-icon>download</mat-icon>
+            {{file.name}}
+        </button>
+    </ng-container>
+</mat-menu>

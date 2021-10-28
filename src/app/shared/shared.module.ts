@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule({
@@ -39,7 +40,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     CommonModule,
     SharedRoutingModule,
     MatSnackBarModule,
-    MatIconModule,  
+    MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
@@ -53,7 +54,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatDialogModule,
     FileUploadModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatMenuModule
   ],
   exports: [
     SharedComponent,

@@ -1,6 +1,7 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ApplicationFile } from 'src/app/models/application';
@@ -19,6 +20,9 @@ export class FileUploaderComponent implements OnInit {
   @Input('control')
   public control: FormControl;
 
+  @Input('keyName')
+  public ControlKey: string;
+
   public chooserStyles = {
     backgroundColor: 'unset',
     color: 'grey',
@@ -35,7 +39,7 @@ export class FileUploaderComponent implements OnInit {
   public fileinfo: string;
   private uploadSUbscription: Subscription;
   public uploadComplete: boolean = false;
-  private fileDetails: ApplicationFile[];
+  public fileDetails: ApplicationFile[];
   public uploading: boolean = false;
 
   constructor(
@@ -44,6 +48,25 @@ export class FileUploaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.control.value[this.ControlKey])
+    if (this.control?.value) {
+      try {
+        let uploadedFiles = JSON.parse(this.control.value[this.ControlKey]);
+        this.uploading = false;
+        this.fileProgress = 0;
+        this.fileDetails = uploadedFiles;
+        this.uploadSUbscription = null;
+        this.uploadComplete = true;
+        let nameList = uploadedFiles.map(el => el.name).join(', ');
+        this.fileinfo = `(${uploadedFiles.length} File(s)) ${nameList}`;
+      }
+      catch {
+        this.uploadComplete = false;
+        this.uploading = false;
+        this.fileinfo = '';
+        this.fileProgress = 0;
+      }
+    }
   }
 
   viewFile(file: ApplicationFile) {
@@ -54,11 +77,11 @@ export class FileUploaderComponent implements OnInit {
 
   fileRemoved() {
     if (this.uploading) {
-      this.uploadSUbscription.unsubscribe();
+      this.uploadSUbscription?.unsubscribe();
       this.uploadComplete = false;
       this.uploading = false;
-      this.fileinfo = ''; 
-      this.fileProgress = 0;     
+      this.fileinfo = '';
+      this.fileProgress = 0;
       this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
     } else {
       this.rest.deleteBulkFiles(this.fileDetails.map(el => el.fid))
@@ -98,7 +121,6 @@ export class FileUploaderComponent implements OnInit {
             // console.log(`Uploaded! ${this.fileProgress}%`);
             break;
           case HttpEventType.Response:
-            this.uploading = false;
             let uploadedFiles: ApplicationFile[] = [];
             res.body.forEach((element: any) => {
               let name = element.name.split('_')[0].split('-')[1];
@@ -110,13 +132,20 @@ export class FileUploaderComponent implements OnInit {
                 size: element.size
               })
             });
+            this.uploading = false;
             this.fileProgress = 0;
             this.fileDetails = uploadedFiles;
-            this.control?.setValue(JSON.stringify(uploadedFiles));
+            let formctrlValue = {};
+            formctrlValue[this.ControlKey] = JSON.stringify(uploadedFiles)
+            this.control?.patchValue(formctrlValue);
             this.uploadSUbscription = null;
             this.uploadComplete = true;
         }
       }, err => {
+        this.fileProgress = 0;
+        this.fileDetails = [];
+        this.uploadComplete = false;
+        this.fileinfo = '';
         this.snackBar.open('Error uploadfing file(s), Please try again later', 'Dismiss', { duration: 5000 })
       })
   }
@@ -132,4 +161,5 @@ export class FileUploaderComponent implements OnInit {
   public checkUploadStatus() {
     return this.uploading;
   }
+
 }
