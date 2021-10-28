@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,8 @@ import { Application, ApplicationFile } from 'src/app/models/application';
 import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
+import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-wall-paintings',
@@ -13,6 +15,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./wall-paintings.component.scss']
 })
 export class WallPaintingsComponent implements OnInit {
+
+  @ViewChildren(FileUploaderComponent)
+  public uploaders: FileUploaderComponent[];
 
   formdata: Application = {
     files: []
@@ -24,6 +29,7 @@ export class WallPaintingsComponent implements OnInit {
   submitting: boolean = false;
   editingId: string = '';
   submitted: boolean = false;
+  public isFormDisabled: boolean = false;
 
   constructor(
     private user: UserService,
@@ -76,32 +82,38 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   removeMeeting(index: number) {
+    let allFilesFieldsToDelete: any = {
+      photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex
+    }
     let control = this.applicationForm.get('rows')['controls'][index].value.photoIndex
-    if (control.length > 0) {
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
       try {
-        let uploadedFiles = JSON.parse(control) as ApplicationFile[];
-        this.rest.deleteBulkFiles(uploadedFiles.map(el => el.fid))
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
           .subscribe(res => {
-            this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
             this.formFields = this.applicationForm.get('rows') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
           }, err => {
-            this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
             this.formFields = this.applicationForm.get('rows') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
           })
       }
-      catch(e) {
+      catch (e) {
         console.log(e)
         this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
         this.formFields = this.applicationForm.get('rows') as FormArray;
-        this.formFields.removeAt(index)
       }
-    } else {      
+    } else {
       this.formFields = this.applicationForm.get('rows') as FormArray;
       this.formFields.removeAt(index)
     }
@@ -122,6 +134,13 @@ export class WallPaintingsComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   onSubmit() {
+    if (this.isFormDisabled) {
+      return;
+    }
+    if (this.uploaders.some(el => el.checkUploadStatus())) {
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      return;
+    }
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
@@ -135,6 +154,9 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
+    if (this.isFormDisabled) {
+      return;
+    }
     if (update) {
       this.rest.editApplication(app)
         .subscribe(res => {
@@ -202,7 +224,7 @@ export class WallPaintingsComponent implements OnInit {
   onFileChanges() {
     this.formdata._id = this.editingId
     this.formdata.values = this.applicationForm.value
-    this.sendApplication(this.formdata, true, true)
+    this.sendApplication(this.formdata, !!this.editingId.length, true)
   }
 
 }

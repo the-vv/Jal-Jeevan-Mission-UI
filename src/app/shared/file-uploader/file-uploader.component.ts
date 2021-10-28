@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss']
 })
-export class FileUploaderComponent implements OnInit {
+export class FileUploaderComponent implements OnInit, OnDestroy {
 
   @Input('labelName')
   public labelToShow: string = 'Attatchement';
@@ -22,6 +22,9 @@ export class FileUploaderComponent implements OnInit {
 
   @Input('keyName')
   public ControlKey: string;
+
+  @Input('disabled')
+  public isDisabled: boolean = false;
 
   @Output('onfileChanges')
   public fileChangeEMittor = new EventEmitter<void>()
@@ -177,6 +180,21 @@ export class FileUploaderComponent implements OnInit {
 
   public checkUploadStatus() {
     return this.uploading;
+  }
+
+  ngOnDestroy() {
+    if (this.uploading) {
+      this.uploadSUbscription?.unsubscribe();
+      this.uploadComplete = false;
+      this.uploading = false;
+      this.fileinfo = '';
+      this.fileProgress = 0;
+      let formctrlValue = {};
+      formctrlValue[this.ControlKey] = '';
+      this.control?.patchValue(formctrlValue);
+      this.fileChangeEMittor.emit();
+      this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
+    }
   }
 
 }

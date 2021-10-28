@@ -1,6 +1,6 @@
 <p-fileUpload name="myfile[]" [url]="rest.applUrl + '/upload'" [multiple]="true" [auto]="false" [mode]="'basic'"
     [style]="chooserStyles" [chooseLabel]="labelToShow" [withCredentials]="true" (onSelect)="fileSelected($event)"
-    *ngIf="!fileinfo">
+    *ngIf="!fileinfo" [disabled]="isDisabled">
 </p-fileUpload>
 <div *ngIf="fileinfo" class="d-flex justify-content-between border px-2 rounded"
     style="cursor: pointer; margin-bottom: -5.5px;margin-top: 4px;" [matMenuTriggerFor]="menu">
@@ -8,7 +8,7 @@
         <strong>{{labelToShow}}: </strong>{{fileinfo}}
     </p>
     <button type="button" mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-        style="margin-top: 4.5px;" (click)="fileRemoved($event);">
+        style="margin-top: 4.5px;" (click)="fileRemoved($event);" [disabled]="isDisabled">
         <i class="pi pi-spin pi-spinner" *ngIf="fileProgress" style="color: black"></i>
         <mat-icon>close</mat-icon>
     </button>

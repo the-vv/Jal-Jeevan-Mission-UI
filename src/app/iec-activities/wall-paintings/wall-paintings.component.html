@@ -8,8 +8,10 @@
         of primer and two coats of enamal paint at minimum 8 location in a GP. Total area 2500 Sq. ft.
     </p>
 </mat-card>
-
-<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+<div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+    Editing has been disabled by admin. Contact them if you need any help
+</div>
+<form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
     <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
             <div class="row my-3">
@@ -24,7 +26,8 @@
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Proposed Date</mat-label>
-                            <input formControlName="proposedSite" matInput placeholder="Proposed Date">
+                            <input [readonly]="isFormDisabled" formControlName="proposedSite" matInput
+                                placeholder="Proposed Date">
                         </mat-form-field>
                     </p>
                 </div>
@@ -32,17 +35,21 @@
                     <p>
                         <mat-form-field appearance="outline" class="w-100">
                             <mat-label>Proposed Area in Sq.ft</mat-label>
-                            <input formControlName="proposedArea" matInput placeholder="Proposed Area in Sq.ft">
+                            <input [readonly]="isFormDisabled" formControlName="proposedArea" matInput
+                                placeholder="Proposed Area in Sq.ft">
                         </mat-form-field>
                     </p>
                 </div>
                 <div class="col-12 col-md-4">
-                    <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
-                        [labelName]="'Photo'" [keyName]="'photoIndex'" (onfileChanges)="onFileChanges()"></app-file-uploader>
+                    <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                        [labelName]="'Photo'" [disabled]="isFormDisabled" [keyName]="'photoIndex'"
+                        (onfileChanges)="onFileChanges()">
+                    </app-file-uploader>
                 </div>
                 <div class="col-12 col-md-1 text-center">
-                    <button mat-icon-button color="accent" type="button" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
+                    <button [disabled]="isFormDisabled" mat-icon-button color="accent" type="button"
+                        aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                        (click)="removeMeeting(i)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </div>
@@ -51,7 +58,8 @@
     </div>
     <div class="row">
         <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addRow()">
+            <button [disabled]="isFormDisabled" mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                (click)="addRow()">
                 <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
             </button>
         </div>
@@ -59,12 +67,13 @@
     <div class="row mt-2">
         <div class="col-12" *ngIf="submitting">
             <p class="small text-center">
-                Uploading files(If any) and submiting Application...
+                Submiting Application. Please Wait...
             </p>
             <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
         </div>
         <div class="col-12 text-center mt-3">
-            <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
+            <button [disabled]="isFormDisabled || submitting" type="submit" mat-raised-button color="primary"
+                class="px-5 py-1" (click)="onSubmit()">Save
                 Application</button>
         </div>
     </div>
