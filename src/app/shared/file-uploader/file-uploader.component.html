@@ -1,6 +1,6 @@
 <p-fileUpload name="myfile[]" [url]="rest.applUrl + '/upload'" [multiple]="true" [auto]="false" [mode]="'basic'"
-    [style]="chooserStyles" [chooseLabel]="labelToShow" [withCredentials]="true" (onProgress)="fileUpload($event)"
-    (onUpload)="fileUpload($event)" (onSelect)="fileSelected($event)" *ngIf="!fileinfo">
+    [style]="chooserStyles" [chooseLabel]="labelToShow" [withCredentials]="true" (onSelect)="fileSelected($event)"
+    *ngIf="!fileinfo">
 </p-fileUpload>
 <div *ngIf="fileinfo" class="d-flex justify-content-between border px-2 rounded"
     style="cursor: pointer; margin-bottom: -5.5px;margin-top: 4px;" [matMenuTriggerFor]="menu">

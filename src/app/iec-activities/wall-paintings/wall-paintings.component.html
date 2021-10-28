@@ -37,71 +37,11 @@
                     </p>
                 </div>
                 <div class="col-12 col-md-4">
-                    <!-- <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('rows')['controls'][i].value.photoIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Report:
-                                </strong>{{getFileFromIndex(i).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('rows')['controls'][i].value.photoIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('rows')['controls'][i].value.photoIndex?.length == 0 || !this.applicationForm.get('rows')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Report'"></p-fileUpload>
-                    </div> -->
                     <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
-                        [labelName]="'Photo'" [keyName]="'photoIndex'"></app-file-uploader>
+                        [labelName]="'Photo'" [keyName]="'photoIndex'" (onfileChanges)="onFileChanges()"></app-file-uploader>
                 </div>
-            </div>
-            <div class="row my-3">
-                <!-- <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Expenditure</mat-label>
-                            <input formControlName="expenditure" matInput placeholder="Expenditure">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-12 col-md-4">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Expenditure</mat-label>
-                            <input formControlName="expenditure" matInput placeholder="Expenditure">
-                        </mat-form-field>
-                    </p>
-                </div> -->
-                <!-- <div class="col-12 col-md-4">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i).file)"
-                            *ngIf="this.applicationForm.get('rows')['controls'][i].value.reportIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Report:
-                                </strong>{{getFileFromIndex(i).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i)?.file?.fid); this.applicationForm.get('rows')['controls'][i].value.reportIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('rows')['controls'][i].value.reportIndex?.length == 0 || !this.applicationForm.get('rows')['controls'][i].value.reportIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Report'"></p-fileUpload>
-                    </div>
-                </div> -->
                 <div class="col-12 col-md-1 text-center">
-                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                    <button mat-icon-button color="accent" type="button" aria-label="Example icon button with a menu icon"
                         style="margin-top: 10px" (click)="removeMeeting(i)">
                         <mat-icon>delete</mat-icon>
                     </button>

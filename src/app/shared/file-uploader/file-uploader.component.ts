@@ -23,8 +23,8 @@ export class FileUploaderComponent implements OnInit {
   @Input('keyName')
   public ControlKey: string;
 
-  @Output('onDelete')
-  public deleteEmitor = new EventEmitter<void>()
+  @Output('onfileChanges')
+  public fileChangeEMittor = new EventEmitter<void>()
 
   public chooserStyles = {
     backgroundColor: 'unset',
@@ -70,6 +70,7 @@ export class FileUploaderComponent implements OnInit {
         let formctrlValue = {};
         formctrlValue[this.ControlKey] = '';
         this.control?.patchValue(formctrlValue);
+        this.fileChangeEMittor.emit();
       }
     }
   }
@@ -91,7 +92,7 @@ export class FileUploaderComponent implements OnInit {
       let formctrlValue = {};
       formctrlValue[this.ControlKey] = '';
       this.control?.patchValue(formctrlValue);
-      this.deleteEmitor.emit();
+      this.fileChangeEMittor.emit();
       this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
     } else {
       this.rest.deleteBulkFiles(this.fileDetails.map(el => el.fid))
@@ -103,12 +104,14 @@ export class FileUploaderComponent implements OnInit {
           let formctrlValue = {};
           formctrlValue[this.ControlKey] = '';
           this.control?.patchValue(formctrlValue);
-          this.deleteEmitor.emit();
+          this.fileChangeEMittor.emit();
           this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
         }, err => {
           this.fileinfo = '';
           let formctrlValue = {};
           formctrlValue[this.ControlKey] = '';
+          this.control?.patchValue(formctrlValue);
+          this.fileChangeEMittor.emit();
           this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
@@ -157,6 +160,7 @@ export class FileUploaderComponent implements OnInit {
             this.control?.patchValue(formctrlValue);
             this.uploadSUbscription = null;
             this.uploadComplete = true;
+            this.fileChangeEMittor.emit();
         }
       }, err => {
         this.fileProgress = 0;
@@ -166,16 +170,9 @@ export class FileUploaderComponent implements OnInit {
         let formctrlValue = {};
         formctrlValue[this.ControlKey] = '';
         this.control?.patchValue(formctrlValue);
-        this.deleteEmitor.emit();
+        this.fileChangeEMittor.emit();
         this.snackBar.open('Error uploadfing file(s), Please try again later', 'Dismiss', { duration: 5000 })
       })
-  }
-
-  fileUpload(event: any) {
-  }
-
-  onProgress(event: any) {
-    this.fileProgress = event.progress;
   }
 
   public checkUploadStatus() {

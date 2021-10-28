@@ -18,16 +18,12 @@ export class WallPaintingsComponent implements OnInit {
     files: []
   };
 
-  filesToUpload: any[] = [];
   formFields: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
   submitting: boolean = false;
-  submittedApplcations: Application[] = [];
   editingId: string = '';
-  showForm: boolean = false;
   submitted: boolean = false;
-  targetDate: Date;
 
   constructor(
     private user: UserService,
@@ -46,13 +42,10 @@ export class WallPaintingsComponent implements OnInit {
   ngAfterViewInit() {
     this.rest.getApplications(this.data.selectedDetails)
       .subscribe(res => {
-        // console.log(res)
-        this.submittedApplcations = res;
+        console.log(res)
         if (res.length > 0) {
-          this.showForm = false;
           this.editingId = res[0]._id;
-          this.targetDate = res[0].targetDate;
-          if(res[0].values) {
+          if (res[0].values) {
             this.applicSelected(res[0]);
           }
         }
@@ -83,12 +76,35 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   removeMeeting(index: number) {
-    if (this.applicationForm.get('rows')['controls'][index].value.reportIndex?.length > 0) {
-      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-      // console.log(this.applicationForm.get('rows')['controls'][index].value.reportIndex)
+    let control = this.applicationForm.get('rows')['controls'][index].value.photoIndex
+    if (control.length > 0) {
+      try {
+        let uploadedFiles = JSON.parse(control) as ApplicationFile[];
+        this.rest.deleteBulkFiles(uploadedFiles.map(el => el.fid))
+          .subscribe(res => {
+            this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
+            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
+            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch(e) {
+        console.log(e)
+        this.applicationForm.get('rows')['controls'][index].patchValue({ photoIndex: '' });
+        this.formFields = this.applicationForm.get('rows') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {      
+      this.formFields = this.applicationForm.get('rows') as FormArray;
+      this.formFields.removeAt(index)
     }
-    this.formFields = this.applicationForm.get('rows') as FormArray;
-    this.formFields.removeAt(index)
   }
 
   ngOnInit(): void {
@@ -99,9 +115,6 @@ export class WallPaintingsComponent implements OnInit {
     })
     this.route.url.subscribe((val) => {
       // console.log(val)
-      if (!this.data.selectedDetails.phase) {
-        this.data.selectComponent(`Planning Phase/${val[1].path}`)
-      }
       this.formdata.name = `iec-activities/${val.map(v => v.path).join('/')}`
       console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
     })
@@ -112,71 +125,13 @@ export class WallPaintingsComponent implements OnInit {
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.filesToUpload.length) {
-      // console.log('No attatchments, continuing');
-      this.formdata.values = this.applicationForm.value;
-      this.formdata.category = this.data.selectedDetails;
-      this.formdata.datetime = new Date();
-      // console.log(this.formdata)
-      this.submitting = true;
-      this.sendApplication(this.formdata, this.editingId.length > 0)
-    }
-    else {
-      // // console.log(this.agreementFile)=
-      let form: FormData = new FormData();
-      this.filesToUpload.forEach(f => {
-        if (!f.file.fid) {
-          form.append(`meetingReport-${f.fname}`, f.file, `meetingReport-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
-        }
-      })
-      this.submitting = true;
-      this.rest.uploadFiles(form)
-        .subscribe((res) => {
-          // console.log(res)
-          res.forEach((element: any) => {
-            let name = element.name.split('_')[0].split('-')[1];
-            this.formdata.files?.push({
-              name: element.name,
-              fieldName: name,
-              url: element.url,
-              fid: element.fileId,
-              size: element.size
-            })
-          });
-          this.formdata.values = this.applicationForm.value;
-          this.formdata.category = this.data.selectedDetails;
-          this.formdata.datetime = new Date();
-          this.submitting = true;
-          this.sendApplication(this.formdata, this.editingId.length > 0)
-          // console.log(this.formdata)
-        }, err => {
-          console.warn(err.error)
-          if (err.error.status == 'Empty file') {
-            this.formdata.values = this.applicationForm.value;
-            this.formdata.category = this.data.selectedDetails;
-            this.formdata.datetime = new Date();
-            this.submitting = true;
-            this.sendApplication(this.formdata, this.editingId.length > 0)
-            // console.log(this.formdata)
-          }
-          else {
-            this, this.submitting = false;
-            this.snackBar.open('Error uploadfing file, Please try again later', 'Dismiss', { duration: 5000 })
-          }
-        })
-    }
-  }
-
-  fileSelected(event: any, index: number) {
-    // // console.log(event.files)
-    this.filesToUpload.push({
-      fname: `f${index}`,
-      file: event.files[0]
-    });
-    // let tform = this.applicationForm.get('rows')?.value[index]
-    // tform.reportIndex = `f${index}`;
-    // // console.log(tform)
-    (this.applicationForm.get('rows') as FormArray).at(index).patchValue({ reportIndex: `f${index}` })
+    // console.log('No attatchments, continuing');
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
+    // console.log(this.formdata)
+    this.submitting = true;
+    this.sendApplication(this.formdata, this.editingId.length > 0)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -186,16 +141,10 @@ export class WallPaintingsComponent implements OnInit {
           // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
           }
-          // console.log(this.submittedApplcations)
-          this.submittedApplcations = this.submittedApplcations.filter(el => {
-            return el._id != res._id
-          });
-          this.submittedApplcations.unshift(res);
           this.applicationForm.reset()
           this.applicSelected(res)
           this.submitted = true;
@@ -211,12 +160,10 @@ export class WallPaintingsComponent implements OnInit {
           // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
           }
-          this.submittedApplcations.unshift(res);
           this.applicationForm.reset()
           this.applicSelected(res)
           this.submitted = true;
@@ -226,48 +173,10 @@ export class WallPaintingsComponent implements OnInit {
           this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
-    console.log(this.filesToUpload);
-    
-  }
-
-  fileRemoved(index: number, fid: string) {
-    this.submitted = false;
-    this.filesToUpload = this.filesToUpload.filter(el => {
-      console.log(el, index)
-      return el.fname != `f${index}`
-    });
-    // this.applicationForm.get('rows')['controls'][index].value.reportIndex = '';
-    (this.applicationForm.get('rows') as FormArray).at(index).patchValue({ reportIndex: '' })
-    if (fid?.length) {
-      // console.log(this.formdata)
-      this.formdata._id = this.editingId
-      this.formdata.values = this.applicationForm.value
-      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        // console.log(el.fieldName, index)
-        return el.fieldName != `f${index}`
-      })
-      // console.log(this.formdata)
-      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
-      if (fid) {
-        this.rest.deleteFile(fid)
-          .subscribe((res) => {
-            // console.log('file deleted', res)
-          }, err => console.log(err.error))
-      }
-    }
-  }
-
-  getFileFromIndex(index: number) {
-    // // console.log(this.filesToUpload)
-    return this.filesToUpload.filter(el => {
-      return el.fname == `f${index}`
-    })[0]
   }
 
   applicSelected(app: Application) {
-    this.targetDate = app.targetDate;
     this.onReset();
-    this.showForm = true
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
     this.editingId = app._id
@@ -275,55 +184,25 @@ export class WallPaintingsComponent implements OnInit {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values);
-    // // console.log(this.applicationForm)
-    // console.log(app.values)
-    this.editingId = app._id as string
-    if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[]).forEach(f => {
-        this.filesToUpload.push({
-          fname: f.fieldName,
-          file: f
-        })
-      })
-      this.formdata.files = app.files
-    }
   }
 
   onReset() {
-    this.showForm = false;
     this.editingId = '';
     this.applicationForm.reset();
-    this.filesToUpload = []
     this.formdata.files = []
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
     this.addRow()
-    console.log(this.filesToUpload, this,this.formdata);
-    
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
-    let toReturn: string = `${dname} not Attatched`;
-    appl.files?.forEach(f => {
-      if (f.fieldName === fname) {
-        toReturn = `
-        <a href="${f.url}" download target="_blank" class="">
-          View ${dname} 
-        </a>
-        `
-      }
-    })
-    return toReturn
-  }
-
-  viewFile(file: ApplicationFile) {
-    if (file.url) {
-      window.open(file.url)
-    }
+  onFileChanges() {
+    this.formdata._id = this.editingId
+    this.formdata.values = this.applicationForm.value
+    this.sendApplication(this.formdata, true, true)
   }
 
 }
