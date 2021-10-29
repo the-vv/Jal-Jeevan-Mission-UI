@@ -57,14 +57,14 @@
                 </div>
             </ng-template>
         </mat-tab>
-        <mat-tab label="Form Management">
+        <mat-tab label="Enable/Disable">
             <ng-template matTabContent>
                 <div class="text-start p-2">
                     <div class="title d-flex justify-content-between p-2">
                         <p class="h5">Enable Edits From</p>
-                        <button mat-stroked-button>Save Changes</button>
+                        <button mat-stroked-button (click)="onSaveChanges()">Save Changes</button>
                     </div>
-                    <div class="d-flex justify-content-center row">
+                    <div class="d-flex justify-content-center row mb-3">
                         <mat-form-field appearance="outline" class="col-12 col-md-6">
                             <mat-label>Select a district</mat-label>
                             <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictSelect()">
@@ -80,7 +80,7 @@
                         </div>
                         <div class="col-6">
                             <p-listbox  scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true" [options]="allComponents"
-                            [(ngModel)]="selectedComponents" [optionLabel]="'component'" [listStyle]="{'max-height':'300px'}" ></p-listbox>
+                            [(ngModel)]="selectedComponents" [optionLabel]="'label'" [listStyle]="{'max-height':'300px'}" ></p-listbox>
                         </div>
                     </div>
                 </div>

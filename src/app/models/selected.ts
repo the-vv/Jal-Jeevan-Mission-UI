@@ -16,5 +16,5 @@ export interface WardConfig {
 export interface GpConfig {
     category: Selected,
     isWholeDisabled: boolean,
-    allowedComponents: string[]
+    allowedComponents: Selected[]
 }
