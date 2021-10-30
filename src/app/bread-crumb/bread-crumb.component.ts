@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../services/data.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-bread-crumb',
@@ -15,21 +15,14 @@ export class BreadCrumbComponent implements OnInit {
   @Input('name')
   public name: string;
 
-  public user: string = this.isAdmin ? 'Admin' : 'Client';
+  public user: string = this.userService.isAdmin ? 'Admin' : 'Client';
 
-  constructor(public data: DataService,
-    public router: Router,
-    public route: ActivatedRoute) { }
+  constructor(
+    public data: DataService,
+    public userService: UserService
+    ) { }
 
   ngOnInit(): void {
-  }
-
-  gotoGP() {
-    this.router.navigate([`../../grama-panchayath`], { relativeTo: this.route })
-  }
-
-  gotoPhase() {
-    this.router.navigate([`../../phase`], { relativeTo: this.route })
   }
 
 }

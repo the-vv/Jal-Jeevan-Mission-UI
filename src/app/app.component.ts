@@ -16,7 +16,6 @@ import { ContactDetailsComponent } from './shared/contact-details/contact-detail
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'Jal-Jeevan-Mission';
   public appConfig: any = AppConfig;
 
   constructor(
@@ -67,7 +66,12 @@ export class AppComponent implements OnInit {
   }
 
   isPhasePage() {
-    return !(this.router.url.includes('/district') || this.router.url.includes('/grama-panchayath'))
+    return !(
+      this.router.url.includes('/district') ||
+      this.router.url.includes('/grama-panchayath') ||
+      this.router.url.includes('/calendar') ||
+      this.router.url.includes('/report')
+    )
   }
 
 }

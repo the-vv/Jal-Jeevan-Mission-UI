@@ -3,7 +3,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
               <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
-              <li class="breadcrumb-item" aria-current="page">District</li>
+              <li class="breadcrumb-item" aria-current="page">District & GP</li>
             </ol>
           </nav>
     </div> 
@@ -16,4 +16,7 @@
             <mat-option [value]="dist" *ngFor="let dist of DistrictsList">{{dist}}</mat-option>
         </mat-select>
     </mat-form-field>
+</div>
+<div class="col-12 mt-3">
+    <app-gpanchayath [selecedDistrict]="district"></app-gpanchayath>
 </div>

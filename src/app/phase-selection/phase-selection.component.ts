@@ -23,7 +23,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   menuItems: MenuItem[] = []
   screenObserver: Observable<any> = this.width.observe(['(max-width: 768px)']);
   isSmallScreen: boolean = false;
-  isAdmin: boolean = false;
+  isAdmin: boolean = this.user.isAdmin;
   routeUser: string = this.isAdmin ? 'admin' : 'client';
 
   constructor(
