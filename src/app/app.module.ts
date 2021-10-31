@@ -72,6 +72,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
+import { RippleModule } from 'primeng/ripple';
 
 
 export const DATE_FORMATS = {
@@ -147,7 +148,8 @@ export const DATE_FORMATS = {
     MatDialogModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    RippleModule
   ],
   providers: [
     DataService,

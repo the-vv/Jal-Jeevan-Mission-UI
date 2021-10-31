@@ -55,10 +55,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-12">
-            <button mat-raised-button (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;}
-            @media print {
-                .pagebreak { page-break-before: always; }                
-            }')"
+            <button mat-raised-button (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; } }')"
             color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>

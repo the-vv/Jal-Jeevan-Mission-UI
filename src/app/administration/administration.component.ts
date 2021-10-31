@@ -25,6 +25,7 @@ export class AdministrationComponent implements OnInit {
   selectedComponents: any[] = []
 
   allConfigurations: GpConfig[] = [];
+  initialConfigurations: GpConfig[] = [];
 
   constructor(
     public rest: RestapiService,
@@ -43,9 +44,19 @@ export class AdministrationComponent implements OnInit {
       // console.log(err);      
       this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
     })
+    this.rest.getGpConfigs().subscribe(res => {
+      console.log(res);
+      this.initialConfigurations = res;
+      this.allConfigurations = res
+    }, err => {
+      // console.log(err);      
+      this.snackBar.open(err.statusText ? err.statusText + ',Error getting  Please try again later' : err, 'Dismiss', { duration: 5000 })
+    })
   }
 
   onDistrictSelect() {
+    this.selectedComponents = []
+    this.selectedGps = []
     if(!this.selectedDistrict) {
       this.allComponents = []
       this.allGps = []
@@ -62,9 +73,23 @@ export class AdministrationComponent implements OnInit {
         }, ...this.allComponents]
       }
     })
+    this.initialConfigurations.forEach(config => {
+      if(config.category.district === this.selectedDistrict) {
+        if(config.allowedComponents.length) {
+          this.selectedGps.push({value: config.category.gp})
+        }
+        config.allowedComponents.forEach(comp => {
+          this.selectedComponents.push({
+            label: `${comp.component} (${comp.phase})`,
+            phase: comp.phase,
+            component: comp.component
+          })
+        })
+      }
+    })
   }
 
-  onSaveChanges() {
+  onChange(isGp: boolean = false) {
     this.allConfigurations = [];
     for (let gp of this.selectedGps) {
       let components: Selected[] = [];
@@ -79,11 +104,24 @@ export class AdministrationComponent implements OnInit {
           district: this.selectedDistrict,
           gp: gp.value
         },
-        allowedComponents: [...components],
-        isWholeDisabled: false
+        allowedComponents: [...components]
       })
+    }    
+    if(!isGp && !this.selectedComponents.length) {
+      this.selectedGps = []
     }
-    console.log(this.allConfigurations);
+  }
+
+  onSaveChanges() {    
+    if(!this.selectedDistrict) {
+      return;
+    }
+    this.rest.postGpConfigs({values: this.allConfigurations, district: this.selectedDistrict})
+    .subscribe(res => {
+      this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000 })
+    }, err => {      
+      this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+    })
   }
 
 }

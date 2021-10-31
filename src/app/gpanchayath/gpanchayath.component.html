@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12 pb-5">
     <!-- <div class="col-12 col-md-6 offset-md-3">
         <div class="border rounded my-2 px-3 pt-3 text">
             <nav aria-label="breadcrumb">
@@ -11,9 +11,9 @@
             </nav>
         </div>
     </div> -->
-    <p class="h5 mt-4">Name of Grama Panchayath</p>
+    <p class="h5 mt-5">Name of Grama Panchayath</p>
     <mat-form-field appearance="outline" class="col-10 col-md-4">
-        <mat-label>Grama Panchayath</mat-label>
+        <mat-label>{{this.gramaPanchataths.length ? 'Grama Panchayath' : 'Select a District First'}}</mat-label>
         <mat-select [(ngModel)]="gPanchayath" (selectionChange)="onSelect()">
             <mat-option [value]="gp" *ngFor="let gp of gramaPanchataths">{{gp}}</mat-option>
         </mat-select>

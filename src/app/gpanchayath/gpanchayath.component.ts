@@ -7,7 +7,7 @@ import { DataService } from '../services/data.service';
   templateUrl: './gpanchayath.component.html',
   styleUrls: ['./gpanchayath.component.scss']
 })
-export class GpanchayathComponent implements OnInit,  OnChanges {
+export class GpanchayathComponent implements OnInit, OnChanges {
 
   @Input()
   selecedDistrict: string = '';
@@ -27,7 +27,8 @@ export class GpanchayathComponent implements OnInit,  OnChanges {
     // if (!this.data.selectedDetails.district) {
     //   this.router.navigate(['../district'], { relativeTo: this.route })
     // }
-    this.gramaPanchataths = this.data.getGPs(this.selecedDistrict || this.data.selectedDetails.district)
+    if (this.selecedDistrict)
+      this.gramaPanchataths = this.data.getGPs(this.selecedDistrict || this.data.selectedDetails.district)
     console.log(this.gramaPanchataths)
   }
 
@@ -37,7 +38,8 @@ export class GpanchayathComponent implements OnInit,  OnChanges {
   }
 
   ngOnChanges() {
-    this.gramaPanchataths = this.data.getGPs(this.selecedDistrict || this.data.selectedDetails.district)
+    if (this.selecedDistrict)
+      this.gramaPanchataths = this.data.getGPs(this.selecedDistrict || this.data.selectedDetails.district)
   }
 
 }

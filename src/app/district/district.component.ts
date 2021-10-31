@@ -15,8 +15,6 @@ export class DistrictComponent implements OnInit {
 
   constructor(
     private data: DataService,
-    private router: Router,
-    private route: ActivatedRoute,
     public user: UserService
   ) { }
 

@@ -7,6 +7,8 @@ import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
+import { ConfirmationService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-wall-paintings',
@@ -28,7 +30,8 @@ export class WallPaintingsComponent implements OnInit {
   submitting: boolean = false;
   editingId: string = '';
   submitted: boolean = false;
-  public isFormDisabled: boolean = false;
+  public isFormDisabled: boolean = true;
+  isDraftMode: boolean = false;
 
   constructor(
     private user: UserService,
@@ -37,7 +40,8 @@ export class WallPaintingsComponent implements OnInit {
     private route: ActivatedRoute,
     private rest: RestapiService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmationService
   ) { }
 
   ngAfterViewChecked(): void {
@@ -49,10 +53,19 @@ export class WallPaintingsComponent implements OnInit {
       .subscribe(res => {
         console.log(res)
         if (res.length > 0) {
+          if(res[0].editable === true) {
+            this.isDraftMode = true;
+          }
+          else {
+            this.isDraftMode = false;
+          }
           this.editingId = res[0]._id;
           if (res[0].values) {
             this.applicSelected(res[0]);
           }
+        }
+        else {
+          this.isFormDisabled = false;
         }
       }, e => {
         // console.log(e.error)
@@ -69,7 +82,7 @@ export class WallPaintingsComponent implements OnInit {
     this.formFields.push(group);
   }
 
-  newRow() {
+  newRow(): FormGroup {
     return this.formBuilder.group({
       proposedSite: '',
       proposedArea: '',
@@ -81,6 +94,9 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   removeMeeting(index: number) {
+    if (this.isFormDisabled) {
+      return;
+    }
     let allFilesFieldsToDelete: any = {
       photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex
     }
@@ -131,7 +147,11 @@ export class WallPaintingsComponent implements OnInit {
   }
   get f() { return this.applicationForm.controls }
 
-  onSubmit() {
+  public async onSubmit() {
+    let confirmation = await this.confirmSubmit()
+    if (!confirmation) {
+      return;
+    }
     if (this.isFormDisabled) {
       return;
     }
@@ -155,6 +175,9 @@ export class WallPaintingsComponent implements OnInit {
     if (this.isFormDisabled) {
       return;
     }
+    if (!silent) {
+      app.submitted = true;
+    }
     if (update) {
       this.rest.editApplication(app)
         .subscribe(res => {
@@ -164,10 +187,10 @@ export class WallPaintingsComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
+            this.submitted = true;
           }
           this.applicationForm.reset()
           this.applicSelected(res)
-          this.submitted = true;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -183,10 +206,10 @@ export class WallPaintingsComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
+            this.submitted = true;
           }
           this.applicationForm.reset()
           this.applicSelected(res)
-          this.submitted = true;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -199,11 +222,18 @@ export class WallPaintingsComponent implements OnInit {
     this.onReset();
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
+    if(app.editable === true) {
+      this.isDraftMode = true;
+    }
+    else {
+      this.isDraftMode = false;
+    }
     this.editingId = app._id
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values);
+    this.isFormDisabled = !app.editable;
   }
 
   onReset() {
@@ -220,9 +250,27 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   onFileChanges() {
-    this.formdata._id = this.editingId
-    this.formdata.values = this.applicationForm.value
+    if (this.editingId.length)
+      this.formdata._id = this.editingId
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
     this.sendApplication(this.formdata, !!this.editingId.length, true)
+  }
+
+  confirmSubmit() {
+    return new Promise((resolve, reject) => {
+      this.confirmService.confirm({
+        blockScroll: false,
+        message: '<p align="left" style="padding: 0px; margin: 0px">Are you sure that you want to submit?<br> Once submitted, You are now allowed to edit unless admin permitted.</p>',
+        accept: () => {
+          resolve(true)
+        },
+        reject: () => {
+          resolve(false)
+        }
+      });
+    })
   }
 
 }

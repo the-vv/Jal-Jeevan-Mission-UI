@@ -43,6 +43,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -92,7 +94,11 @@ import { MatCardModule } from '@angular/material/card';
     MatProgressBarModule,
     MatDatepickerModule,
     MatSnackBarModule,
-    MatCardModule
+    MatCardModule,
+    ConfirmDialogModule
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class IecActivitiesModule { }

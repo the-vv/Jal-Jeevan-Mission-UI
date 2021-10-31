@@ -8,7 +8,8 @@ export interface Application {
     category?: Selected,
     datetime?: Date,
     targetDate?: Date,
-    submitted?: boolean
+    submitted?: boolean,
+    editable?: boolean
 }
 
 export interface TargetDate {

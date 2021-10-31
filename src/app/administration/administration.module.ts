@@ -13,6 +13,9 @@ import {ListboxModule} from 'primeng/listbox';
 import {MatSelectModule} from '@angular/material/select';
 import {CheckboxModule} from 'primeng/checkbox';
 import {MultiSelectModule} from 'primeng/multiselect';
+import {MatChipsModule} from '@angular/material/chips';
+import { ChipModule } from 'primeng/chip';
+
 
 
 @NgModule({
@@ -32,7 +35,9 @@ import {MultiSelectModule} from 'primeng/multiselect';
     ListboxModule,
     MatSelectModule,
     CheckboxModule,
-    MultiSelectModule
+    MultiSelectModule,
+    MatChipsModule,
+    ChipModule
   ]
 })
 export class AdministrationModule { }

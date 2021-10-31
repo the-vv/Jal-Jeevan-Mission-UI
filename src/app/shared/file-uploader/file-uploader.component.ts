@@ -85,6 +85,9 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   }
 
   fileRemoved(event: any) {
+    if(this.isDisabled) {
+      return;
+    }
     event.stopPropagation();
     if (this.uploading) {
       this.uploadSUbscription?.unsubscribe();
@@ -121,6 +124,9 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   }
 
   fileSelected(event: any) {
+    if(this.isDisabled) {
+      return;
+    }
     let files = event.currentFiles as File[];
     let nameList = files.map(el => el.name).join(', ');
     this.fileinfo = `(${files.length} File(s)) ${nameList}`;

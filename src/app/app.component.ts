@@ -7,6 +7,7 @@ import { WardDetailsComponent } from './ward-details/ward-details.component';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContactDetailsComponent } from './shared/contact-details/contact-details.component';
+import { PrimeNGConfig } from 'primeng/api';
 
 // import Darkmode from 'darkmode-js';
 
@@ -23,12 +24,14 @@ export class AppComponent implements OnInit {
     public data: DataService,
     private dialog: MatDialog,
     private router: Router,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
+    private primengConfig: PrimeNGConfig
   ) {
 
   }
 
   ngOnInit() {
+    this.primengConfig.ripple = true;
     const darkModeptions = {
       // bottom: '64px', // default: '32px'
       // right: 'unset', // default: '32px'
