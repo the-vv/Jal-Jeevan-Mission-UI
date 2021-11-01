@@ -99,6 +99,41 @@ import { ConfirmationService } from 'primeng/api';
   ],
   providers: [
     ConfirmationService
+  ],
+  exports: [    
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IecActivitiesComponent,
+    WallPaintingsComponent,
+    HoardingsBannersComponent,
+    TvSportsComponent,
+    FlipbookChartsComponent,
+    PostersTouristLocationsComponent,
+    SchoolsComponent,
+    AnganawadiComponent,
+    GpBuldingsComponent,
+    LaborotariesComponent,
+    PheOfficesComponent,
+    AnnouncementVansComponent,
+    OtherActivitiesComponent,
+    WaterResourceMappingComponent,
+    WaterAuditBudgetComponent,
+    NukkadNatakDramaStreetplayComponent,
+    FolksongsKalajathaComponent,
+    RalliesComponent,
+    GramasabhasDevelopmentSeminarComponent,
+    VapPreperationApprovalComponent,
+    PraActivitiesComponent,
+    SchoolCompetitionsComponent,
+    ShgInvolvementComponent,
+    WaterSafetyPlanningComponent,
+    OthersComponent,
+    WorldWaterDayComponent,
+    ExhibitionsComponent,
+    ConferenceInnovationEventsComponent,
+    IpcActivitiesComponent,
+    IecMaterialPreperationComponent    
   ]
 })
 export class IecActivitiesModule { }

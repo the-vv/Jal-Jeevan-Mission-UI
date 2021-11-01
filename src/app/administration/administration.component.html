@@ -9,7 +9,51 @@
     </div>
 </div>
 <div class="col-12">
-    <mat-tab-group dynamicHeight>
+    <mat-tab-group dynamicHeight>        
+        <mat-tab label="Enable/Disable">
+            <ng-template matTabContent>
+                <div class="text-start p-2">
+                    <div class="title d-flex justify-content-between p-2">
+                        <p class="h5">Enable Edits From</p>
+                        <button [disabled]="!this.selectedDistrict" mat-flat-button color="primary" class="px-2 py-1" (click)="onSaveChanges()">Save Changes
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-center row mb-3">
+                        <mat-form-field appearance="outline" class="col-12 col-md-6">
+                            <mat-label>Select a district</mat-label>
+                            <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictSelect()">
+                                <mat-option>None</mat-option>
+                                <mat-option [value]="item" *ngFor="let item of allDistricts">{{item}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-12">
+                            <div *ngFor="let gp of this.selectedGps">
+                                <ng-container *ngFor="let comp of this.selectedComponents">
+                                    <p-chip [label]="gp.value + ' > ' + comp.phase + ' > ' + comp.component"
+                                        styleClass="m-1"></p-chip>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center row">
+                        <div class="col-6">
+                            <p-listbox (onChange)="onChange(true)" scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true"
+                                [options]="allGps" [(ngModel)]="selectedGps" [optionLabel]="'value'"
+                                [listStyle]="{'max-height':'300px'}"></p-listbox>
+                        </div>
+                        <div class="col-6">
+                            <p-listbox (onChange)="onChange()" scrollHeight="250px" [checkbox]="true"
+                                [filter]="true" [multiple]="true" [options]="allComponents"
+                                [(ngModel)]="selectedComponents" [optionLabel]="'label'"
+                                [listStyle]="{'max-height':'300px'}"></p-listbox>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </mat-tab>
         <mat-tab label="Admin Accounts">
             <ng-template matTabContent>
                 <div class="text-start p-2">
@@ -54,50 +98,6 @@
                             <p>Editing part for Client Account.</p>
                         </mat-expansion-panel>
                     </mat-accordion>
-                </div>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Enable/Disable">
-            <ng-template matTabContent>
-                <div class="text-start p-2">
-                    <div class="title d-flex justify-content-between p-2">
-                        <p class="h5">Enable Edits From</p>
-                        <button [disabled]="!this.selectedDistrict" mat-flat-button color="primary" class="px-2 py-1" (click)="onSaveChanges()">Save Changes
-                            <mat-icon>save</mat-icon>
-                        </button>
-                    </div>
-                    <div class="d-flex justify-content-center row mb-3">
-                        <mat-form-field appearance="outline" class="col-12 col-md-6">
-                            <mat-label>Select a district</mat-label>
-                            <mat-select [(value)]="selectedDistrict" (selectionChange)="onDistrictSelect()">
-                                <mat-option>None</mat-option>
-                                <mat-option [value]="item" *ngFor="let item of allDistricts">{{item}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="row my-3">
-                        <div class="col-12">
-                            <div *ngFor="let gp of this.selectedGps">
-                                <ng-container *ngFor="let comp of this.selectedComponents">
-                                    <p-chip [label]="gp.value + ' > ' + comp.phase + ' > ' + comp.component"
-                                        styleClass="m-1"></p-chip>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center row">
-                        <div class="col-6">
-                            <p-listbox (onChange)="onChange(true)" scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true"
-                                [options]="allGps" [(ngModel)]="selectedGps" [optionLabel]="'value'"
-                                [listStyle]="{'max-height':'300px'}"></p-listbox>
-                        </div>
-                        <div class="col-6">
-                            <p-listbox (onChange)="onChange()" scrollHeight="250px" [checkbox]="true"
-                                [filter]="true" [multiple]="true" [options]="allComponents"
-                                [(ngModel)]="selectedComponents" [optionLabel]="'label'"
-                                [listStyle]="{'max-height':'300px'}"></p-listbox>
-                        </div>
-                    </div>
                 </div>
             </ng-template>
         </mat-tab>

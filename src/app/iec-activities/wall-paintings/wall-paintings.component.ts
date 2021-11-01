@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +8,7 @@ import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
 import { ConfirmationService } from 'primeng/api';
+import { Selected } from 'src/app/models/selected';
 
 
 @Component({
@@ -17,12 +18,16 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class WallPaintingsComponent implements OnInit {
 
+  @Input('print') public printMode: boolean = false;
+  @Input('district') public currentDistrict: string;
+  @Input('gp') public currentGp: string;
+  @Input('phase') public currentPhase: string;
+  @Input('name') public currentName: string;
+
   @ViewChildren(FileUploaderComponent)
   public uploaders: FileUploaderComponent[];
 
-  formdata: Application = {
-    files: []
-  };
+  formdata: Application = {};
 
   formFields: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
@@ -39,7 +44,7 @@ export class WallPaintingsComponent implements OnInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     private confirmService: ConfirmationService
   ) { }
@@ -49,28 +54,45 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        console.log(res)
+    if (this.printMode) {
+      let tempCategory: Selected = {
+        district: this.currentDistrict,
+        gp: this.currentGp,
+        phase: this.currentPhase,
+        component: this.data.getLongName(this.currentName)
+      }
+      this.rest.getApplications(tempCategory).subscribe(res => {
         if (res.length > 0) {
-          if(res[0].editable === true) {
-            this.isDraftMode = true;
+          // console.log(res)
+          // this.editingId = res[0]._id;
+          this.applicSelected(res[0])
+          // this.showForm = false;
+        }
+      })
+    } else {
+      this.rest.getApplications(this.data.selectedDetails)
+        .subscribe(res => {
+          // console.log(res)
+          if (res.length > 0) {
+            if (res[0].editable === true) {
+              this.isDraftMode = true;
+            }
+            else {
+              this.isDraftMode = false;
+            }
+            this.editingId = res[0]._id;
+            if (res[0].values) {
+              this.applicSelected(res[0]);
+            }
           }
           else {
-            this.isDraftMode = false;
+            this.isFormDisabled = false;
           }
-          this.editingId = res[0]._id;
-          if (res[0].values) {
-            this.applicSelected(res[0]);
-          }
-        }
-        else {
-          this.isFormDisabled = false;
-        }
-      }, e => {
-        // console.log(e.error)
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
-      })
+        }, e => {
+          // console.log(e.error)
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        })
+    }
     this.applicationForm.valueChanges.subscribe(() => {
       this.submitted = false;
     })
@@ -86,7 +108,7 @@ export class WallPaintingsComponent implements OnInit {
     return this.formBuilder.group({
       proposedSite: '',
       proposedArea: '',
-      photoIndex: [''],
+      photoIndex: '',
       completedArea: '',
       photo: '',
       video: ''
@@ -222,7 +244,7 @@ export class WallPaintingsComponent implements OnInit {
     this.onReset();
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
-    if(app.editable === true) {
+    if (app.editable === true) {
       this.isDraftMode = true;
     }
     else {
@@ -233,6 +255,7 @@ export class WallPaintingsComponent implements OnInit {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values);
+    console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
   }
 

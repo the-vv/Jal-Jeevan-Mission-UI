@@ -24,6 +24,7 @@ import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatMenuModule} from '@angular/material/menu';
+import { CropperComponent } from './cropper/cropper.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {MatMenuModule} from '@angular/material/menu';
     ContactDetailsComponent,
     DateDialogComponent,
     ScheduleMenuComponent,
-    FileUploaderComponent
+    FileUploaderComponent,
+    CropperComponent
   ],
   imports: [
     CommonModule,

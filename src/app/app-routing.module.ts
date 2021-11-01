@@ -35,6 +35,7 @@ let commonRoutes: Routes = [
   { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
+  { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) }
 ];
 
 const routes: Routes = [
@@ -47,7 +48,6 @@ const routes: Routes = [
   {
     path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
-      { path: 'reports', component: ReportHomeComponent },
       { path: 'administration', loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
       { path: 'district', component: DistrictComponent },
       { path: 'grama-panchayath', component: GpanchayathComponent },
@@ -58,7 +58,6 @@ const routes: Routes = [
   {
     path: 'client', component: HomeComponent, canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
-      { path: 'reports', component: ReportHomeComponent },
       ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]

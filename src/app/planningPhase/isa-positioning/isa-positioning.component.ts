@@ -45,7 +45,6 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private rest: RestapiService,
     private snackBar: MatSnackBar,
-    private router: Router
   ) { }
 
   ngAfterViewInit() {

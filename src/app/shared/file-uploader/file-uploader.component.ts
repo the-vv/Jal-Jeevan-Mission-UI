@@ -63,7 +63,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
         this.uploadSUbscription = null;
         this.uploadComplete = true;
         let nameList = uploadedFiles.map(el => el.name).join(', ');
-        this.fileinfo = `(${uploadedFiles.length} File(s)) ${nameList}`;
+        this.fileinfo = `<strong><em>(${uploadedFiles.length} File(s))</em></strong> ${nameList}`;
       }
       catch {
         this.uploadComplete = false;
@@ -129,10 +129,10 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     }
     let files = event.currentFiles as File[];
     let nameList = files.map(el => el.name).join(', ');
-    this.fileinfo = `(${files.length} File(s)) ${nameList}`;
+    this.fileinfo = `<strong><em>(${files.length} File(s))</em></strong> ${nameList}`;
     console.log(this.fileinfo)
     let form: FormData = new FormData();
-    files.forEach(f => {
+    files.forEach(async (f) => {
       form.append(`${this.labelToShow}`, f, `${this.labelToShow}.` + f.name.split('.')[f.name.split('.').length - 1]);
     })
     this.uploading = true;
@@ -180,7 +180,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
         formctrlValue[this.ControlKey] = '';
         this.control?.patchValue(formctrlValue);
         this.fileChangeEMittor.emit();
-        this.snackBar.open('Error uploadfing file(s), Please try again later', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Error uploadfing file(s), ' + err.error.status, 'Dismiss', { duration: 5000 })
       })
   }
 

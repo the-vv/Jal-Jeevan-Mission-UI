@@ -2,7 +2,7 @@ import { BrowserModule, } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -160,6 +160,11 @@ export const DATE_FORMATS = {
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
     MessageService,
     DatePipe
+  ],
+  exports: [
+    IsaPositioningComponent,
+    CommonModule,
+    FormsModule
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

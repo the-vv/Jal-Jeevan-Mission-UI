@@ -58,17 +58,17 @@ export class DataService {
   }
 
   phaseComponents = {
-    'Planning Phase': [
-      ['ISA Positioning', 'planningphase/isapositioning'],
-      ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
-      ['GP IEC', 'planningphase/gpiec'],
-      ['Community Orientation', 'planningphase/communityorientation'],
-      ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
-      ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
-      ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
-      ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
-      ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
-    ],
+    // 'Planning Phase': [
+    //   ['ISA Positioning', 'planningphase/isapositioning'],
+    //   ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
+    //   ['GP IEC', 'planningphase/gpiec'],
+    //   ['Community Orientation', 'planningphase/communityorientation'],
+    //   ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
+    //   ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
+    //   ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
+    //   ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
+    //   ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
+    // ],
     'IEC/BCC/IPC activities': [
       ['Wall Writings/ Paintings', 'iec-activities/wall-paintings'],
       ['Hoardings/ Banners', 'iec-activities/hoardings-banners'],
