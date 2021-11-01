@@ -120,7 +120,9 @@ export class WallPaintingsComponent implements OnInit {
       return;
     }
     let allFilesFieldsToDelete: any = {
-      photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex
+      photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex,
+      photo: this.applicationForm.get('rows')['controls'][index].value.photo,
+      video: this.applicationForm.get('rows')['controls'][index].value.video
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {

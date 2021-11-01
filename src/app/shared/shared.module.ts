@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
 import { SharedComponent } from './shared.component';
-import { ReportComponent } from './report/report.component';
 import { BreadcrumpComponent } from './breadcrump/breadcrump.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DateDialogComponent } from './date-dialog/date-dialog.component';
@@ -23,14 +22,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { CropperComponent } from './cropper/cropper.component';
 
 
 @NgModule({
   declarations: [
     SharedComponent,
-    ReportComponent,
     BreadcrumpComponent,
     ContactDetailsComponent,
     DateDialogComponent,
@@ -61,7 +59,6 @@ import { CropperComponent } from './cropper/cropper.component';
   ],
   exports: [
     SharedComponent,
-    ReportComponent,
     BreadcrumpComponent,
     ContactDetailsComponent,
     DateDialogComponent,

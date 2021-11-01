@@ -18,7 +18,6 @@ import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-boa
 import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
-import { ReportHomeComponent } from './report-home/report-home.component';
 
 
 let commonRoutes: Routes = [
@@ -62,12 +61,12 @@ const routes: Routes = [
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
-  { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
-  { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
-  { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
-  { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
-  { path: 'wqmsTrainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
-  { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
+  // { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
+  // { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
+  // { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
+  // { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
+  // { path: 'wqmsTrainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
+  // { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   {
     path: '**', redirectTo: '404', pathMatch: 'full'
   },
