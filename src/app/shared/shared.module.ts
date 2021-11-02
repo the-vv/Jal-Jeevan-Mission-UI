@@ -57,7 +57,8 @@ import { AdminVerifyComponent } from './admin-verify/admin-verify.component';
     MatDialogModule,
     FileUploadModule,
     MatProgressBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule,
   ],
   exports: [
     SharedComponent,
@@ -69,5 +70,7 @@ import { AdminVerifyComponent } from './admin-verify/admin-verify.component';
     FormsModule,
     FileUploaderComponent
   ],
+  providers: [
+  ]
 })
 export class SharedModule { }

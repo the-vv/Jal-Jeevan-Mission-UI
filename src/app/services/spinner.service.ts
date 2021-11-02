@@ -12,10 +12,13 @@ export class SpinnerService implements HttpInterceptor {
     if (
       !req.url.includes('/upload') &&
       !req.url.includes('/applications/application') &&
+      !req.url.includes('/applicationEdited') &&
       !req.url.includes('/schedule') &&
       !req.url.includes('/contact') &&
       !req.url.includes('/getContact') &&
       !req.url.includes('/deleteSchedule') &&
+      !req.url.includes('/verifyOtp') &&
+      !req.url.includes('/sendEmail') &&
       !req.url.includes('/ward')
     ) {
       setTimeout(() => {

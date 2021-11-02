@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Application, TargetDate } from '../models/application';
 import { GpConfig, Selected, WardConfig } from '../models/selected';
-import { ContactDetails } from '../models/user';
+import { ContactDetails, User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -142,6 +142,18 @@ export class RestapiService {
 
   getGpConfigs(): Observable<GpConfig[]> {
     return this.http.get<any>(this.applUrl + '/gpConfigs', {
+      withCredentials: true
+    })
+  }
+
+  sendEmail(user: User): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/sendEmail', user,  {
+      withCredentials: true
+    })
+  }
+
+  verifyOtp(otp: string): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/verifyOtp', {otp},  {
       withCredentials: true
     })
   }

@@ -1,1 +1,25 @@
-<p>admin-verify works!</p>
+<h1 mat-dialog-title>Admin Verification Required</h1>
+<div mat-dialog-content>
+    Please verify the OTP to continue to admininstration panel
+    <div class="col-12 mt-2">
+        <p *ngIf="otpSend" class="w-100">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Enter OTP</mat-label>
+              <input matInput placeholder="Enter OTP" type="number" maxlength="6" [(ngModel)]="otp">
+              <mat-icon matSuffix>lock</mat-icon>
+              <mat-hint style="margin-top: 15px;">OTP has been sent, Please check your Email inbox</mat-hint>
+            </mat-form-field>
+          </p>
+    </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button mat-dialog-close [color]="'primary'" cdkFocusInitial>Cancel</button>
+    <button mat-button [color]="'primary'" *ngIf="otpSend" (click)="onOtpChange()">
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="loading"></i>
+        Verify
+    </button>
+    <button mat-button [color]="'primary'" *ngIf="!otpSend" (click)="sendOtp()">
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="loading"></i>
+        Send OTP
+    </button>
+</div>

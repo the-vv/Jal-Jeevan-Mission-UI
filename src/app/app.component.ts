@@ -8,6 +8,7 @@ import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/route
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ContactDetailsComponent } from './shared/contact-details/contact-details.component';
 import { PrimeNGConfig } from 'primeng/api';
+import { AdminVerifyComponent } from './shared/admin-verify/admin-verify.component';
 
 // import Darkmode from 'darkmode-js';
 
@@ -75,6 +76,16 @@ export class AppComponent implements OnInit {
       this.router.url.includes('/calendar') ||
       this.router.url.includes('/report')
     )
+  }
+
+  adminVerify() {
+    if(this.user.isVerifiedAdmin) {
+      this.router.navigate(['/admin/administration'])
+    } else {
+    this.dialog.open(AdminVerifyComponent, {
+      disableClose: true
+    })
+  }
   }
 
 }

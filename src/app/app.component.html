@@ -25,7 +25,7 @@
               routerLinkActive="active" aria-current="page"><i class="pi pi-calendar"></i> Calender</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="admin/administration" routerLinkActive="active" mat-stroked-button
+            <a class="nav-link" href="javascript:void(0)" (click)="adminVerify()" routerLinkActive="active" mat-stroked-button
               *ngIf="user.isloggedin && user.isAdmin"><i class="pi pi-shield"></i> Administration</a>
           </li>
           <li class="nav-item">
@@ -59,6 +59,7 @@
   </nav>
 
   <router-outlet></router-outlet>
+
   <div class="mt-5 pt-5"></div>
   <footer class="bg-light text-center text-lg-left mt-5 border-top">
     <!-- Grid container -->

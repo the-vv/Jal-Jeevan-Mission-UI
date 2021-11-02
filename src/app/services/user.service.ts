@@ -14,6 +14,7 @@ export class UserService {
   userChange: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   isloggedin: boolean = false;
   isAdmin: boolean = false;
+  isVerifiedAdmin: boolean = false;
 
   constructor(
     private rest: RestapiService,
