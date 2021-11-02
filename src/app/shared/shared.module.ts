@@ -24,6 +24,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { CropperComponent } from './cropper/cropper.component';
+import { AdminVerifyComponent } from './admin-verify/admin-verify.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CropperComponent } from './cropper/cropper.component';
     DateDialogComponent,
     ScheduleMenuComponent,
     FileUploaderComponent,
-    CropperComponent
+    CropperComponent,
+    AdminVerifyComponent
   ],
   imports: [
     CommonModule,

@@ -38,6 +38,7 @@ export class WallPaintingsComponent implements OnInit {
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
   disabledLength: number = 0;
+  totalValues: any = {};
 
   constructor(
     private user: UserService,
@@ -112,14 +113,12 @@ export class WallPaintingsComponent implements OnInit {
       photoIndex: '',
       completedArea: '',
       photo: '',
-      video: ''
+      video: '',
+      report: ''
     });
   }
 
   removeMeeting(index: number) {
-    if (this.isFormDisabled) {
-      return;
-    }
     let allFilesFieldsToDelete: any = {
       photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex,
       photo: this.applicationForm.get('rows')['controls'][index].value.photo,
@@ -207,9 +206,9 @@ export class WallPaintingsComponent implements OnInit {
             this.applicationForm.reset()
             this.formdata.files = [];
             this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
           }
-          this.applicationForm.reset()
-          this.applicSelected(res)
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -226,9 +225,9 @@ export class WallPaintingsComponent implements OnInit {
             this.applicationForm.reset()
             this.formdata.files = [];
             this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
           }
-          this.applicationForm.reset()
-          this.applicSelected(res)
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -255,6 +254,7 @@ export class WallPaintingsComponent implements OnInit {
     console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
+    this.findTotal()
   }
 
   onReset() {
@@ -291,6 +291,28 @@ export class WallPaintingsComponent implements OnInit {
           resolve(false)
         }
       });
+    })
+  }
+
+  findTotal() {
+    this.applicationForm.value.rows.forEach(el => {
+      console.log(el)
+      // go through each key value and add to total if the value is convertible to number
+      Object.keys(el).forEach(key => {
+        if (Number.isNaN(Number(el[key]))) {
+          if (this.totalValues[key]) {
+            this.totalValues[key] += 0
+          } else {
+            this.totalValues[key] = 0
+          }
+        } else {
+          if (this.totalValues[key]) {
+            this.totalValues[key] += Number(el[key])
+          } else {
+            this.totalValues[key] = Number(el[key])
+          }
+        }
+      })
     })
   }
 

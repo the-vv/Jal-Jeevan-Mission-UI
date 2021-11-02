@@ -18,6 +18,12 @@
                     <td>{{row.completedArea}}</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
         </table>
     </div>
 </div>
@@ -56,9 +62,9 @@
                             <div class="col-12 col-md-4">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Proposed Date</mat-label>
+                                        <mat-label>Proposed Site</mat-label>
                                         <input [readonly]="isFormDisabled && i < disabledLength"
-                                            formControlName="proposedSite" matInput placeholder="Proposed Date">
+                                            formControlName="proposedSite" matInput placeholder="Proposed Site">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -74,13 +80,14 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Photo'" [disabled]="isFormDisabled && i < disabledLength"
-                                    [keyName]="'photoIndex'" (onfileChanges)="onFileChanges()">
+                                    [labelName]="'Proposed Site Photo'"
+                                    [disabled]="isFormDisabled && i < disabledLength" [keyName]="'photoIndex'"
+                                    (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Completed Area in Sq.ft</mat-label>
@@ -90,16 +97,24 @@
                                     </mat-form-field>
                                 </p>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
                                     [labelName]="'Photo'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'photo'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
-                            <div class="col-12 col-md-4">
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
                                     [labelName]="'Video'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'video'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'Add Report'" [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                         </div>
