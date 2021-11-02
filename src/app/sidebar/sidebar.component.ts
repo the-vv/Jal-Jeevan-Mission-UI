@@ -25,8 +25,8 @@ export class SidebarComponent implements OnInit {
   }
 
   gotoForm(path: string, phase: string, comp: string) {
-    console.log([this.user.isAdmin ? 'admin' : 'client', path])
-    this.data.selectComponent(`${phase}/${comp}`);
+    // console.log([this.user.isAdmin ? 'admin' : 'client', path])
+    this.data.selectComponent(`${phase}~${comp}`);
     this.router.navigate([this.user.isAdmin ? 'admin/' + path : 'client/' + path])
     .then(res => {
       if(res) {

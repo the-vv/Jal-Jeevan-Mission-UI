@@ -37,6 +37,7 @@ export class WallPaintingsComponent implements OnInit {
   submitted: boolean = false;
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
+  disabledLength: number = 0;
 
   constructor(
     private user: UserService,
@@ -176,9 +177,6 @@ export class WallPaintingsComponent implements OnInit {
     if (!confirmation) {
       return;
     }
-    if (this.isFormDisabled) {
-      return;
-    }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
       this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
       return;
@@ -196,9 +194,6 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
-    if (this.isFormDisabled) {
-      return;
-    }
     if (!silent) {
       app.submitted = true;
     }
@@ -259,6 +254,7 @@ export class WallPaintingsComponent implements OnInit {
     this.applicationForm.patchValue(app.values);
     console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
+    this.disabledLength = app.values.rows.length;
   }
 
   onReset() {
@@ -287,7 +283,7 @@ export class WallPaintingsComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.confirmService.confirm({
         blockScroll: false,
-        message: '<p align="left" style="padding: 0px; margin: 0px">Are you sure that you want to submit?<br> Once submitted, You are now allowed to edit unless admin permitted.</p>',
+        message: '<p align="left" style="padding: 0px; margin: 0px">Are you sure that you want to submit?<br> Once submitted, You are not allowed to edit unless admin permitted.</p>',
         accept: () => {
           resolve(true)
         },

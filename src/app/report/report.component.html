@@ -56,7 +56,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <button mat-raised-button
-                (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; } }')"
+                (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; !important } }')"
                 color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>
@@ -65,12 +65,18 @@
 <div class="col-12 mt-3 text-center" id="mainReport">
     <div class="row">
         <div class="col-12">
-            <p class="text-center h1 mb-0">{{configData.appTitle}} Report</p>
+            <p class="text-center h1 p-0 m-0" style="font-size: 3.5rem;">{{configData.appTitle}}</p>
+        </div>
+        <div class="col-12">
+            <p class="text-center h2 p-0 m-0 smi" style="font-size: 2.5rem;">{{configData.appName}}</p>
+        </div>
+        <div class="col-12">
+            <p class="text-center h2 mb-4 pt-0" style="font-size: 2rem;">Report</p>
         </div>
     </div>
     <div class="row mb-3" *ngFor="let district of selectedDistricts">
-        <div class="col-12 mb-4" *ngFor="let gp of selectedGps">
-            <p class="text-center h3 pagebreak">{{district}} District, {{gp}} Grama Panchayath</p>
+        <div class="col-12 mb-4 pagebreak" *ngFor="let gp of selectedGps">
+            <strong class="text-center fs-3 d-block mb-3">{{district}} District, {{gp}} Grama Panchayath</strong>
             <!-- <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                 <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
                     name='planningphase/isapositioning' *ngIf="selectedComponents.includes('ISA Positioning')">

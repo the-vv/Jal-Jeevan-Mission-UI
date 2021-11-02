@@ -133,7 +133,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     console.log(this.fileinfo)
     let form: FormData = new FormData();
     files.forEach(async (f) => {
-      form.append(`${this.labelToShow}`, f, `${this.labelToShow}.` + f.name.split('.')[f.name.split('.').length - 1]);
+      form.append(`${this.labelToShow}`, f, f.name);
     })
     this.uploading = true;
     this.uploadSUbscription = this.rest.uploadFiles(form)
