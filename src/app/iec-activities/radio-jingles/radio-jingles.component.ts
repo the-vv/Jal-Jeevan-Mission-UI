@@ -9,12 +9,13 @@ import { UserService } from 'src/app/services/user.service';
 import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
 import { ConfirmationService } from 'primeng/api';
 import { Selected } from 'src/app/models/selected';
+
 @Component({
-  selector: 'app-tv-sports',
-  templateUrl: './tv-sports.component.html',
-  styleUrls: ['./tv-sports.component.scss']
+  selector: 'app-radio-jingles',
+  templateUrl: './radio-jingles.component.html',
+  styleUrls: ['./radio-jingles.component.scss']
 })
-export class TvSportsComponent implements OnInit {
+export class RadioJinglesComponent implements OnInit {
 
 
   @Input('print') public printMode: boolean = false;
@@ -108,7 +109,7 @@ export class TvSportsComponent implements OnInit {
   newRow(): FormGroup {
     return this.formBuilder.group({
       report: '',
-      recordedVideo: ''
+      recordedAudio: ''
     });
   }
 

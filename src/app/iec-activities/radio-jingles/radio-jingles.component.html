@@ -29,10 +29,10 @@
         <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
     </div>
     <mat-card class="bg-blue-custom">
-        <p class="h2">TV spots</p>
+        <p class="h2">Radio jingles</p>
         <p>
-            Telecast Jal jeevan Mission Massages through top 5 News channels. 3 spots for 120 days, Atleast 5 clips of
-            30 sec duration giving key messages (3x5x120=1800)
+            Broadcast Jal Jeevan Mission messages through FM/ AM Radios. 10 Radio jingeles of 30 sec duration, 10 spots
+            in 5 FM radios for 120 days (10x5x120=6000)
         </p>
     </mat-card>
     <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
@@ -47,7 +47,7 @@
                 <div class="row my-3">
                     <div class="col-12 col-md-2">
                         <p class="h6 text-center pt-3">
-                            <app-schedule-menu [section]="'TV spots'" [iconOnly]="false">
+                            <app-schedule-menu [section]="'Radio jingles'" [iconOnly]="false">
                             </app-schedule-menu>
                         </p>
                     </div>
@@ -55,14 +55,16 @@
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledLength"
-                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                    [labelName]="'Report'"
+                                    [disabled]="isFormDisabled && i < disabledLength" [keyName]="'report'"
+                                    (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                             <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Recorded Video'" [disabled]="isFormDisabled && i < disabledLength"
-                                    [keyName]="'recordedVideo'" (onfileChanges)="onFileChanges()">
+                                    [labelName]="'Recorded Audio'"
+                                    [disabled]="isFormDisabled && i < disabledLength" [keyName]="'recordedAudio'"
+                                    (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                         </div>

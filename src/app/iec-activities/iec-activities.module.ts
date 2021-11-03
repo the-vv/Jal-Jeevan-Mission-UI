@@ -45,6 +45,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { RadioJinglesComponent } from './radio-jingles/radio-jingles.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { ConfirmationService } from 'primeng/api';
     ExhibitionsComponent,
     ConferenceInnovationEventsComponent,
     IpcActivitiesComponent,
-    IecMaterialPreperationComponent
+    IecMaterialPreperationComponent,
+    RadioJinglesComponent
   ],
   imports: [
     CommonModule,

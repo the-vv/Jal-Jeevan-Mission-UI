@@ -73,7 +73,7 @@ export class DataService {
       ['Wall Writings/ Paintings', 'iec-activities/wall-paintings'],
       ['Hoardings/ Banners', 'iec-activities/hoardings-banners'],
       ['Radio jingles', 'iec-activities/radio-jingles'],
-      ['TV spots', 'iec-activities/tv-sports'],
+      ['TV spots', 'iec-activities/tv-spots'],
       ['Flipbooks/ charts', 'iec-activities/flipbooks-charts'],
       ['Posters at tourist locations', 'iec-activities/posters-tourist-locations'],
       ['Schools', 'iec-activities/schools'],
