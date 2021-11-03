@@ -76,7 +76,7 @@
     </div>
     <div class="row mb-3" *ngFor="let district of selectedDistricts">
         <div class="col-12 pagebreak" *ngFor="let gp of selectedGps">
-            <ng-container class="mb-4 " *ngIf="checkGpInDistrict(district,gp)">
+            <div class="mb-4 " *ngIf="checkGpInDistrict(district,gp)">
                 <strong class="text-center fs-3 d-block mb-3">{{district}} District, {{gp}} Grama Panchayath</strong>
                 <!-- <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                     <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
@@ -89,7 +89,13 @@
                         *ngIf="selectedComponents.includes('Wall Writings/ Paintings')">
                     </app-wall-paintings>
                 </div>
-            </ng-container>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-wall-paintings [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/hoardings-banners'
+                        *ngIf="selectedComponents.includes('Hoardings/ Banners')">
+                    </app-wall-paintings>
+                </div>
+            </div>
         </div>
     </div>
 </div>
