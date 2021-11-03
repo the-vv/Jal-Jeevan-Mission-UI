@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 import { DataService } from './data.service';
 import { RestapiService } from './restapi.service';
@@ -14,7 +15,7 @@ export class UserService {
   userChange: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   isloggedin: boolean = false;
   isAdmin: boolean = false;
-  isVerifiedAdmin: boolean = false;
+  isVerifiedAdmin: boolean = environment.production ? false : true;
 
   constructor(
     private rest: RestapiService,
@@ -30,6 +31,7 @@ export class UserService {
         this.isAdmin = false;
         this.currentUser = null;
         this.data.selectedDetails = {}
+        this.isVerifiedAdmin = false;
         this.router.navigate(['login']);
         this.data.clearUserData();
       })

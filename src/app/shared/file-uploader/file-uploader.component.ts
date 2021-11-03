@@ -1,6 +1,6 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { ApplicationFile } from 'src/app/models/application';
@@ -12,13 +12,13 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss']
 })
-export class FileUploaderComponent implements OnInit, OnDestroy {
+export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input('labelName')
   public labelToShow: string = 'Attatchement';
 
   @Input('control')
-  public control: FormControl;
+  public control: FormControl | AbstractControl;
 
   @Input('keyName')
   public ControlKey: string;
@@ -54,6 +54,10 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.setFileField();
+  }
+
+  setFileField() {
     if (this.control.value[this.ControlKey]?.length) {
       try {
         let uploadedFiles = JSON.parse(this.control.value[this.ControlKey]);
@@ -201,6 +205,10 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
       this.fileChangeEMittor.emit();
       this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
     }
+  }
+
+  ngOnChanges() {
+    this.setFileField()
   }
 
 }

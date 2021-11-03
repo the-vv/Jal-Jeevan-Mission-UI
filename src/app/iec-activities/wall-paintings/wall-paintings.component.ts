@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Application, ApplicationFile } from 'src/app/models/application';
@@ -113,8 +113,7 @@ export class WallPaintingsComponent implements OnInit {
       photoIndex: '',
       completedArea: '',
       photo: '',
-      video: '',
-      report: ''
+      video: ''
     });
   }
 
@@ -161,12 +160,13 @@ export class WallPaintingsComponent implements OnInit {
     this.applicationForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.newRow()
-      ])
+      ]),
+      report: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)
       this.formdata.name = `iec-activities/${val.map(v => v.path).join('/')}`
-      console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
+      // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
     })
   }
   get f() { return this.applicationForm.controls }
@@ -237,6 +237,7 @@ export class WallPaintingsComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
+    console.log(app)
     this.onReset();
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
@@ -254,6 +255,7 @@ export class WallPaintingsComponent implements OnInit {
     console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
+    console.log(this.applicationForm)
     this.findTotal()
   }
 
@@ -296,7 +298,6 @@ export class WallPaintingsComponent implements OnInit {
 
   findTotal() {
     this.applicationForm.value.rows.forEach(el => {
-      console.log(el)
       // go through each key value and add to total if the value is convertible to number
       Object.keys(el).forEach(key => {
         if (Number.isNaN(Number(el[key]))) {
@@ -314,6 +315,10 @@ export class WallPaintingsComponent implements OnInit {
         }
       })
     })
+  }
+
+  getReportControl() {
+    return this.applicationForm.get('report') as FormGroup;
   }
 
 }

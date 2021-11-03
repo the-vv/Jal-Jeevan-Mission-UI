@@ -9,6 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ContactDetailsComponent } from './shared/contact-details/contact-details.component';
 import { PrimeNGConfig } from 'primeng/api';
 import { AdminVerifyComponent } from './shared/admin-verify/admin-verify.component';
+import { environment } from 'src/environments/environment';
 
 // import Darkmode from 'darkmode-js';
 
@@ -79,13 +80,14 @@ export class AppComponent implements OnInit {
   }
 
   adminVerify() {
-    if(this.user.isVerifiedAdmin) {
+    if (this.user.isVerifiedAdmin || !environment.production) {
       this.router.navigate(['/admin/administration'])
-    } else {
-    this.dialog.open(AdminVerifyComponent, {
-      disableClose: true
-    })
-  }
+    }
+    else {
+      this.dialog.open(AdminVerifyComponent, {
+        disableClose: true
+      })
+    }
   }
 
 }

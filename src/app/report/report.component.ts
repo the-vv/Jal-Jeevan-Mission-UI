@@ -76,9 +76,17 @@ export class ReportComponent implements OnInit {
         }
       }
     }
+    console.log(this.allGps)
   }
   
   onSelectComponent(e) {    
+  }
+
+  checkGpInDistrict(district: string, gp: string) {
+    if(this.allGps[district].includes(gp)) {
+      return true;
+    }
+    return false;
   }
 
 }
