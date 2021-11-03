@@ -90,10 +90,40 @@
                     </app-wall-paintings>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
-                    <app-wall-paintings [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                    <app-hoardings-banners [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
                         name='iec-activities/hoardings-banners'
                         *ngIf="selectedComponents.includes('Hoardings/ Banners')">
-                    </app-wall-paintings>
+                    </app-hoardings-banners>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-radio-jingles [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/radio-jingles'
+                        *ngIf="selectedComponents.includes('Radio jingles')">
+                    </app-radio-jingles>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-tv-sports [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/tv-spots'
+                        *ngIf="selectedComponents.includes('TV spots')">
+                    </app-tv-sports>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-flipbook-charts [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/flipbooks-charts'
+                        *ngIf="selectedComponents.includes('Flipbooks/ charts')">
+                    </app-flipbook-charts>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-posters-tourist-locations [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/posters-tourist-locations'
+                        *ngIf="selectedComponents.includes('Posters at tourist locations')">
+                    </app-posters-tourist-locations>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-schools [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/schools'
+                        *ngIf="selectedComponents.includes('Schools')">
+                    </app-schools>
                 </div>
             </div>
         </div>

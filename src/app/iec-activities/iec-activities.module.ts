@@ -135,7 +135,8 @@ import { RadioJinglesComponent } from './radio-jingles/radio-jingles.component';
     ExhibitionsComponent,
     ConferenceInnovationEventsComponent,
     IpcActivitiesComponent,
-    IecMaterialPreperationComponent    
+    IecMaterialPreperationComponent,
+    RadioJinglesComponent
   ]
 })
 export class IecActivitiesModule { }

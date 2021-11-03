@@ -205,6 +205,7 @@ export class RadioJinglesComponent implements OnInit {
             this.applicationForm.reset()
             this.applicSelected(res)
           }
+          this.editingId = res._id;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -224,6 +225,7 @@ export class RadioJinglesComponent implements OnInit {
             this.applicationForm.reset()
             this.applicSelected(res)
           }
+          this.editingId = res._id;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;

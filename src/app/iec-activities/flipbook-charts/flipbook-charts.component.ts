@@ -114,9 +114,8 @@ export class FlipbookChartsComponent implements OnInit {
 
   removeMeeting(index: number) {
     let allFilesFieldsToDelete: any = {
-      photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex,
-      photo: this.applicationForm.get('rows')['controls'][index].value.photo,
-      video: this.applicationForm.get('rows')['controls'][index].value.video
+      printedDocument: this.applicationForm.get('rows')['controls'][index].value.printedDocument,
+      photos: this.applicationForm.get('rows')['controls'][index].value.photos,
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
@@ -204,6 +203,7 @@ export class FlipbookChartsComponent implements OnInit {
             this.applicationForm.reset()
             this.applicSelected(res)
           }
+          this.editingId = res._id;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
@@ -223,6 +223,7 @@ export class FlipbookChartsComponent implements OnInit {
             this.applicationForm.reset()
             this.applicSelected(res)
           }
+          this.editingId = res._id;
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
