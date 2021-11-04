@@ -34,8 +34,9 @@ let commonRoutes: Routes = [
   { path: 'planningphase/gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
   { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
+  { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
-  { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) }
+  { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
 ];
 
 const routes: Routes = [

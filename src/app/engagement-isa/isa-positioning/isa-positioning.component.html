@@ -1,1 +1,291 @@
-<p>isa-positioning works!</p>
+<div *ngIf="printMode && false" class="col-12 text-start pagebreak">
+    <strong class="h2 text-center mb-0 d-block">{{data.getLongName(currentName)}}</strong>
+    <div>
+        <table class="table table-striped fs-4">
+            <thead>
+                <tr>
+                    <!-- <th scope="col">#</th> -->
+                    <!-- <th scope="col">Proposed site</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <!-- <td>{{row.proposedSite}}</td> -->
+                </tr>
+            </tbody>
+            <tfoot>
+                <!-- <th scope="row">Total</th> -->
+                <!-- <td>{{totalValues.proposedSite}}</td> -->
+                <!-- <td>{{totalValues.proposedArea}}</td> -->
+                <!-- <td>{{totalValues.completedArea}}</td> -->
+            </tfoot> -->
+        </table>
+    </div>
+</div>
+
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
+    </div>
+    <mat-card class="bg-blue-custom">
+        <p class="h2">ISA Positioning</p>
+        <p>
+            DWSM deployment to GP & Agreement signing.
+        </p>
+    </mat-card>
+    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+        Editing has been disabled by admin. Contact them if you need any help
+    </div>
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
+        Application was not submitted. Currently in edit mode. Saved as Draft
+    </div>
+    <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-3">
+                        <p class="h5 text-start pt-3">
+                            DWSM Meeting
+                            <app-schedule-menu [section]="'DWSM Meeting'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Date</mat-label>
+                                        <input matInput [matDatepicker]="dp0" formControlName="dwsmDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp0 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Number</mat-label>
+                                        <input matInput formControlName="dwsmNo">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Proceedings Date</mat-label>
+                                        <input matInput [matDatepicker]="dp1"
+                                            formControlName="dwsmProceedingDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
+                                    #uploader [labelName]="'Attatchement'"
+                                    [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'dwsmAttatchement'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-3">
+                        <p class="h5 text-start pt-3">
+                            Implementing Agency
+                            <app-schedule-menu [section]="'Implementing Agency'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Select an Implementing Agency</mat-label>
+                                <mat-select formControlName="implementingAgency">
+                                    <mat-option>None</mat-option>
+                                    <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)</mat-option>
+                                    <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala Rural
+                                        Water Supply and Sanitation Agency (KRWSA)</mat-option>
+                                    <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-3">
+                        <p class="h5 text-start pt-3">
+                            Agreement
+                            <app-schedule-menu [section]="'Agreement'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Date</mat-label>
+                                        <input matInput [matDatepicker]="dp2" formControlName="agreementDate">
+                                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Number</mat-label>
+                                        <input matInput formControlName="agreementNo">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
+                                    #uploader [labelName]="'Attatchement'"
+                                    [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'agreement'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center h3">
+                            Staff Positioning
+                        </p>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-3">
+                        <p class="h5 text-start pt-3">
+                            Project Coordinator
+                            <app-schedule-menu [section]="'Project CooCoordinator'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name & Address</mat-label>
+                                        <textarea formControlName="projectCoordinatorAddress" matInput></textarea>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Phone No</mat-label>
+                                        <input matInput formControlName="projectCoordinatorNo">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
+                                    #uploader [labelName]="'CV & Certificates'"
+                                    [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'projectCoordinatorCV'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Qualification</mat-label>
+                                        <input matInput formControlName="projectCoordinatorQualification">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Experience</mat-label>
+                                        <textarea formControlName="projectCoordinatorExperience" matInput></textarea>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-12 col-md-3">
+                        <p class="h5 text-start pt-3">
+                            Support Coordinator
+                            <app-schedule-menu [section]="'Support Coordinator'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name & Address</mat-label>
+                                        <textarea formControlName="supportCoordinatorAddress" matInput></textarea>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Number</mat-label>
+                                        <input matInput formControlName="supportCoordinatorNo">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Charged Panchayath</mat-label>
+                                        <input matInput formControlName="supportCoordinatorChargedPanchayath">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Submiting Application. Please Wait...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                    (click)="onSubmit()">
+                    Submit
+                    Application
+                    <mat-icon>upload_file</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+            </svg>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    Application Submitted Successfully
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IsaPositioningComponent } from '../planningPhase/isa-positioning/isa-positioning.component';
 import { AssistingNodalAgencyComponent } from './assisting-nodal-agency/assisting-nodal-agency.component';
 import { DevelopConvergancePlanComponent } from './develop-convergance-plan/develop-convergance-plan.component';
 import { EngagementIsaComponent } from './engagement-isa.component';
 import { HandholdSupportGpGpwcGpComponent } from './handhold-support-gp-gpwc-gp/handhold-support-gp-gpwc-gp.component';
+import { IsaPositioningComponent } from './isa-positioning/isa-positioning.component';
 import { OrientationToGpBoardComponent } from './orientation-to-gp-board/orientation-to-gp-board.component';
 import { SpecialOrientationTrainingComponent } from './special-orientation-training/special-orientation-training.component';
 import { SupportServicesGpComponent } from './support-services-gp/support-services-gp.component';
