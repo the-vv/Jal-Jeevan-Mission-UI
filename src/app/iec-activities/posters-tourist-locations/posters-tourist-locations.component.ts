@@ -160,7 +160,7 @@ export class PostersTouristLocationsComponent implements OnInit {
       rows: this.formBuilder.array([
         this.newRow()
       ]),
-      // report: ''
+      completedDate: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)

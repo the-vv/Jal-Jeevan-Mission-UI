@@ -161,7 +161,8 @@ export class WallPaintingsComponent implements OnInit {
       rows: this.formBuilder.array([
         this.newRow()
       ]),
-      report: ''
+      report: '',
+      completedDate: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)
@@ -203,10 +204,9 @@ export class WallPaintingsComponent implements OnInit {
           this.submitting = false;
           if (!silent) {
             this.editingId = '';
-            this.applicationForm.reset()
             this.formdata.files = [];
             this.submitted = true;
-            this.applicationForm.reset()
+            this.applicationForm.reset();
             this.applicSelected(res)
           }
           this.editingId = res._id;
@@ -223,7 +223,6 @@ export class WallPaintingsComponent implements OnInit {
           this.submitting = false;
           if (!silent) {
             this.editingId = '';
-            this.applicationForm.reset()
             this.formdata.files = [];
             this.submitted = true;
             this.applicationForm.reset()
@@ -253,11 +252,11 @@ export class WallPaintingsComponent implements OnInit {
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
-    this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    this.applicationForm.patchValue(app.values, {emitEvent: false});
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.findTotal()
   }
 

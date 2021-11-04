@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { IecActivitiesModule } from '../iec-activities/iec-activities.module';
+import { EngagementIsaModule } from '../engagement-isa/engagement-isa.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { IecActivitiesModule } from '../iec-activities/iec-activities.module';
     FormsModule,
     MatIconModule,
     MatButtonModule,
-    IecActivitiesModule
+    IecActivitiesModule,
+    EngagementIsaModule
   ]
 })
 export class ReportModule { }

@@ -1,26 +1,34 @@
 <div *ngIf="printMode && false" class="col-12 text-start pagebreak">
     <strong class="h2 text-center mb-0 d-block">{{data.getLongName(currentName)}}</strong>
-    <div>
+    <!-- <div>
         <table class="table table-striped fs-4">
             <thead>
                 <tr>
-                    <!-- <th scope="col">#</th> -->
-                    <!-- <th scope="col">Proposed site</th> -->
+                    <th scope="col">#</th>
+                    <th scope="col">Proposed site</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
                     <th scope="row">{{i+1}}</th>
-                    <!-- <td>{{row.proposedSite}}</td> -->
+                    <td>{{row.proposedSite}}</td>
                 </tr>
             </tbody>
             <tfoot>
-                <!-- <th scope="row">Total</th> -->
-                <!-- <td>{{totalValues.proposedSite}}</td> -->
-                <!-- <td>{{totalValues.proposedArea}}</td> -->
-                <!-- <td>{{totalValues.completedArea}}</td> -->
-            </tfoot> -->
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
         </table>
+    </div> -->
+    
+    <div class="row mt-1">
+        <div class="col-12">
+            <p class="h4 text-center">
+                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
+            </p>
+        </div>
     </div>
 </div>
 
@@ -106,6 +114,19 @@
                 </app-file-uploader>
             </div>
         </div> -->
+        
+        <div class="row my-3">
+            <div class="col-12 col-md-12 offset-md-2">                                      
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Completed Date</mat-label>
+                        <input matInput [matDatepicker]="dp1" formControlName="completedDate"  [readonly]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"  [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1 [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
         <div class="row mt-2">
             <div class="col-12" *ngIf="submitting">
                 <p class="small text-center">

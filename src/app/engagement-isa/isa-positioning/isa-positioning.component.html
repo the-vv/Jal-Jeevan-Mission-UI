@@ -1,27 +1,89 @@
-<div *ngIf="printMode && false" class="col-12 text-start pagebreak">
+<div *ngIf="printMode" class="col-12 text-start pagebreak">
     <strong class="h2 text-center mb-0 d-block">{{data.getLongName(currentName)}}</strong>
-    <div>
-        <table class="table table-striped fs-4">
-            <thead>
-                <tr>
-                    <!-- <th scope="col">#</th> -->
-                    <!-- <th scope="col">Proposed site</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
-                    <th scope="row">{{i+1}}</th>
-                    <!-- <td>{{row.proposedSite}}</td> -->
-                </tr>
-            </tbody>
-            <tfoot>
-                <!-- <th scope="row">Total</th> -->
-                <!-- <td>{{totalValues.proposedSite}}</td> -->
-                <!-- <td>{{totalValues.proposedArea}}</td> -->
-                <!-- <td>{{totalValues.completedArea}}</td> -->
-            </tfoot> -->
-        </table>
-    </div>
+    <ng-container *ngFor="let row of applicationForm.value?.rows; let i = index">
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 mb-0 text-center">ISA: {{configData.appName}}</p>
+                <p class="h4 text-center">IA: {{row.implementingAgency}}</p>
+            </div>
+        </div>
+        <div class="row mt-3 bg-shade pt-3">
+            <div class="col-3 fs-5">
+                <p class=""><strong>DWSM Meeting</strong></p>
+            </div>
+            <div class="col-9 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Date: </p> {{row.dwsmDate | date: 'd/M/y'}}
+                    </div>
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Number: </p> {{row.dwsmNo}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Proceedings Date: </p> {{row.dwsmProceedingDate | date: 'd/M/y'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 pt-3">
+            <div class="col-3 fs-5">
+                <p><strong>Agreement</strong></p>
+            </div>
+            <div class="col-9 fs-5">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Date: </p> {{row.agreementDate | date: 'd/M/y'}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Number: </p> {{row.agreementNo}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 bg-shade pt-3">
+            <div class="col-3 fs-5">
+                <p><strong>Project Coordinator</strong></p>
+            </div>
+            <div class="col-9 fs-5">
+                <div class="row">
+                    <div class="col-6 text-area-value">
+                        <p class="h5 d-inline-block">Name & Address: </p>{{row.projectCoordinatorAddress}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Phone Number: </p> {{row.projectCoordinatorNo}}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Qualification: </p> {{row.projectCoordinatorQualification}}
+                    </div>
+                    <div class="col-6 text-area-value">
+                        <p class="h5 d-inline-block">Experience: </p>{{row.projectCoordinatorExperience}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 pt-3">
+            <div class="col-3 fs-5">
+                <p><strong>Support Coordinator</strong></p>
+            </div>
+            <div class="col-9 fs-5">
+                <div class="row">
+                    <div class="col-6 text-area-value">
+                        <p class="h5 d-inline-block">Name & Address: </p>{{row.supportCoordinatorAddress}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Phone Number: </p> {{row.supportCoordinatorNo}}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <p class="h5 d-inline-block">Charged Panchayath: </p> {{row.supportCoordinatorChargedPanchayath}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
 </div>
 
 <div *ngIf="!printMode">
@@ -57,9 +119,9 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Date</mat-label>
-                                        <input matInput [matDatepicker]="dp0" formControlName="dwsmDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp0"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp0 disabled="false"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp0" formControlName="dwsmDate"  [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp0" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp0  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -67,7 +129,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="dwsmNo">
+                                        <input matInput formControlName="dwsmNo" [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -75,17 +137,15 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Proceedings Date</mat-label>
-                                        <input matInput [matDatepicker]="dp1"
-                                            formControlName="dwsmProceedingDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp1" formControlName="dwsmProceedingDate" [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp1" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp1  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-12 col-md-3">
-                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
-                                    #uploader [labelName]="'Attatchement'"
-                                    [disabled]="isFormDisabled && i < disabledLength"
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'Attatchement'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'dwsmAttatchement'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
@@ -104,12 +164,15 @@
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Select an Implementing Agency</mat-label>
-                                <mat-select formControlName="implementingAgency">
+                                <mat-select formControlName="implementingAgency"  [disabled]="isFormDisabled && i < disabledLength">
                                     <mat-option>None</mat-option>
-                                    <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)</mat-option>
-                                    <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala Rural
+                                    <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)
+                                    </mat-option>
+                                    <mat-option value="Kerala Rural Water Supply and Sanitation Agency (KRWSA)">Kerala
+                                        Rural
                                         Water Supply and Sanitation Agency (KRWSA)</mat-option>
-                                    <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)</mat-option>
+                                    <mat-option value="Ground Water Department (GWD)">Ground Water Department (GWD)
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </p>
@@ -129,9 +192,9 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Date</mat-label>
-                                        <input matInput [matDatepicker]="dp2" formControlName="agreementDate">
-                                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp2" formControlName="agreementDate" [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp2" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp2  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -139,14 +202,13 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="agreementNo">
+                                        <input matInput formControlName="agreementNo" [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-12 col-md-4">
-                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
-                                    #uploader [labelName]="'Attatchement'"
-                                    [disabled]="isFormDisabled && i < disabledLength"
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'Attatchement'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'agreement'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
@@ -174,7 +236,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name & Address</mat-label>
-                                        <textarea formControlName="projectCoordinatorAddress" matInput></textarea>
+                                        <textarea formControlName="projectCoordinatorAddress" matInput  [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -182,14 +244,13 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Phone No</mat-label>
-                                        <input matInput formControlName="projectCoordinatorNo">
+                                        <input matInput formControlName="projectCoordinatorNo"  [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-12 col-md-4">
-                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]"
-                                    #uploader [labelName]="'CV & Certificates'"
-                                    [disabled]="isFormDisabled && i < disabledLength"
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'CV & Certificates'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'projectCoordinatorCV'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
@@ -199,7 +260,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Qualification</mat-label>
-                                        <input matInput formControlName="projectCoordinatorQualification">
+                                        <input matInput formControlName="projectCoordinatorQualification" [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -207,7 +268,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Experience</mat-label>
-                                        <textarea formControlName="projectCoordinatorExperience" matInput></textarea>
+                                        <textarea formControlName="projectCoordinatorExperience" matInput [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -228,7 +289,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name & Address</mat-label>
-                                        <textarea formControlName="supportCoordinatorAddress" matInput></textarea>
+                                        <textarea formControlName="supportCoordinatorAddress" matInput [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -236,7 +297,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="supportCoordinatorNo">
+                                        <input matInput formControlName="supportCoordinatorNo" [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -244,7 +305,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Charged Panchayath</mat-label>
-                                        <input matInput formControlName="supportCoordinatorChargedPanchayath">
+                                        <input matInput formControlName="supportCoordinatorChargedPanchayath" [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>

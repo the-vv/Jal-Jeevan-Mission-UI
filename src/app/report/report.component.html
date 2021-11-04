@@ -56,7 +56,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <button mat-raised-button
-                (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; !important } }')"
+                (click)="data.printContentByDiv('mainReport', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; !important } } .text-area-value { white-space: pre-wrap;}')"
                 color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
         </div>
     </div>
@@ -77,7 +77,7 @@
     <div class="row mb-3" *ngFor="let district of selectedDistricts">
         <div class="col-12 pagebreak" *ngFor="let gp of selectedGps">
             <div class="mb-4 " *ngIf="checkGpInDistrict(district,gp)">
-                <strong class="text-center fs-3 d-block mb-3">{{district}} District, {{gp}} Grama Panchayath</strong>
+                <strong class="text-center pagebreak fs-2 d-block mb-3">{{district}} District, {{gp}} Grama Panchayath</strong>
                 <!-- <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                     <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
                         name='planningphase/isapositioning' *ngIf="selectedComponents.includes('ISA Positioning')">
@@ -124,6 +124,12 @@
                         name='iec-activities/schools'
                         *ngIf="selectedComponents.includes('Schools')">
                     </app-schools>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/isa-positioning'
+                        *ngIf="selectedComponents.includes('ISA Positioning')">
+                    </app-isa-positioning>
                 </div>
             </div>
         </div>

@@ -49,7 +49,7 @@ export class AdminVerifyComponent implements OnInit {
         this.dialogRef.close();
         this.Router.navigate(['/admin/administration']);
       } else {
-        this.snackbar.open('Verification Failed', 'Dismiss', { duration: 5000 });
+        this.snackbar.open(`${res.message ? res.messge : 'Verification Failed.'} Try again`, 'Dismiss', { duration: 5000 });
       }
     }, err => {
       this.loading = false;

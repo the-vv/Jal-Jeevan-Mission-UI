@@ -118,7 +118,7 @@ export class AdministrationComponent implements OnInit {
     }
     this.rest.postGpConfigs({values: this.allConfigurations, district: this.selectedDistrict})
     .subscribe(res => {
-      this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
     }, err => {      
       this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
     })

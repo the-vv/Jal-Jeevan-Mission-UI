@@ -85,7 +85,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
           this.data.wardCongigData = res;
         }
       }, e => {
-        this.snackBar.open('Error fetching Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Error fetching Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000,panelClass: 'bg-danger' })
       })
     }
   }
