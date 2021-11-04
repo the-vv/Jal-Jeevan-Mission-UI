@@ -58,17 +58,6 @@ export class DataService {
   }
 
   phaseComponents = {
-    // 'Planning Phase': [
-    //   ['ISA Positioning', 'planningphase/isapositioning'],
-    //   ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
-    //   ['GP IEC', 'planningphase/gpiec'],
-    //   ['Community Orientation', 'planningphase/communityorientation'],
-    //   ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
-    //   ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
-    //   ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
-    //   ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
-    //   ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
-    // ],
     'IEC/BCC/IPC activities': [
       ['Wall Writings/ Paintings', 'iec-activities/wall-paintings'],
       ['Hoardings/ Banners', 'iec-activities/hoardings-banners'],
@@ -100,7 +89,28 @@ export class DataService {
       ['Conference on innovation/ Events', 'iec-activities/conference-innovation-events'],
       ['IPC Activities', 'iec-activities/ipc-activities'],
       ['IEC material preparation, production & dissemination', 'iec-activities/iec-material-preperation-production-dissemination'],
-    ]
+    ],
+    'Engagements of ISAs': [
+      ['ISA Positioning', 'engagement-isa/isa-positioning'],
+      ['Orientation to GP board members, socio political leaders', 'engagement-isa/orientation-to-gp-board-members'],
+      ['Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level ', 'engagement-isa/special-orientation-training'],
+      ['To develop a convergence plan for GWR, RWH and gray water management and its facilitation.', 'engagement-isa/develop-covergence-plan-gwr-rwh'],
+      ['Assisting nodal agency/GP/GPWSC', 'engagement-isa/asisting-model-agency-gp-gpwc'],
+      ['Support Services to GP', 'engagement-isa/support-services-to-gp'],
+      ['Handhold support to GP/GPWSC/GP level beneficiary committee and scheme managing team and submission of project completion report', 'engagement-isa/handhold-support-gp-gpwc-gp-level-beneficiary-committee'],
+    ],
+    // 'Planning Phase': [
+      'Others': [
+        ['ISA Positioning', 'planningphase/isapositioning'],
+        ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
+        // ['GP IEC', 'planningphase/gpiec'],
+        ['Community Orientation', 'planningphase/communityorientation'],
+        ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
+        // ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
+        ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
+        ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
+        ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
+      ],
   }
 
   constructor(
