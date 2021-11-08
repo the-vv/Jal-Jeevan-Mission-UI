@@ -15,12 +15,18 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {MultiSelectModule} from 'primeng/multiselect';
 import {MatChipsModule} from '@angular/material/chips';
 import { ChipModule } from 'primeng/chip';
+import { UserCreateComponent } from './user-create/user-create.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { ConfirmationService } from 'primeng/api';
 
 
 
 @NgModule({
   declarations: [
-    AdministrationComponent
+    AdministrationComponent,
+    UserCreateComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +43,14 @@ import { ChipModule } from 'primeng/chip';
     CheckboxModule,
     MultiSelectModule,
     MatChipsModule,
-    ChipModule
+    ChipModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ConfirmPopupModule
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class AdministrationModule { }

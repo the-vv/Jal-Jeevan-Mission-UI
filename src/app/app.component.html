@@ -11,7 +11,8 @@
         {{appConfig.appTitle}}
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
+        [matBadge]="data.clientSchedules.length" [matBadgeHidden]="!data.clientSchedules.length" matBadgeColor="warn">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
@@ -21,12 +22,13 @@
               routerLinkActive="active" aria-current="page"><i class="pi pi-home"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/calendar'" [ngClass]="user.isloggedin ? '' : 'd-none'"
-              routerLinkActive="active" aria-current="page"><i class="pi pi-calendar"></i> Calender</a>
+            <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/calendar'"
+              [ngClass]="user.isloggedin ? '' : 'd-none'" routerLinkActive="active" aria-current="page"><i
+                class="pi pi-calendar"></i> Calender</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)" (click)="adminVerify()" routerLinkActive="active" mat-stroked-button
-              *ngIf="user.isloggedin && user.isAdmin"><i class="pi pi-shield"></i> Administration</a>
+            <a class="nav-link" href="javascript:void(0)" (click)="adminVerify()" routerLinkActive="active"
+              mat-stroked-button *ngIf="user.isloggedin && user.isAdmin"><i class="pi pi-shield"></i> Administration</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/reports'"
@@ -34,14 +36,17 @@
           </li>
           <li class="nav-item" (click)="openContactDialoge()">
             <a class="nav-link" mat-stroked-button
-              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()"><i class="pi pi-user"></i> Contact Details</a>
+              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()"><i class="pi pi-user"></i>
+              Contact Details</a>
           </li>
           <li class="nav-item" (click)="openWardDialoge()">
             <a class="nav-link" mat-stroked-button
-              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()"><i class="pi pi-cog"></i> Ward Configuration</a>
+              *ngIf="user.isloggedin && data.selectedDetails.gp?.length && isPhasePage()"><i class="pi pi-cog"></i> Ward
+              Configuration</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" mat-stroked-button *ngIf="user.isloggedin" (click)="user.logout()"><i class="pi pi-sign-out"></i> Logout</a>
+            <a class="nav-link" mat-stroked-button *ngIf="user.isloggedin" (click)="user.logout()"><i
+                class="pi pi-sign-out"></i> Logout</a>
           </li>
           <li class="nav-item d-flex align-items-center text-white" *ngIf="data.clientSchedules.length != 0">
             <button mat-icon-button aria-label="" (click)="drawer.toggle()" class="animate__animated animate__repeat-3"

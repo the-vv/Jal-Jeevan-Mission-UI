@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AnganawadiComponent } from './anganawadi/anganawadi.component';
 import { FlipbookChartsComponent } from './flipbook-charts/flipbook-charts.component';
 import { HoardingsBannersComponent } from './hoardings-banners/hoardings-banners.component';
 import { IecActivitiesComponent } from './iec-activities.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'flipbooks-charts', component: FlipbookChartsComponent },
   { path: 'posters-tourist-locations', component: PostersTouristLocationsComponent },
   { path: 'schools', component: SchoolsComponent },
+  { path: 'anganawadi-centers', component: AnganawadiComponent },
 ];
 
 @NgModule({

@@ -125,11 +125,23 @@
                         *ngIf="selectedComponents.includes('Schools')">
                     </app-schools>
                 </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-anganawadi [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/anganawadi-centers'
+                        *ngIf="selectedComponents.includes('Anganwadi centers')">
+                    </app-anganawadi>
+                </div>
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
                     <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
                         name='engagement-isa/isa-positioning'
                         *ngIf="selectedComponents.includes('ISA Positioning')">
                     </app-isa-positioning>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-orientation-to-gp-board [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/orientation-to-gp-board-members'
+                        *ngIf="selectedComponents.includes('Orientation to GP board members, socio political leaders')">
+                    </app-orientation-to-gp-board>
                 </div>
             </div>
         </div>

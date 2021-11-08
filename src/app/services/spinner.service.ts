@@ -18,6 +18,7 @@ export class SpinnerService implements HttpInterceptor {
       !req.url.includes('/getContact') &&
       !req.url.includes('/deleteSchedule') &&
       !req.url.includes('/verifyOtp') &&
+      !req.url.includes('/createUser') &&
       !req.url.includes('/sendEmail') &&
       !req.url.includes('/ward')
     ) {

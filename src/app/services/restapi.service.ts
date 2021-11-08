@@ -11,8 +11,8 @@ import { ContactDetails, User } from '../models/user';
 })
 export class RestapiService {
 
-  private userUrl: string = environment.production ? 'users' : 'http://localhost:3000/users'
-  public applUrl: string = environment.production ? 'applications' : 'http://localhost:3000/applications'
+  private userUrl: string = environment.production ? 'api/users' : 'http://localhost:3000/api/users'
+  public applUrl: string = environment.production ? 'api/applications' : 'http://localhost:3000/api/applications'
 
   constructor(
     private http: HttpClient
@@ -152,8 +152,29 @@ export class RestapiService {
     })
   }
 
-  verifyOtp(otp: string): Observable<any> {
-    return this.http.post<any>(this.userUrl + '/verifyOtp', {otp},  {
+  verifyOtp(otp: any): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/verifyOtp', otp,  {
+      withCredentials: true
+    })
+  }
+
+  //method to send user to create user
+  createUser(user: User): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/createUser', user,  {
+      withCredentials: true
+    })
+  }
+
+  //method to send user to edit
+  editUser(user: User): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/updateUser', user,  {
+      withCredentials: true
+    })
+  }
+
+  // method to delete user
+  deleteUser(userId: string): Observable<any> {
+    return this.http.post<any>(this.userUrl + '/deleteUser', {id: userId},  {
       withCredentials: true
     })
   }

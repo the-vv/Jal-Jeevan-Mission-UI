@@ -9,13 +9,14 @@
     </div>
 </div>
 <div class="col-12">
-    <mat-tab-group dynamicHeight>        
+    <mat-tab-group dynamicHeight>
         <mat-tab label="Enable/Disable">
             <ng-template matTabContent>
                 <div class="text-start p-2">
                     <div class="title d-flex justify-content-between p-2">
                         <p class="h5">Enable Edits From</p>
-                        <button [disabled]="!this.selectedDistrict" mat-flat-button color="primary" class="px-2 py-1" (click)="onSaveChanges()">Save Changes
+                        <button [disabled]="!this.selectedDistrict" mat-flat-button color="primary" class="px-2 py-1"
+                            (click)="onSaveChanges()">Save Changes
                             <mat-icon>save</mat-icon>
                         </button>
                     </div>
@@ -40,15 +41,14 @@
                     </div>
                     <div class="d-flex justify-content-center row">
                         <div class="col-6">
-                            <p-listbox (onChange)="onChange(true)" scrollHeight="250px" [checkbox]="true" [filter]="true" [multiple]="true"
-                                [options]="allGps" [(ngModel)]="selectedGps" [optionLabel]="'value'"
-                                [listStyle]="{'max-height':'300px'}"></p-listbox>
+                            <p-listbox (onChange)="onChange(true)" scrollHeight="250px" [checkbox]="true"
+                                [filter]="true" [multiple]="true" [options]="allGps" [(ngModel)]="selectedGps"
+                                [optionLabel]="'value'" [listStyle]="{'max-height':'300px'}"></p-listbox>
                         </div>
                         <div class="col-6">
-                            <p-listbox (onChange)="onChange()" scrollHeight="250px" [checkbox]="true"
-                                [filter]="true" [multiple]="true" [options]="allComponents"
-                                [(ngModel)]="selectedComponents" [optionLabel]="'label'"
-                                [listStyle]="{'max-height':'300px'}"></p-listbox>
+                            <p-listbox (onChange)="onChange()" scrollHeight="250px" [checkbox]="true" [filter]="true"
+                                [multiple]="true" [options]="allComponents" [(ngModel)]="selectedComponents"
+                                [optionLabel]="'label'" [listStyle]="{'max-height':'300px'}"></p-listbox>
                         </div>
                     </div>
                 </div>
@@ -59,19 +59,57 @@
                 <div class="text-start p-2">
                     <div class="title d-flex justify-content-between p-2">
                         <p class="h5">Admin Accounts available</p>
-                        <button mat-stroked-button>Create an Admin</button>
+                        <button mat-stroked-button (click)="openUserCreate(true)" class="px-3 py-1">
+                            <i class="pi pi-plus me-1"></i>
+                            Create an Admin
+                        </button>
                     </div>
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let admin of adminUsers">
+                        <mat-expansion-panel *ngFor="let admin of adminUsers; let i = index; let f = first" (opened)="userOpened(admin)">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     <strong>Username:&nbsp;</strong>{{admin.username}}
                                 </mat-panel-title>
                                 <mat-panel-description>
-                                    <strong>Password:&nbsp;</strong>••••••••
+                                    <strong>Password:&nbsp;</strong>Click to see password
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
-                            <p>Editing part for Admin Account.</p>
+                            <form [formGroup]="userForm">
+                                <div class="row pb-3">
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field appearance="outline" class="col-12">
+                                            <mat-label>Enter Username</mat-label>
+                                            <input matInput placeholder="Username" #username formControlName="username">
+                                            <mat-error *ngIf="userForm.controls.username.errors?.required">
+                                                Username is required</mat-error>
+                                            <mat-error *ngIf="userForm.controls.username.errors?.email">
+                                                Invalid Username</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field appearance="outline" class="col-12">
+                                            <mat-label>Enter Password</mat-label>
+                                            <input matInput placeholder="Password" #password formControlName="password">
+                                            <mat-error *ngIf="userForm.controls.password.errors?.required">
+                                                Password is required</mat-error>
+                                            <mat-error *ngIf="userForm.controls.password.errors?.minlength">
+                                                Password is must be minimum 6 charecters long</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="row">
+                                            <div class="col-6 text-center" style="padding-top: 12px;">
+                                                <button mat-flat-button color="primary"
+                                                    (click)="updateUser(admin._id)">Update User</button>
+                                            </div>
+                                            <div class="col-6 text-center" style="padding-top: 12px;">
+                                                <button mat-flat-button color="warn"
+                                                    (click)="confirmDelete($event, admin)" [disabled]="adminUsers.length === 1">Delete Admin</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
@@ -82,10 +120,12 @@
                 <div class="text-start p-2">
                     <div class="title d-flex justify-content-between p-2">
                         <p class="h5">Client Accounts available</p>
-                        <button mat-stroked-button>Create a Client</button>
+                        <button mat-stroked-button (click)="openUserCreate()" class="px-3 py-1">
+                            <i class="pi pi-plus me-1"></i>Create a Client
+                        </button>
                     </div>
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let client of clientUsers">
+                        <mat-expansion-panel *ngFor="let client of clientUsers" (opened)="userOpened(client)">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     <strong>Username:&nbsp;</strong>{{client.username}}
@@ -95,7 +135,43 @@
                                     {{client.district}} <i class="pi pi-angle-right"></i> {{client.panchayath}}
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
-                            <p>Editing part for Client Account.</p>
+                            <form [formGroup]="userForm">
+                                <div class="row pb-3">
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field appearance="outline" class="col-12">
+                                            <mat-label>Enter Username</mat-label>
+                                            <input matInput placeholder="Username" #username formControlName="username">
+                                            <mat-error *ngIf="userForm.controls.username.errors?.required">
+                                                Username is required</mat-error>
+                                            <mat-error *ngIf="userForm.controls.username.errors?.email">
+                                                Invalid Username</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field appearance="outline" class="col-12">
+                                            <mat-label>Enter Password</mat-label>
+                                            <input matInput placeholder="Password" #password formControlName="password">
+                                            <mat-error *ngIf="userForm.controls.password.errors?.required">
+                                                Password is required</mat-error>
+                                            <mat-error *ngIf="userForm.controls.password.errors?.minlength">
+                                                Password is must be minimum 6 charecters long</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="row">
+                                            <div class="col-6 text-center" style="padding-top: 12px;">
+                                                <button mat-flat-button color="primary"
+                                                    (click)="updateUser(client._id)">Update User</button>
+                                            </div>
+                                            <div class="col-6 text-center" style="padding-top: 12px;">
+                                                <button mat-flat-button color="warn"
+                                                    (click)="confirmDelete($event, client)">Delete User</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <p>Delete the user and create again to change District or Panchayath</p>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
@@ -103,3 +179,5 @@
         </mat-tab>
     </mat-tab-group>
 </div>
+
+<p-confirmPopup></p-confirmPopup>

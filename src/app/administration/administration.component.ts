@@ -3,6 +3,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
 import { GpConfig, Selected } from '../models/selected'
+import { MatDialog } from '@angular/material/dialog';
+import { UserCreateComponent } from './user-create/user-create.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../models/user';
+import { ConfirmationService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-administration',
@@ -27,10 +33,15 @@ export class AdministrationComponent implements OnInit {
   allConfigurations: GpConfig[] = [];
   initialConfigurations: GpConfig[] = [];
 
+  userForm: FormGroup;
+
   constructor(
     public rest: RestapiService,
     private snackBar: MatSnackBar,
-    public data: DataService
+    public data: DataService,
+    public dialog: MatDialog,
+    private fb: FormBuilder,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -38,8 +49,8 @@ export class AdministrationComponent implements OnInit {
       this.allUsers = res.user;
       this.adminUsers = this.allUsers.filter(el => el.admin);
       this.clientUsers = this.allUsers.filter(el => !el.admin);
-      console.log(this.adminUsers);
-      console.log(this.clientUsers);
+      // console.log(this.adminUsers);
+      // console.log(this.clientUsers);
     }, err => {
       // console.log(err);      
       this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
@@ -52,12 +63,19 @@ export class AdministrationComponent implements OnInit {
       // console.log(err);      
       this.snackBar.open(err.statusText ? err.statusText + ',Error getting  Please try again later' : err, 'Dismiss', { duration: 5000 })
     })
+    this.userForm = this.fb.group({
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      district: [''],
+      panchayath: [''],
+      admin: ['']
+    });
   }
 
   onDistrictSelect() {
     this.selectedComponents = []
     this.selectedGps = []
-    if(!this.selectedDistrict) {
+    if (!this.selectedDistrict) {
       this.allComponents = []
       this.allGps = []
       return;
@@ -74,9 +92,9 @@ export class AdministrationComponent implements OnInit {
       }
     })
     this.initialConfigurations.forEach(config => {
-      if(config.category.district === this.selectedDistrict) {
-        if(config.allowedComponents.length) {
-          this.selectedGps.push({value: config.category.gp})
+      if (config.category.district === this.selectedDistrict) {
+        if (config.allowedComponents.length) {
+          this.selectedGps.push({ value: config.category.gp })
         }
         config.allowedComponents.forEach(comp => {
           this.selectedComponents.push({
@@ -95,8 +113,8 @@ export class AdministrationComponent implements OnInit {
       let components: Selected[] = [];
       for (let comp of this.selectedComponents) {
         components.push({
-         phase: comp.phase,
-         component: comp.component
+          phase: comp.phase,
+          component: comp.component
         })
       }
       this.allConfigurations.push({
@@ -106,22 +124,97 @@ export class AdministrationComponent implements OnInit {
         },
         allowedComponents: [...components]
       })
-    }    
-    if(!isGp && !this.selectedComponents.length) {
+    }
+    if (!isGp && !this.selectedComponents.length) {
       this.selectedGps = []
     }
   }
 
-  onSaveChanges() {    
-    if(!this.selectedDistrict) {
+  onSaveChanges() {
+    if (!this.selectedDistrict) {
       return;
     }
-    this.rest.postGpConfigs({values: this.allConfigurations, district: this.selectedDistrict})
-    .subscribe(res => {
-      this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
-    }, err => {      
-      this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
-    })
+    this.rest.postGpConfigs({ values: this.allConfigurations, district: this.selectedDistrict })
+      .subscribe(res => {
+        this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+      }, err => {
+        this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+      })
+  }
+
+  openUserCreate(isAdmin: boolean = false) {
+    const dialogRef = this.dialog.open(UserCreateComponent, {
+      disableClose: true,
+      data: { isAdmin },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result)
+        this.rest.getUsers().subscribe(res => {
+          this.allUsers = res.user;
+          this.adminUsers = this.allUsers.filter(el => el.admin);
+          this.clientUsers = this.allUsers.filter(el => !el.admin);
+          // console.log(this.adminUsers);
+          // console.log(this.clientUsers);
+        }, err => {
+          // console.log(err);      
+          this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+        })
+    });
+  }
+
+  userOpened(user: User) {
+    setTimeout(() => {      
+    this.userForm.patchValue(user);
+    }, 50);
+  }
+
+  updateUser(id: string) {
+    if (this.userForm.valid) {
+      this.rest.editUser({ ...this.userForm.value, _id: id })
+        .subscribe(res => {
+          this.snackBar.open('User Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+          this.rest.getUsers().subscribe(res => {
+            this.allUsers = res.user;
+            this.adminUsers = this.allUsers.filter(el => el.admin);
+            this.clientUsers = this.allUsers.filter(el => !el.admin);
+            // console.log(this.adminUsers);
+            // console.log(this.clientUsers);
+          }, err => {
+            // console.log(err);      
+            this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
+          })
+        }, err => {
+          this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
+        })
+    }
+  }
+
+  confirmDelete(event: any, user: User) {
+    this.confirmationService.confirm({
+      target: event.target,
+      message: `Are you sure that you want to delete '${user.username}'?`,
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        //delete the user
+        this.rest.deleteUser(user._id).subscribe(res => {
+          this.snackBar.open(res.message, 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+          this.rest.getUsers().subscribe(res => {
+            this.allUsers = res.user;
+            this.adminUsers = this.allUsers.filter(el => el.admin);
+            this.clientUsers = this.allUsers.filter(el => !el.admin);
+            // console.log(this.adminUsers);
+            // console.log(this.clientUsers);
+          }, err => {
+            // console.log(err);      
+            this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : 'Error deleting user', 'Dismiss', { duration: 5000 })
+          })
+        })
+      },
+      reject: () => {
+        //reject action
+      }
+    });
   }
 
 }

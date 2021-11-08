@@ -31,7 +31,7 @@ export class UserService {
         this.isAdmin = false;
         this.currentUser = null;
         this.data.selectedDetails = {}
-        this.isVerifiedAdmin = false;
+        this.isVerifiedAdmin = environment.production ? false : true;
         this.router.navigate(['login']);
         this.data.clearUserData();
       })

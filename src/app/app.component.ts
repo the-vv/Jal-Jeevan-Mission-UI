@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
       if (event instanceof RouteConfigLoadStart) {
         this.spinnerService.show('httpSpinner')
       } else if (event instanceof RouteConfigLoadEnd) {
-        this.spinnerService.hide('httpSpinner', 100)
+        this.spinnerService.hide('httpSpinner')
       }
     });
   }

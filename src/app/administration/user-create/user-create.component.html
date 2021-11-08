@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Create {{isAdmin ? 'an Admin' : 'a Client'}}</h1>
+<div mat-dialog-content>
+    <p>Enter the details below</p>
+    <form [formGroup]="userForm">
+        <div class="row pb-4">
+            <div class="col-12" [ngClass]="isAdmin ? '' : 'col-md-6'">
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Enter Username</mat-label>
+                    <input matInput formControlName="username" placeholder="Username">
+                    <mat-error *ngIf="userForm.controls.username.errors?.required">
+                        Username is required</mat-error>
+                        <mat-error *ngIf="userForm.controls.username.errors?.email">
+                            Invalid Username</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12" [ngClass]="isAdmin ? 'mt-4' : 'col-md-6'">
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Enter Password</mat-label>
+                    <input matInput formControlName="password" placeholder="Password">
+                    <mat-error *ngIf="userForm.controls.password.errors?.required">
+                        Password is required</mat-error>
+                    <mat-error *ngIf="userForm.controls.password.errors?.minlength">
+                        Password is must be minimum 6 charecters long</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 mt-md-4" *ngIf="!isAdmin">
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Select District</mat-label>
+                    <mat-select [(value)]="selectedDistrict" [formControl]="districtControl"
+                        (selectionChange)="onDistrictChange()">
+                        <mat-option [value]="item" *ngFor="let item of allDistricts">{{item}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="userForm.controls.district.errors?.required">
+                        District is required</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6 mt-md-4" *ngIf="!isAdmin">
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Select Grama Panchayath</mat-label>
+                    <mat-select [formControl]="gpControl" [(value)]="selectedGp">
+                        <mat-option [value]="item" *ngFor="let item of allGPs">{{item}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="userForm.controls.panchayath.errors?.required">
+                        Panchayath is required</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button cdkFocusInitial [mat-dialog-close]="false">Cancel</button>
+    <button mat-button (click)="onSubmit()" color="primary" [disabled]="!this.userForm.valid">
+        <i class="pi pi-spin pi-spinner ms-1" *ngIf="loading"></i>
+        Create
+    </button>
+</div>

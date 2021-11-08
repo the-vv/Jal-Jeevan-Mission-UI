@@ -141,16 +141,22 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <app-file-uploader [control]="this.applicationForm" #uploader [labelName]="'Report'"
-                            [disabled]="isFormDisabled && applicationForm.value?.report?.length" [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                            [disabled]="isFormDisabled && applicationForm.value?.report?.length" [keyName]="'report'"
+                            (onfileChanges)="onFileChanges()">
                         </app-file-uploader>
                     </div>
-                    <div class="col-12 col-md-6">                        
+                    <div class="col-12 col-md-6">
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Completed Date</mat-label>
-                                <input matInput [matDatepicker]="dp1" formControlName="completedDate"  [readonly]="isFormDisabled && applicationForm.value?.completedDate?.length">
-                                <mat-datepicker-toggle matSuffix [for]="dp1"  [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker-toggle>
-                                <mat-datepicker #dp1 [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker>
+                                <input matInput [matDatepicker]="dp1" formControlName="completedDate"
+                                    [readonly]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                                <mat-datepicker-toggle matSuffix [for]="dp1"
+                                    [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #dp1
+                                    [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                                </mat-datepicker>
                             </mat-form-field>
                         </p>
                     </div>
