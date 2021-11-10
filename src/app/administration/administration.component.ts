@@ -21,7 +21,7 @@ export class AdministrationComponent implements OnInit {
   adminUsers: any[] = [];
   clientUsers: any[] = [];
 
-  allDistricts = Object.keys(this.data.AllDataWithCount);
+  allDistricts = Object.keys(this.data.allDataWithCount);
   selectedDistrict: string = '';
 
   allGps: any[] = [];
@@ -80,7 +80,7 @@ export class AdministrationComponent implements OnInit {
       this.allGps = []
       return;
     }
-    this.allGps = Object.keys(this.data.AllDataWithCount[this.selectedDistrict]).map(el => { return { value: el } })
+    this.allGps = Object.keys(this.data.allDataWithCount[this.selectedDistrict]).map(el => { return { value: el } })
     this.allComponents = []
     Object.keys(this.data.phaseComponents).forEach(key => {
       for (let comp of this.data.phaseComponents[key]) {

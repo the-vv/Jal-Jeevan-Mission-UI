@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppConfig } from './configs/app-config.enum';
 import { DataService } from './services/data.service';
 import { UserService } from './services/user.service';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
@@ -19,7 +18,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public appConfig: any = AppConfig;
+  public appConfig: any = environment;
 
   constructor(
     public user: UserService,

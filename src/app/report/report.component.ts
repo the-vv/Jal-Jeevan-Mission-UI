@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { DataService } from '../services/data.service';
 import { UserService } from '../services/user.service';
-import { AppConfig } from '../configs/app-config.enum';
 
 @Component({
   selector: 'app-report',
@@ -25,7 +25,7 @@ export class ReportComponent implements OnInit {
   availableGps: string[] = [];
   selectedGps: string[] = [];
 
-  configData: any = AppConfig;
+  configData: any = environment;
   
   constructor(
     public data: DataService,

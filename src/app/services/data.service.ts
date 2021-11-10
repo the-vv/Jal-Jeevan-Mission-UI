@@ -4,6 +4,7 @@ import { Selected, WardConfig } from '../models/selected';
 import _ from 'lodash';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,43 +20,88 @@ export class DataService {
   scheduleApiNotificationshow: boolean = true;
   isSidebarOpened: boolean = false;
   wardCongigData: WardConfig = null;
+  allDataWithCountData: any = {};
 
-  AllDataWithCount = {
-    Idukki: {
-      Adimali: 21,
-      Konnathady: 19,
-      Ayyappancoil: 13,
-      Chakkupallam: 15,
-      Erattayar: 14,
-      Rajakumari: 13,
-      Santhanpara: 13,
-      Vazhathoppu: 14
-    },
-    Kottayam: {
-      Ayarkunnam: 20,
-      Elikkulam: 16,
-      Kooroppada: 17,
-      Pambadi: 20
-    },
-    Ernakulam: {
-      Kavalangad: 18,
-      Pallarimangalam: 13,
-      Nellikkuzhy: 21,
-      Pindimana: 13,
-      Maneed: 13,
-      Mazhuvannoor: 19,
-      Payipra: 22,
-      Ramamangalam: 13
-    },
-    Pathanamthitta: {
-      Enadimangalam: 15,
-      Erathu: 17,
-      Naranamoozhy: 13,
-      'Ranni Angadi': 13,
-      'Ranni Pazhavangadi': 17,
-      Vechoochira: 15
-    }
+  constructor(
+    private rest: RestapiService,
+    private snackbar: MatSnackBar
+  ) {
+    this.allDataWithCountData = environment.production ? environment.gpData : environment.gpData2;
   }
+
+  get allDataWithCount() {
+    return this.allDataWithCountData;
+  }
+
+  // AllDataWithCountSORD = {
+  //   Idukki: {
+  //     Alakodu: 13,
+  //     Karimannoor: 14,
+  //     Edavetty: 13,
+  //     Purapuzha: 13,
+  //     Upputhara: 18,
+  //     Kanchiyar: 16
+  //   },
+  //   Kottayam: {
+  //     Melukavu: 13,
+  //     Mulakkulam: 17,
+  //     Pallikkathodu: 13,
+  //     Veliyannoor: 13
+  //   },
+  //   Ernakulam: {
+  //     Avoli: 14,
+  //     Ayavana: 14,
+  //     Edakkattuvayal: 14,
+  //     Elanji: 13,
+  //     Pambakkuda: 13,
+  //     Thirumaradi: 13
+  //   },
+  //   Pathanamthitta: {
+  //     Ezhumattur: 14,
+  //     Puramattom: 13,
+  //     Anikad: 13,
+  //     Kallooppara: 14,
+  //     Kottanad: 13,
+  //     Kottangal: 13
+  //   }
+  // }
+
+  // AllDataWithCountSMI = {
+  //   Idukki: {
+  //     Adimali: 21,
+  //     Konnathady: 19,
+  //     Ayyappancoil: 13,
+  //     Chakkupallam: 15,
+  //     Erattayar: 14,
+  //     Rajakumari: 13,
+  //     Santhanpara: 13,
+  //     Vazhathoppu: 14
+  //   },
+  //   Kottayam: {
+  //     Ayarkunnam: 20,
+  //     Elikkulam: 16,
+  //     Kooroppada: 17,
+  //     Pambadi: 20
+  //   },
+  //   Ernakulam: {
+  //     Kavalangad: 18,
+  //     Pallarimangalam: 13,
+  //     Nellikkuzhy: 21,
+  //     Pindimana: 13,
+  //     Maneed: 13,
+  //     Mazhuvannoor: 19,
+  //     Payipra: 22,
+  //     Ramamangalam: 13
+  //   },
+  //   Pathanamthitta: {
+  //     Enadimangalam: 15,
+  //     Erathu: 17,
+  //     Naranamoozhy: 13,
+  //     'Ranni Angadi': 13,
+  //     'Ranni Pazhavangadi': 17,
+  //     Vechoochira: 15
+  //   }
+  // }
 
   phaseComponents = {
     'IEC/BCC/IPC activities': [
@@ -113,12 +159,6 @@ export class DataService {
       ],
   }
 
-  constructor(
-    private rest: RestapiService,
-    private snackbar: MatSnackBar
-  ) {
-  }
-
   getSectionSchedule(section: string) {
     if (!this.schedulesFetched) {
       if (this.scheduleApiNotificationshow) {
@@ -153,21 +193,21 @@ export class DataService {
       // if (environment.production) {
       //   return 2
       // }
-      return this.AllDataWithCount[this.selectedDetails.district][this.selectedDetails.gp];
+      return this.allDataWithCount[this.selectedDetails.district][this.selectedDetails.gp];
     } else {
       return 1
     }
   }
 
   getGPs(district: string): string[] {
-    return Object.keys(this.AllDataWithCount[district]).sort();
+    return Object.keys(this.allDataWithCount[district]).sort();
   }
 
   getAllGps() {
     let agps: any = {};
-    for (let d in this.AllDataWithCount) {
+    for (let d in this.allDataWithCount) {
       agps[d] = [];
-      for (let gp in this.AllDataWithCount[d]) {
+      for (let gp in this.allDataWithCount[d]) {
         agps[d].push(gp);
       }
     }
@@ -175,7 +215,7 @@ export class DataService {
   }
 
   getDistricts(): string[] {
-    return Object.keys(this.AllDataWithCount).sort()
+    return Object.keys(this.allDataWithCount).sort()
   }
 
   selectComponent(phaseComponent: string): string {

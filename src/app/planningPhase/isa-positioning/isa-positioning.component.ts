@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Selected } from 'src/app/models/selected';
-import { AppConfig } from 'src/app/configs/app-config.enum';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-isa-positioning',
@@ -36,7 +36,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   submitted: boolean = false;
   targetDate: Date;
   settingDateProgress: boolean = false;  
-  configData: any = AppConfig;
+  configData: any = environment;
 
   constructor(
     private user: UserService,

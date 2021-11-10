@@ -5,7 +5,7 @@ import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../services/data.service';
-import { AppConfig } from '../configs/app-config.enum';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ import { AppConfig } from '../configs/app-config.enum';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  public appConfig: any = AppConfig;
+  public appConfig: any = environment;
 
   constructor(
     private formBuilder: FormBuilder,

@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
 import { ConfirmationService } from 'primeng/api';
 import { Selected } from 'src/app/models/selected';
-import { AppConfig } from 'src/app/configs/app-config.enum';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-isa-positioning',
@@ -40,7 +40,7 @@ export class IsaPositioningComponent implements OnInit {
   isDraftMode: boolean = false;
   disabledLength: number = 0;
   totalValues: any = {};
-  configData: any = AppConfig
+  configData: any = environment;
 
   constructor(
     private user: UserService,
