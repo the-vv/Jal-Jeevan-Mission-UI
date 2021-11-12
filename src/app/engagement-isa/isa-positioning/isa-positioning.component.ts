@@ -121,6 +121,7 @@ export class IsaPositioningComponent implements OnInit {
       projectCoordinatorAddress: [''],
       projectCoordinatorNo: [''],
       projectCoordinatorCV: '',
+      projectCoordinatorJoiningDate: '',
       projectCoordinatorExperience: '',
       projectCoordinatorQualification: '',
       supportCoordinatorAddress: [''],

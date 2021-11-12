@@ -75,7 +75,7 @@ export class DataService {
     ],
     // 'Planning Phase': [
       'Others': [
-        ['ISA Positioning', 'planningphase/isapositioning'],
+        // ['ISA Positioning', 'planningphase/isapositioning'],
         ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
         // ['GP IEC', 'planningphase/gpiec'],
         ['Community Orientation', 'planningphase/communityorientation'],

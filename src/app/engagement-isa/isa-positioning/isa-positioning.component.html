@@ -46,18 +46,21 @@
             </div>
             <div class="col-9 fs-5">
                 <div class="row">
-                    <div class="col-6 text-area-value">
+                    <div class="col-8 text-area-value">
                         <p class="h5 d-inline-block">Name & Address: </p>{{row.projectCoordinatorAddress}}
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <p class="h5 d-inline-block">Phone Number: </p> {{row.projectCoordinatorNo}}
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-6">
+                    <div class="col-4">
                         <p class="h5 d-inline-block">Qualification: </p> {{row.projectCoordinatorQualification}}
                     </div>
-                    <div class="col-6 text-area-value">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Joining Date: </p> {{row.projectCoordinatorJoiningDate}}
+                    </div>
+                    <div class="col-4 text-area-value">
                         <p class="h5 d-inline-block">Experience: </p>{{row.projectCoordinatorExperience}}
                     </div>
                 </div>
@@ -78,7 +81,8 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <p class="h5 d-inline-block">Charged Panchayath: </p> {{row.supportCoordinatorChargedPanchayath}}
+                        <p class="h5 d-inline-block">Responsible GP: </p>
+                        {{row.supportCoordinatorChargedPanchayath}}
                     </div>
                 </div>
             </div>
@@ -119,9 +123,12 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Date</mat-label>
-                                        <input matInput [matDatepicker]="dp0" formControlName="dwsmDate"  [readonly]="isFormDisabled && i < disabledLength">
-                                        <mat-datepicker-toggle matSuffix [for]="dp0" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp0  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp0" formControlName="dwsmDate"
+                                            [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp0"
+                                            [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp0 [disabled]="isFormDisabled && i < disabledLength">
+                                        </mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -129,7 +136,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="dwsmNo" [readonly]="isFormDisabled && i < disabledLength">
+                                        <input matInput formControlName="dwsmNo"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -137,9 +145,12 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Proceedings Date</mat-label>
-                                        <input matInput [matDatepicker]="dp1" formControlName="dwsmProceedingDate" [readonly]="isFormDisabled && i < disabledLength">
-                                        <mat-datepicker-toggle matSuffix [for]="dp1" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp1  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp1" formControlName="dwsmProceedingDate"
+                                            [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp1"
+                                            [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp1 [disabled]="isFormDisabled && i < disabledLength">
+                                        </mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -164,7 +175,8 @@
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
                                 <mat-label>Select an Implementing Agency</mat-label>
-                                <mat-select formControlName="implementingAgency"  [disabled]="isFormDisabled && i < disabledLength">
+                                <mat-select formControlName="implementingAgency"
+                                    [disabled]="isFormDisabled && i < disabledLength">
                                     <mat-option>None</mat-option>
                                     <mat-option value="Kerala Water Authority (KWA)">Kerala Water Authority (KWA)
                                     </mat-option>
@@ -192,9 +204,12 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Date</mat-label>
-                                        <input matInput [matDatepicker]="dp2" formControlName="agreementDate" [readonly]="isFormDisabled && i < disabledLength">
-                                        <mat-datepicker-toggle matSuffix [for]="dp2" [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
-                                        <mat-datepicker #dp2  [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker>
+                                        <input matInput [matDatepicker]="dp2" formControlName="agreementDate"
+                                            [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp2"
+                                            [disabled]="isFormDisabled && i < disabledLength"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp2 [disabled]="isFormDisabled && i < disabledLength">
+                                        </mat-datepicker>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -202,7 +217,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="agreementNo" [readonly]="isFormDisabled && i < disabledLength">
+                                        <input matInput formControlName="agreementNo"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -236,7 +252,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name & Address</mat-label>
-                                        <textarea formControlName="projectCoordinatorAddress" matInput  [readonly]="isFormDisabled && i < disabledLength"></textarea>
+                                        <textarea formControlName="projectCoordinatorAddress" matInput
+                                            [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -244,7 +261,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Phone No</mat-label>
-                                        <input matInput formControlName="projectCoordinatorNo"  [readonly]="isFormDisabled && i < disabledLength">
+                                        <input matInput formControlName="projectCoordinatorNo"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -256,19 +274,36 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Qualification</mat-label>
-                                        <input matInput formControlName="projectCoordinatorQualification" [readonly]="isFormDisabled && i < disabledLength">
+                                        <input matInput formControlName="projectCoordinatorQualification"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Joining Date</mat-label>
+                                        <input matInput [matDatepicker]="dp11" formControlName="projectCoordinatorJoiningDate"
+                                            [disabled]="isFormDisabled && i < disabledLength">
+                                        <mat-datepicker-toggle matSuffix [for]="dp11"
+                                            [disabled]="isFormDisabled && i < disabledLength">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #dp11 disabled="false"
+                                            [disabled]="isFormDisabled && i < disabledLength">
+                                        </mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Experience</mat-label>
-                                        <textarea formControlName="projectCoordinatorExperience" matInput [readonly]="isFormDisabled && i < disabledLength"></textarea>
+                                        <textarea formControlName="projectCoordinatorExperience" matInput
+                                            [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -289,7 +324,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name & Address</mat-label>
-                                        <textarea formControlName="supportCoordinatorAddress" matInput [readonly]="isFormDisabled && i < disabledLength"></textarea>
+                                        <textarea formControlName="supportCoordinatorAddress" matInput
+                                            [readonly]="isFormDisabled && i < disabledLength"></textarea>
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -297,15 +333,17 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Number</mat-label>
-                                        <input matInput formControlName="supportCoordinatorNo" [readonly]="isFormDisabled && i < disabledLength">
+                                        <input matInput formControlName="supportCoordinatorNo"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-12 col-md-4">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
-                                        <mat-label>Charged Panchayath</mat-label>
-                                        <input matInput formControlName="supportCoordinatorChargedPanchayath" [readonly]="isFormDisabled && i < disabledLength">
+                                        <mat-label>Responsible GP</mat-label>
+                                        <input matInput formControlName="supportCoordinatorChargedPanchayath"
+                                            [readonly]="isFormDisabled && i < disabledLength">
                                     </mat-form-field>
                                 </p>
                             </div>
