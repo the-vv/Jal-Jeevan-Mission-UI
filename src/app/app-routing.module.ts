@@ -45,10 +45,10 @@ const routes: Routes = [
     path: '', redirectTo: 'login', pathMatch: 'full'
   },
   {
-    path: 'login', component: LoginComponent
+    path: 'login', component: LoginComponent, resolve: { gpData: ResolverService }
   },
   {
-    path: 'admin', component: HomeComponent, resolve: { gpData: ResolverService } , canActivate: [AdminGuard], children: [
+    path: 'admin', component: HomeComponent , canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
       { path: 'administration', canActivate: [AdminAuthorizeGuard], canLoad: [AdminAuthorizeGuard], loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
       { path: 'district', component: DistrictComponent },
@@ -58,7 +58,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'client', component: HomeComponent, resolve: { gpData: ResolverService } , canActivate: [ClientGuard], children: [
+    path: 'client', component: HomeComponent , canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
       ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
@@ -74,7 +74,7 @@ const routes: Routes = [
     path: '**', redirectTo: '404', pathMatch: 'full'
   },
   {
-    path: '404', component: NotfoundComponent
+    path: '404', component: NotfoundComponent, resolve: { gpData: ResolverService }
   },
 ];
 

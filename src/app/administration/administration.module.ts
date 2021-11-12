@@ -26,7 +26,7 @@ import { ConfirmationService } from 'primeng/api';
 @NgModule({
   declarations: [
     AdministrationComponent,
-    UserCreateComponent
+    UserCreateComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +47,7 @@ import { ConfirmationService } from 'primeng/api';
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
   ],
   providers: [
     ConfirmationService

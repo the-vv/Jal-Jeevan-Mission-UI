@@ -72,6 +72,8 @@ import { DateDialogComponent } from './date-dialog/date-dialog.component';
 import { ScheduleMenuComponent } from './schedule-menu/schedule-menu.component';
 import { WardDetailsComponent } from './ward-details/ward-details.component';
 import { RippleModule } from 'primeng/ripple';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 export const DATE_FORMATS = {
@@ -147,7 +149,14 @@ export const DATE_FORMATS = {
     MatTooltipModule,
     MatBadgeModule,
     MatMenuModule,
-    RippleModule
+    RippleModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerImmediately'
+    }),
+    ButtonModule
   ],
   providers: [
     DataService,

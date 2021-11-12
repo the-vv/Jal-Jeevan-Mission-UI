@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 html,
 body {
     height: 100%;
@@ -121,4 +122,8 @@ mat-hint {
 
 .mat-menu-panel {
     max-width: 500px !important;
+}
+
+.fc-daygrid-day-events, .fc-list-event {
+    cursor: pointer !important;
 }

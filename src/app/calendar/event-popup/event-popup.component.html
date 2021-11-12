@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Schedule Details</h1>
+<div mat-dialog-content>
+    <h2 class="py-1 my-0">{{scheduleData.title}}</h2>
+    <h3 class="my-0 mb-2" [ngClass]="scheduleData?.extendedProps?.expired ? 'text-danger' : 'text-success'">
+        {{scheduleData?.extendedProps?.expired ? 'Target Exceeded!' : 'Upcoming Target'}}</h3>
+    <h3 class="d-inline-block me-2"><strong>Path: </strong></h3><span
+        class="d-inline-block">
+        {{scheduleData?.extendedProps?.category?.district}} > 
+        {{scheduleData?.extendedProps?.category?.gp}} > 
+        {{scheduleData?.extendedProps?.category?.phase}} > 
+        {{scheduleData?.extendedProps?.category?.component}}
+    </span>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button cdkFocusInitial [mat-dialog-close]="false">Close</button>
+    <!-- <button mat-button color="primary" (click)="openComponent()">
+        Open
+    </button> -->
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EventInput } from '@fullcalendar/common';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -6,6 +7,7 @@ import { DateClickArg } from '@fullcalendar/interaction';
 import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
+import { EventPopupComponent } from './event-popup/event-popup.component';
 
 
 @Component({
@@ -28,7 +30,7 @@ export class CalendarComponent implements OnInit {
     events: this.schedulerEvents,
     dateClick: this.showEvent.bind(this),
     eventClick: (data) => {
-      console.log(data.event)
+      this.viewEvent(data);
     },
     editable: true,
     selectable: true,
@@ -39,7 +41,8 @@ export class CalendarComponent implements OnInit {
     public data: DataService,
     private user: UserService,
     private router: Router,
-    private rest: RestapiService
+    private rest: RestapiService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class CalendarComponent implements OnInit {
               date: new Date(Number(el.date)),
               allDay: true,
               backgroundColor: this.isDateExceeded(el.date) ? 'red' : 'green',
-              constraint: { category: el.category, path: el.path }
+              extendedProps: { category: el.category, path: el.path, expired: this.isDateExceeded(el.date) }
             }
           )
         })
@@ -68,7 +71,7 @@ export class CalendarComponent implements OnInit {
             date: new Date(Number(el.date)),
             allDay: true,
             backgroundColor: this.isDateExceeded(el.date) ? 'red' : 'green',
-            constraint: { category: el.category, path: el.path }
+            extendedProps: { category: el.category, path: el.path, expired: this.isDateExceeded(el.date) }
           }
         )
       })
@@ -78,7 +81,7 @@ export class CalendarComponent implements OnInit {
   }
 
   showEvent(event: DateClickArg) {
-    console.log(event.date);
+    console.log(event);
   }
   gotoForm(path: string, phase: string, comp: string) {
     console.log([this.user.isAdmin ? 'admin' : 'client', path])
@@ -93,6 +96,13 @@ export class CalendarComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  viewEvent(data: any) {
+    const dialogRef = this.dialog.open(EventPopupComponent, {
+      disableClose: true,
+      data: data?.event?._def,
+    });
   }
 
 }

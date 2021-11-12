@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NgxSpinner } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-verify',

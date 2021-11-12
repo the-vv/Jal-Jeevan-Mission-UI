@@ -9,6 +9,7 @@ import { ContactDetailsComponent } from './shared/contact-details/contact-detail
 import { PrimeNGConfig } from 'primeng/api';
 import { AdminVerifyComponent } from './shared/admin-verify/admin-verify.component';
 import { environment } from 'src/environments/environment';
+import { PwaService } from './services/pwa-service.service';
 
 // import Darkmode from 'darkmode-js';
 
@@ -26,9 +27,15 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private spinnerService: NgxSpinnerService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    public pwaService: PwaService
   ) {
-
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      pwaService.promptEvent = e;
+    });
   }
 
   ngOnInit() {

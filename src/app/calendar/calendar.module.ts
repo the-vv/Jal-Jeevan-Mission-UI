@@ -8,6 +8,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import { EventPopupComponent } from './event-popup/event-popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 FullCalendarModule.registerPlugins([
   dayGridPlugin,
@@ -19,12 +23,16 @@ FullCalendarModule.registerPlugins([
 
 @NgModule({
   declarations: [
-    CalendarComponent
+    CalendarComponent,
+    EventPopupComponent
   ],
   imports: [
     CommonModule,
     CalendarRoutingModule,
     FullCalendarModule,
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class CalendarModule { }

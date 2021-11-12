@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private user: UserService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private data: DataService
+    public data: DataService
   ) { }
 
   ngOnInit(): void {
