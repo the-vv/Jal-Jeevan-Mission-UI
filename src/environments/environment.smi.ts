@@ -37,5 +37,6 @@ export const environment = {
       'Ranni Pazhavangadi': 17,
       Vechoochira: 15
     }
-  }
+  },
+  gpData2: {}
 };

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   appTitle: 'Jal Jeevan Mission',
-  appName: 'Society for Oriantation and Rural Development',
+  appName: 'Society for Orientation and Rural Development',
   gpData: {
     Idukki: {
       Alakodu: 13,
@@ -33,5 +33,6 @@ export const environment = {
       Kottanad: 13,
       Kottangal: 13
     }
-  }
+  },
+  gpData2: {}
 };

@@ -4,7 +4,6 @@ import { Selected, WardConfig } from '../models/selected';
 import _ from 'lodash';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,87 +20,16 @@ export class DataService {
   isSidebarOpened: boolean = false;
   wardCongigData: WardConfig = null;
   allDataWithCountData: any = {};
+  appName: string = 'Unknown IA'
 
   constructor(
     private rest: RestapiService,
     private snackbar: MatSnackBar
-  ) {
-    this.allDataWithCountData = environment.production ? environment.gpData : environment.gpData2;
-  }
+  ) {}
 
   get allDataWithCount() {
     return this.allDataWithCountData;
   }
-
-  // AllDataWithCountSORD = {
-  //   Idukki: {
-  //     Alakodu: 13,
-  //     Karimannoor: 14,
-  //     Edavetty: 13,
-  //     Purapuzha: 13,
-  //     Upputhara: 18,
-  //     Kanchiyar: 16
-  //   },
-  //   Kottayam: {
-  //     Melukavu: 13,
-  //     Mulakkulam: 17,
-  //     Pallikkathodu: 13,
-  //     Veliyannoor: 13
-  //   },
-  //   Ernakulam: {
-  //     Avoli: 14,
-  //     Ayavana: 14,
-  //     Edakkattuvayal: 14,
-  //     Elanji: 13,
-  //     Pambakkuda: 13,
-  //     Thirumaradi: 13
-  //   },
-  //   Pathanamthitta: {
-  //     Ezhumattur: 14,
-  //     Puramattom: 13,
-  //     Anikad: 13,
-  //     Kallooppara: 14,
-  //     Kottanad: 13,
-  //     Kottangal: 13
-  //   }
-  // }
-
-  // AllDataWithCountSMI = {
-  //   Idukki: {
-  //     Adimali: 21,
-  //     Konnathady: 19,
-  //     Ayyappancoil: 13,
-  //     Chakkupallam: 15,
-  //     Erattayar: 14,
-  //     Rajakumari: 13,
-  //     Santhanpara: 13,
-  //     Vazhathoppu: 14
-  //   },
-  //   Kottayam: {
-  //     Ayarkunnam: 20,
-  //     Elikkulam: 16,
-  //     Kooroppada: 17,
-  //     Pambadi: 20
-  //   },
-  //   Ernakulam: {
-  //     Kavalangad: 18,
-  //     Pallarimangalam: 13,
-  //     Nellikkuzhy: 21,
-  //     Pindimana: 13,
-  //     Maneed: 13,
-  //     Mazhuvannoor: 19,
-  //     Payipra: 22,
-  //     Ramamangalam: 13
-  //   },
-  //   Pathanamthitta: {
-  //     Enadimangalam: 15,
-  //     Erathu: 17,
-  //     Naranamoozhy: 13,
-  //     'Ranni Angadi': 13,
-  //     'Ranni Pazhavangadi': 17,
-  //     Vechoochira: 15
-  //   }
-  // }
 
   phaseComponents = {
     'IEC/BCC/IPC activities': [

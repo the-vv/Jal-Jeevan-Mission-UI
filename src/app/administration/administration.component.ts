@@ -8,6 +8,7 @@ import { UserCreateComponent } from './user-create/user-create.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../models/user';
 import { ConfirmationService } from 'primeng/api';
+import { UserService } from '../services/user.service';
 
 
 @Component({
@@ -41,7 +42,8 @@ export class AdministrationComponent implements OnInit {
     public data: DataService,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    public user: UserService
   ) { }
 
   ngOnInit(): void {

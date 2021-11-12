@@ -29,7 +29,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   constructor(
     public data: DataService,
     private width: BreakpointObserver,
-    private user: UserService,
+    public user: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private rest: RestapiService,

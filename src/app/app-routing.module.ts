@@ -19,6 +19,7 @@ import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp
 import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
 import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdminAuthorizeGuard } from './guards/admin-authorize.guard';
+import { ResolverService } from './services/resolver.service';
 
 
 let commonRoutes: Routes = [
@@ -47,7 +48,7 @@ const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
+    path: 'admin', component: HomeComponent, resolve: { gpData: ResolverService } , canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
       { path: 'administration', canActivate: [AdminAuthorizeGuard], canLoad: [AdminAuthorizeGuard], loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
       { path: 'district', component: DistrictComponent },
@@ -57,7 +58,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'client', component: HomeComponent, canActivate: [ClientGuard], children: [
+    path: 'client', component: HomeComponent, resolve: { gpData: ResolverService } , canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
       ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },

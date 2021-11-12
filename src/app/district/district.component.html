@@ -2,7 +2,7 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Admin</a></li>
+              <li class="breadcrumb-item text-capitalize"><a href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}} ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
               <li class="breadcrumb-item" aria-current="page">District & GP</li>
             </ol>
           </nav>

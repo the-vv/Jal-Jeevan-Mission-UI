@@ -4,7 +4,7 @@
 
 export const environment = {
   appTitle: 'Jal Jeevan Mission',
-  appName: 'Solidarity Movement of India',
+  appName: 'Solidarity Movement of India1',
   production: false,
   gpData: {
     Idukki: {
@@ -40,34 +40,38 @@ export const environment = {
   },
   gpData2: {
     Idukki: {
-      Alakodu: 13,
-      Karimannoor: 14,
-      Edavetty: 13,
-      Purapuzha: 13,
-      Upputhara: 18,
-      Kanchiyar: 16
+      Adimali: 21,
+      Konnathady: 19,
+      Ayyappancoil: 13,
+      Chakkupallam: 15,
+      Erattayar: 14,
+      Rajakumari: 13,
+      Santhanpara: 13,
+      Vazhathoppu: 14
     },
     Kottayam: {
-      Melukavu: 13,
-      Mulakkulam: 17,
-      Pallikkathodu: 13,
-      Veliyannoor: 13
+      Ayarkunnam: 20,
+      Elikkulam: 16,
+      Kooroppada: 17,
+      Pambadi: 20
     },
     Ernakulam: {
-      Avoli: 14,
-      Ayavana: 14,
-      Edakkattuvayal: 14,
-      Elanji: 13,
-      Pambakkuda: 13,
-      Thirumaradi: 13
+      Kavalangad: 18,
+      Pallarimangalam: 13,
+      Nellikkuzhy: 21,
+      Pindimana: 13,
+      Maneed: 13,
+      Mazhuvannoor: 19,
+      Payipra: 22,
+      Ramamangalam: 13
     },
     Pathanamthitta: {
-      Ezhumattur: 14,
-      Puramattom: 13,
-      Anikad: 13,
-      Kallooppara: 14,
-      Kottanad: 13,
-      Kottangal: 13
+      Enadimangalam: 15,
+      Erathu: 17,
+      Naranamoozhy: 13,
+      'Ranni Angadi': 13,
+      'Ranni Pazhavangadi': 17,
+      Vechoochira: 15
     }
   }
 };

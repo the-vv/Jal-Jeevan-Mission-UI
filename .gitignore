@@ -2,6 +2,8 @@
 
 # compiled output
 /dist
+/dist-sord
+/dist-smi
 /tmp
 /out-tsc
 # Only exists if Bazel was run

@@ -2,8 +2,7 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">{{(user.isAdmin ? 'Admin' : 'Client')}}</a>
-                </li>
+                <li class="breadcrumb-item text-capitalize"><a href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}} ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
                 <li class="breadcrumb-item" aria-current="page">Reports</li>
             </ol>
         </nav>
@@ -68,7 +67,7 @@
             <p class="text-center h1 p-0 m-0" style="font-size: 3.5rem;">{{configData.appTitle}}</p>
         </div>
         <div class="col-12">
-            <p class="text-center h2 p-0 m-0 smi" style="font-size: 2.5rem;">{{configData.appName}}</p>
+            <p class="text-center h2 p-0 m-0 smi" style="font-size: 2.5rem;">{{data.appName}}</p>
         </div>
         <div class="col-12">
             <p class="text-center h2 mb-4 pt-0" style="font-size: 2rem;">Report</p>

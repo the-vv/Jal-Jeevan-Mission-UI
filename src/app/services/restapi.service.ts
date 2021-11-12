@@ -13,6 +13,7 @@ export class RestapiService {
 
   private userUrl: string = environment.production ? 'api/users' : 'http://localhost:3000/api/users'
   public applUrl: string = environment.production ? 'api/applications' : 'http://localhost:3000/api/applications'
+  public commonUrl: string = environment.production ? 'api/commons' : 'http://localhost:3000/api/commons'
 
   constructor(
     private http: HttpClient
@@ -175,6 +176,13 @@ export class RestapiService {
   // method to delete user
   deleteUser(userId: string): Observable<any> {
     return this.http.post<any>(this.userUrl + '/deleteUser', {id: userId},  {
+      withCredentials: true
+    })
+  }
+
+  // get gp config from route 'api/commons/gpInfo'
+  getGpInfo(): Observable<{gps: any, name: string}> {
+    return this.http.get<{gps: any, name: string}>(this.commonUrl + '/gpInfo', {
       withCredentials: true
     })
   }

@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public appConfig: any = environment;
+  public configData: any = environment;
 
   constructor(
     public user: UserService,

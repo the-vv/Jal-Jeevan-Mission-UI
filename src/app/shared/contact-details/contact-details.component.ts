@@ -46,7 +46,7 @@ export class ContactDetailsComponent implements OnInit {
         details = res;
         this.spinner.hide('contact');
         // console.log(res)
-        if (res._id) {
+        if (res?._id) {
           this.togglePrintMode();
           for (let i = 1; i < res.gp.length; i++) {
             this.addgp()

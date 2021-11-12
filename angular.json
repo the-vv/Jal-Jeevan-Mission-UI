@@ -91,7 +91,8 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ]
+              ],
+              "outputPath": "dist/Jal-Jeevan-Mission"
             },
             "sord": {
               "fileReplacements": [
@@ -118,7 +119,8 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ]
+              ],
+              "outputPath": "dist-sord/Jal-Jeevan-Mission"
             },
             "smi": {
               "fileReplacements": [
@@ -145,7 +147,8 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ]
+              ],
+              "outputPath": "dist-smi/Jal-Jeevan-Mission"
             }
           }
         },
