@@ -67,7 +67,7 @@ export class DataService {
     'Engagements of ISAs': [
       ['ISA Positioning', 'engagement-isa/isa-positioning'],
       ['Orientation to GP board members, socio political leaders', 'engagement-isa/orientation-to-gp-board-members'],
-      // ['Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level ', 'engagement-isa/special-orientation-training'],
+      ['Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level', 'engagement-isa/special-orientation-training'],
       // ['To develop a convergence plan for GWR, RWH and gray water management and its facilitation.', 'engagement-isa/develop-covergence-plan-gwr-rwh'],
       // ['Assisting nodal agency/GP/GPWSC', 'engagement-isa/assisting-model-agency-gp-gpwc'],
       // ['Support Services to GP', 'engagement-isa/support-services-to-gp'],

@@ -118,16 +118,26 @@
             </div>
         </div> -->
         <div class="row mt-3">
-            <div class="col-md-10 col-12 offset-md-2">
+            <div class="col-md-5 col-12 offset-md-2">
                 <p>
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Completed Date</mat-label>
                         <input matInput [matDatepicker]="dp1" formControlName="completedDate"
                             [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
-                        <mat-datepicker-toggle matSuffix [for]="dp1" [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker-toggle>
-                        <mat-datepicker #dp1 disabled="false" [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length"></mat-datepicker>
+                        <mat-datepicker-toggle matSuffix [for]="dp1"
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp1 disabled="false"
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker>
                     </mat-form-field>
                 </p>
+            </div>
+            <div class="col-12 col-md-5">
+                <app-file-uploader [control]="applicationForm" #uploader [labelName]="'Attatch Minutes'"
+                    [disabled]="isFormDisabled && applicationForm.value?.minutes?.length" [keyName]="'minutes'"
+                    (onfileChanges)="onFileChanges()">
+                </app-file-uploader>
             </div>
         </div>
         <div class="row mt-2">

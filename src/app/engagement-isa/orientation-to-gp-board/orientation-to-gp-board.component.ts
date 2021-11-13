@@ -159,7 +159,8 @@ export class OrientationToGpBoardComponent implements OnInit {
       rows: this.formBuilder.array([
         this.newRow()
       ]),
-      completedDate: ''
+      completedDate: '',
+      minutes: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)

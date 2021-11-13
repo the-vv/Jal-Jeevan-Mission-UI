@@ -100,8 +100,7 @@ export class CalendarComponent implements OnInit {
 
   viewEvent(data: any) {
     const dialogRef = this.dialog.open(EventPopupComponent, {
-      disableClose: true,
-      data: data?.event?._def,
+      data: data?.event?._def
     });
   }
 

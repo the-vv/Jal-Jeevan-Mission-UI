@@ -142,6 +142,12 @@
                         *ngIf="selectedComponents.includes('Orientation to GP board members, socio political leaders')">
                     </app-orientation-to-gp-board>
                 </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-special-orientation-training [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/special-orientation-training'
+                        *ngIf="selectedComponents.includes('Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level ')">
+                    </app-special-orientation-training>
+                </div>
             </div>
         </div>
     </div>
