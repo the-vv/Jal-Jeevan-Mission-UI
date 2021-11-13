@@ -103,7 +103,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
       formctrlValue[this.ControlKey] = '';
       this.control?.patchValue(formctrlValue);
       this.fileChangeEMittor.emit();
-      this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000, panelClass: ['bg-warning','text-dark'] })
     } else {
       this.rest.deleteBulkFiles(this.fileDetails.map(el => el.fid))
         .subscribe(res => {
@@ -115,14 +115,14 @@ export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
           formctrlValue[this.ControlKey] = '';
           this.control?.patchValue(formctrlValue);
           this.fileChangeEMittor.emit();
-          this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
         }, err => {
           this.fileinfo = '';
           let formctrlValue = {};
           formctrlValue[this.ControlKey] = '';
           this.control?.patchValue(formctrlValue);
           this.fileChangeEMittor.emit();
-          this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }
@@ -184,7 +184,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
         formctrlValue[this.ControlKey] = '';
         this.control?.patchValue(formctrlValue);
         this.fileChangeEMittor.emit();
-        this.snackBar.open('Error uploadfing file(s), ' + err.error.status, 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Error uploadfing file(s), ' + err.error.status, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
       })
   }
 
@@ -203,7 +203,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
       formctrlValue[this.ControlKey] = '';
       this.control?.patchValue(formctrlValue);
       this.fileChangeEMittor.emit();
-      this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Uploading has been cancelled', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' })
     }
   }
 

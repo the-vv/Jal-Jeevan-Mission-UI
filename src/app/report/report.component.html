@@ -145,8 +145,20 @@
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
                     <app-special-orientation-training [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
                         name='engagement-isa/special-orientation-training'
-                        *ngIf="selectedComponents.includes('Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level ')">
+                        *ngIf="selectedComponents.includes('Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level')">
                     </app-special-orientation-training>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-develop-convergance-plan [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/develop-covergence-plan-gwr-rwh'
+                        *ngIf="selectedComponents.includes('To develop a convergence plan for GWR, RWH and gray water management and its facilitation')">
+                    </app-develop-convergance-plan>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-assisting-nodal-agency [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/assisting-model-agency-gp-gpwc'
+                        *ngIf="selectedComponents.includes('Assisting nodal agency/GP/GPWSC')">
+                    </app-assisting-nodal-agency>
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-12">
-            <p class="h3">Login Now</p>
+            <p class="h3">Login</p>
         </div>
         <div class="col-12">
             <form action="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -38,14 +38,18 @@
                         <mat-error *ngIf="loginForm.controls.password.errors?.required">
                             Password is required</mat-error>
                         <mat-error *ngIf="loginForm.controls.password.errors?.minlength">
-                                Password must be minimum of 6 charecters</mat-error>
+                            Password must be minimum of 6 charecters</mat-error>
                     </mat-form-field>
                 </p>
                 <input type="submit" value="login" class="d-none">
             </form>
         </div>
-        <div class="col-12 mt-3">
-            <button mat-raised-button color="primary" class="px-5" [disabled]="false" (click)="onSubmit()">Submit</button>
+        <div class="col-12 my-3">
+            <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="false" (click)="onSubmit()"><i
+                class="pi pi-sign-in me-2"></i> Login Now</button>
+        </div>
+        <div class="col-12 mt-1">
+            <p class="text-center fw-lighter">Need help? Please contact Administrator for further details</p>
         </div>
     </div>
 </div>

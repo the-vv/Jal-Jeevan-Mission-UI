@@ -17,9 +17,9 @@
 </mat-progress-bar>
 
 <mat-menu #menu="matMenu" [xPosition]="'after'">
-    <button mat-menu-item *ngIf="!fileDetails">
+    <button mat-menu-item *ngIf="!fileDetails?.length">
         <mat-icon>schedule</mat-icon>
-        Uploading. Please wait...
+        Uploading file(s)... Please wait
     </button>
     <ng-container *ngIf="fileDetails">
         <button mat-menu-item *ngFor="let file of fileDetails" (click)="viewFile(file)">

@@ -118,8 +118,7 @@ export class SpecialOrientationTrainingComponent implements OnInit {
     let allFilesFieldsToDelete: any = {
       photos: this.applicationForm.get('rows')['controls'][index].value.photos,
       videos: this.applicationForm.get('rows')['controls'][index].value.videos,
-      approvedCopyOfActivityPlan: this.applicationForm.get('rows')['controls'][index].value.approvedCopyOfActivityPlan,
-      gpResolutions: this.applicationForm.get('rows')['controls'][index].value.gpResolutions
+      attendanceCopy: this.applicationForm.get('rows')['controls'][index].value.attendanceCopy
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
