@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TargetDate } from '../models/application';
 import { Selected, WardConfig } from '../models/selected';
-import _ from 'lodash';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +24,7 @@ export class DataService {
   constructor(
     private rest: RestapiService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   get allDataWithCount() {
     return this.allDataWithCountData;
@@ -74,17 +73,17 @@ export class DataService {
       ['Handhold support to GP/GPWSC/GP level beneficiary committee and scheme managing team and submission of project completion report', 'engagement-isa/handhold-support-gp-gpwc-gp-level-beneficiary-committee'],
     ],
     // 'Planning Phase': [
-      'Others': [
-        // ['ISA Positioning', 'planningphase/isapositioning'],
-        ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
-        // ['GP IEC', 'planningphase/gpiec'],
-        ['Community Orientation', 'planningphase/communityorientation'],
-        ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
-        // ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
-        ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
-        ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
-        ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
-      ],
+    'Others': [
+      // ['ISA Positioning', 'planningphase/isapositioning'],
+      ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
+      // ['GP IEC', 'planningphase/gpiec'],
+      ['Community Orientation', 'planningphase/communityorientation'],
+      ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
+      // ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
+      ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
+      ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
+      ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
+    ],
   }
 
   getSectionSchedule(section: string) {
@@ -98,7 +97,13 @@ export class DataService {
       }
       return -1
     }
-    return _.find(this.clientSchedules, { section, category: this.selectedDetails })
+    return this.clientSchedules.find(schedule => (
+      schedule.section === section &&
+      this.selectedDetails.component === schedule.category.component &&
+      this.selectedDetails.district === schedule.category.district &&
+      this.selectedDetails.gp === schedule.category.gp &&
+      this.selectedDetails.phase === schedule.category.phase
+    ));
   }
 
   getAllSchedules(): Promise<TargetDate[]> {

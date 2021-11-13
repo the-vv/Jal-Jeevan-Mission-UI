@@ -28,7 +28,6 @@
     "@fullcalendar/interaction": "^5.10.0",
     "@fullcalendar/list": "^5.10.0",
     "@fullcalendar/timegrid": "^5.10.0",
-    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "ngx-spinner": "^11.0.2",
     "ngx-toastr": "^14.0.0",
