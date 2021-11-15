@@ -118,6 +118,7 @@ export class SpecialOrientationTrainingComponent implements OnInit {
     let allFilesFieldsToDelete: any = {
       photos: this.applicationForm.get('rows')['controls'][index].value.photos,
       videos: this.applicationForm.get('rows')['controls'][index].value.videos,
+      report: this.applicationForm.get('rows')['controls'][index].value.report,
       attendanceCopy: this.applicationForm.get('rows')['controls'][index].value.attendanceCopy
     }
     // Checkiing if any of the controls has the stringified file value exists
@@ -158,7 +159,13 @@ export class SpecialOrientationTrainingComponent implements OnInit {
       rows: this.formBuilder.array([
         this.newRow()
       ]),
-      completedDate: ''
+      placeOfTraining: '',
+      completedDate: '',
+      date: '',
+      m: '',
+      f: '',
+      t: '',
+      participantType: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)

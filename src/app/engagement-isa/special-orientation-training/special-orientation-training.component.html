@@ -50,13 +50,82 @@
         Application was not submitted. Currently in edit mode. Saved as Draft
     </div>
     <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div class="row mt-3">
+            <div class="col-md-6 col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Place of Training</mat-label>
+                        <input matInput formControlName="placeOfTraining"
+                            [readonly]="isFormDisabled && applicationForm.value?.placeOfTraining?.length">
+                    </mat-form-field>
+                </p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="dp99" formControlName="date"
+                            [disabled]="isFormDisabled && applicationForm.value?.date?.length">
+                        <mat-datepicker-toggle matSuffix [for]="dp99"
+                            [disabled]="isFormDisabled && applicationForm.value?.date?.length">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp99 disabled="false"
+                            [disabled]="isFormDisabled && applicationForm.value?.date?.length">
+                        </mat-datepicker>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class="col-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>M</mat-label>
+                                <input matInput formControlName="m"
+                                    [readonly]="isFormDisabled && applicationForm.value?.m?.length">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>F</mat-label>
+                                <input matInput formControlName="f"
+                                    [readonly]="isFormDisabled && applicationForm.value?.f?.length">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>T</mat-label>
+                                <input matInput formControlName="t"
+                                    [readonly]="isFormDisabled && applicationForm.value?.t?.length">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>participant Type</mat-label>
+                        <input matInput formControlName="participantType"
+                            [readonly]="isFormDisabled && applicationForm.value?.participantType?.length">
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
         <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
             <ng-container [formGroupName]="i">
                 <div class="row my-3">
                     <div class="col-12 col-md-1">
                         <p class="h6 text-center pt-3">
                             {{i + 1}}
-                            <app-schedule-menu [section]="'Special orientation training for key stake holders... - ' + (i + 1)"
+                            <app-schedule-menu
+                                [section]="'Special orientation training for key stake holders... - ' + (i + 1)"
                                 [iconOnly]="true">
                             </app-schedule-menu>
                         </p>
@@ -111,7 +180,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-10 col-12 offset-md-1">
+            <div class="col-12">
                 <p>
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Completed Date</mat-label>

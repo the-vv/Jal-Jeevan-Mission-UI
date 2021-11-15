@@ -1,17 +1,24 @@
 <div *ngIf="printMode" class="col-12 text-start pagebreak">
     <strong class="h2 text-center mb-0 d-block">{{data.getLongName(currentName)}}</strong>
-    <!-- <div>
-        <table class="table table-striped fs-4">
+    <div>
+        <table class="table table-striped fs-4 caption-top">
+            <caption>GWR</caption>
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Proposed site</th>
+                    <th scope="col">Live Department</th>
+                    <th scope="col">Proposal</th>
+                    <th scope="col">Quality</th>
+                    <th scope="col">Amount</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                <tr *ngFor="let row of applicationForm.value?.gwr; let i = index">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{row.proposedSite}}</td>
+                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.proposal}}</td>
+                    <td>{{row.quality}}</td>
+                    <td>{{row.amount}}</td>
                 </tr>
             </tbody>
             <tfoot>
@@ -21,7 +28,65 @@
                 <td>{{totalValues.completedArea}}</td>
             </tfoot>
         </table>
-    </div> -->
+    </div>
+    <div>
+        <table class="table table-striped fs-4 caption-top">
+            <caption>RWH</caption>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Live Department</th>
+                    <th scope="col">Proposal</th>
+                    <th scope="col">Quality</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rwh; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.proposal}}</td>
+                    <td>{{row.quality}}</td>
+                    <td>{{row.amount}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
+        </table>
+    </div>
+    <div>
+        <table class="table table-striped fs-4 caption-top">
+            <caption>Ground Water Management</caption>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Live Department</th>
+                    <th scope="col">Proposal</th>
+                    <th scope="col">Quality</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.gwm; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.proposal}}</td>
+                    <td>{{row.quality}}</td>
+                    <td>{{row.amount}}</td>
+                </tr>
+            </tbody>
+            <!-- <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot> -->
+        </table>
+    </div>
     <div class="row mt-3">
         <div class="col-12">
             <p class="h4 text-center">
@@ -40,7 +105,7 @@
         <p>
             Discussion with GP Board and GPWSC and line departments on various fund availability at GP and assess the
             possibility of convergence of various funds. GWR, RWH and Gray water management proposals, convergence plan
-            and facilitation for implementation. @Rs. 100000 per GP
+            and facilitation for implementation.
         </p>
     </mat-card>
     <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
@@ -50,36 +115,269 @@
         Application was not submitted. Currently in edit mode. Saved as Draft
     </div>
     <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div class="row">
+            <div class="col-md-1 mt-4 pt-2">
+                <p class="h5 text-start">
+                    GWR
+                    <app-schedule-menu [section]="'GWR'" [iconOnly]="true">
+                    </app-schedule-menu>
+                </p>
+            </div>
+            <div class="col-md-11">
+                <div formArrayName="gwr"
+                    *ngFor="let item of this.applicationForm.get('gwr')['controls']; let i = index;">
+                    <ng-container [formGroupName]="i">
+                        <div class="row my-3">
+                            <div class="col-md-1">
+                                <p class="h6 text-start pt-3">
+                                    {{i + 1}}
+                                    <app-schedule-menu [section]="'GWR - ' + (i + 1)" [iconOnly]="true">
+                                    </app-schedule-menu>
+                                </p>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Live Department</mat-label>
+                                                <input matInput formControlName="liveDepartment"
+                                                    [readonly]="isFormDisabled && i < disabledGwrLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Proposal</mat-label>
+                                                <input matInput formControlName="proposal"
+                                                    [readonly]="isFormDisabled && i < disabledGwrLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Quality</mat-label>
+                                                <input matInput formControlName="quality"
+                                                    [readonly]="isFormDisabled && i < disabledGwrLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Amount</mat-label>
+                                                <input matInput formControlName="amount" type="number"
+                                                    [readonly]="isFormDisabled && i < disabledGwrLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-1 text-center">
+                                <button [disabled]="isFormDisabled && i < disabledGwrLength"
+                                    [hidden]="isFormDisabled && i < disabledGwrLength" mat-icon-button color="accent"
+                                    type="button" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 10px" (click)="removeGwr(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addGwr()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add GWR
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 mt-4 pt-2">
+                <p class="h5 text-start">
+                    RWH
+                    <app-schedule-menu [section]="'RWH'" [iconOnly]="true">
+                    </app-schedule-menu>
+                </p>
+            </div>
+            <div class="col-md-11">
+                <div formArrayName="rwh"
+                    *ngFor="let item of this.applicationForm.get('rwh')['controls']; let i = index;">
+                    <ng-container [formGroupName]="i">
+                        <div class="row my-3">
+                            <div class="col-md-1">
+                                <p class="h6 text-start pt-3">
+                                    {{i + 1}}
+                                    <app-schedule-menu [section]="'RWH - ' + (i + 1)" [iconOnly]="true">
+                                    </app-schedule-menu>
+                                </p>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Live Department</mat-label>
+                                                <input matInput formControlName="liveDepartment"
+                                                    [readonly]="isFormDisabled && i < disabledRwhLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Proposal</mat-label>
+                                                <input matInput formControlName="proposal"
+                                                    [readonly]="isFormDisabled && i < disabledRwhLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Quality</mat-label>
+                                                <input matInput formControlName="quality"
+                                                    [readonly]="isFormDisabled && i < disabledRwhLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Amount</mat-label>
+                                                <input matInput formControlName="amount" type="number"
+                                                    [readonly]="isFormDisabled && i < disabledRwhLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-1 text-center">
+                                <button [disabled]="isFormDisabled && i < disabledRwhLength"
+                                    [hidden]="isFormDisabled && i < disabledRwhLength" mat-icon-button color="accent"
+                                    type="button" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 10px" (click)="removeRwh(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addRwh()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add RWH
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 mt-4 pt-2">
+                <p class="h5 text-start">
+                    Ground Water Management
+                    <app-schedule-menu [section]="'Ground Water Management'" [iconOnly]="true">
+                    </app-schedule-menu>
+                </p>
+            </div>
+            <div class="col-md-10">
+                <div formArrayName="gwm"
+                    *ngFor="let item of this.applicationForm.get('gwm')['controls']; let i = index;">
+                    <ng-container [formGroupName]="i">
+                        <div class="row my-3">
+                            <div class="col-md-1">
+                                <p class="h6 text-start pt-3">
+                                    {{i + 1}}
+                                    <app-schedule-menu [section]="'Ground Water Management - ' + (i + 1)"
+                                        [iconOnly]="true">
+                                    </app-schedule-menu>
+                                </p>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Live Department</mat-label>
+                                                <input matInput formControlName="liveDepartment"
+                                                    [readonly]="isFormDisabled && i < disabledGwmLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Proposal</mat-label>
+                                                <input matInput formControlName="proposal"
+                                                    [readonly]="isFormDisabled && i < disabledGwmLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Quality</mat-label>
+                                                <input matInput formControlName="quality"
+                                                    [readonly]="isFormDisabled && i < disabledGwmLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Amount</mat-label>
+                                                <input matInput formControlName="amount" type="number"
+                                                    [readonly]="isFormDisabled && i < disabledGwmLength">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-1 text-center">
+                                <button [disabled]="isFormDisabled && i < disabledGwmLength"
+                                    [hidden]="isFormDisabled && i < disabledGwmLength" mat-icon-button color="accent"
+                                    type="button" aria-label="Example icon button with a menu icon"
+                                    style="margin-top: 10px" (click)="removeGwm(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addGwm()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add GWM
+                </button>
+            </div>
+        </div>
         <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
             <ng-container [formGroupName]="i">
-                <div class="row my-3">
-                    <div class="col-12 col-md-2">
+                <div class="row my-b">
+                    <div class="col-12 col-md-1">
                         <p class="h6 text-center pt-3">
                             <app-schedule-menu [section]="'To develop a convergence plan for GWR...'"
                                 [iconOnly]="false">
                             </app-schedule-menu>
                         </p>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-11">
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Convergence and implimentation plan'" [disabled]="isFormDisabled && i < disabledLength"
+                                    [labelName]="'Convergence and implimentation plan'"
+                                    [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'converganceImplementationplan'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                             <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledLength"
-                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
-                                </app-file-uploader>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
-                                    [labelName]="'Completion Report'"
-                                    [disabled]="isFormDisabled && i < disabledLength"
+                                    [labelName]="'Completion Report'" [disabled]="isFormDisabled && i < disabledLength"
                                     [keyName]="'completionReport'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
@@ -112,7 +410,7 @@
             </div>
         </div> -->
         <div class="row mt-3">
-            <div class="col-md-10 col-12 offset-md-2">
+            <div class="col-md-11 col-12 offset-md-1">
                 <p>
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Completed Date</mat-label>

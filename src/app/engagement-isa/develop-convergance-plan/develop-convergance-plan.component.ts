@@ -37,6 +37,9 @@ export class DevelopConvergancePlanComponent implements OnInit {
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
   disabledLength: number = 0;
+  disabledGwrLength: number = 0;
+  disabledRwhLength: number = 0;
+  disabledGwmLength: number = 0;
   totalValues: any = {};
 
   constructor(
@@ -108,15 +111,55 @@ export class DevelopConvergancePlanComponent implements OnInit {
   newRow(): FormGroup {
     return this.formBuilder.group({
       converganceImplementationplan: '',
-      report: '',
       completionReport: ''
     });
   }
 
-  removeMeeting(index: number) {
+  newGwr(): FormGroup {
+    return this.formBuilder.group({
+      liveDepartment: '',
+      proposal: '',
+      quality: '',
+      amount: ''
+    });
+  }
+
+  addGwr() {
+    const group = this.newGwr();
+    (this.applicationForm.get('gwr') as FormArray).push(group);
+  }
+
+  newRwh(): FormGroup {
+    return this.formBuilder.group({
+      liveDepartment: '',
+      proposal: '',
+      quality: '',
+      amount: ''
+    });
+  }
+
+  addRwh() {
+    const group = this.newRwh();
+    (this.applicationForm.get('rwh') as FormArray).push(group);
+  }
+
+  newGwm(): FormGroup {
+    return this.formBuilder.group({
+      liveDepartment: '',
+      proposal: '',
+      quality: '',
+      amount: ''
+    });
+  }
+
+  addGwm() {
+    const group = this.newGwm();
+    (this.applicationForm.get('gwm') as FormArray).push(group);
+  }
+
+  removeRow(index: number) {
     let allFilesFieldsToDelete: any = {
       converganceImplementationplan: this.applicationForm.get('rows')['controls'][index].value.converganceImplementationplan,
-      report: this.applicationForm.get('rows')['controls'][index].value.report,
       completionReport: this.applicationForm.get('rows')['controls'][index].value.completionReport
     }
     // Checkiing if any of the controls has the stringified file value exists
@@ -151,6 +194,108 @@ export class DevelopConvergancePlanComponent implements OnInit {
       this.formFields.removeAt(index)
     }
   }
+  removeGwr(index: number) {
+    let allFilesFieldsToDelete: any = {}
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('gwr') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('gwr') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('gwr') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('gwr') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+  removeRwh(index: number) {
+    let allFilesFieldsToDelete: any = {}
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('rwh') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('rwh') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('rwh') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('rwh') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+  removeGwm(index: number) {
+    let allFilesFieldsToDelete: any = {}
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('gwm') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('gwm') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('gwm') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('gwm') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
@@ -158,7 +303,15 @@ export class DevelopConvergancePlanComponent implements OnInit {
         this.newRow()
       ]),
       completedDate: '',
-      minutes: ''
+      gwr: this.formBuilder.array([
+        this.newGwr()
+      ]),
+      rwh: this.formBuilder.array([
+        this.newRwh()
+      ]),
+      gwm: this.formBuilder.array([
+        this.newGwm()
+      ])
     })
     this.route.url.subscribe((val) => {
       // console.log(val)
@@ -238,8 +391,10 @@ export class DevelopConvergancePlanComponent implements OnInit {
   applicSelected(app: Application) {
     console.log(app)
     this.onReset();
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
+    (this.applicationForm.get('rows') as FormArray).clear();
+    (this.applicationForm.get('gwr') as FormArray).clear();
+    (this.applicationForm.get('rwh') as FormArray).clear();
+    (this.applicationForm.get('gwm') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -250,12 +405,24 @@ export class DevelopConvergancePlanComponent implements OnInit {
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
+    for (let i = 0; i < app.values.gwr.length; i++) {
+      this.addGwr()
+    }
+    for (let i = 0; i < app.values.rwh.length; i++) {
+      this.addRwh()
+    }
+    for (let i = 0; i < app.values.gwm.length; i++) {
+      this.addGwm()
+    }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
-    this.findTotal()
+    this.disabledGwrLength = app.values.gwr.length;
+    this.disabledRwhLength = app.values.rwh.length;
+    this.disabledGwmLength = app.values.gwm.length;
+    // console.log(this.applicationForm)
+    // this.findTotal()
   }
 
   onReset() {
@@ -295,29 +462,25 @@ export class DevelopConvergancePlanComponent implements OnInit {
     })
   }
 
-  findTotal() {
-    this.applicationForm.value.rows.forEach(el => {
-      // go through each key value and add to total if the value is convertible to number
-      Object.keys(el).forEach(key => {
-        if (Number.isNaN(Number(el[key]))) {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += 0
-          } else {
-            this.totalValues[key] = 0
-          }
-        } else {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += Number(el[key])
-          } else {
-            this.totalValues[key] = Number(el[key])
-          }
-        }
-      })
-    })
-  }
-
-  getReportControl() {
-    return this.applicationForm.get('report') as FormGroup;
-  }
+  // findTotal() {
+  //   this.applicationForm.value.rows.forEach(el => {
+  //     // go through each key value and add to total if the value is convertible to number
+  //     Object.keys(el).forEach(key => {
+  //       if (Number.isNaN(Number(el[key]))) {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += 0
+  //         } else {
+  //           this.totalValues[key] = 0
+  //         }
+  //       } else {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += Number(el[key])
+  //         } else {
+  //           this.totalValues[key] = Number(el[key])
+  //         }
+  //       }
+  //     })
+  //   })
+  // }
 
 }
