@@ -109,7 +109,9 @@ export class HandholdSupportGpGpwcGpComponent implements OnInit {
     return this.formBuilder.group({
       report: '',
       completionReport: '',
-      videos: ''
+      videos: '',
+      OSReport: '',
+      OSPlace: ''
     });
   }
 

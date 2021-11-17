@@ -37,6 +37,7 @@ export class AssistingNodalAgencyComponent implements OnInit {
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
   disabledLength: number = 0;
+  disabledIdmsLength: number = 0;
   totalValues: any = {};
 
   constructor(
@@ -108,16 +109,29 @@ export class AssistingNodalAgencyComponent implements OnInit {
   newRow(): FormGroup {
     return this.formBuilder.group({
       photos: '',
-      report: '',
       videos: ''
     });
   }
 
-  removeMeeting(index: number) {
+  addIdm() {
+    const group = this.newIdm();
+    (this.applicationForm.get('idms') as FormArray).push(group);
+  }
+
+  newIdm(): FormGroup {
+    return this.formBuilder.group({
+      date: '',
+      place: '',
+      photo: '',
+      video: '',
+      minutes: ''
+    });
+  }
+
+  removeRow(index: number) {
     let allFilesFieldsToDelete: any = {
       photos: this.applicationForm.get('rows')['controls'][index].value.photos,
-      videos: this.applicationForm.get('rows')['controls'][index].value.videos,
-      report: this.applicationForm.get('rows')['controls'][index].value.report
+      videos: this.applicationForm.get('rows')['controls'][index].value.videos
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
@@ -152,11 +166,54 @@ export class AssistingNodalAgencyComponent implements OnInit {
     }
   }
 
+  removeIdm(index: number) {
+    let allFilesFieldsToDelete: any = {
+      photo: this.applicationForm.get('idms')['controls'][index].value.photo,
+      video: this.applicationForm.get('idms')['controls'][index].value.video,
+      minutes: this.applicationForm.get('idms')['controls'][index].value.minutes
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('idms') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('idms') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.newRow()
       ]),
+      idms: this.formBuilder.array([
+        this.newIdm()
+      ]),
+      report: '',
       completedDate: ''
     })
     this.route.url.subscribe((val) => {
@@ -239,8 +296,8 @@ export class AssistingNodalAgencyComponent implements OnInit {
   applicSelected(app: Application) {
     console.log(app)
     this.onReset();
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
+    (this.applicationForm.get('rows') as FormArray).clear();
+    (this.applicationForm.get('idms') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -251,12 +308,16 @@ export class AssistingNodalAgencyComponent implements OnInit {
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
+    for (let i = 0; i < app.values.idms.length; i++) {
+      this.addIdm()
+    }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
-    this.findTotal()
+    this.disabledIdmsLength = app.values.idms.length;
+    // console.log(this.applicationForm)
+    // this.findTotal()
   }
 
   onReset() {
