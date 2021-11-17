@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Live Department</th>
+                    <th scope="col">Line Department</th>
                     <th scope="col">Proposal</th>
                     <th scope="col">Quality</th>
                     <th scope="col">Amount</th>
@@ -15,7 +15,7 @@
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.gwr; let i = index">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.lineDepartment}}</td>
                     <td>{{row.proposal}}</td>
                     <td>{{row.quality}}</td>
                     <td>{{row.amount}}</td>
@@ -35,7 +35,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Live Department</th>
+                    <th scope="col">Line Department</th>
                     <th scope="col">Proposal</th>
                     <th scope="col">Quality</th>
                     <th scope="col">Amount</th>
@@ -44,7 +44,7 @@
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.rwh; let i = index">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.lineDepartment}}</td>
                     <td>{{row.proposal}}</td>
                     <td>{{row.quality}}</td>
                     <td>{{row.amount}}</td>
@@ -64,7 +64,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Live Department</th>
+                    <th scope="col">Line Department</th>
                     <th scope="col">Proposal</th>
                     <th scope="col">Quality</th>
                     <th scope="col">Amount</th>
@@ -73,7 +73,7 @@
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.gwm; let i = index">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{row.liveDepartment}}</td>
+                    <td>{{row.lineDepartment}}</td>
                     <td>{{row.proposal}}</td>
                     <td>{{row.quality}}</td>
                     <td>{{row.amount}}</td>
@@ -140,8 +140,8 @@
                                     <div class="col-md-3">
                                         <p>
                                             <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Live Department</mat-label>
-                                                <input matInput formControlName="liveDepartment"
+                                                <mat-label>Line Department</mat-label>
+                                                <input matInput formControlName="lineDepartment"
                                                     [readonly]="isFormDisabled && i < disabledGwrLength">
                                             </mat-form-field>
                                         </p>
@@ -220,8 +220,8 @@
                                     <div class="col-md-3">
                                         <p>
                                             <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Live Department</mat-label>
-                                                <input matInput formControlName="liveDepartment"
+                                                <mat-label>Line Department</mat-label>
+                                                <input matInput formControlName="lineDepartment"
                                                     [readonly]="isFormDisabled && i < disabledRwhLength">
                                             </mat-form-field>
                                         </p>
@@ -301,8 +301,8 @@
                                     <div class="col-md-3">
                                         <p>
                                             <mat-form-field appearance="outline" class="w-100">
-                                                <mat-label>Live Department</mat-label>
-                                                <input matInput formControlName="liveDepartment"
+                                                <mat-label>Line Department</mat-label>
+                                                <input matInput formControlName="lineDepartment"
                                                     [readonly]="isFormDisabled && i < disabledGwmLength">
                                             </mat-form-field>
                                         </p>
@@ -362,7 +362,7 @@
                     <div class="col-12 col-md-1">
                         <p class="h6 text-center pt-3">
                             <app-schedule-menu [section]="'To develop a convergence plan for GWR...'"
-                                [iconOnly]="false">
+                                [iconOnly]="true">
                             </app-schedule-menu>
                         </p>
                     </div>

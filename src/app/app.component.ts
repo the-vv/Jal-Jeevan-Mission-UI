@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
       this.router.url.includes('/district') ||
       this.router.url.includes('/grama-panchayath') ||
       this.router.url.includes('/calendar') ||
+      this.router.url.includes('/administration') ||
       this.router.url.includes('/report')
     )
   }

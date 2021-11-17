@@ -373,6 +373,7 @@ export class AnganawadiComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {
@@ -393,6 +394,7 @@ export class AnganawadiComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {

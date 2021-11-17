@@ -164,13 +164,25 @@ export class SpecialOrientationTrainingComponent implements OnInit {
       date: '',
       m: '',
       f: '',
-      t: '',
+      t: 0,
       participantType: ''
     })
     this.route.url.subscribe((val) => {
       // console.log(val)
       this.formdata.name = `engagement-isa/${val.map(v => v.path).join('/')}`
       // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
+    })
+    this.applicationForm.valueChanges.subscribe(() => {
+      let total = 0;
+      // find sum of form control m and f and patch it to t form control
+      if (this.applicationForm.get('m').value.length) {
+        total += Number(this.applicationForm.get('m').value)
+      }
+      if (this.applicationForm.get('f').value.length) {
+        total += Number(this.applicationForm.get('f').value)
+      }
+      this.applicationForm.patchValue({ t: total }, { emitEvent: false })
+      console.log(this.applicationForm.value.m)
     })
   }
   get f() { return this.applicationForm.controls }
@@ -212,6 +224,7 @@ export class SpecialOrientationTrainingComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {
@@ -232,6 +245,7 @@ export class SpecialOrientationTrainingComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {
@@ -257,7 +271,7 @@ export class SpecialOrientationTrainingComponent implements OnInit {
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
-    this.applicationForm.patchValue(app.values);
+    this.applicationForm.patchValue(app.values, { emitEvent: false });
     console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;

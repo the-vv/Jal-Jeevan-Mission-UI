@@ -117,7 +117,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
 
   newGwr(): FormGroup {
     return this.formBuilder.group({
-      liveDepartment: '',
+      lineDepartment: '',
       proposal: '',
       quality: '',
       amount: ''
@@ -131,7 +131,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
 
   newRwh(): FormGroup {
     return this.formBuilder.group({
-      liveDepartment: '',
+      lineDepartment: '',
       proposal: '',
       quality: '',
       amount: ''
@@ -145,7 +145,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
 
   newGwm(): FormGroup {
     return this.formBuilder.group({
-      liveDepartment: '',
+      lineDepartment: '',
       proposal: '',
       quality: '',
       amount: ''
@@ -358,6 +358,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {
@@ -378,6 +379,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
           this.editingId = res._id;
         }, e => {

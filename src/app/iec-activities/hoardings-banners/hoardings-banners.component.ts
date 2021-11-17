@@ -208,6 +208,7 @@ export class HoardingsBannersComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
         }, e => {
           // console.log(e.error.status)
@@ -227,6 +228,7 @@ export class HoardingsBannersComponent implements OnInit {
             this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
         }, e => {
           // console.log(e.error.status)

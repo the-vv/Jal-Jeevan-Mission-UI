@@ -82,7 +82,7 @@
                     <div class="col-4">
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>M</mat-label>
+                                <mat-label>Male</mat-label>
                                 <input matInput formControlName="m"
                                     [readonly]="isFormDisabled && applicationForm.value?.m?.length">
                             </mat-form-field>
@@ -91,7 +91,7 @@
                     <div class="col-4">
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>F</mat-label>
+                                <mat-label>Female</mat-label>
                                 <input matInput formControlName="f"
                                     [readonly]="isFormDisabled && applicationForm.value?.f?.length">
                             </mat-form-field>
@@ -100,9 +100,9 @@
                     <div class="col-4">
                         <p>
                             <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>T</mat-label>
+                                <mat-label>Total</mat-label>
                                 <input matInput formControlName="t"
-                                    [readonly]="isFormDisabled && applicationForm.value?.t?.length">
+                                    [readonly]="true">
                             </mat-form-field>
                         </p>
                     </div>
