@@ -18,8 +18,8 @@ export class PwaService {
       this.isPwaMode = true;
     }
     this.updates.available.subscribe(event => {
-      this.snackbar.open('An Update is available', 'Update Now', {
-        duration: 5000,
+      this.snackbar.open('An update is available', 'Update Now', {
+        duration: 30000,
         panelClass: ['bg-primary', 'text-white']
       }).onAction().subscribe(() => {
         updates.activateUpdate().then(() => document.location.reload());
@@ -27,7 +27,7 @@ export class PwaService {
     });
     updates.unrecoverable.subscribe(event => {
       this.snackbar.open('App Crashed. Please Refresh', 'Refresh Now', {
-        duration: 5000,
+        duration: 100000,
         panelClass: ['bg-danger', 'text-white']
       }).onAction().subscribe(() => {
         document.location.reload();

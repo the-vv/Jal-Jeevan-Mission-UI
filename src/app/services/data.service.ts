@@ -19,7 +19,7 @@ export class DataService {
   isSidebarOpened: boolean = false;
   wardCongigData: WardConfig = null;
   allDataWithCountData: any = {};
-  appName: string = 'Unknown IA'
+  appName: string = ''
 
   constructor(
     private rest: RestapiService,
