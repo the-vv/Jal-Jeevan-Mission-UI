@@ -163,7 +163,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
       completionReport: this.applicationForm.get('rows')['controls'][index].value.completionReport
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -197,7 +197,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
   removeGwr(index: number) {
     let allFilesFieldsToDelete: any = {}
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -231,7 +231,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
   removeRwh(index: number) {
     let allFilesFieldsToDelete: any = {}
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -265,7 +265,7 @@ export class DevelopConvergancePlanComponent implements OnInit {
   removeGwm(index: number) {
     let allFilesFieldsToDelete: any = {}
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {

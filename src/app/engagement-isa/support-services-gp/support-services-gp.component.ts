@@ -36,8 +36,13 @@ export class SupportServicesGpComponent implements OnInit {
   submitted: boolean = false;
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
-  disabledLength: number = 0;
-  disabledIdmsLength: number = 0;
+  disabledEwssLength: number = 0;
+  disabledNwssLength: number = 0;
+  disabledIommLength: number = 0;
+  disabledIaomLength: number = 0;
+  disabledFoamLength: number = 0;
+  disabledDapdLength: number = 0;
+  disabledSigpiasLength: number = 0;
   totalValues: any = {};
 
   constructor(
@@ -108,6 +113,21 @@ export class SupportServicesGpComponent implements OnInit {
       nwsss: this.formBuilder.array([
         this.newNwss()
       ]),
+      iomms: this.formBuilder.array([
+        this.newIomm()
+      ]),
+      iaoms: this.formBuilder.array([
+        this.newIaom()
+      ]),
+      fomas: this.formBuilder.array([
+        this.newFoma()
+      ]),
+      dapds: this.formBuilder.array([
+        this.newDapd()
+      ]),
+      sigpias: this.formBuilder.array([
+        this.newSigpia()
+      ]),
       report: '',
       completedDate: ''
     })
@@ -154,12 +174,266 @@ export class SupportServicesGpComponent implements OnInit {
     });
   }
 
+  addIomm() {
+    const group = this.newIomm();
+    (this.applicationForm.get('iomms') as FormArray).push(group);
+  }
+
+  newIomm(): FormGroup {
+    return this.formBuilder.group({
+      report: '',
+      copyOMModel: '',
+    });
+  }
+
+  addIaom() {
+    const group = this.newIaom();
+    (this.applicationForm.get('iaoms') as FormArray).push(group);
+  }
+
+  newIaom(): FormGroup {
+    return this.formBuilder.group({
+      report: '',
+    });
+  }
+
+  addFoma() {
+    const group = this.newFoma();
+    (this.applicationForm.get('fomas') as FormArray).push(group);
+  }
+
+  newFoma(): FormGroup {
+    return this.formBuilder.group({
+      oByLaw: '',
+      agreement: ''
+    });
+  }
+
+  addDapd() {
+    const group = this.newDapd();
+    (this.applicationForm.get('dapds') as FormArray).push(group);
+  }
+
+  newDapd(): FormGroup {
+    return this.formBuilder.group({
+      report: '',
+      successStories: '',
+      photos: '',
+      videos: ''
+    });
+  }
+
+  addSigpia() {
+    const group = this.newSigpia();
+    (this.applicationForm.get('sigpias') as FormArray).push(group);
+  }
+
+  newSigpia(): FormGroup {
+    return this.formBuilder.group({
+      report: '',
+      photos: '',
+      videos: ''
+    });
+  }
+
+  removeSigpia(index: number) {
+    let allFilesFieldsToDelete: any = {
+      report: this.applicationForm.get('sigpias')['controls'][index].value.report,
+      photos: this.applicationForm.get('sigpias')['controls'][index].value.photos,
+      videos: this.applicationForm.get('sigpias')['controls'][index].value.videos,
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('sigpias') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('sigpias') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        // console.log(e)
+        this.formFields = this.applicationForm.get('sigpias') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('sigpias') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
+  removeDapd(index: number) {
+    let allFilesFieldsToDelete: any = {
+      report: this.applicationForm.get('dapds')['controls'][index].value.report,
+      successStories: this.applicationForm.get('dapds')['controls'][index].value.successStories,
+      photos: this.applicationForm.get('dapds')['controls'][index].value.photos,
+      videos: this.applicationForm.get('dapds')['controls'][index].value.videos,
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('dapds') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('dapds') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        // console.log(e)
+        this.formFields = this.applicationForm.get('dapds') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('dapds') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
+  removeFoma(index: number) {
+    let allFilesFieldsToDelete: any = {
+      oByLaw: this.applicationForm.get('fomas')['controls'][index].value.oByLaw,
+      agreement: this.applicationForm.get('fomas')['controls'][index].value.agreement
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('fomas') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('fomas') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('fomas') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('fomas') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
+  removeIaom(index: number) {
+    let allFilesFieldsToDelete: any = {
+      report: this.applicationForm.get('iaoms')['controls'][index].value.report
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('iaoms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('iaoms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        // console.log(e)
+        this.formFields = this.applicationForm.get('iaoms') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('iaoms') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
+  removeIomm(index: number) {
+    let allFilesFieldsToDelete: any = {
+      report: this.applicationForm.get('iomms')['controls'][index].value.report,
+      copyOMModel: this.applicationForm.get('iomms')['controls'][index].value.copyOMModel
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('iomms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('iomms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('iomms') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('iomms') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
   removeEwss(index: number) {
     let allFilesFieldsToDelete: any = {
       copyAssetRegister: this.applicationForm.get('ewsss')['controls'][index].value.copyAssetRegister
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -181,7 +455,7 @@ export class SupportServicesGpComponent implements OnInit {
           })
       }
       catch (e) {
-        console.log(e)
+        // console.log(e)
         this.formFields = this.applicationForm.get('ewsss') as FormArray;
         this.formFields.removeAt(index)
       }
@@ -193,10 +467,10 @@ export class SupportServicesGpComponent implements OnInit {
 
   removeNwss(index: number) {
     let allFilesFieldsToDelete: any = {
-      copyAssetRegister: this.applicationForm.get('ewsss')['controls'][index].value.copyAssetRegister
+      copyAssetRegister: this.applicationForm.get('nwsss')['controls'][index].value.copyAssetRegister
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -206,12 +480,12 @@ export class SupportServicesGpComponent implements OnInit {
         }
         this.rest.deleteBulkFiles(allFileIds)
           .subscribe(res => {
-            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields = this.applicationForm.get('nwsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
           }, err => {
-            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields = this.applicationForm.get('nwsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
@@ -219,11 +493,11 @@ export class SupportServicesGpComponent implements OnInit {
       }
       catch (e) {
         console.log(e)
-        this.formFields = this.applicationForm.get('idms') as FormArray;
+        this.formFields = this.applicationForm.get('nwsss') as FormArray;
         this.formFields.removeAt(index)
       }
     } else {
-      this.formFields = this.applicationForm.get('idms') as FormArray;
+      this.formFields = this.applicationForm.get('nwsss') as FormArray;
       this.formFields.removeAt(index)
     }
   }
@@ -298,10 +572,14 @@ export class SupportServicesGpComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
-    console.log(app)
     this.onReset();
-    (this.applicationForm.get('rows') as FormArray).clear();
-    (this.applicationForm.get('idms') as FormArray).clear();
+    (this.applicationForm.get('ewsss') as FormArray).clear();
+    (this.applicationForm.get('nwsss') as FormArray).clear();
+    (this.applicationForm.get('iomms') as FormArray).clear();
+    (this.applicationForm.get('iaoms') as FormArray).clear();
+    (this.applicationForm.get('fomas') as FormArray).clear();
+    (this.applicationForm.get('dapds') as FormArray).clear();
+    (this.applicationForm.get('sigpias') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -309,27 +587,43 @@ export class SupportServicesGpComponent implements OnInit {
       this.isDraftMode = false;
     }
     this.editingId = app._id
-    for (let i = 0; i < app.values.wsss.length; i++) {
+    for (let i = 0; i < app.values.ewsss.length; i++) {
       this.addEwss()
     }
-    for (let i = 0; i < app.values.idms.length; i++) {
+    for (let i = 0; i < app.values.nwsss.length; i++) {
       this.addNwss()
+    }
+    for (let i = 0; i < app.values.iomms.length; i++) {
+      this.addIomm()
+    }
+    for (let i = 0; i < app.values.iaoms.length; i++) {
+      this.addIaom()
+    }
+    for (let i = 0; i < app.values.fomas.length; i++) {
+      this.addFoma()
+    }
+    for (let i = 0; i < app.values.dapds.length; i++) {
+      this.addDapd()
+    }
+    for (let i = 0; i < app.values.sigpias.length; i++) {
+      this.addSigpia()
     }
     this.applicationForm.patchValue(app.values);
     // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
-    this.disabledLength = app.values.rows.length;
-    this.disabledIdmsLength = app.values.idms.length;
-    // console.log(this.applicationForm)
-    // this.findTotal()
+    this.disabledEwssLength = app.values.ewsss.length;
+    this.disabledNwssLength = app.values.nwsss.length;
+    this.disabledIommLength = app.values.iomms.length;
+    this.disabledIaomLength = app.values.iaoms.length;
+    this.disabledFoamLength = app.values.fomas.length;
+    this.disabledDapdLength = app.values.dapds.length;
+    this.disabledSigpiasLength = app.values.sigpias.length;
   }
 
   onReset() {
     this.editingId = '';
     this.applicationForm.reset();
     this.formdata.files = []
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
     this.addEwss()
   }
 
@@ -361,29 +655,5 @@ export class SupportServicesGpComponent implements OnInit {
     })
   }
 
-  // findTotal() {
-  //   this.applicationForm.value.rows.forEach(el => {
-  //     // go through each key value and add to total if the value is convertible to number
-  //     Object.keys(el).forEach(key => {
-  //       if (Number.isNaN(Number(el[key]))) {
-  //         if (this.totalValues[key]) {
-  //           this.totalValues[key] += 0
-  //         } else {
-  //           this.totalValues[key] = 0
-  //         }
-  //       } else {
-  //         if (this.totalValues[key]) {
-  //           this.totalValues[key] += Number(el[key])
-  //         } else {
-  //           this.totalValues[key] = Number(el[key])
-  //         }
-  //       }
-  //     })
-  //   })
-  // }
-
-  getReportControl() {
-    return this.applicationForm.get('report') as FormGroup;
-  }
 
 }

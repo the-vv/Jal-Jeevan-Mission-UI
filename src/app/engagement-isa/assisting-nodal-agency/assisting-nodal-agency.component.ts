@@ -134,7 +134,7 @@ export class AssistingNodalAgencyComponent implements OnInit {
       videos: this.applicationForm.get('rows')['controls'][index].value.videos
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -173,7 +173,7 @@ export class AssistingNodalAgencyComponent implements OnInit {
       minutes: this.applicationForm.get('idms')['controls'][index].value.minutes
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {

@@ -46,7 +46,7 @@
         </p>
     </mat-card>
     <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
-        Editing has been disabled by admin. Contact them if you need any help
+        Editing has been disabled by admin. Contact them if you need editing  permission
     </div>
     <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
         Application was not submitted. Currently in edit mode. Saved as Draft
@@ -56,7 +56,7 @@
             <div class="col-12">
                 <p class="h4 text-start pt-3">
                     Prepare the list of assets of existing water supply schemes (intra GP) and Common Water sources.
-                    <app-schedule-menu [section]="'list of assets of existing water supply schemes'"
+                    <app-schedule-menu [section]="'Prepare the list of assets of existing water supply schemes'"
                         [iconOnly]="false">
                     </app-schedule-menu>
                 </p>
@@ -67,7 +67,7 @@
                 <div class="row my-3">
                     <div class="col-md-1">
                         {{i + 1}}
-                        <app-schedule-menu [section]="'list of assets of existing water supply schemes' + (i + 1)"
+                        <app-schedule-menu [section]="'Prepare the list of assets of existing water supply schemes - ' + (i + 1)"
                         [iconOnly]="true">
                     </app-schedule-menu>
                     </div>
@@ -78,7 +78,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name</mat-label>
                                         <input matInput formControlName="name"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -87,7 +87,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Ward</mat-label>
                                         <input matInput formControlName="ward"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -96,7 +96,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Total Hss</mat-label>
                                         <input matInput formControlName="totalHss"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -105,7 +105,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Tank Capacity</mat-label>
                                         <input matInput formControlName="tankCapacity"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -114,7 +114,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Type of Source</mat-label>
                                         <input matInput formControlName="typeOfSource"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -123,21 +123,21 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Any Issues</mat-label>
                                         <input matInput formControlName="issue"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledEwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-md-3">
                                 <app-file-uploader [control]="applicationForm.get('ewsss')['controls'][i]" #uploader
-                                    [labelName]="'Copy of Asset Register'" [disabled]="isFormDisabled && i < disabledIdmsLength"
+                                    [labelName]="'Copy of Asset Register'" [disabled]="isFormDisabled && i < disabledEwssLength"
                                     [keyName]="'copyAssetRegister'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-1 text-center">
-                        <button [disabled]="isFormDisabled && i < disabledLength"
-                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                        <button [disabled]="isFormDisabled && i < disabledEwssLength"
+                            [hidden]="isFormDisabled && i < disabledEwssLength" mat-icon-button color="accent" type="button"
                             aria-label="Example icon button with a menu icon" style="margin-top: 10px"
                             (click)="removeEwss(i)">
                             <mat-icon>delete</mat-icon>
@@ -153,11 +153,12 @@
                 </button>
             </div>
         </div>
+        <hr>
         <div class="row">                    
             <div class="col-12">
                 <p class="h4 text-start pt-3">
-                    Prepare the list of assets of existing water supply schemes (intra GP) and Common Water sources.
-                    <app-schedule-menu [section]="'list of assets of existing water supply schemes'"
+                    To help the GP to include the assets of new water supply schemes in the GP register. 
+                    <app-schedule-menu [section]="'To help the GP to include the assets of new water supply schemes'"
                         [iconOnly]="false">
                     </app-schedule-menu>
                 </p>
@@ -168,7 +169,7 @@
                 <div class="row my-3">
                     <div class="col-md-1">
                         {{i + 1}}
-                        <app-schedule-menu [section]="'list of assets of existing water supply schemes' + (i + 1)"
+                        <app-schedule-menu [section]="'To help the GP to include the assets of new water supply schemes - ' + (i + 1)"
                         [iconOnly]="true">
                     </app-schedule-menu>
                     </div>
@@ -179,7 +180,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name</mat-label>
                                         <input matInput formControlName="name"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -188,7 +189,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Ward</mat-label>
                                         <input matInput formControlName="ward"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -197,7 +198,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Total Hss</mat-label>
                                         <input matInput formControlName="totalHss"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -206,7 +207,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Tank Capacity</mat-label>
                                         <input matInput formControlName="tankCapacity"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -215,7 +216,7 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Type of Source</mat-label>
                                         <input matInput formControlName="typeOfSource"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -224,21 +225,21 @@
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Any Issues</mat-label>
                                         <input matInput formControlName="issue"
-                                            [readonly]="isFormDisabled && i < disabledIdmsLength">
+                                            [readonly]="isFormDisabled && i < disabledNwssLength">
                                     </mat-form-field>
                                 </p>
                             </div>
                             <div class="col-md-3">
                                 <app-file-uploader [control]="applicationForm.get('nwsss')['controls'][i]" #uploader
-                                    [labelName]="'Copy of Asset Register'" [disabled]="isFormDisabled && i < disabledIdmsLength"
+                                    [labelName]="'Copy of Asset Register'" [disabled]="isFormDisabled && i < disabledNwssLength"
                                     [keyName]="'copyAssetRegister'" (onfileChanges)="onFileChanges()">
                                 </app-file-uploader>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-1 text-center">
-                        <button [disabled]="isFormDisabled && i < disabledLength"
-                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                        <button [disabled]="isFormDisabled && i < disabledNwssLength"
+                            [hidden]="isFormDisabled && i < disabledNwssLength" mat-icon-button color="accent" type="button"
                             aria-label="Example icon button with a menu icon" style="margin-top: 10px"
                             (click)="removeNwss(i)">
                             <mat-icon>delete</mat-icon>
@@ -254,6 +255,291 @@
                 </button>
             </div>
         </div>
+        <hr>
+        <div class="row">                    
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Identification of O&M model and Stakeholders consultations on various O&M Models 
+                    <app-schedule-menu [section]="'Identification of O&M model and Stakeholders consultations on various O&M Models'"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="iomms" *ngFor="let item of this.applicationForm.get('iomms')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-1">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'Identification of O&M model and Stakeholders consultations on various O&M Models - ' + (i + 1)"
+                        [iconOnly]="true">
+                    </app-schedule-menu>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('iomms')['controls'][i]" #uploader
+                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledIommLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('iomms')['controls'][i]" #uploader
+                                    [labelName]="'Copy of O & M Model'" [disabled]="isFormDisabled && i < disabledIommLength"
+                                    [keyName]="'copyOMModel'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledIommLength"
+                            [hidden]="isFormDisabled && i < disabledIommLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeIomm(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addIomm()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">                    
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Institutional arrangements for O&M.
+                    <app-schedule-menu [section]="'Institutional arrangements for O&M '"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="iaoms" *ngFor="let item of this.applicationForm.get('iaoms')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-1">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'Institutional arrangements for O&M  - ' + (i + 1)"
+                        [iconOnly]="true">
+                    </app-schedule-menu>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-12">
+                                <app-file-uploader [control]="applicationForm.get('iaoms')['controls'][i]" #uploader
+                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledIaomLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledIaomLength"
+                            [hidden]="isFormDisabled && i < disabledIaomLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeIaom(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addIaom()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">                    
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Facilitation of O & M agreements.
+                    <app-schedule-menu [section]="'Facilitation of O & M agreements '"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="fomas" *ngFor="let item of this.applicationForm.get('fomas')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-1">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'Facilitation of O & M agreements  - ' + (i + 1)"
+                        [iconOnly]="true">
+                    </app-schedule-menu>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('fomas')['controls'][i]" #uploader
+                                    [labelName]="'O & Bylaw'" [disabled]="isFormDisabled && i < disabledFoamLength"
+                                    [keyName]="'oByLaw'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('fomas')['controls'][i]" #uploader
+                                    [labelName]="'Agreement'" [disabled]="isFormDisabled && i < disabledFoamLength"
+                                    [keyName]="'agreement'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledFoamLength"
+                            [hidden]="isFormDisabled && i < disabledFoamLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeFoma(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addFoma()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">                    
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Documentation and archiving project details, success stories, Beneficiary details etc. in soft and hard copies , uploading in a JJM site or as per the instruction by IA/ DWSM/ GPWSC.
+                    <app-schedule-menu [section]="'Documentation and archiving project details, success stories, Beneficiary details etc.'"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="dapds" *ngFor="let item of this.applicationForm.get('dapds')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-1">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'Documentation and archiving project details, success stories, Beneficiary details etc. - ' + (i + 1)"
+                        [iconOnly]="true">
+                    </app-schedule-menu>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('dapds')['controls'][i]" #uploader
+                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledDapdLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('dapds')['controls'][i]" #uploader
+                                    [labelName]="'Success Stories'" [disabled]="isFormDisabled && i < disabledDapdLength"
+                                    [keyName]="'successStories'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('dapds')['controls'][i]" #uploader
+                                    [labelName]="'Photos'" [disabled]="isFormDisabled && i < disabledDapdLength"
+                                    [keyName]="'photos'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('dapds')['controls'][i]" #uploader
+                                    [labelName]="'Videos'" [disabled]="isFormDisabled && i < disabledDapdLength"
+                                    [keyName]="'videos'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledDapdLength"
+                            [hidden]="isFormDisabled && i < disabledDapdLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeDapd(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addDapd()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">                    
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    To provide any other services instructed by GP/ IA within the provisions of JJM guidelines.
+                    <app-schedule-menu [section]="'To provide any other services instructed by GP/ IA'"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="sigpias" *ngFor="let item of this.applicationForm.get('sigpias')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-1">
+                        {{i + 1}}
+                        <app-schedule-menu [section]="'To provide any other services instructed by GP/ IA - ' + (i + 1)"
+                        [iconOnly]="true">
+                    </app-schedule-menu>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('sigpias')['controls'][i]" #uploader
+                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledSigpiasLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('sigpias')['controls'][i]" #uploader
+                                    [labelName]="'Photos'" [disabled]="isFormDisabled && i < disabledSigpiasLength"
+                                    [keyName]="'photos'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('sigpias')['controls'][i]" #uploader
+                                    [labelName]="'Videos'" [disabled]="isFormDisabled && i < disabledSigpiasLength"
+                                    [keyName]="'videos'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledSigpiasLength"
+                            [hidden]="isFormDisabled && i < disabledSigpiasLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeSigpia(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addSigpia()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div>
+        <hr>
         <div class="row mt-3">
             <div class="col-md-5 col-12 offset-md-1">
                 <p>

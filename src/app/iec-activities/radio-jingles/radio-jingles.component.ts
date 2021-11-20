@@ -120,7 +120,7 @@ export class RadioJinglesComponent implements OnInit {
       video: this.applicationForm.get('rows')['controls'][index].value.video
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {

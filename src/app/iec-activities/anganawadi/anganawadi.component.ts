@@ -193,7 +193,7 @@ export class AnganawadiComponent implements OnInit {
       printedDocument: this.applicationForm.get('rows')['controls'][index].value.printedDocument
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -230,7 +230,7 @@ export class AnganawadiComponent implements OnInit {
       video: this.applicationForm.get('buildingBoarding')['controls'][index].value.video
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -267,7 +267,7 @@ export class AnganawadiComponent implements OnInit {
       video: this.applicationForm.get('rwhGwr')['controls'][index].value.video
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
@@ -304,7 +304,7 @@ export class AnganawadiComponent implements OnInit {
       video: this.applicationForm.get('wallPainging')['controls'][index].value.video
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {

@@ -122,7 +122,7 @@ export class OrientationToGpBoardComponent implements OnInit {
       gpResolutions: this.applicationForm.get('rows')['controls'][index].value.gpResolutions
     }
     // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
