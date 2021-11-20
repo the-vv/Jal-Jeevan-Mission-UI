@@ -37,6 +37,7 @@ export class SupportServicesGpComponent implements OnInit {
   public isFormDisabled: boolean = true;
   isDraftMode: boolean = false;
   disabledLength: number = 0;
+  disabledIdmsLength: number = 0;
   totalValues: any = {};
 
   constructor(
@@ -99,26 +100,63 @@ export class SupportServicesGpComponent implements OnInit {
     })
   }
 
-  addRow() {
-    this.formFields = this.applicationForm.get('rows') as FormArray;
-    const group = this.newRow();
+  ngOnInit(): void {
+    this.applicationForm = this.formBuilder.group({
+      ewsss: this.formBuilder.array([
+        this.newEwsss()
+      ]),
+      nwsss: this.formBuilder.array([
+        this.newNwss()
+      ]),
+      report: '',
+      completedDate: ''
+    })
+    this.route.url.subscribe((val) => {
+      // console.log(val)
+      this.formdata.name = `engagement-isa/${val.map(v => v.path).join('/')}`
+      // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
+    })
+  }
+  get f() { return this.applicationForm.controls }
+
+  addEwss() {
+    this.formFields = this.applicationForm.get('ewsss') as FormArray;
+    const group = this.newEwsss();
     this.formFields.push(group);
   }
 
-  newRow(): FormGroup {
+  newEwsss(): FormGroup {
     return this.formBuilder.group({
-      photos: '',
-      videos: '',
-      report: '',
-      attendanceCopy: ''
+      name: '',
+      ward: '',
+      totalHss: '',
+      tankCapacity: '',
+      typeOfSource: '',
+      issue: '',
+      copyAssetRegister: ''
     });
   }
 
-  removeMeeting(index: number) {
+  addNwss() {
+    const group = this.newNwss();
+    (this.applicationForm.get('nwsss') as FormArray).push(group);
+  }
+
+  newNwss(): FormGroup {
+    return this.formBuilder.group({
+      name: '',
+      ward: '',
+      totalHss: '',
+      tankCapacity: '',
+      typeOfSource: '',
+      issue: '',
+      copyAssetRegister: ''
+    });
+  }
+
+  removeEwss(index: number) {
     let allFilesFieldsToDelete: any = {
-      photos: this.applicationForm.get('rows')['controls'][index].value.photos,
-      videos: this.applicationForm.get('rows')['controls'][index].value.videos,
-      attendanceCopy: this.applicationForm.get('rows')['controls'][index].value.attendanceCopy
+      copyAssetRegister: this.applicationForm.get('ewsss')['controls'][index].value.copyAssetRegister
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
@@ -131,12 +169,12 @@ export class SupportServicesGpComponent implements OnInit {
         }
         this.rest.deleteBulkFiles(allFileIds)
           .subscribe(res => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields = this.applicationForm.get('ewsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
           }, err => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields = this.applicationForm.get('ewsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
             this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
@@ -144,29 +182,51 @@ export class SupportServicesGpComponent implements OnInit {
       }
       catch (e) {
         console.log(e)
-        this.formFields = this.applicationForm.get('rows') as FormArray;
+        this.formFields = this.applicationForm.get('ewsss') as FormArray;
         this.formFields.removeAt(index)
       }
     } else {
-      this.formFields = this.applicationForm.get('rows') as FormArray;
+      this.formFields = this.applicationForm.get('ewsss') as FormArray;
       this.formFields.removeAt(index)
     }
   }
 
-  ngOnInit(): void {
-    this.applicationForm = this.formBuilder.group({
-      rows: this.formBuilder.array([
-        this.newRow()
-      ]),
-      completedDate: ''
-    })
-    this.route.url.subscribe((val) => {
-      // console.log(val)
-      this.formdata.name = `engagement-isa/${val.map(v => v.path).join('/')}`
-      // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
-    })
+  removeNwss(index: number) {
+    let allFilesFieldsToDelete: any = {
+      copyAssetRegister: this.applicationForm.get('ewsss')['controls'][index].value.copyAssetRegister
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el].length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('idms') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('idms') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('idms') as FormArray;
+      this.formFields.removeAt(index)
+    }
   }
-  get f() { return this.applicationForm.controls }
 
   public async onSubmit() {
     let confirmation = await this.confirmSubmit()
@@ -240,8 +300,8 @@ export class SupportServicesGpComponent implements OnInit {
   applicSelected(app: Application) {
     console.log(app)
     this.onReset();
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
+    (this.applicationForm.get('rows') as FormArray).clear();
+    (this.applicationForm.get('idms') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -249,15 +309,19 @@ export class SupportServicesGpComponent implements OnInit {
       this.isDraftMode = false;
     }
     this.editingId = app._id
-    for (let i = 0; i < app.values.rows.length; i++) {
-      this.addRow()
+    for (let i = 0; i < app.values.wsss.length; i++) {
+      this.addEwss()
+    }
+    for (let i = 0; i < app.values.idms.length; i++) {
+      this.addNwss()
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
-    this.findTotal()
+    this.disabledIdmsLength = app.values.idms.length;
+    // console.log(this.applicationForm)
+    // this.findTotal()
   }
 
   onReset() {
@@ -266,7 +330,7 @@ export class SupportServicesGpComponent implements OnInit {
     this.formdata.files = []
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
-    this.addRow()
+    this.addEwss()
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
@@ -297,26 +361,26 @@ export class SupportServicesGpComponent implements OnInit {
     })
   }
 
-  findTotal() {
-    this.applicationForm.value.rows.forEach(el => {
-      // go through each key value and add to total if the value is convertible to number
-      Object.keys(el).forEach(key => {
-        if (Number.isNaN(Number(el[key]))) {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += 0
-          } else {
-            this.totalValues[key] = 0
-          }
-        } else {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += Number(el[key])
-          } else {
-            this.totalValues[key] = Number(el[key])
-          }
-        }
-      })
-    })
-  }
+  // findTotal() {
+  //   this.applicationForm.value.rows.forEach(el => {
+  //     // go through each key value and add to total if the value is convertible to number
+  //     Object.keys(el).forEach(key => {
+  //       if (Number.isNaN(Number(el[key]))) {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += 0
+  //         } else {
+  //           this.totalValues[key] = 0
+  //         }
+  //       } else {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += Number(el[key])
+  //         } else {
+  //           this.totalValues[key] = Number(el[key])
+  //         }
+  //       }
+  //     })
+  //   })
+  // }
 
   getReportControl() {
     return this.applicationForm.get('report') as FormGroup;
