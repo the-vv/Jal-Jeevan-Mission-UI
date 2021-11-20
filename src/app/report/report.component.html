@@ -2,7 +2,9 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-                <li class="breadcrumb-item text-capitalize"><a href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}} ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
+                <li class="breadcrumb-item text-capitalize"><a
+                        href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}}
+                        ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
                 <li class="breadcrumb-item" aria-current="page">Reports</li>
             </ol>
         </nav>
@@ -77,12 +79,17 @@
     <div class="row mb-3" *ngFor="let district of selectedDistricts">
         <div class="col-12 pagebreak" *ngFor="let gp of selectedGps">
             <div class="mb-4 " *ngIf="checkGpInDistrict(district,gp)">
-                <strong class="text-center pagebreak fs-2 d-block mb-3">{{district}} District, {{gp}} Grama Panchayath</strong>
+                <strong class="text-center pagebreak fs-2 d-block mb-3">{{district}} District, {{gp}} Grama
+                    Panchayath</strong>
                 <!-- <div class="row" *ngIf="SelectedPhases.includes('Planning Phase')">
                     <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Planning Phase'
                         name='planningphase/isapositioning' *ngIf="selectedComponents.includes('ISA Positioning')">
                     </app-isa-positioning>
                 </div> -->
+
+
+                <!-- IEC/BCC/IPC activities START -->
+
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-wall-paintings [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
                         name='iec-activities/wall-paintings'
@@ -97,32 +104,28 @@
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-radio-jingles [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/radio-jingles'
-                        *ngIf="selectedComponents.includes('Radio jingles')">
+                        name='iec-activities/radio-jingles' *ngIf="selectedComponents.includes('Radio jingles')">
                     </app-radio-jingles>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-tv-sports [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/tv-spots'
-                        *ngIf="selectedComponents.includes('TV spots')">
+                        name='iec-activities/tv-spots' *ngIf="selectedComponents.includes('TV spots')">
                     </app-tv-sports>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-flipbook-charts [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/flipbooks-charts'
-                        *ngIf="selectedComponents.includes('Flipbooks/ charts')">
+                        name='iec-activities/flipbooks-charts' *ngIf="selectedComponents.includes('Flipbooks/ charts')">
                     </app-flipbook-charts>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
-                    <app-posters-tourist-locations [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/posters-tourist-locations'
+                    <app-posters-tourist-locations [print]="true" [district]="district" [gp]="gp"
+                        phase='IEC/BCC/IPC activities' name='iec-activities/posters-tourist-locations'
                         *ngIf="selectedComponents.includes('Posters at tourist locations')">
                     </app-posters-tourist-locations>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-schools [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/schools'
-                        *ngIf="selectedComponents.includes('Schools')">
+                        name='iec-activities/schools' *ngIf="selectedComponents.includes('Schools')">
                     </app-schools>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
@@ -131,36 +134,106 @@
                         *ngIf="selectedComponents.includes('Anganwadi centers')">
                     </app-anganawadi>
                 </div>
+                <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
+                    <app-gp-buldings [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
+                        name='iec-activities/gp-buildings' *ngIf="selectedComponents.includes('GP buildings')">
+                    </app-gp-buldings>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-laborotaries [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/laborotaries' *ngIf="selectedComponents.includes('Laboratories')">
+                    </app-laborotaries>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-phe-offices [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/phe-offices' *ngIf="selectedComponents.includes('Laboratories')">
+                    </app-phe-offices>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-announcement-vans [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/announcement-vans'
+                        *ngIf="selectedComponents.includes('Announcement vans')">
+                    </app-announcement-vans>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-other-activities [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/other-activities' *ngIf="selectedComponents.includes('Other Activities')">
+                    </app-other-activities>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-water-resource-mapping [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='iec-activities/water-resource-mapping-exercise'
+                        *ngIf="selectedComponents.includes('Water resource mapping exercise')">
+                    </app-water-resource-mapping>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-water-audit-budget [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/water-audit-budget-exercise'
+                        *ngIf="selectedComponents.includes('Water Audit/ budget exercise')">
+                    </app-water-audit-budget>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-nukkad-natak-drama-streetplay [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='iec-activities/nukkad-natak-drama-streetplay'
+                        *ngIf="selectedComponents.includes('Nukkad natak/ drama/ streetplay')">
+                    </app-nukkad-natak-drama-streetplay>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-other-activities [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='iec-activities/folksongs-kalajatha'
+                        *ngIf="selectedComponents.includes('Folksongs/ Kalajatha')">
+                    </app-other-activities>
+                </div>
+
+                <!-- IEC/BCC/IPC activities END -->
+
+                <!-- Engagements of ISAs START -->
+
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
                     <app-isa-positioning [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
-                        name='engagement-isa/isa-positioning'
-                        *ngIf="selectedComponents.includes('ISA Positioning')">
+                        name='engagement-isa/isa-positioning' *ngIf="selectedComponents.includes('ISA Positioning')">
                     </app-isa-positioning>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
-                    <app-orientation-to-gp-board [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
-                        name='engagement-isa/orientation-to-gp-board-members'
+                    <app-orientation-to-gp-board [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='engagement-isa/orientation-to-gp-board-members'
                         *ngIf="selectedComponents.includes('Orientation to GP board members, socio political leaders')">
                     </app-orientation-to-gp-board>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
-                    <app-special-orientation-training [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
-                        name='engagement-isa/special-orientation-training'
+                    <app-special-orientation-training [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='engagement-isa/special-orientation-training'
                         *ngIf="selectedComponents.includes('Special orientation training for key stake holders suchas socio, political and Oppenion leaders, at GP/ Village level')">
                     </app-special-orientation-training>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
-                    <app-develop-convergance-plan [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
-                        name='engagement-isa/develop-covergence-plan-gwr-rwh'
+                    <app-develop-convergance-plan [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='engagement-isa/develop-covergence-plan-gwr-rwh'
                         *ngIf="selectedComponents.includes('To develop a convergence plan for GWR, RWH and gray water management and its facilitation')">
                     </app-develop-convergance-plan>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
-                    <app-assisting-nodal-agency [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
-                        name='engagement-isa/assisting-model-agency-gp-gpwc'
+                    <app-assisting-nodal-agency [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs' name='engagement-isa/assisting-model-agency-gp-gpwc'
                         *ngIf="selectedComponents.includes('Assisting nodal agency/GP/GPWSC')">
                     </app-assisting-nodal-agency>
                 </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-support-services-gp [print]="true" [district]="district" [gp]="gp" phase='Engagements of ISAs'
+                        name='engagement-isa/support-services-to-gp'
+                        *ngIf="selectedComponents.includes('Support Services to GP')">
+                    </app-support-services-gp>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Engagements of ISAs')">
+                    <app-handhold-support-gp-gpwc-gp [print]="true" [district]="district" [gp]="gp"
+                        phase='Engagements of ISAs'
+                        name='engagement-isa/handhold-support-gp-gpwc-gp-level-beneficiary-committee'
+                        *ngIf="selectedComponents.includes('Handhold support to GP/GPWSC/GP level beneficiary committee and scheme managing team and submission of project completion report')">
+                    </app-handhold-support-gp-gpwc-gp>
+                </div>
+
+                <!-- Engagements of ISAs END -->
+
             </div>
         </div>
     </div>

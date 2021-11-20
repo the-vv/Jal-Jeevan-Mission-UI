@@ -6,18 +6,19 @@
                     <li class="breadcrumb-item text-capitalize"><a href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}} ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
                     <li class="breadcrumb-item" aria-current="page"><a [routerLink]="['/', routeUser, 'district']">{{data.selectedDetails?.district}}</a></li>
                     <li class="breadcrumb-item" aria-current="page"><a [routerLink]="['/', routeUser, 'district']">{{data.selectedDetails?.gp}}</a></li>
-                    <li class="breadcrumb-item" aria-current="page">Phase Components</li>
+                    <li class="breadcrumb-item" aria-current="page">Activities</li>
                 </ol>
             </nav>
         </div>
     </div>
     <div class="col-12 mt-3"> 
-        <p class="h5">Phase and components selection</p>
+        <p class="h3">Activities and Sub Activities</p>
     </div>
     <!-- <div class="col-12 col-md-6" *ngIf="!isSmallScreen">
         <p-tieredMenu [model]="menuItems" styleClass="shadow border rounded"></p-tieredMenu>
     </div> -->
-    <div class="col-12">
+    <div class="col-12"
+    [ngClass]="isAdmin ? 'animate__animated' : 'animate__animated animate__fadeInUp animate__faster'">
         <p-panelMenu [model]="menuItems" [multiple]="false" [style]="{'width':'100%'}"></p-panelMenu>
     </div>
 </div>

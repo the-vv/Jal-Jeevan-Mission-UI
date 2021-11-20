@@ -115,9 +115,8 @@ export class RadioJinglesComponent implements OnInit {
 
   removeMeeting(index: number) {
     let allFilesFieldsToDelete: any = {
-      photoIndex: this.applicationForm.get('rows')['controls'][index].value.photoIndex,
-      photo: this.applicationForm.get('rows')['controls'][index].value.photo,
-      video: this.applicationForm.get('rows')['controls'][index].value.video
+      report: this.applicationForm.get('rows')['controls'][index].value.report,
+      recordedAudio: this.applicationForm.get('rows')['controls'][index].value.recordedAudio
     }
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
