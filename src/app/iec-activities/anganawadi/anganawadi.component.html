@@ -1,18 +1,25 @@
-<div *ngIf="printMode" class="col-12 text-start pagebreak">
-    <strong class="h2 text-center mb-0 d-block">{{data.getLongName(currentName)}}</strong>
+<div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
+    <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>    
     <div>
+        <div class="row mt-1">
+            <div class="col-12">
+                <p class="h4 text-center">
+                    <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
+                </p>
+            </div>
+        </div>
         <table class="table table-striped fs-4 caption-top">
             <caption>Building Boarding</caption>
             <thead>
                 <tr>
-                    <!-- <th scope="col">#</th> -->
-                    <th scope="col">Name of School</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name & Number of Anganvadi</th>
                     <th scope="col">Completed area in Sq.ft</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.buildingBoarding; let i = index">
-                    <!-- <th scope="row">{{i+1}}</th> -->
+                    <th scope="row">{{i+1}}</th>
                     <td>{{row.nameNumberAnganvadi}}</td>
                     <td>{{row.completedArea}}</td>
                 </tr>
@@ -56,14 +63,14 @@
             <caption>Wall Painting</caption>
             <thead>
                 <tr>
-                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">#</th>
                     <th scope="col">Name of School</th>
                     <th scope="col">Completed area in Sq.ft</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let row of applicationForm.value?.buildingBoarding; let i = index">
-                    <!-- <th scope="row">{{i+1}}</th> -->
+                    <th scope="row">{{i+1}}</th>
                     <td>{{row.nameOfSchool}}</td>
                     <td>{{row.completedArea}}</td>
                 </tr>
@@ -75,13 +82,6 @@
             <!-- <td>{{totalValues.completedArea}}</td> -->
             <!-- </tfoot> -->
         </table>
-    </div>
-    <div class="row mt-1">
-        <div class="col-12">
-            <p class="h4 text-center">
-                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
-            </p>
-        </div>
     </div>
 </div>
 

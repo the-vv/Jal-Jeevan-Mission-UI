@@ -1,1 +1,158 @@
-<p>shg-involvement works!</p>
+<div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
+    <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>
+    <!-- <div>
+        <table class="table table-striped fs-4">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Proposed site</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.proposedSite}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
+        </table>
+    </div> -->
+
+    <div class="row mt-1">
+        <div class="col-12">
+            <p class="h4 text-center">
+                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
+    </div>
+    <mat-card class="bg-blue-custom">
+        <p class="h2">SHG  involvement</p>
+        <p>
+            Conduct one Orientation programme per GP for SHG functionaries 
+        </p>
+    </mat-card>
+    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+        Editing has been disabled by admin. Contact them if you need editing permission
+    </div>
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
+        Application was not submitted. Currently in edit mode. Saved as Draft
+    </div>
+    <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row">
+                    <div class="col-12 col-md-2">
+                        <p class="h6 text-start pt-3">
+                            <app-schedule-menu [section]="'SHG  involvement'" [iconOnly]="false">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'Photos'" [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'photos'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
+                                    [labelName]="'Report'" [disabled]="isFormDisabled && i < disabledLength"
+                                    [keyName]="'report'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeMeeting(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div> -->
+                </div>
+            </ng-container>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addRow()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div> -->
+        <!-- <div class="row my-3">
+            <div class="col-12 col-md-11 offset-md-1">
+                <app-file-uploader [control]="this.applicationForm" #uploader [labelName]="'Report'"
+                    [disabled]="isFormDisabled && applicationForm.value?.report?.length" [keyName]="'report'"
+                    (onfileChanges)="onFileChanges()">
+                </app-file-uploader>
+            </div>
+        </div> -->
+
+        <div class="row my-3">
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Completed Date</mat-label>
+                        <input matInput [matDatepicker]="dp1" formControlName="completedDate"
+                            [readonly]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp1
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Submiting Application. Please Wait...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                    (click)="onSubmit()">
+                    Submit
+                    Application
+                    <mat-icon>upload_file</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+            </svg>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    Application Submitted Successfully
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

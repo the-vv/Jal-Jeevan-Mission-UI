@@ -18,8 +18,9 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-2">
           <li class="nav-item">
-            <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client')" [ngClass]="user.isloggedin ? '' : 'd-none'"
-              routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" aria-current="page"><i class="pi pi-home"></i> Home</a>
+            <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client')"
+              [ngClass]="user.isloggedin ? '' : 'd-none'" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }" aria-current="page"><i class="pi pi-home"></i> Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/calendar'"
@@ -65,8 +66,9 @@
 
   <router-outlet></router-outlet>
 
-  <button mat-raised-button color="primary" class="fab-button-custom px-md-4 py-md-1 animate__animated animate__fadeInUp animate__delay-2s"
-    *ngIf="!pwaService.isPwaMode" [disabled]="!pwaService.promptEvent" (click)="pwaService.installPWA()">
+  <button mat-raised-button color="primary"
+    class="fab-button-custom px-md-4 py-md-1 animate__animated animate__fadeInUp animate__delay-2s"
+    *ngIf="!pwaService.isPwaMode && showInstallButton" [disabled]="!pwaService.promptEvent" (click)="pwaService.installPWA()">
     <span class="d-none d-md-inline-block">Install Now</span>
     <i class=" ms-md-1 pi pi-download animate__animated animate__repeat-3 animate__heartBeat animate__delay-3s"
       *ngIf="pwaService.promptEvent"></i>

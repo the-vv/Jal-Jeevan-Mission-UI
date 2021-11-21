@@ -1,5 +1,5 @@
 import { BrowserModule, } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -74,6 +74,7 @@ import { WardDetailsComponent } from './ward-details/ward-details.component';
 import { RippleModule } from 'primeng/ripple';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 
 export const DATE_FORMATS = {
@@ -154,7 +155,7 @@ export const DATE_FORMATS = {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerImmediately'
+      registrationStrategy: 'registerWhenStable:30000'
     }),
     ButtonModule
   ],
@@ -165,6 +166,7 @@ export const DATE_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
     MessageService,
     DatePipe
   ],

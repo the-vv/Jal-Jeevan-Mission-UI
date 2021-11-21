@@ -20,6 +20,7 @@ import { PwaService } from './services/pwa-service.service';
 })
 export class AppComponent implements OnInit {
   public configData: any = environment;
+  public showInstallButton: boolean = true;
 
   constructor(
     public user: UserService,
@@ -62,6 +63,14 @@ export class AppComponent implements OnInit {
         this.spinnerService.hide('httpSpinner')
       }
     });
+
+    // set timout to check if install buton active or not, else hide button
+    setTimeout(() => {
+      if(!this.pwaService.promptEvent) {
+        this.showInstallButton = false;
+      }
+    }, 1000 * 60 * 3) // wait for 3 minutes and if not available to install, hide button
+
   }
 
   openContactDialoge() {
