@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
+import { fromEvent, merge, Observable, Observer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,8 @@ export class PwaService {
 
   public promptEvent: any = undefined;
   public isPwaMode: boolean = false;
+  public isOnline: boolean = true;
+  private onceOffline: boolean = false;
 
   constructor(
     private updates: SwUpdate,
@@ -33,24 +37,51 @@ export class PwaService {
         document.location.reload();
       });
     });
-  }
-
-  installPWA() {
-    this.promptEvent?.prompt()
-    this.promptEvent?.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        this.snackbar.open('Installed Successfully', 'Dismiss', {
-          duration: 5000,
-          panelClass: ['bg-success', 'text-white']
+    this.checkOnline().subscribe(v => {
+      this.isOnline = v;
+      if (!v) {
+        this.onceOffline = true;
+        this.snackbar.open('Network unavailable, Please connect to a network', 'Dismiss', {
+          duration: 60000, panelClass: ['bg-danger', 'text-white']
         })
-        this.promptEvent = undefined;
-        this.isPwaMode = true;
-      } else {
-        this.snackbar.open('Installation Failed', 'Dismiss', {
-          duration: 5000,
-          panelClass: ['bg-danger', 'text-white']
+      }
+      else if(this.onceOffline) {
+        this.snackbar.open('Network connection established', 'Dismiss', {
+          duration: 5000, panelClass: ['bg-success', 'text-white']
         })
       }
     })
   }
+
+  installPWA() {
+      this.promptEvent?.prompt()
+    this.promptEvent?.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          this.snackbar.open('Installed Successfully', 'Dismiss', {
+            duration: 5000,
+            panelClass: ['bg-success', 'text-white']
+          })
+          this.promptEvent = undefined;
+          this.isPwaMode = true;
+        } else {
+          this.snackbar.open('Installation Failed', 'Dismiss', {
+            duration: 5000,
+            panelClass: ['bg-danger', 'text-white']
+          })
+        }
+      })
+    }
+
+  checkOnline() {
+      return merge<boolean>(
+        fromEvent(window, 'offline').pipe(map(() => false)),
+        fromEvent(window, 'online').pipe(map(() => true)),
+        new Observable((sub: Observer<boolean>) => {
+          sub.next(navigator.onLine);
+          sub.complete();
+        }));
+    }
+
+
+    
 }
