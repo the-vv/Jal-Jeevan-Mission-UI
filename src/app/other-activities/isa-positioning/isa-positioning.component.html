@@ -127,7 +127,7 @@
 </div>
 <div *ngIf="!printMode">
     <div class="col-12 col-md-12 mx-auto navigator" *ngIf="formdata.name">
-        <app-bread-crumb [admin]="isAdmin" [name]="formdata.name"></app-bread-crumb>
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
     </div>
     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
         <div class="row">

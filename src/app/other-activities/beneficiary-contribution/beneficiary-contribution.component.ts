@@ -171,10 +171,10 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
       statementDate: ''
     })
     this.route.url.subscribe((val) => {
-      if (!this.data.selectedDetails.phase) {
-        this.data.selectComponent(`Planning Phase/${val[1].path}`)
-      }
-      this.formdata.name = val.map(v => v.path).join('/')
+      // if (!this.data.selectedDetails.phase) {
+      //   this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      // }
+      this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
       console.log(val.map(v => v.path).join('/'))
     })
   }

@@ -72,17 +72,20 @@ export class DataService {
       ['Support Services to GP', 'engagement-isa/support-services-to-gp'],
       ['Handhold support to GP/GPWSC/GP level beneficiary committee and scheme managing team and submission of project completion report', 'engagement-isa/handhold-support-gp-gpwc-gp-level-beneficiary-committee'],
     ],
+    'WQM& S- Training and Capacity Building': [
+
+    ],
     // 'Planning Phase': [
     'Others': [
       // ['ISA Positioning', 'planningphase/isapositioning'],
-      ['Orientation to GP & Staff, Special Board Meeting', 'planningphase/orientationtogp'],
-      // ['GP IEC', 'planningphase/gpiec'],
-      ['Community Orientation', 'planningphase/communityorientation'],
-      ['GP action plan except DER', 'planningphase/gpactionplanexceptder'],
-      // ['GP Board meetting for Gramasabha', 'planningphase/gpboardmeettingforgramasabha'],
-      ['Gramasabha action plan approved', 'planningphase/gramasabhaactionplanapproved'],
-      ['GPWSC & GP Board meetting', 'planningphase/gpwscgpboardmeetting'],
-      ['Beneficiary contribution Collection', 'planningphase/beneficiarycontributioncollection']
+      ['Orientation to GP & Staff, Special Board Meeting', 'other-activities/orientationtogp'],
+      // ['GP IEC', 'other-activities/gpiec'],
+      ['Community Orientation', 'other-activities/communityorientation'],
+      ['GP action plan except DER', 'other-activities/gpactionplanexceptder'],
+      // ['GP Board meetting for Gramasabha', 'other-activities/gpboardmeettingforgramasabha'],
+      ['Gramasabha action plan approved', 'other-activities/gramasabhaactionplanapproved'],
+      ['GPWSC & GP Board meetting', 'other-activities/gpwscgpboardmeetting'],
+      ['Beneficiary contribution Collection', 'other-activities/beneficiarycontributioncollection']
     ],
   }
 

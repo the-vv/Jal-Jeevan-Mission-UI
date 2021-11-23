@@ -1,33 +1,28 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Application, ApplicationFile } from '../../models/application';
 import { DataService } from '../../services/data.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
+import * as _moment from 'moment';
+import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Selected } from 'src/app/models/selected';
-import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-isa-positioning',
-  templateUrl: './isa-positioning.component.html',
-  styleUrls: ['./isa-positioning.component.scss']
+  selector: 'app-community-orientation',
+  templateUrl: './community-orientation.component.html',
+  styleUrls: ['./community-orientation.component.scss']
 })
-export class IsaPositioningComponent implements OnInit, AfterViewInit {
-
-  @Input('print') public printMode: boolean = false;
-  @Input('district') public currentDistrict: string;
-  @Input('gp') public currentGp: string;
-  @Input('phase') public currentPhase: string;
-  @Input('name') public currentName: string;
+export class CommunityOrientationComponent implements OnInit, AfterViewInit {
 
   formdata: Application = {
     files: []
   };
+
   filesToUpload: any[] = [];
+  iecActivities: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
-  canUpload: boolean = false;
   applicationForm!: FormGroup;
   submitting: boolean = false;
   submittedApplcations: Application[] = [];
@@ -35,8 +30,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
   showForm: boolean = false;
   submitted: boolean = false;
   targetDate: Date;
-  settingDateProgress: boolean = false;  
-  configData: any = environment;
+  settingDateProgress: boolean = false;
 
   constructor(
     private user: UserService,
@@ -44,88 +38,107 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private snackBar: MatSnackBar,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) { }
 
   ngAfterViewInit() {
-    if (!this.printMode) {
-      this.rest.getApplications(this.data.selectedDetails)
-        .subscribe(res => {
-          console.log(res)
-          this.submittedApplcations = res;
-          if (res.length > 0) {
-            this.editingId = res[0]._id;
+    this.rest.getApplications(this.data.selectedDetails)
+      .subscribe(res => {
+        console.log(res)
+        this.submittedApplcations = res;
+        if (res.length > 0) {
+          this.editingId = res[0]._id;
+          this.targetDate = res[0].targetDate;
+          this.showForm = false;
+          if(res[0].values) {
             this.applicSelected(res[0])
-            this.showForm = false;
           }
           else {
             this.showForm = true;
+            for (let i = 0; i < this.data.getWardCount(); i++) {
+              this.addWard()
+            }
           }
-        }, e => {
-          console.log(e.error);
-          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
-        })
-    } else {
-      let tempCategory: Selected = {
-        district: this.currentDistrict,
-        gp: this.currentGp,
-        phase: this.currentPhase,
-        component: this.data.getLongName(this.currentName)
-      }
-      this.rest.getApplications(tempCategory).subscribe(res => {
-        if (res.length > 0) {
-          console.log(res)
-          // this.editingId = res[0]._id;
-          this.applicSelected(res[0])
-          // this.showForm = false;
         }
-      })
-    }
-  }
-
-  ngOnInit(): void {
-    if (!this.printMode) {
-      this.route.url.subscribe((val) => {
-        if (!this.data.selectedDetails.phase) {
-          this.data.selectComponent(`Planning Phase/${val[1].path}`)
+        else {
+          this.showForm = true;
+          for (let i = 0; i < this.data.getWardCount(); i++) {
+            this.addWard()
+          }
         }
-        this.formdata.name = val.map(v => v.path).join('/')
-        console.log(val.map(v => v.path).join('/'))
+      }, e => {
+        console.log(e.error)
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
       })
-    }
-    this.canUpload = !this.user.isAdmin;
-    this.applicationForm = this.formBuilder.group({
-      dwsmDate: [''],
-      dwsmNo: [''],
-      dwsmProceedingDate: '',
-      dwsmAttatchement: '',
-      implementingAgency: '',
-      agreementDate: [''],
-      agreementNo: [''],
-      agreementIndex: '',
-      officeStartingDate: [''],
-      officeStartingPhotoIndeex: '',
-      teamLeaderAddress: [''],
-      teamLeaderNo: [''],
-      teamLeaderCVIndex: '',
-      teamLeaderExperience: '',
-      teamLeaderQualification: '',
-      comminityEngAddress: [''],
-      communityEngNo: [''],
-      communityEngCVIndex: '',
-      communityEngExperience: '',
-      communityEngQualification: '',
-      communityfacilAddress: [''],
-      communityFacilNo: [''],
-      communityFacilitatorCVIndex: '',
-      communityFacilExperience: '',
-      communityFacilQualification: ''
-    })
-    this.applicationForm.valueChanges.subscribe(() => {
+    this.applicationForm.statusChanges.subscribe(() => {
       this.submitted = false;
     })
   }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnInit(): void {
+    this.applicationForm = this.formBuilder.group({
+      wards: this.formBuilder.array([])
+    })
+    // console.log((this.applicationForm.get('wards') as FormArray).controls)    
+    this.route.url.subscribe((val) => {
+      if (!this.data.selectedDetails.phase) {
+        this.data.selectComponent(`Planning Phase/${val[1].path}`)
+      }
+      this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
+      console.log(val.map(v => v.path).join('/'))
+    })
+  }
   get f() { return this.applicationForm.controls }
+
+  wards() {
+    return this.applicationForm.get('wards') as FormArray
+  }
+
+  getMeeting(windex: number, mindex: number) {
+    let w = (this.wards().at(windex).get('meetings') as FormArray).at(mindex)
+    // console.log(`w`, w)
+    return w
+  }
+
+  newWard() {
+    return this.formBuilder.group({
+      meetings: this.formBuilder.array([this.newMeeting()])
+    })
+  }
+
+  addWard() {
+    console.log('Adding Ward')
+    this.wards().push(this.newWard())
+  }
+
+  wardMeetings(index: number) {
+    return this.wards().at(index).get('meetings') as FormArray
+  }
+
+  addMeeting(index: number) {
+    this.wardMeetings(index).push(this.newMeeting())
+  }
+
+  newMeeting() {
+    return this.formBuilder.group({
+      date: [''],
+      participationType: '',
+      attendanceM: '',
+      attendanceF: '',
+      attendanceT: '',
+      reportIndex: '',
+      minutesIndex: ''
+    })
+  }
+
+  getKeys(o: Object) {
+    return Object.keys(o)
+  }
 
   onSubmit() {
     if (this.editingId.length > 0) {
@@ -146,7 +159,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
       let form: FormData = new FormData();
       this.filesToUpload.forEach(f => {
         if (!f.file.fid) {
-          form.append(`Attatchement-${f.fname}`, f.file, `Attatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
+          form.append(`ClusterMeetingAtatchement-${f.fname}`, f.file, `ClusterMeetingAtatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
         }
       })
       this.submitting = true;
@@ -170,7 +183,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
           this.sendApplication(this.formdata, this.editingId.length > 0)
           console.log(this.formdata)
         }, err => {
-          console.warn(err.error.status)
+          console.warn(err.error)
           if (err.error.status == 'Empty file') {
             this.formdata.values = this.applicationForm.value;
             this.formdata.category = this.data.selectedDetails;
@@ -180,44 +193,27 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             console.log(this.formdata)
           }
           else {
-            this, this.submitting = false;
-            this.snackBar.open('Error uploading File(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error uploading file(s), Please try again later', 'Dismiss', { duration: 5000 })
           }
         })
     }
   }
 
-  fileSelected(event: any, name: string) {
-    this.submitted = false
-    // console.log(event.target.files)
+  fileSelected(event: any, windex: number, mindex: number, ftype: number) {
+    // console.log(event.files)
+    this.submitted = false;
     this.filesToUpload.push({
-      fname: `f${name}`,
+      fname: `fC${windex}M${mindex}T${ftype}`,
       file: event.files[0]
-    });
-    if (name === 'agreement') {
-      this.applicationForm.patchValue({ agreementIndex: `f${name}` })
-      // this.agreementFile = event.files[0]
+    })
+    let tform = this.getMeeting(windex, mindex)
+    // tform.reportIndex = `fC${windex}M${mindex}T${ftype}`;
+    if(ftype === 0) {
+      tform.patchValue({ reportIndex: `fC${windex}M${mindex}T${ftype}` })
+    } else {
+      tform.patchValue({ minutesIndex: `fC${windex}M${mindex}T${ftype}` })
     }
-    else if (name === 'dsmMeeting') {
-      this.applicationForm.patchValue({ dwsmAttatchement: `f${name}` })
-      // this.dsmMeetingFile = event.files[0]
-    }
-    else if (name === 'officeStartingPhoto') {
-      this.applicationForm.patchValue({ officeStartingPhotoIndeex: `f${name}` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    else if (name === 'leaderCV') {
-      this.applicationForm.patchValue({ teamLeaderCVIndex: `f${name}` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    else if (name === 'CommunutyEngCV') {
-      this.applicationForm.patchValue({ communityEngCVIndex: `f${name}` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    else if (name === 'CommunityFacilCV') {
-      this.applicationForm.patchValue({ communityFacilitatorCVIndex: `f${name}` })
-      // this.officeStartingPhoto = event.files[0]
-    }
+    console.log(tform)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
@@ -232,17 +228,18 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.applicationForm.reset()
             this.formdata.files = []
           }
+          console.log(this.submittedApplcations)
           this.submittedApplcations = this.submittedApplcations.filter(el => {
             return el._id != res._id
           });
           this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset()
-          this, this.applicSelected(res);
+          this.applicSelected(res)
           this.submitted = true;
         }, e => {
           console.log(e.error.status)
+          // this.submitted = false;
           this.submitting = false;
-          this.snackBar.open('Error Submitting Application, please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
@@ -257,54 +254,36 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.formdata.files = []
           }
           this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset()
-          this.applicSelected(res);
+          this.applicSelected(res)
           this.submitted = true;
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error Submitting Application, please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
-  fileRemoved(name: string, fid: string) {
+  fileRemoved(windex: number, mindex: number, fid: string, ftype: number) {
     this.submitted = false;
+    console.log(this.formdata)
     this.filesToUpload = this.filesToUpload.filter(el => {
-      console.log(el, name)
-      return el.fname != `f${name}`
-    });
-    // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
-    if (name === 'agreement') {
-      this.applicationForm.patchValue({ agreementIndex: `` })
+      // console.log(el, index)
+      return el.fname != `fC${windex}M${mindex}T${ftype}`
+    })
+    if(ftype === 0) {
+      this.getMeeting(windex, mindex).patchValue({ reportIndex: '' })
+    } else {
+      this.getMeeting(windex, mindex).patchValue({ minutesIndex: '' })
     }
-    else if (name === 'dsmMeeting') {
-      this.applicationForm.patchValue({ dwsmAttatchement: `` })
-    }
-    else if (name === 'officeStartingPhoto') {
-      this.applicationForm.patchValue({ officeStartingPhotoIndeex: `` })
-    }
-    else if (name === 'leaderCV') {
-      this.applicationForm.patchValue({ teamLeaderCVIndex: `` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    else if (name === 'CommunutyEngCV') {
-      this.applicationForm.patchValue({ communityEngCVIndex: `` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    else if (name === 'CommunityFacilCV') {
-      this.applicationForm.patchValue({ communityFacilitatorCVIndex: `` })
-      // this.officeStartingPhoto = event.files[0]
-    }
-    if (fid?.length) {
-      console.log(this.formdata)
+    if (fid?.length > 0) {
       this.formdata._id = this.editingId
       this.formdata.values = this.applicationForm.value
       this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        return el.fieldName != `f${name}`
+        // console.log(el.fieldName, index)
+        return el.fieldName != `fC${windex}M${mindex}T${ftype}`
       })
-      console.log(this.formdata)
-      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
+      fid?.length && this.sendApplication(this.formdata, true, true)
       if (fid) {
         this.rest.deleteFile(fid)
           .subscribe((res) => {
@@ -314,14 +293,30 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     }
   }
 
+  getFileFromIndex(windex: number, mindex: number, ftype: number) {
+    // console.log(this.filesToUpload)
+    return this.filesToUpload.filter(el => {
+      return el.fname == `fC${windex}M${mindex}T${ftype}`
+    })[0]
+  }
+
   applicSelected(app: Application) {
     this.targetDate = app.targetDate;
-    this.onReset();
-    this.showForm = true
+    this.wards().clear();
+    this.editingId = app._id
+    for (let i = 0; i < app.values.wards.length; i++) {
+      this.addWard()
+      for (let j = 1; j < app.values.wards[i].meetings.length; j++) {
+        this.addMeeting(i)
+      }
+    }
     this.applicationForm.patchValue(app.values);
+    console.log(this.applicationForm)
+    console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[])?.forEach(f => {
+      this.filesToUpload = [];
+      (app.files as ApplicationFile[]).forEach(f => {
         this.filesToUpload.push({
           fname: f.fieldName,
           file: f
@@ -331,41 +326,32 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getFileFromName(name: string) {
-    return this.filesToUpload.filter(el => {
-      return el.fname == `f${name}`
-    })[0]
-  }
-
   onReset() {
     this.showForm = false;
     this.editingId = '';
-    this.applicationForm.reset()
-    this.filesToUpload = [];
+    this.applicationForm.reset();
+    this.filesToUpload = []
     this.formdata.files = []
+    this.iecActivities.clear();
+    // this.addMeeting()
   }
-
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string) {
-    let toReturn: string = 'File Not Attatched';
+  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
+    let toReturn: string = `${dname} not Attatched`;
     appl.files?.forEach(f => {
       if (f.fieldName === fname) {
         toReturn = `
-        <a href="${f.url}" download target="_blank">
-          View Attatchement 
+        <a href="${f.url}" download target="_blank" class="">
+          View ${dname} 
         </a>
         `
       }
     })
     return toReturn
-  }
-
-  navigate(event: any) {
-    console.log(event.item)
   }
 
   viewFile(file: ApplicationFile) {
@@ -378,7 +364,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
     if (this.isAdmin) {
       let datedForm: Application = {};
       if (!this.editingId.length) {
-        if (this.targetDate) {
+        if(this.targetDate) {
           datedForm.targetDate = new Date(this.targetDate);
         }
         else {
@@ -398,7 +384,7 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
           })
       }
       else {
-        if (this.targetDate) {
+        if(this.targetDate) {
           datedForm.targetDate = new Date(this.targetDate);
         }
         else {
@@ -418,7 +404,8 @@ export class IsaPositioningComponent implements OnInit, AfterViewInit {
             this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
           })
       }
+      console.log(datedForm);
+
     }
   }
 }
-

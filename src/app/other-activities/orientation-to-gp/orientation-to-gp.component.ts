@@ -89,7 +89,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       if (!this.data.selectedDetails.phase) {
         this.data.selectComponent(`Planning Phase/${val[1].path}`)
       }
-      this.formdata.name = val.map(v => v.path).join('/')
+      this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
       console.log(val.map(v => v.path).join('/'))
     })
     this.applicationForm = this.formBuilder.group({

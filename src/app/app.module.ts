@@ -55,15 +55,6 @@ import { LoginComponent } from './login/login.component';
 import { RestapiService } from './services/restapi.service';
 import { UserService } from './services/user.service';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
-import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
-import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
-import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
-import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
-import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
-import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
-import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
-import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { BreadCrumbComponent } from './bread-crumb/bread-crumb.component';
 import { SpinnerService } from './services/spinner.service';
 import { MessageService } from 'primeng/api';
@@ -99,15 +90,6 @@ export const DATE_FORMATS = {
     PhaseComponentsComponent,
     LoginComponent,
     NotfoundComponent,
-    IsaPositioningComponent,
-    OrientationToGpComponent,
-    GpIecActivitiesComponent,
-    CommunityOrientationComponent,
-    GpActionPlanComponent,
-    GpBoardMeetingComponent,
-    GpActionApprovedComponent,
-    GpwcBoardMeetingComponent,
-    BeneficiaryContributionComponent,
     BreadCrumbComponent,
     SidebarComponent,
     DateDialogComponent,
@@ -163,15 +145,14 @@ export const DATE_FORMATS = {
     DataService,
     RestapiService,
     UserService,
+    MessageService,
+    DatePipe,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
-    MessageService,
-    DatePipe
   ],
   exports: [
-    IsaPositioningComponent,
     CommonModule,
     FormsModule
   ],
