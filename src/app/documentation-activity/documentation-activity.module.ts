@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { DocumentationActivityRoutingModule } from './documentation-activity-routing.module';
 import { DocumentationActivityComponent } from './documentation-activity.component';
+import { SharedModule } from '../shared/shared.module';
+import { CommonModulesModule } from '../common.module';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -11,7 +14,15 @@ import { DocumentationActivityComponent } from './documentation-activity.compone
   ],
   imports: [
     CommonModule,
-    DocumentationActivityRoutingModule
+    DocumentationActivityRoutingModule,
+    SharedModule,
+    CommonModulesModule
+  ],
+  providers: [
+    ConfirmationService,
+  ],
+  exports: [
+    DocumentationActivityComponent
   ]
 })
 export class DocumentationActivityModule { }

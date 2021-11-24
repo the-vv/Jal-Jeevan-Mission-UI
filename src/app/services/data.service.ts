@@ -76,6 +76,12 @@ export class DataService {
       ['GP and its sub-committees', 'wqms-trainging/gp-sub-commities'],
       ['WQMS- ISAs, PRIs etc', 'wqms-trainging/wqms-isa-pri']
     ],
+    'Documentation': [
+      ['Documentation of General Activities', 'documentation/documentation-general-activities']
+    ],
+    'Social Audits': [
+      ['Social Audit reports', 'social-audits/social-audit-reports']
+    ],
     // 'Planning Phase': [ 
     'Others': [
       // ['ISA Positioning', 'planningphase/isapositioning'],

@@ -10,6 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { IecActivitiesModule } from '../iec-activities/iec-activities.module';
 import { EngagementIsaModule } from '../engagement-isa/engagement-isa.module';
+import { DocumentationActivityModule } from '../documentation-activity/documentation-activity.module';
+import { SocialAuditsModule } from '../social-audits/social-audits.module';
+import { WqmsTrainingModule } from '../wqms-training/wqms-training.module';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import { EngagementIsaModule } from '../engagement-isa/engagement-isa.module';
     MatIconModule,
     MatButtonModule,
     IecActivitiesModule,
-    EngagementIsaModule
+    EngagementIsaModule,
+    DocumentationActivityModule,
+    SocialAuditsModule,
+    WqmsTrainingModule
   ]
 })
 export class ReportModule { }

@@ -10,14 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { PhaseComponentsComponent } from './phase-components/phase-components.component';
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
-// import { OrientationToGpComponent } from './planningPhase/orientation-to-gp/orientation-to-gp.component';
-// import { GpIecActivitiesComponent } from './planningPhase/gp-iec-activities/gp-iec-activities.component';
-// import { CommunityOrientationComponent } from './planningPhase/community-orientation/community-orientation.component';
-// import { GpActionPlanComponent } from './planningPhase/gp-action-plan/gp-action-plan.component';
-// import { GpBoardMeetingComponent } from './planningPhase/gp-board-meeting/gp-board-meeting.component';
-// import { GpActionApprovedComponent } from './planningPhase/gp-action-approved/gp-action-approved.component';
-// import { GpwcBoardMeetingComponent } from './planningPhase/gpwc-board-meeting/gpwc-board-meeting.component';
-// import { BeneficiaryContributionComponent } from './planningPhase/beneficiary-contribution/beneficiary-contribution.component';
 import { AdminAuthorizeGuard } from './guards/admin-authorize.guard';
 import { ResolverService } from './services/resolver.service';
 
@@ -25,19 +17,12 @@ import { ResolverService } from './services/resolver.service';
 let commonRoutes: Routes = [
   { path: 'phase', component: PhaseSelectionComponent },
   { path: 'planningphase/components', component: PhaseComponentsComponent },
-  // { path: 'planningphase/isapositioning', component: IsaPositioningComponent },
-  // { path: 'planningphase/orientationtogp', component: OrientationToGpComponent },
-  // { path: 'planningphase/gpiec', component: GpIecActivitiesComponent },
-  // { path: 'planningphase/communityorientation', component: CommunityOrientationComponent },
-  // { path: 'planningphase/gpactionplanexceptder', component: GpActionPlanComponent },
-  // { path: 'planningphase/gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
-  // { path: 'planningphase/gramasabhaactionplanapproved', component: GpActionApprovedComponent },
-  // { path: 'planningphase/gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
-  // { path: 'planningphase/beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },
   { path: 'wqms-trainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
+  { path: 'documentation', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
+  { path: 'social-audits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
   { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
 ];
@@ -50,7 +35,7 @@ const routes: Routes = [
     path: 'login', component: LoginComponent, resolve: { gpData: ResolverService }
   },
   {
-    path: 'admin', component: HomeComponent , canActivate: [AdminGuard], children: [
+    path: 'admin', component: HomeComponent, canActivate: [AdminGuard], children: [
       { path: '', redirectTo: 'district', pathMatch: 'full' },
       { path: 'administration', canActivate: [AdminAuthorizeGuard], canLoad: [AdminAuthorizeGuard], loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
       { path: 'district', component: DistrictComponent },
@@ -60,14 +45,13 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'client', component: HomeComponent , canActivate: [ClientGuard], children: [
+    path: 'client', component: HomeComponent, canActivate: [ClientGuard], children: [
       { path: '', redirectTo: 'phase', pathMatch: 'full' },
       ...commonRoutes,
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
   // { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
-  // { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
   // { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
   // { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
   // { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },

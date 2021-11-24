@@ -24,6 +24,11 @@ import { ConfirmationService } from 'primeng/api';
   ],
   providers: [
     ConfirmationService
+  ],
+  exports: [
+    WqmsTrainingComponent,
+    GpSubCommitiesComponent,
+    WqmsIsasPriComponent
   ]
 })
 export class WqmsTrainingModule { }

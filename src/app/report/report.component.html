@@ -331,6 +331,45 @@
 
                 <!-- Engagements of ISAs END -->
 
+                <!-- Engagements of Documentation START -->
+
+                <div class="row" *ngIf="SelectedPhases.includes('Documentation')">
+                    <app-documentation-activity [print]="true" [district]="district" [gp]="gp" phase='Documentation'
+                        name='documentation/documentation-general-activities'
+                        *ngIf="selectedComponents.includes('Documentation of General Activities')">
+                    </app-documentation-activity>
+                </div>
+
+                <!-- Engagements of Documentation END -->
+
+                <!-- Engagements of Social Audits START -->
+
+                <div class="row" *ngIf="SelectedPhases.includes('Social Audits')">
+                    <app-social-audits [print]="true" [district]="district" [gp]="gp" phase='Social Audits'
+                        name='social-audits/social-audit-reports'
+                        *ngIf="selectedComponents.includes('Social Audit reports')">
+                    </app-social-audits>
+                </div>
+
+                <!-- Engagements of Social Audits END -->
+
+                <!-- Engagements of WQM& S- Training and Capacity Building START -->
+
+                <div class="row" *ngIf="SelectedPhases.includes('WQM& S- Training and Capacity Building')">
+                    <app-gp-sub-commities [print]="true" [district]="district" [gp]="gp"
+                        phase='WQM& S- Training and Capacity Building' name='wqms-trainging/gp-sub-commities'
+                        *ngIf="selectedComponents.includes('GP and its sub-committees')">
+                    </app-gp-sub-commities>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('WQM& S- Training and Capacity Building')">
+                    <app-wqms-isas-pri [print]="true" [district]="district" [gp]="gp"
+                        phase='WQM& S- Training and Capacity Building' name='wqms-trainging/wqms-isa-pri'
+                        *ngIf="selectedComponents.includes('WQMS- ISAs, PRIs etc')">
+                    </app-wqms-isas-pri>
+                </div>
+
+                <!-- Engagements of WQM& S- Training and Capacity Building END -->
+
             </div>
         </div>
     </div>

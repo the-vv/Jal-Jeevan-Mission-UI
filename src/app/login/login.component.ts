@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           }
         }
         else {
-          if (this.data.targetUrl?.indexOf('reports') >= 0) {
+          if (this.data.targetUrl?.indexOf('/reports') >= 0) {
             // console.log(this.data.targetUrl);          
             this.router.navigate([this.data.targetUrl], { replaceUrl: true })
             this.data.targetUrl = null;
