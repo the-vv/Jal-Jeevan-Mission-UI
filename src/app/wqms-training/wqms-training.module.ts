@@ -5,6 +5,9 @@ import { WqmsTrainingRoutingModule } from './wqms-training-routing.module';
 import { WqmsTrainingComponent } from './wqms-training.component';
 import { GpSubCommitiesComponent } from './gp-sub-commities/gp-sub-commities.component';
 import { WqmsIsasPriComponent } from './wqms-isas-pri/wqms-isas-pri.component';
+import { CommonModulesModule } from '../common.module';
+import { SharedModule } from '../shared/shared.module';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -15,7 +18,12 @@ import { WqmsIsasPriComponent } from './wqms-isas-pri/wqms-isas-pri.component';
   ],
   imports: [
     CommonModule,
-    WqmsTrainingRoutingModule
+    WqmsTrainingRoutingModule,
+    CommonModulesModule,
+    SharedModule
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class WqmsTrainingModule { }

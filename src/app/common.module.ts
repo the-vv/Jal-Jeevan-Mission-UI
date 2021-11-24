@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 const commonModules = [
   FormsModule,
@@ -37,6 +38,7 @@ const commonModules = [
   MatDialogModule,
   MatTooltipModule,
   MatMenuModule,
+  ConfirmDialogModule
 ]
 
 @NgModule({

@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { DateDialogComponent } from 'src/app/date-dialog/date-dialog.component';
 
 
 @Component({
@@ -359,14 +358,6 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     if (file.url) {
       window.open(file.url)
     }
-  }
-
-  openDateDialogue(section: string) {
-    this.dialog.open(DateDialogComponent, {
-      data: {
-        section
-      }
-    });
   }
 
   setTarget(sectionName: string, targetDate: string) {

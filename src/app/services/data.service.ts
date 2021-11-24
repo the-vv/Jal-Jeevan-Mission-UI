@@ -73,9 +73,10 @@ export class DataService {
       ['Handhold support to GP/GPWSC/GP level beneficiary committee and scheme managing team and submission of project completion report', 'engagement-isa/handhold-support-gp-gpwc-gp-level-beneficiary-committee'],
     ],
     'WQM& S- Training and Capacity Building': [
-
+      ['GP and its sub-committees', 'wqms-trainging/gp-sub-commities'],
+      ['WQMS- ISAs, PRIs etc', 'wqms-trainging/wqms-isa-pri']
     ],
-    // 'Planning Phase': [
+    // 'Planning Phase': [ 
     'Others': [
       // ['ISA Positioning', 'planningphase/isapositioning'],
       ['Orientation to GP & Staff, Special Board Meeting', 'other-activities/orientationtogp'],

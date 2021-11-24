@@ -49,17 +49,19 @@
         Application was not submitted. Currently in edit mode. Saved as Draft
     </div>
     <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div class="row">            
+            <div class="col-12">
+                <p class="h6 text-start pt-3">
+                    <app-schedule-menu [section]="'Orientation to GP board members, socio political leaders'"
+                        [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
         <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
             <ng-container [formGroupName]="i">
                 <div class="row my-3">
-                    <div class="col-12 col-md-2">
-                        <p class="h6 text-center pt-3">
-                            <app-schedule-menu [section]="'Orientation to GP board members, socio political leaders'"
-                                [iconOnly]="false">
-                            </app-schedule-menu>
-                        </p>
-                    </div>
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader
@@ -118,7 +120,7 @@
             </div>
         </div> -->
         <div class="row mt-3">
-            <div class="col-md-5 col-12 offset-md-2">
+            <div class="col-md-6 col-12">
                 <p>
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Completed Date</mat-label>
@@ -133,7 +135,7 @@
                     </mat-form-field>
                 </p>
             </div>
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-6">
                 <app-file-uploader [control]="applicationForm" #uploader [labelName]="'Attatch Minutes'"
                     [disabled]="isFormDisabled && applicationForm.value?.minutes?.length" [keyName]="'minutes'"
                     (onfileChanges)="onFileChanges()">

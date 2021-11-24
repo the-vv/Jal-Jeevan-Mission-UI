@@ -37,6 +37,7 @@ let commonRoutes: Routes = [
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },
+  { path: 'wqms-trainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
   { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
 ];
@@ -69,7 +70,6 @@ const routes: Routes = [
   // { path: 'documentationAactivity', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
   // { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
   // { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
-  // { path: 'wqmsTrainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
   // { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   {
     path: '**', redirectTo: '404', pathMatch: 'full'
