@@ -22,7 +22,8 @@ let commonRoutes: Routes = [
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },
   { path: 'wqms-trainging', loadChildren: () => import('./wqms-training/wqms-training.module').then(m => m.WqmsTrainingModule) },
   { path: 'documentation', loadChildren: () => import('./documentation-activity/documentation-activity.module').then(m => m.DocumentationActivityModule) },
-  { path: 'social-audits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
+  { path: 'social-audits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },  
+  { path: 'capacity-building-activities', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule) },
   { path: 'reports', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
 ];
@@ -51,7 +52,7 @@ const routes: Routes = [
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
-  // { path: 'capacityBuilding', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
+  // { path: 'capacity-building-activities', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
   // { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
   // { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
   // { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },

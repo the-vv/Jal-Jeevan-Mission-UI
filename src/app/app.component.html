@@ -32,6 +32,12 @@
               mat-stroked-button *ngIf="user.isloggedin && user.isAdmin"><i class="pi pi-shield"></i> Administration</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" (click)="openClaimDetails()" routerLinkActive="active"
+              mat-stroked-button
+              *ngIf="user.isloggedin && user.isAdmin&& data.selectedDetails.gp?.length && isPhasePage()"><i
+                class="bi bi-pen"></i> Claim Details</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" mat-stroked-button [routerLink]="(user.isAdmin ? 'admin' : 'client') + '/reports'"
               routerLinkActive="active" *ngIf="user.isloggedin"><i class="pi pi-print"></i> Reports</a>
           </li>
@@ -68,7 +74,8 @@
 
   <button mat-raised-button color="primary"
     class="fab-button-custom px-md-4 py-md-1 animate__animated animate__fadeInUp animate__delay-2s"
-    *ngIf="!pwaService.isPwaMode && showInstallButton" [disabled]="!pwaService.promptEvent" (click)="pwaService.installPWA()">
+    *ngIf="!pwaService.isPwaMode && showInstallButton" [disabled]="!pwaService.promptEvent"
+    (click)="pwaService.installPWA()">
     <span class="d-none d-md-inline-block">Install Now</span>
     <i class=" ms-md-1 pi pi-download animate__animated animate__repeat-3 animate__heartBeat animate__delay-3s"
       *ngIf="pwaService.promptEvent"></i>

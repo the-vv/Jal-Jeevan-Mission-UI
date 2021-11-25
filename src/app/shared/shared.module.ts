@@ -25,6 +25,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { CropperComponent } from './cropper/cropper.component';
 import { AdminVerifyComponent } from './admin-verify/admin-verify.component';
+import { ClaimDetailsComponent } from './claim-details/claim-details.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { AdminVerifyComponent } from './admin-verify/admin-verify.component';
     ScheduleMenuComponent,
     FileUploaderComponent,
     CropperComponent,
-    AdminVerifyComponent
+    AdminVerifyComponent,
+    ClaimDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -82,6 +82,12 @@ export class DataService {
     'Social Audits': [
       ['Social Audit reports', 'social-audits/social-audit-reports']
     ],
+    'Capacity building activities' : [
+      ['VWSCs / Pani samithi etc', 'capacity-building-activities/vwscs-pani-samithi-etc'],
+      // ['Key stakeholders at block level', 'capacity-building-activities/key-stakeholders-block-level'],
+      // ['Key stakeholders at GP/ Village level', 'capacity-building-activities/key-stakeholders-gp-village-level'],
+      // ['Capacity building material preparation', 'capacity-building-activities/capacity-building-material-preparation'],
+    ],
     // 'Planning Phase': [ 
     'Others': [
       // ['ISA Positioning', 'planningphase/isapositioning'],
@@ -230,9 +236,6 @@ export class DataService {
 
       printWindow.document.close(); // necessary for IE >= 10
       printWindow.focus(); // necessary for IE >= 10*/
-
-      // mywindow.print();
-      // mywindow.close();
     });
   }
 
