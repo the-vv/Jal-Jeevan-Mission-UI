@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { BeneficiaryContributionComponent } from './beneficiary-contribution/beneficiary-contribution.component';
 import { CommunityOrientationComponent } from './community-orientation/community-orientation.component';
 import { GpActionApprovedComponent } from './gp-action-approved/gp-action-approved.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
   { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
   { path: 'beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
+  { path: 'baseline-data', component: BaselineDataComponent },
 ];
 
 @NgModule({

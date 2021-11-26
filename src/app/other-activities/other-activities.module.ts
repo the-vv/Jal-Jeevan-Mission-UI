@@ -16,6 +16,8 @@ import { BeneficiaryContributionComponent } from './beneficiary-contribution/ben
 import { SharedModule } from '../shared/shared.module';
 import { CommonModulesModule } from '../common.module';
 import { FileUploadModule } from 'primeng/fileupload';
+import { BaselineDataComponent } from './baseline-data/baseline-data.component';
+import { ConfirmationService } from 'primeng/api';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     GpActionApprovedComponent,
     GpwcBoardMeetingComponent,
     BeneficiaryContributionComponent,
+    BaselineDataComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,9 @@ import { FileUploadModule } from 'primeng/fileupload';
     SharedModule,
     CommonModulesModule,
     FileUploadModule
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class OtherActivitiesModule { }

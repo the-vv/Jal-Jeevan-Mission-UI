@@ -58,6 +58,7 @@ export class FileUploaderComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setFileField() {
+    console.log(this.control.value)
     if (this.control.value[this.ControlKey]?.length) {
       try {
         let uploadedFiles = JSON.parse(this.control.value[this.ControlKey]);

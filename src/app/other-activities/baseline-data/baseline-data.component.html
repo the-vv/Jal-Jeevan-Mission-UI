@@ -1,0 +1,652 @@
+<div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
+    <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>
+    <!-- <div>
+        <table class="table table-striped fs-4">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Proposed site</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.proposedSite}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
+        </table>
+    </div> -->
+
+    <div class="row mt-1">
+        <div class="col-12">
+            <p class="h4 text-center">
+                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
+    </div>
+    <mat-card class="bg-blue-custom">
+        <p class="h2">Baseline Data</p>
+        <!-- <p>
+            Organise GP level World Water day celebrations in all GP.
+        </p> -->
+    </mat-card>
+    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+        Editing has been disabled by admin. Contact them if you need editing permission
+    </div>
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
+        Application was not submitted. Currently in edit mode. Saved as Draft
+    </div>
+    <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
+        <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3 pt-3">
+                                Name of GP:
+                                <app-schedule-menu [section]="'Name of GP'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of GP</mat-label>
+                                        <input formControlName="nameOfGp" matInput placeholder="Name of GP" type="text"
+                                            readonly>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Postal Address of GP:
+                                <app-schedule-menu [section]="'Postal Address of GP'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Postal Address of GP</mat-label>
+                                        <input formControlName="gpPostalAddress" matInput
+                                            placeholder="Postal Address of GP" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Contact Number of GP:
+                                <app-schedule-menu [section]="'Contact Number of GP'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Contact Number of GP</mat-label>
+                                        <input formControlName="gpContactNumber" matInput
+                                            placeholder="Contact Number of GP" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Email:
+                                <app-schedule-menu [section]="'Email'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Email</mat-label>
+                                        <input formControlName="gpEmailAddress" matInput placeholder="Email"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Name of District Panchayath:
+                                <app-schedule-menu [section]="'Name of District Panchayath'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of District Panchayath</mat-label>
+                                        <input formControlName="districtPanchayath" matInput
+                                            placeholder="Name of District Panchayath" type="text" readonly>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Name of Block Panchayath:
+                                <app-schedule-menu [section]="'Name of Block Panchayath'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Block Panchayath</mat-label>
+                                        <input formControlName="blockPanchayath" matInput
+                                            placeholder="Name of Block Panchayath" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Name of Taluk:
+                                <app-schedule-menu [section]="'Name of Taluk'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Taluk</mat-label>
+                                        <input formControlName="taluk" matInput placeholder="Name of Taluk" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Name of Legislative Constituency:
+                                <app-schedule-menu [section]="'Name of Legislative Constituency'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Legislative Constituency</mat-label>
+                                        <input formControlName="legislativeConstituency" matInput
+                                            placeholder="Name of Legislative Constituency" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Name of Parliament Constituency:
+                                <app-schedule-menu [section]="'Name of Parliament Constituency'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Parliament Constituency</mat-label>
+                                        <input formControlName="parliamentaryConstituency" matInput
+                                            placeholder="Name of Parliament Constituency" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Total Area of GP:
+                                <app-schedule-menu [section]="'Total Area of GP'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Total Area of GP</mat-label>
+                                        <input formControlName="totalGpArea" matInput placeholder="Total Area of GP"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Total Number of Ward:
+                                <app-schedule-menu [section]="'Total Number of Ward'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Total Number of Ward</mat-label>
+                                        <input formControlName="totalWard" matInput placeholder="Total Number of Ward"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Total Number of House Holds:
+                                <app-schedule-menu [section]="'Total Number of House Holds'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Total Number of House Holds</mat-label>
+                                        <input formControlName="totalHouseholds" matInput
+                                            placeholder="Total Number of House Holds" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 h4 text-start pt-3">
+                                Population:
+                                <app-schedule-menu [section]="'Population'" [iconOnly]="false">
+                                </app-schedule-menu>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Male</mat-label>
+                                                <input formControlName="populationMale" matInput placeholder="Male"
+                                                    type="number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Female</mat-label>
+                                                <input formControlName="populationFemale" matInput placeholder="Female"
+                                                    type="number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Others</mat-label>
+                                                <input formControlName="populationOthers" matInput placeholder="Others"
+                                                    type="number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Total</mat-label>
+                                                <input formControlName="populationTotal" matInput placeholder="Total"
+                                                    type="number" readonly>
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>SC</mat-label>
+                                                <input formControlName="populationSc" matInput placeholder="SC"
+                                                    type="number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>ST</mat-label>
+                                                <input formControlName="populationSt" matInput placeholder="ST"
+                                                    type="number">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeRow(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div> -->
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Profile of Anganwadi
+                    <app-schedule-menu [section]="'Profile of Anganwadi'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="angnvadiProfile"
+            *ngFor="let item of this.applicationForm.get('angnvadiProfile')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Anganwadi - ' + (i + 1)" [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Anganwadi/Number</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of Anganwadi/Number"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Location</mat-label>
+                                        <input formControlName="location" matInput placeholder="Location" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Teacher</mat-label>
+                                        <input formControlName="teacher" matInput placeholder="Name of Teacher"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Phone Number</mat-label>
+                                        <input formControlName="phoneNumber" matInput placeholder="Phone Number"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="h5 text-start pt-3">
+                                            Students:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Male</mat-label>
+                                                <input formControlName="studentsMale" matInput placeholder="Male"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Female</mat-label>
+                                                <input formControlName="studentsFemale" matInput placeholder="Female"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Total</mat-label>
+                                                <input formControlName="studentsTotal" matInput placeholder="Total"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeAnganvaiProfile(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                    (click)="addAnganvaiProfile()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Profile of Educational Institution
+                    <app-schedule-menu [section]="'Profile of Educational Institution'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="educationalInstitution"
+            *ngFor="let item of this.applicationForm.get('educationalInstitution')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Educational Institution - ' + (i + 1)" [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of School</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of School"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Type of School</mat-label>
+                                        <mat-select formControlName="type">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="LP">LP</mat-option>
+                                            <mat-option value="UP">UP</mat-option>
+                                            <mat-option value="HS">HS</mat-option>
+                                            <mat-option value="HSS">HSS</mat-option>
+                                            <mat-option value="VHSC">VHSC</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Place</mat-label>
+                                        <input formControlName="place" matInput placeholder="Place" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Contact Number</mat-label>
+                                        <input formControlName="contactNumber" matInput placeholder="Contact Number"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="h5 text-start pt-3">
+                                            Students:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Male</mat-label>
+                                                <input formControlName="studentsMale" matInput placeholder="Male"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Female</mat-label>
+                                                <input formControlName="studentsFemale" matInput placeholder="Female"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Total</mat-label>
+                                                <input formControlName="studentsTotal" matInput placeholder="Total"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeEducationalInstitution(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
+                    (click)="addEducationalInstitution()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Educational Institution
+                </button>
+            </div>
+        </div>
+        <!-- <div class="row my-3">
+            <div class="col-12 col-md-11 offset-md-1">
+                <app-file-uploader [control]="this.applicationForm" #uploader [labelName]="'Report'"
+                    [disabled]="isFormDisabled && applicationForm.value?.report?.length" [keyName]="'report'"
+                    (onfileChanges)="onFileChanges()">
+                </app-file-uploader>
+            </div>
+        </div> -->
+
+        <!-- <div class="row my-3">
+            <div class="col-12">
+                <p>
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Completed Date</mat-label>
+                        <input matInput [matDatepicker]="dp1" formControlName="completedDate"
+                            [readonly]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #dp1
+                            [disabled]="isFormDisabled && applicationForm.value?.completedDate?.length">
+                        </mat-datepicker>
+                    </mat-form-field>
+                </p>
+            </div>
+        </div> -->
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Submiting Application. Please Wait...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                    (click)="onSubmit()">
+                    Submit
+                    Application
+                    <mat-icon>upload_file</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+            </svg>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    Application Submitted Successfully
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

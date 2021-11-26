@@ -98,7 +98,8 @@ export class DataService {
       // ['GP Board meetting for Gramasabha', 'other-activities/gpboardmeettingforgramasabha'],
       ['Gramasabha action plan approved', 'other-activities/gramasabhaactionplanapproved'],
       ['GPWSC & GP Board meetting', 'other-activities/gpwscgpboardmeetting'],
-      ['Beneficiary contribution Collection', 'other-activities/beneficiarycontributioncollection']
+      ['Beneficiary contribution Collection', 'other-activities/beneficiarycontributioncollection'],
+      ['Baseline Data', 'other-activities/baseline-data'],
     ],
   }
 
