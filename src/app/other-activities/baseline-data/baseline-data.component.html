@@ -588,6 +588,137 @@
                 </button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Profile of Institution
+                    <app-schedule-menu [section]="'Profile of Institution'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="institution"
+            *ngFor="let item of this.applicationForm.get('institution')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Institution - ' + (i + 1)" [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of School</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of School"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">           
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Type of Institution</mat-label>
+                                        <input formControlName="type" matInput placeholder="Type of Institution"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Place</mat-label>
+                                        <input formControlName="place" matInput placeholder="Place" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Contact Number</mat-label>
+                                        <input formControlName="contactNumber" matInput placeholder="Contact Number"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="h5 text-start pt-3">
+                                            Students:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Male</mat-label>
+                                                <input formControlName="studentsMale" matInput placeholder="Male"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Female</mat-label>
+                                                <input formControlName="studentsFemale" matInput placeholder="Female"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>
+                                            <mat-form-field appearance="outline" class="w-100">
+                                                <mat-label>Total</mat-label>
+                                                <input formControlName="studentsTotal" matInput placeholder="Total"
+                                                    type="text">
+                                            </mat-form-field>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeInstitution(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
+                    (click)="addInstitution()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Institution
+                </button>
+            </div>
+        </div>
         <!-- <div class="row my-3">
             <div class="col-12 col-md-11 offset-md-1">
                 <app-file-uploader [control]="this.applicationForm" #uploader [labelName]="'Report'"

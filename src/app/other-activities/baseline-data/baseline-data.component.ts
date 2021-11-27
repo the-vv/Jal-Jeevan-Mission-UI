@@ -144,7 +144,7 @@ export class BaselineDataComponent implements OnInit {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item].length) {
+          if (allFilesFieldsToDelete[item]?.length) {
             allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
           }
         }
@@ -197,7 +197,7 @@ export class BaselineDataComponent implements OnInit {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item].length) {
+          if (allFilesFieldsToDelete[item]?.length) {
             allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
           }
         }
@@ -250,7 +250,7 @@ export class BaselineDataComponent implements OnInit {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item].length) {
+          if (allFilesFieldsToDelete[item]?.length) {
             allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
           }
         }
@@ -278,6 +278,59 @@ export class BaselineDataComponent implements OnInit {
     }
   }
 
+  addInstitution() {
+    (this.applicationForm.get('institution') as FormArray).push(this.newInstitution());
+  }
+
+  newInstitution() {
+    return this.formBuilder.group({
+      name: '',
+      type: '',
+      place: '',
+      ward: '',
+      contactNumber: '',
+      studentsMale: '',
+      studentsFemale: '',
+      studentsTotal: '',
+    });
+  }
+
+  removeInstitution(index: number) {
+    let allFilesFieldsToDelete: any = {
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item]?.length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('institution') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('institution') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('institution') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('institution') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       rows: this.formBuilder.array([
@@ -287,6 +340,9 @@ export class BaselineDataComponent implements OnInit {
         this.newAnganvaiProfile()
       ]),
       educationalInstitution: this.formBuilder.array([
+        this.newEducationalInstitution()
+      ]),
+      institution: this.formBuilder.array([
         this.newEducationalInstitution()
       ]),
       completedDate: ''
@@ -374,6 +430,7 @@ export class BaselineDataComponent implements OnInit {
     (this.formFields = this.applicationForm.get('rows') as FormArray).clear();
     (this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray).clear();
     (this.formFields = this.applicationForm.get('educationalInstitution') as FormArray).clear();
+    (this.formFields = this.applicationForm.get('institution') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -389,6 +446,9 @@ export class BaselineDataComponent implements OnInit {
     }
     for (let i = 0; i < app.values.educationalInstitution.length; i++) {
       this.addEducationalInstitution()
+    }
+    for (let i = 0; i < app.values.institution.length; i++) {
+      this.addInstitution()
     }
     this.applicationForm.patchValue(app.values);
     // console.log(this.applicationForm)

@@ -1,34 +1,43 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Application, ApplicationFile, TargetDate } from '../../models/application';
-import { DataService } from '../../services/data.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RestapiService } from '../../services/restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-
+import { ActivatedRoute } from '@angular/router';
+import { Application, ApplicationFile } from 'src/app/models/application';
+import { DataService } from 'src/app/services/data.service';
+import { RestapiService } from 'src/app/services/restapi.service';
+import { UserService } from 'src/app/services/user.service';
+import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
+import { ConfirmationService } from 'primeng/api';
+import { Selected } from 'src/app/models/selected';
 
 @Component({
   selector: 'app-orientation-to-gp',
   templateUrl: './orientation-to-gp.component.html',
   styleUrls: ['./orientation-to-gp.component.scss']
 })
-export class OrientationToGpComponent implements OnInit, AfterViewInit {
+export class OrientationToGpComponent implements OnInit {
 
-  formdata: Application = {
-    files: []
-  };
-  filesToUpload: any[] = [];
+  @Input('print') public printMode: boolean = false;
+  @Input('district') public currentDistrict: string;
+  @Input('gp') public currentGp: string;
+  @Input('phase') public currentPhase: string;
+  @Input('name') public currentName: string;
+
+  @ViewChildren(FileUploaderComponent)
+  public uploaders: FileUploaderComponent[];
+
+  formdata: Application = {};
+
+  formFields: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
   applicationForm!: FormGroup;
   submitting: boolean = false;
-  submittedApplcations: Application[] = [];
   editingId: string = '';
-  showForm: boolean = false;
-  submitted = false;
-  targetDate: TargetDate;
-  settingDateProgress: boolean = false;
+  submitted: boolean = false;
+  public isFormDisabled: boolean = true;
+  isDraftMode: boolean = false;
+  disabledLength: number = 0;
+  totalValues: any = {};
 
   constructor(
     private user: UserService,
@@ -36,30 +45,67 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
+    private changeDetectorRef: ChangeDetectorRef,
     private snackBar: MatSnackBar,
-    private router: Router,
-    private dialog: MatDialog
+    private confirmService: ConfirmationService
   ) { }
 
-  ngAfterViewInit() {
-    this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        this.submittedApplcations = res;
-        if (res.length > 0) {
-          this.editingId = res[0]._id;
-          this.showForm = false;
-          this.applicSelected(res[0])
-        }
-        else {
-          this.showForm = true;
-        }
-      }, e => {
-        console.log(e.error)
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
-      })
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
-  newInterDepartment(): FormGroup {
+  ngAfterViewInit() {
+    if (this.printMode) {
+      let tempCategory: Selected = {
+        district: this.currentDistrict,
+        gp: this.currentGp,
+        phase: this.currentPhase,
+        component: this.data.getLongName(this.currentName)
+      }
+      this.rest.getApplications(tempCategory).subscribe(res => {
+        if (res.length > 0) {
+          // console.log(res)
+          // this.editingId = res[0]._id;
+          this.applicSelected(res[0])
+          // this.showForm = false;
+        }
+      })
+    } else {
+      this.rest.getApplications(this.data.selectedDetails)
+        .subscribe(res => {
+          // console.log(res)
+          if (res.length > 0) {
+            if (res[0].editable === true) {
+              this.isDraftMode = true;
+            }
+            else {
+              this.isDraftMode = false;
+            }
+            this.editingId = res[0]._id;
+            if (res[0].values) {
+              this.applicSelected(res[0]);
+            }
+          }
+          else {
+            this.isFormDisabled = false;
+          }
+        }, e => {
+          // console.log(e.error)
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        })
+    }
+    this.applicationForm.valueChanges.subscribe(() => {
+      this.submitted = false;
+    })
+  }
+
+  addRow() {
+    this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray;
+    const group = this.newRow();
+    this.formFields.push(group);
+  }
+
+  newRow(): FormGroup {
     return this.formBuilder.group({
       interDepartmentDate: [''],
       interDepartmentPlace: [''],
@@ -68,29 +114,48 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
     })
   }
 
-  addInterDepartment() {
-    (this.applicationForm.get('interDepartmentMeeting') as FormArray)
-      .push(this.newInterDepartment());
-  }
-
-  removeInterDepartment(index: number) {
-    if (this.applicationForm.get('interDepartmentMeeting')['controls'][index].value.interDepartmentMinutesIndex?.length > 0) {
-      this.fileRemoved('interDepartmentAttatchment', this.getFileFromName('interDepartmentAttatchment').file.fid, index);
+  removeRow(index: number) {
+    let allFilesFieldsToDelete: any = {
+      interDepartmentMinutesIndex: this.applicationForm.get('interDepartmentMeeting')['controls'][index]?.value.interDepartmentMinutesIndex,
+      interDepartmentPhotoIndex: this.applicationForm.get('interDepartmentMeeting')['controls'][index]?.value.interDepartmentPhotoIndex
     }
-    if (this.applicationForm.get('interDepartmentMeeting')['controls'][index].value.interDepartmentPhotoIndex?.length > 0) {
-      this.fileRemoved('interDepartmentPhoto', this.getFileFromName('interDepartmentPhoto').file.fid, index);
+    console.log(this.applicationForm.get('interDepartmentMeeting')['controls'][index].value)
+    // return;
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item]?.length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      console.log('fdrec')
+      this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray;
+      this.formFields.removeAt(index)
     }
-    (this.applicationForm.get('interDepartmentMeeting') as FormArray).removeAt(index);
   }
 
   ngOnInit(): void {
-    this.route.url.subscribe((val) => {
-      if (!this.data.selectedDetails.phase) {
-        this.data.selectComponent(`Planning Phase/${val[1].path}`)
-      }
-      this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
-      console.log(val.map(v => v.path).join('/'))
-    })
     this.applicationForm = this.formBuilder.group({
       introductionDate: [''],
       introductionNo: [''],
@@ -98,7 +163,7 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       iecPlanNo: [''],
       iecPlanAmount: [''],
       interDepartmentMeeting: this.formBuilder.array([
-        this.newInterDepartment()
+        this.newRow()
       ]),
       GpBoardMeetingDate: [''],
       GpBoardMeetingNo: [''],
@@ -113,289 +178,143 @@ export class OrientationToGpComponent implements OnInit, AfterViewInit {
       jointAccountPresident: [''],
       jointAccointAddress: ['']
     })
+    this.route.url.subscribe((val) => {
+      // console.log(val)
+      this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
+      // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
+    })
   }
   get f() { return this.applicationForm.controls }
 
-  onSubmit() {
+  public async onSubmit() {
+    // let confirmation = await this.confirmSubmit()
+    // if (!confirmation) {
+    //   return;
+    // }
+    if (this.uploaders.some(el => el.checkUploadStatus())) {
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      return;
+    }
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.filesToUpload.length) {
-      console.log('No attatchments, continuing');
-      this.formdata.values = this.applicationForm.value;
-      this.formdata.category = this.data.selectedDetails;
-      this.formdata.datetime = new Date();
-      console.log(this.formdata)
-      console.log(new Date(this.formdata.values.dwsmDate))
-      this.submitting = true;
-      this.sendApplication(this.formdata, this.editingId.length > 0)
-    }
-    else {
-      // console.log(this.agreementFile)
-      let form: FormData = new FormData();
-      this.filesToUpload.forEach(f => {
-        if (!f.file.fid) {
-          form.append(`Attatchement-${f.fname}`, f.file, `Attatchement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
-        }
-      })
-      this.submitting = true;
-      this.rest.uploadFiles(form)
-        .subscribe((res) => {
-          console.log(res)
-          res.forEach((element: any) => {
-            let name = element.name.split('_')[0].split('-')[1];
-            this.formdata.files?.push({
-              name: element.name,
-              fieldName: name,
-              url: element.url,
-              fid: element.fileId,
-              size: element.size
-            })
-          });
-          this.formdata.values = this.applicationForm.value;
-          this.formdata.category = this.data.selectedDetails;
-          this.formdata.datetime = new Date();
-          this.submitting = true;
-          this.sendApplication(this.formdata, this.editingId.length > 0)
-          console.log(this.formdata)
-        }, err => {
-          console.warn(err.error.status)
-          if (err.error.status == 'Empty file') {
-            this.formdata.values = this.applicationForm.value;
-            this.formdata.category = this.data.selectedDetails;
-            this.formdata.datetime = new Date();
-            this.submitting = true;
-            this.sendApplication(this.formdata, this.editingId.length > 0)
-            console.log(this.formdata)
-          }
-          else {
-            this.submitting = false;
-            this.snackBar.open('Error uploading file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          }
-        })
-    }
-  }
-
-  fileSelected(event: any, name: string, index: number = -1) {
-    this.submitted = false;
-    // console.log(event.files)
-    this.filesToUpload.push({
-      fname: `${name}`,
-      file: event.files[0]
-    });
-    if (name === 'introductionAttatchement') {
-      // this.introductionFile = event.files[0];
-      this.applicationForm.patchValue({ introductionMinutesIndex: `${name}` })
-    }
-    else if (name === 'interDepartmentAttatchment') {
-      // this.InterDepartmentFile = event.files[0]
-      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentMinutesIndex: `${name}` })
-    }
-    else if (name === 'interDepartmentPhoto') {
-      // this.interDepartmentPhoto = event.files[0]
-      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentPhotoIndex: `${name}` })
-    }
-    else if (name === 'gpBoardMeetingAttatchment') {
-      // this.GpBoardMeetingFile = event.files[0]
-      this.applicationForm.patchValue({ GpBoardMeetingResolutionIndex: `${name}` })
-    }
-    else if (name === 'jointAccountAttatchment') {
-      // this.jontAccountFile = event.files[0]
-      this.applicationForm.patchValue({ jointAccountPassbookIndex: `${name}` })
-    }
+    // console.log('No attatchments, continuing');
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
+    // console.log(this.formdata)
+    this.submitting = true;
+    this.sendApplication(this.formdata, this.editingId.length > 0)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
+    if (!silent) {
+      app.submitted = true;
+    }
     if (update) {
       this.rest.editApplication(app)
         .subscribe(res => {
-          console.log(res)
+          // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.formdata.files = []
+            this.formdata.files = [];
+            this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
-          this.submittedApplcations = this.submittedApplcations.filter(el => {
-            return el._id != res._id
-          });
-          this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset();
-          this.applicSelected(res)
-          this.submitted = true;
+          this.editingId = res._id;
         }, e => {
-          console.log(e.error.status)
+          // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
     else {
       this.rest.submitApplication(app)
         .subscribe(res => {
-          console.log(res)
+          // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
-            this.formdata.files = []
+            this.formdata.files = [];
+            this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
-          this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset();
-          this.applicSelected(res)
-          this.submitted = true;
+          this.editingId = res._id;
         }, e => {
-          console.log(e.error.status)
+          // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
-    }
-  }
-
-  fileRemoved(name: string, fid: string, index: number = -1) {
-    this.submitted = false;
-    this.filesToUpload = this.filesToUpload.filter(el => {
-      console.log(el, name)
-      return el.fname != `${name}`
-    });
-    // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
-    if (name === 'introductionAttatchement') {
-      // this.introductionFile = event.files[0];
-      this.applicationForm.patchValue({ introductionMinutesIndex: `` })
-    }
-    else if (name === 'interDepartmentAttatchment') {
-      // this.InterDepartmentFile = event.files[0]
-      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentMinutesIndex: `` })
-    }
-    else if (name === 'interDepartmentPhoto') {
-      // this.interDepartmentPhoto = event.files[0]
-      (this.applicationForm.get('interDepartmentMeeting') as FormArray).at(index).patchValue({ interDepartmentPhotoIndex: `` })
-    }
-    else if (name === 'gpBoardMeetingAttatchment') {
-      // this.GpBoardMeetingFile = event.files[0]
-      this.applicationForm.patchValue({ GpBoardMeetingResolutionIndex: `` })
-    }
-    else if (name === 'jointAccountAttatchment') {
-      // this.jontAccountFile = event.files[0]
-      this.applicationForm.patchValue({ jointAccountPassbookIndex: `` })
-    }
-    if (fid?.length) {
-      console.log(this.formdata)
-      this.formdata._id = this.editingId
-      this.formdata.values = this.applicationForm.value
-      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        return el.fieldName != `${name}`
-      })
-      console.log(this.formdata)
-      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
-      if (fid) {
-        this.rest.deleteFile(fid)
-          .subscribe((res) => {
-            console.log('file deleted', res)
-          }, err => console.log(err.error))
-      }
     }
   }
 
   applicSelected(app: Application) {
-    if (!app.values) {
-      return;
-    }
+    console.log(app)
     this.onReset();
-    this.showForm = true;
+    this.formFields = this.applicationForm.get('interDepartmentMeeting') as FormArray
+    this.formFields.clear();
+    if (app.editable === true) {
+      this.isDraftMode = true;
+    }
+    else {
+      this.isDraftMode = false;
+    }
+    this.editingId = app._id
     for (let i = 0; i < app.values.interDepartmentMeeting.length; i++) {
-      this.addInterDepartment()
+      this.addRow()
     }
     this.applicationForm.patchValue(app.values);
-    this.editingId = app._id as string
-    if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[])?.forEach(f => {
-        this.filesToUpload.push({
-          fname: f.fieldName,
-          file: f
-        })
-      })
-      this.formdata.files = app.files
-    }
+    // console.log(this.applicationForm)
+    this.isFormDisabled = !app.editable;
+    setTimeout(() => {
+     this.isFormDisabled = false; 
+    });
   }
-
-  getFileFromName(name: string) {
-    return this.filesToUpload.filter(el => {
-      return el.fname == `${name}`
-    })[0]
-  }
-
 
   onReset() {
-    this.showForm = false;
     this.editingId = '';
-    this.applicationForm.reset()
-    this.filesToUpload = [];
-    this.formdata.files = [];
-    (this.applicationForm.get('interDepartmentMeeting') as FormArray).clear();
+    this.applicationForm.reset();
+    this.formdata.files = []
+    this.addRow()
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
-    let toReturn: string = `${dname} not Attatched`;
-    appl.files?.forEach(f => {
-      if (f.fieldName === fname) {
-        toReturn = `
-        <a href="${f.url}" download target="_blank" class="">
-          View ${dname} 
-        </a>
-        `
-      }
+  onFileChanges() {
+    if (this.editingId.length)
+      this.formdata._id = this.editingId
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
+    this.sendApplication(this.formdata, !!this.editingId.length, true)
+  }
+
+  confirmSubmit() {
+    return new Promise((resolve, reject) => {
+      this.confirmService.confirm({
+        blockScroll: false,
+        message: '<p align="left" style="padding: 0px; margin: 0px">Are you sure that you want to submit?<br> Once submitted, You are not allowed to edit unless admin permitted.</p>',
+        accept: () => {
+          resolve(true)
+        },
+        reject: () => {
+          resolve(false)
+        }
+      });
     })
-    return toReturn
   }
 
-  viewFile(file: ApplicationFile) {
-    if (file.url) {
-      window.open(file.url)
-    }
+  getReportControl() {
+    return this.applicationForm.get('report') as FormGroup;
   }
 
-  setTarget(sectionName: string, targetDate: string) {
-    // if (this.isAdmin) {
-    //   let datedForm: Application = {
-    //     targets: this.targetDate
-    //   };
-    //   datedForm.targets.dates[sectionName] = targetDate;
-    //   datedForm.targets.applicationName = this.data.getLongName(this.formdata.name);
-    //   datedForm.targets.path = this.formdata.name;
-    //   if (!this.editingId.length) {
-    //     this.settingDateProgress = true;
-    //     datedForm.category = this.data.selectedDetails;
-    //     this.rest.submitApplication(datedForm)
-    //       .subscribe(res => {
-    //         this.settingDateProgress = false;
-    //         console.log(res);
-    //         this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-    //       }, e => {
-    //         this.settingDateProgress = false;
-    //         console.log(e.error.status)
-    //         this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-    //       })
-    //   }
-    //   else {
-    //     datedForm._id = this.editingId;
-    //     this.settingDateProgress = true;
-    //     this.rest.editApplication(datedForm)
-    //       .subscribe(res => {
-    //         this.settingDateProgress = false;
-    //         console.log(res);
-    //         this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-    //       }, e => {
-    //         this.settingDateProgress = false;
-    //         console.log(e.error.status)
-    //         this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-    //       })
-    //   }
-    // }
-  }
 }

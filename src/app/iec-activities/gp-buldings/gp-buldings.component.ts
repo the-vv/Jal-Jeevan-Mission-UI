@@ -125,7 +125,7 @@ export class GpBuldingsComponent implements OnInit {
       try {
         let allFileIds: string[] = [];
         for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item].length) {
+          if (allFilesFieldsToDelete[item]?.length) {
             allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
           }
         }
