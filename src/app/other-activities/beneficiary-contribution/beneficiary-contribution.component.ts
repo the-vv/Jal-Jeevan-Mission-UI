@@ -1,37 +1,44 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Application, ApplicationFile } from '../../models/application';
-import { DataService } from '../../services/data.service';
-import { ActivatedRoute } from '@angular/router';
-import { RestapiService } from '../../services/restapi.service';
-import * as _moment from 'moment';
-import { default as _rollupMoment } from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
-const moment = _rollupMoment || _moment;
+import { ActivatedRoute } from '@angular/router';
+import { Application, ApplicationFile } from 'src/app/models/application';
+import { DataService } from 'src/app/services/data.service';
+import { RestapiService } from 'src/app/services/restapi.service';
+import { UserService } from 'src/app/services/user.service';
+import { FileUploaderComponent } from 'src/app/shared/file-uploader/file-uploader.component';
+import { ConfirmationService } from 'primeng/api';
+import { Selected } from 'src/app/models/selected';
+
 
 @Component({
   selector: 'app-beneficiary-contribution',
   templateUrl: './beneficiary-contribution.component.html',
   styleUrls: ['./beneficiary-contribution.component.scss']
 })
-export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
+export class BeneficiaryContributionComponent implements OnInit {
 
-  formdata: Application = {
-    files: []
-  };
+  @Input('print') public printMode: boolean = false;
+  @Input('district') public currentDistrict: string;
+  @Input('gp') public currentGp: string;
+  @Input('phase') public currentPhase: string;
+  @Input('name') public currentName: string;
 
-  filesToUpload: any[] = [];
-  iecActivities: FormArray = new FormArray([]);
+  @ViewChildren(FileUploaderComponent)
+  public uploaders: FileUploaderComponent[];
+
+  formdata: Application = {};
+
+  formFields: FormArray = new FormArray([]);
   isAdmin: boolean = this.user.isAdmin;
-  applicationForm: FormGroup;
+  applicationForm!: FormGroup;
   submitting: boolean = false;
-  submittedApplcations: Application[] = [];
   editingId: string = '';
-  showForm: boolean = false;
   submitted: boolean = false;
-  targetDate: Date;
-  settingDateProgress: boolean = false;
+  public isFormDisabled: boolean = true;
+  isDraftMode: boolean = false;
+  disabledLength: number = 0;
+  totalValues: any = {};
   totalBeneficiary: number = 0;
   totalEstimatedAmount: number = 0;
   totalFullyContributedRemitted: number = 0;
@@ -44,86 +51,51 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     public data: DataService,
     private route: ActivatedRoute,
     private rest: RestapiService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private changeDetectorRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private confirmService: ConfirmationService
   ) { }
 
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
   }
-
-  ngAfterViewInit() {
-    this.rest.getApplications(this.data.selectedDetails)
-      .subscribe(res => {
-        console.log(res)
-        this.submittedApplcations = res;
-        if (res.length > 0) {
-          this.editingId = res[0]._id;
-          this.targetDate = res[0].targetDate;
-          this.showForm = false;
-          if (res[0].values) {
-            this.applicSelected(res[0]);
-          }
-          else {
-            for (let index = 1; index < this.data.getWardCount(); index++) {
-              this.addContribution();
-            }
-          }
-        } else {
-          for (let index = 1; index < this.data.getWardCount(); index++) {
-            this.addContribution();
-          }
-        }
-      }, e => {
-        console.log(e.error)
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
-        for (let index = 1; index < this.data.getWardCount(); index++) {
-          this.addContribution();
-        }
-      })
-    this.applicationForm.valueChanges.subscribe(() => {
-      this.submitted = false;
-      this.calculateTotals();
-    })
-  }
-
   calculateTotals() {
     this.totalBeneficiary = 0;
     this.totalFullyContributedRemitted = 0;
     this.totalPartiallyContributedRemitted = 0;
     this.totalAmount = 0;
-    for (let i = 0; i < this.applicationForm.value.contribution.length; i++) {
+    for (let i = 0; i < this.applicationForm.value.rows.length; i++) {
       if (Number(this.applicationForm.value.perHouseHoldCost) &&
-        Number(this.applicationForm.value.contribution[i].totalBeneficiary)) {
+        Number(this.applicationForm.value.rows[i].totalBeneficiary)) {
         let teamount: number = Number(this.applicationForm.value.perHouseHoldCost) *
-          Number(this.applicationForm.value.contribution[i].totalBeneficiary);
-        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+          Number(this.applicationForm.value.rows[i].totalBeneficiary);
+        (this.applicationForm.get('rows') as FormArray).at(i).patchValue(
           { totalEstimatedAmount: teamount },
           { emitEvent: false }
         )
       } else {
-        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+        (this.applicationForm.get('rows') as FormArray).at(i).patchValue(
           { totalEstimatedAmount: 0 },
           { emitEvent: false }
         )
       }
-      if (Number(this.applicationForm.value.contribution[i].totalEstimatedAmount &&
-        Number(this.applicationForm.value.contribution[i].collectedAmount))) {
-        let balanceamnt: number = Number(this.applicationForm.value.contribution[i].totalEstimatedAmount) -
-          Number(this.applicationForm.value.contribution[i].collectedAmount);
-        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+      if (Number(this.applicationForm.value.rows[i].totalEstimatedAmount &&
+        Number(this.applicationForm.value.rows[i].collectedAmount))) {
+        let balanceamnt: number = Number(this.applicationForm.value.rows[i].totalEstimatedAmount) -
+          Number(this.applicationForm.value.rows[i].collectedAmount);
+        (this.applicationForm.get('rows') as FormArray).at(i).patchValue(
           { balanceAmount: balanceamnt },
           { emitEvent: false }
         )
       } else {
-        (this.applicationForm.get('contribution') as FormArray).at(i).patchValue(
+        (this.applicationForm.get('rows') as FormArray).at(i).patchValue(
           { balanceAmount: 0 },
           { emitEvent: false }
         )
       }
     }
     // console.log(this.applicationForm.value.contribution);
-    this.applicationForm.value.contribution.forEach(el => {
+    this.applicationForm.value.rows.forEach(el => {
       this.totalBeneficiary += Number(el.totalBeneficiary);
       this.totalFullyContributedRemitted += Number(el.fullyContributionRemitted);
       this.totalPartiallyContributedRemitted += Number(el.partiallyContributionRemitted);
@@ -134,22 +106,66 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     // }
   }
 
-  addContribution() {
-    this.iecActivities = this.applicationForm.get('contribution') as FormArray;
-    const group = this.newContribution();
-    this.iecActivities.push(group);
-  }
-
-  removeContribution(index: number) {
-    if (this.applicationForm.get('contribution')['controls'][index].value.bankIndex?.length > 0) {
-      this.fileRemoved(index, this.getFileFromIndex(index).file.fid);
-      // console.log(this.applicationForm.get('contribution')['controls'][index].value.bankIndex)
+  ngAfterViewInit() {
+    if (this.printMode) {
+      let tempCategory: Selected = {
+        district: this.currentDistrict,
+        gp: this.currentGp,
+        phase: this.currentPhase,
+        component: this.data.getLongName(this.currentName)
+      }
+      this.rest.getApplications(tempCategory).subscribe(res => {
+        if (res.length > 0) {
+          // console.log(res)
+          // this.editingId = res[0]._id;
+          this.applicSelected(res[0])
+          // this.showForm = false;
+        } else {
+          for (let i = 1; i < this.data.getWardCount(); i++) {
+            this.addRow();
+          }
+        }
+      })
+    } else {
+      this.rest.getApplications(this.data.selectedDetails)
+        .subscribe(res => {
+          // console.log(res)
+          if (res.length > 0) {
+            if (res[0].editable === true) {
+              this.isDraftMode = true;
+            }
+            else {
+              this.isDraftMode = false;
+            }
+            this.editingId = res[0]._id;
+            if (res[0].values) {
+              this.applicSelected(res[0]);
+            }
+          }
+          else {
+            this.isFormDisabled = false;
+            for (let i = 1; i < this.data.getWardCount(); i++) {
+              this.addRow();
+            }
+          }
+        }, e => {
+          // console.log(e.error)
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        })
     }
-    this.iecActivities = this.applicationForm.get('contribution') as FormArray;
-    this.iecActivities.removeAt(index)
+    this.applicationForm.valueChanges.subscribe(() => {
+      this.submitted = false;
+      this.calculateTotals();
+    })
   }
 
-  newContribution() {
+  addRow() {
+    this.formFields = this.applicationForm.get('rows') as FormArray;
+    const group = this.newRow();
+    this.formFields.push(group);
+  }
+
+  newRow(): FormGroup {
     return this.formBuilder.group({
       totalBeneficiary: '',
       totalEstimatedAmount: '',
@@ -161,118 +177,108 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     })
   }
 
+  removeMeeting(index: number) {
+    let allFilesFieldsToDelete: any = {
+      photos: this.applicationForm.get('rows')['controls'][index].value.photos,
+      videos: this.applicationForm.get('rows')['controls'][index].value.videos,
+      approvedCopyOfActivityPlan: this.applicationForm.get('rows')['controls'][index].value.approvedCopyOfActivityPlan,
+      gpResolutions: this.applicationForm.get('rows')['controls'][index].value.gpResolutions
+    }
+    // Checkiing if any of the controls has the stringified file value exists
+    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
+      try {
+        let allFileIds: string[] = [];
+        for (let item in allFilesFieldsToDelete) {
+          if (allFilesFieldsToDelete[item].length) {
+            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
+          }
+        }
+        this.rest.deleteBulkFiles(allFileIds)
+          .subscribe(res => {
+            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+          }, err => {
+            this.formFields = this.applicationForm.get('rows') as FormArray;
+            this.formFields.removeAt(index)
+            this.onFileChanges();
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+          })
+      }
+      catch (e) {
+        console.log(e)
+        this.formFields = this.applicationForm.get('rows') as FormArray;
+        this.formFields.removeAt(index)
+      }
+    } else {
+      this.formFields = this.applicationForm.get('rows') as FormArray;
+      this.formFields.removeAt(index)
+    }
+  }
+
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       perHouseHoldCost: '',
-      contribution: this.formBuilder.array([
-        this.newContribution()
+      rows: this.formBuilder.array([
+        this.newRow()
       ]),
       bankStatementIndex: '',
       statementDate: ''
     })
+    //add ward count rows to formgrou row array
     this.route.url.subscribe((val) => {
-      // if (!this.data.selectedDetails.phase) {
-      //   this.data.selectComponent(`Planning Phase/${val[1].path}`)
-      // }
+      // console.log(val)
       this.formdata.name = `other-activities/${val.map(v => v.path).join('/')}`
-      console.log(val.map(v => v.path).join('/'))
+      // console.log(`iec-activities/${val.map(v => v.path).join('/')}`)
     })
   }
   get f() { return this.applicationForm.controls }
 
-  onSubmit() {
+  public async onSubmit() {
+    let confirmation = await this.confirmSubmit();
+    console.log(confirmation);
+    
+    if (!confirmation) {
+      return;
+    }
+    if (this.uploaders.some(el => el.checkUploadStatus())) {
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      return;
+    }
     if (this.editingId.length > 0) {
       this.formdata._id = this.editingId
     }
-    if (!this.filesToUpload.length) {
-      console.log('No attatchments, continuing');
-      this.formdata.values = this.applicationForm.value;
-      this.formdata.category = this.data.selectedDetails;
-      this.formdata.datetime = new Date();
-      console.log(this.formdata)
-      this.submitting = true;
-      this.sendApplication(this.formdata, this.editingId.length > 0)
-    }
-    else {
-      // console.log(this.agreementFile)=
-      let form: FormData = new FormData();
-      this.filesToUpload.forEach(f => {
-        if (!f.file.fid) {
-          form.append(`bankStatement-${f.fname}`, f.file, `bankStatement-${f.fname}.` + f.file.name.split('.')[f.file.name.split('.').length - 1]);
-        }
-      })
-      this.submitting = true;
-      this.rest.uploadFiles(form)
-        .subscribe((res) => {
-          console.log(res)
-          res.forEach((element: any) => {
-            let name = element.name.split('_')[0].split('-')[1];
-            this.formdata.files?.push({
-              name: element.name,
-              fieldName: name,
-              url: element.url,
-              fid: element.fileId,
-              size: element.size
-            })
-          });
-          this.formdata.values = this.applicationForm.value;
-          this.formdata.category = this.data.selectedDetails;
-          this.formdata.datetime = new Date();
-          this.submitting = true;
-          this.sendApplication(this.formdata, this.editingId.length > 0)
-          console.log(this.formdata)
-        }, err => {
-          console.warn(err.error)
-          if (err.error.status == 'Empty file') {
-            this.formdata.values = this.applicationForm.value;
-            this.formdata.category = this.data.selectedDetails;
-            this.formdata.datetime = new Date();
-            this.submitting = true;
-            this.sendApplication(this.formdata, this.editingId.length > 0)
-            console.log(this.formdata)
-          }
-          else {
-            this, this.submitting = false;
-            this.snackBar.open('Error uploadfing file, Please try again later', 'Dismiss', { duration: 5000 })
-          }
-        })
-    }
-  }
-
-  fileSelected(event: any, index: number) {
-    // console.log(event.files)
-    this.filesToUpload.push({
-      fname: `f${index}`,
-      file: event.files[0]
-    });
-    // let tform = this.applicationForm.get('contribution')?.value[index]
-    // tform.bankIndex = `f${index}`;
-    // console.log(tform)
-    this.applicationForm.patchValue({ bankStatementIndex: `f${index}` })
+    // console.log('No attatchments, continuing');
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
+    // console.log(this.formdata)
+    this.submitting = true;
+    this.sendApplication(this.formdata, this.editingId.length > 0)
   }
 
   sendApplication(app: Application, update: boolean = false, silent: boolean = false) {
+    if (!silent) {
+      app.submitted = true;
+    }
     if (update) {
       this.rest.editApplication(app)
         .subscribe(res => {
-          console.log(res)
+          // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
+            this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
-          console.log(this.submittedApplcations)
-          this.submittedApplcations = this.submittedApplcations.filter(el => {
-            return el._id != res._id
-          });
-          this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset()
-          this.applicSelected(res)
-          this.submitted = true;
+          this.editingId = res._id;
         }, e => {
-          console.log(e.error.status)
+          // console.log(e.error.status)
           this.submitting = false;
           this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
@@ -280,165 +286,110 @@ export class BeneficiaryContributionComponent implements OnInit, AfterViewInit {
     else {
       this.rest.submitApplication(app)
         .subscribe(res => {
-          console.log(res)
+          // console.log(res)
           this.submitting = false;
           if (!silent) {
-            this.showForm = false;
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
+            this.submitted = true;
+            this.applicationForm.reset()
+            this.applicSelected(res)
+            this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }
-          this.submittedApplcations.unshift(res);
-          // this.applicationForm.reset()
-          this.applicSelected(res)
-          this.submitted = true;
+          this.editingId = res._id;
         }, e => {
-          console.log(e.error.status)
+          // console.log(e.error.status)
           this.submitting = false;
           this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
         })
     }
   }
 
-  fileRemoved(index: number, fid: string) {
-    this.submitted = false;
-    this.filesToUpload = this.filesToUpload.filter(el => {
-      console.log(el, index)
-      return el.fname != `f${index}`
-    });
-    // this.applicationForm.get('contribution')['controls'][index].value.bankIndex = '';
-    this.applicationForm.patchValue({ bankStatementIndex: '' })
-    if (fid?.length) {
-      console.log(this.formdata)
-      this.formdata._id = this.editingId
-      this.formdata.values = this.applicationForm.value
-      this.formdata.files = (this.formdata.files as ApplicationFile[]).filter(el => {
-        console.log(el.fieldName, index)
-        return el.fieldName != `f${index}`
-      })
-      console.log(this.formdata)
-      fid?.length > 0 && this.sendApplication(this.formdata, true, true)
-      if (fid) {
-        this.rest.deleteFile(fid)
-          .subscribe((res) => {
-            console.log('file deleted', res)
-          }, err => console.log(err.error))
-      }
-    }
-  }
-
-  getFileFromIndex(index: number) {
-    // console.log(this.filesToUpload)
-    return this.filesToUpload.filter(el => {
-      return el.fname == `f${index}`
-    })[0]
-  }
-
   applicSelected(app: Application) {
-    this.targetDate = app.targetDate;
+    console.log(app)
     this.onReset();
-    this.showForm = true
-    this.iecActivities = this.applicationForm.get('contribution') as FormArray
-    this.iecActivities.clear();
+    this.formFields = this.applicationForm.get('rows') as FormArray
+    this.formFields.clear();
+    if (app.editable === true) {
+      this.isDraftMode = true;
+    }
+    else {
+      this.isDraftMode = false;
+    }
     this.editingId = app._id
-    for (let i = 0; i < app.values.contribution.length; i++) {
-      this.addContribution()
+    for (let i = 0; i < app.values.rows.length; i++) {
+      this.addRow()
     }
     this.applicationForm.patchValue(app.values);
-    // console.log(this.applicationForm)
-    console.log(app.values)
-    this.editingId = app._id as string
-    if ((app.files as ApplicationFile[])?.length > 0) {
-      (app.files as ApplicationFile[]).forEach(f => {
-        this.filesToUpload.push({
-          fname: f.fieldName,
-          file: f
-        })
-      })
-      this.formdata.files = app.files
-    }
+    console.log(this.applicationForm)
+    this.isFormDisabled = !app.editable;
+    this.disabledLength = app.values.rows.length;
+    console.log(this.applicationForm)
+    this.findTotal()
   }
 
   onReset() {
-    this.showForm = false;
     this.editingId = '';
     this.applicationForm.reset();
-    this.filesToUpload = []
     this.formdata.files = []
-    this.iecActivities = this.applicationForm.get('contribution') as FormArray
-    this.iecActivities.clear();
-    this.addContribution()
+    this.formFields = this.applicationForm.get('rows') as FormArray
+    this.formFields.clear();
+    this.addRow()
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
     return (files as ApplicationFile[]).length > 0
   }
 
-  getAttatchemenstIfAny(appl: Application, fname: string, dname: string) {
-    let toReturn: string = `${dname} not Attatched`;
-    appl.files?.forEach(f => {
-      if (f.fieldName === fname) {
-        toReturn = `
-        <a href="${f.url}" download target="_blank" class="">
-          View ${dname} 
-        </a>
-        `
-      }
+  onFileChanges() {
+    if (this.editingId.length)
+      this.formdata._id = this.editingId
+    this.formdata.values = this.applicationForm.value;
+    this.formdata.category = this.data.selectedDetails;
+    this.formdata.datetime = new Date();
+    this.sendApplication(this.formdata, !!this.editingId.length, true)
+  }
+
+  confirmSubmit() {
+    return new Promise((resolve, reject) => {
+      this.confirmService.confirm({
+        blockScroll: false,
+        message: '<p align="left" style="padding: 0px; margin: 0px">Are you sure that you want to submit?<br> Once submitted, You are not allowed to edit unless admin permitted.</p>',
+        accept: () => {
+          resolve(true)
+        },
+        reject: () => {
+          resolve(false)
+        }
+      });    
     })
-    return toReturn
   }
 
-  viewFile(file: ApplicationFile) {
-    if (file.url) {
-      window.open(file.url)
-    }
+  findTotal() {
+    this.applicationForm.value.rows.forEach(el => {
+      // go through each key value and add to total if the value is convertible to number
+      Object.keys(el).forEach(key => {
+        if (Number.isNaN(Number(el[key]))) {
+          if (this.totalValues[key]) {
+            this.totalValues[key] += 0
+          } else {
+            this.totalValues[key] = 0
+          }
+        } else {
+          if (this.totalValues[key]) {
+            this.totalValues[key] += Number(el[key])
+          } else {
+            this.totalValues[key] = Number(el[key])
+          }
+        }
+      })
+    })
   }
 
-  setTarget() {
-    if (this.isAdmin) {
-      let datedForm: Application = {};
-      if (!this.editingId.length) {
-        if (this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
-        this.settingDateProgress = true;
-        datedForm.category = this.data.selectedDetails;
-        this.rest.submitApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      else {
-        if (this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
-        datedForm._id = this.editingId;
-        datedForm.category = this.data.selectedDetails;
-        this.settingDateProgress = true;
-        this.rest.editApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-    }
+  getReportControl() {
+    return this.applicationForm.get('report') as FormGroup;
   }
+
 }
 

@@ -24,8 +24,8 @@
             </p>
         </div>
     </div>
-    <div formArrayName="contribution"
-        *ngFor="let item of this.applicationForm.get('contribution')['controls']; let i = index;">
+    <div formArrayName="rows"
+        *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
         <ng-container [formGroupName]="i">
             <div class="row my-3">
                 <div class="col-12 col-md-2">
@@ -154,37 +154,27 @@
                 </mat-form-field>
             </p>
         </div>
-        <div class="col-12 col-md-6">
-            <div class="mt-1" style="position: relative;">
-                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                    (click)="viewFile(getFileFromIndex(1).file)"
-                    *ngIf="this.applicationForm.controls.bankStatementIndex.value?.length">
-                    <p class="text-truncate pt-3"><strong>Bank Statement:
-                        </strong>{{getFileFromIndex(1).file.name}}
-                    </p>
-                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 4.5px" (click)="fileRemoved(1,getFileFromIndex(1)?.file?.fid)">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </div>
-                <p-fileUpload *ngIf="!this.applicationForm.controls.bankStatementIndex.value?.length" mode="basic"
-                    [customUpload]="true" (onSelect)="fileSelected($event, 1)" [style]="{backgroundColor: 'unset',
-                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                    [chooseLabel]="'Bank Statement'"></p-fileUpload>
-            </div>
+        <div class="col-12 col-md-6">            
+            <app-file-uploader [control]="applicationForm" #uploader [labelName]="'Attatch Minutes'"
+            [disabled]="isFormDisabled && applicationForm.value?.minutes?.length" [keyName]="'bankStatementIndex'"
+            (onfileChanges)="onFileChanges()">
+        </app-file-uploader>
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-12" *ngIf="submitting">
             <p class="small text-center">
-                Uploading files(If any) and submiting Application...
+                Submiting Application. Please Wait...
             </p>
             <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
         </div>
         <div class="col-12 text-center mt-3">
-            <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
-                Application</button>
+            <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                (click)="onSubmit()">
+                Submit
+                Application
+                <mat-icon>upload_file</mat-icon>
+            </button>
         </div>
     </div>
     <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
@@ -204,3 +194,5 @@
         </div>
     </div>
 </form>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
