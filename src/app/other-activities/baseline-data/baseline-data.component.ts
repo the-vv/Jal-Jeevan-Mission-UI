@@ -371,8 +371,9 @@ export class BaselineDataComponent implements OnInit {
   applicSelected(app: Application) {
     // console.log(app)
     this.onReset();
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
+    (this.formFields = this.applicationForm.get('rows') as FormArray).clear();
+    (this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray).clear();
+    (this.formFields = this.applicationForm.get('educationalInstitution') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -383,12 +384,18 @@ export class BaselineDataComponent implements OnInit {
     for (let i = 0; i < app.values.rows.length; i++) {
       this.addRow()
     }
+    for (let i = 0; i < app.values.angnvadiProfile.length; i++) {
+      this.addAnganvaiProfile()
+    }
+    for (let i = 0; i < app.values.educationalInstitution.length; i++) {
+      this.addEducationalInstitution()
+    }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
-    this.findTotal()
+    // console.log(this.applicationForm)
+    // this.findTotal()
   }
 
   onReset() {
@@ -425,27 +432,6 @@ export class BaselineDataComponent implements OnInit {
           resolve(false)
         }
       });
-    })
-  }
-
-  findTotal() {
-    this.applicationForm.value.rows.forEach(el => {
-      // go through each key value and add to total if the value is convertible to number
-      Object.keys(el).forEach(key => {
-        if (Number.isNaN(Number(el[key]))) {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += 0
-          } else {
-            this.totalValues[key] = 0
-          }
-        } else {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += Number(el[key])
-          } else {
-            this.totalValues[key] = Number(el[key])
-          }
-        }
-      })
     })
   }
 
