@@ -1,268 +1,135 @@
-<div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
-    <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
-</div>
-<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-    <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
-        <ng-container [formGroupName]="i">
-            <div class="row mt-3 py-3">
-                <div class="col-md-2">
-                    <p class="h6 text-center pt-3">
-                        {{'Ward ' + (i + 1) + ': '}}
-                        {{(data.wardCongigData.names.length > 0 &&
-                        data.wardCongigData.names.length > i &&
-                        data.wardCongigData.names[i] &&
-                        data.wardCongigData.names[i].wardNumber === i + 1 &&
-                        data.wardCongigData.names[i].wardName) || ' '}}
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Conducted Date</mat-label>
-                            <input matInput [matDatepicker]="dp3" formControlName="date">
-                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Place</mat-label>
-                            <input formControlName="place" matInput placeholder="Place">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>M</mat-label>
-                                    <input formControlName="attM" matInput placeholder="M">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>F</mat-label>
-                                    <input formControlName="attF" matInput placeholder="F">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>T</mat-label>
-                                    <input formControlName="attT" matInput placeholder="Te">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 offset-md-2">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i, 1).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length > 0">
-                            <p class="text-truncate pt-3 d-inline-block"><strong>Minutes:
-                                </strong>{{getFileFromIndex(i, 1).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i, 1)?.file?.fid, 1); this.applicationForm.get('meetings')['controls'][i].value.minutesIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.minutesIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.minutesIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 1)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Minutes'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i, 2).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Photo:
-                                </strong>{{getFileFromIndex(i, 2).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i, 2)?.file?.fid, 2); this.applicationForm.get('meetings')['controls'][i].value.photoIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.photoIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.photoIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 2)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Photo'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="mt-1" style="position: relative;">
-                        <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                            (click)="viewFile(getFileFromIndex(i, 3).file)"
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex?.length > 0">
-                            <p class="text-truncate pt-3"><strong>Beneficiary:
-                                </strong>{{getFileFromIndex(i, 3).file.name}}
-                            </p>
-                            <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                style="margin-top: 4.5px"
-                                (click)="fileRemoved(i,getFileFromIndex(i, 3)?.file?.fid, 3); this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex = ''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </div>
-                        <p-fileUpload
-                            *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.beneficiaryIndex"
-                            mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 3)" [style]="{backgroundColor: 'unset',
-                        color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                        borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                            [chooseLabel]="'Beneficiary'"></p-fileUpload>
-                        <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                        style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                    </div>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addMeeting()">
-                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
-            </button>
-        </div>
-    </div>
-    <p class="h4 text-start">Facilitation Committee</p>
-    <div formArrayName="committee" *ngFor="let item of this.applicationForm.get('committee')['controls']; let i = index;">
-        <ng-container [formGroupName]="i">
-            <div class="row mt-3">
-                <div class="col-md-2">
-                    <p class="h6 text-center pt-3">
-                        {{'Ward ' + (i + 1) + ': '}}
-                        {{(data.wardCongigData.names.length > 0 &&
-                        data.wardCongigData.names.length > i &&
-                        data.wardCongigData.names[i] &&
-                        data.wardCongigData.names[i].wardNumber === i + 1 &&
-                        data.wardCongigData.names[i].wardName) || ' '}}
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Name and Address</mat-label>
-                            <input formControlName="nameAndAddress" matInput placeholder="Name and Address">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Phone</mat-label>
-                            <input formControlName="phone" matInput placeholder="Phone">
-                        </mat-form-field>
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Position</mat-label>
-                            <input formControlName="position" matInput placeholder="position">
-                        </mat-form-field>
-                    </p>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addCommitee()">
-                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
-            </button>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12" *ngIf="submitting">
-            <p class="small text-center">
-                Uploading files(If any) and submiting Application...
+<div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
+    <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>
+    <!-- <div>
+        <table class="table table-striped fs-4">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Proposed site</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.proposedSite}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
+        </table>
+    </div> -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <p class="h4 text-center">
+                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
             </p>
-            <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
-        </div>
-        <div class="col-12 text-center mt-3">
-            <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
-                Application</button>
         </div>
     </div>
-    <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
-        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-                <path
-                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-            </symbol>
-        </svg>
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                <use xlink:href="#check-circle-fill" />
-            </svg>
-            <div>
-                Application Submitted Successfully
+</div>
+
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
+    </div>
+    <mat-card class="bg-blue-custom">
+        <p class="h2">Orientation to GP board members, socio political leaders</p>
+        <p>
+            Orientation to GP board members and board meeting for taking GP resolutions, Approval of GP Centric Activity
+            Plan.
+        </p>
+    </mat-card>
+    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+        Editing has been disabled by admin. Contact them if you need editing permission
+    </div>
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
+        Application was not submitted. Currently in edit mode. Saved as Draft
+    </div>
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+        <p class="h4 text-start">Facilitation Committee</p>
+        <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row mt-3">
+                    <div class="col-md-2">
+                        <p class="h6 text-center pt-3">
+                            {{'Ward ' + (i + 1) + ': '}}
+                            {{(data.wardCongigData.names.length > 0 &&
+                            data.wardCongigData.names.length > i &&
+                            data.wardCongigData.names[i] &&
+                            data.wardCongigData.names[i].wardNumber === i + 1 &&
+                            data.wardCongigData.names[i].wardName) || ' '}}
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Name and Address</mat-label>
+                                <input formControlName="nameAndAddress" matInput placeholder="Name and Address">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Phone</mat-label>
+                                <input formControlName="phone" matInput placeholder="Phone">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <p>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Position</mat-label>
+                                <input formControlName="position" matInput placeholder="position">
+                            </mat-form-field>
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addRow()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Row
+                </button>
+            </div>
+        </div> -->
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Submiting Application. Please Wait...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                    (click)="onSubmit()">
+                    Submit
+                    Application
+                    <mat-icon>upload_file</mat-icon>
+                </button>
             </div>
         </div>
-    </div>
-</form>
-<!-- <div class="col-12" *ngIf="!isAdmin">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="editingId.length == 0">
-                            Submit a new Application
-                        </span>
-                        <span *ngIf="editingId.length > 0">
-                            Edit an Application
-                        </span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          This is a summary of the content
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                </ng-template>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Applications that are already submitted
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          Currently I am
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <mat-list>
-                        <mat-list-item *ngFor="let appl of submittedApplcations">
-                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
-                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="icon" style="margin-top: 4.5px"
-                                    (click)="applicSelected(appl)" class="">
-                                    View/ Edit
-                                </button>
-                            </p>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div> -->
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+            </svg>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    Application Submitted Successfully
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -4,6 +4,7 @@ import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { BeneficiaryContributionComponent } from './beneficiary-contribution/beneficiary-contribution.component';
 import { CommunityOrientationComponent } from './community-orientation/community-orientation.component';
 import { GpActionApprovedComponent } from './gp-action-approved/gp-action-approved.component';
+import { GpActionPlanComponent } from './gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './gp-board-meeting/gp-board-meeting.component';
 import { GpIecActivitiesComponent } from './gp-iec-activities/gp-iec-activities.component';
 import { GpwcBoardMeetingComponent } from './gpwc-board-meeting/gpwc-board-meeting.component';
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: 'orientationtogp', component: OrientationToGpComponent },
   { path: 'gpiec', component: GpIecActivitiesComponent },
   { path: 'communityorientation', component: CommunityOrientationComponent },
-  { path: 'gpactionplanexceptder', component: GpActionApprovedComponent },
+  { path: 'gpactionplanexceptder', component: GpActionPlanComponent },
   { path: 'gpboardmeettingforgramasabha', component: GpBoardMeetingComponent },
   { path: 'gramasabhaactionplanapproved', component: GpActionApprovedComponent },
   { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },

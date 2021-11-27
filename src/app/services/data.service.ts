@@ -93,7 +93,7 @@ export class DataService {
       // ['ISA Positioning', 'planningphase/isapositioning'],
       ['Orientation to GP & Staff, Special Board Meeting', 'other-activities/orientationtogp'],
       // ['GP IEC', 'other-activities/gpiec'],
-      ['Community Orientation', 'other-activities/communityorientation'],
+      // ['Community Orientation', 'other-activities/communityorientation'],
       ['GP action plan except DER', 'other-activities/gpactionplanexceptder'],
       // ['GP Board meetting for Gramasabha', 'other-activities/gpboardmeettingforgramasabha'],
       ['Gramasabha action plan approved', 'other-activities/gramasabhaactionplanapproved'],
