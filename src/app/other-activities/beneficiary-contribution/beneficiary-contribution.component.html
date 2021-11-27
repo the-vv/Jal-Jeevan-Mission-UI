@@ -36,23 +36,23 @@
         <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
     </div>
     <mat-card class="bg-blue-custom">
-        <p class="h2">Orientation to GP board members, socio political leaders</p>
-        <p>
+        <p class="h2">Beneficiary contribution Collection</p>
+        <!-- <p>
             Orientation to GP board members and board meeting for taking GP resolutions, Approval of GP Centric Activity
             Plan.
-        </p>
+        </p> -->
     </mat-card>
-    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+    <!-- <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
         Editing has been disabled by admin. Contact them if you need editing permission
     </div>
     <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
         Application was not submitted. Currently in edit mode. Saved as Draft
-    </div>
+    </div> -->
     <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
         <div class="row">
             <div class="col-12">
                 <p class="h6 text-start pt-3">
-                    <app-schedule-menu [section]="'Orientation to GP board members, socio political leaders'"
+                    <app-schedule-menu [section]="'Beneficiary contribution Collection'"
                         [iconOnly]="false">
                     </app-schedule-menu>
                 </p>
@@ -189,7 +189,7 @@
             </div>
             <div class="col-12 col-md-6">
                 <app-file-uploader [control]="applicationForm" #uploader [labelName]="'Bank Statement'"
-                    [disabled]="isFormDisabled && applicationForm.value?.minutes?.length"
+                    [disabled]="isFormDisabled"
                     [keyName]="'bankStatementIndex'" (onfileChanges)="onFileChanges()">
                 </app-file-uploader>
             </div>

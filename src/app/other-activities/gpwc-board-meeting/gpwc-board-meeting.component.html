@@ -1,195 +1,169 @@
-<div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
-    <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
-</div>
-<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
-    <div formArrayName="meetings" *ngFor="let item of this.applicationForm.get('meetings')['controls']; let i = index;">
-        <ng-container [formGroupName]="i">
-            <div class="row my-3">
-                <div class="col-12 col-md-2">
-                    <p class="h6 text-center pt-3">
-                        Board meeting {{i + 1}}
-                        <app-schedule-menu [section]="'Board Meeting ' + (i + 1)" [iconOnly]="true">
-                        </app-schedule-menu>
-                    </p>
-                </div>
-                <div class="col-12 col-md-10">
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Number</mat-label>
-                                    <input formControlName="number" matInput placeholder="Number">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Board Meeting Date</mat-label>
-                                    <input matInput [matDatepicker]="dp3" formControlName="date">
-                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>GP Share</mat-label>
-                                    <input formControlName="gpShare" matInput placeholder="GP Share">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-9 offset-md-2">
-                    <div class="row">    
-                        <div class="col-12 col-md-4">
-                            <p>
-                                <mat-form-field appearance="outline" class="w-100">
-                                    <mat-label>Total No. of Approved beneficiaries</mat-label>
-                                    <input formControlName="totalApproved" matInput placeholder="Total No. of Approved beneficiaries">
-                                </mat-form-field>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="mt-1" style="position: relative;">
-                                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                                    (click)="viewFile(getFileFromIndex(i, 'list').file)"
-                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex?.length > 0">
-                                    <p class="text-truncate pt-3"><strong>Approval beneficiary List:
-                                        </strong>{{getFileFromIndex(i, 'list').file.name}}
-                                    </p>
-                                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                        style="margin-top: 4.5px"
-                                        (click)="fileRemoved(i,getFileFromIndex(i, 'list')?.file?.fid, 'list'); this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex = ''">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                </div>
-                                <p-fileUpload
-                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.beneficiaryListIndex"
-                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'list')" [style]="{backgroundColor: 'unset',
-                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Approval beneficiary List'"></p-fileUpload>
-                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="mt-1" style="position: relative;">
-                                <div class="hasfile d-flex justify-content-between border px-2 rounded" style="cursor: pointer;"
-                                    (click)="viewFile(getFileFromIndex(i, 'resolution').file)"
-                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex?.length > 0">
-                                    <p class="text-truncate pt-3"><strong>Resolution:
-                                        </strong>{{getFileFromIndex(i, 'resolution').file.name}}
-                                    </p>
-                                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                                        style="margin-top: 4.5px"
-                                        (click)="fileRemoved(i,getFileFromIndex(i, 'resolution')?.file?.fid, 'resolution'); this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex = ''">
-                                        <mat-icon>close</mat-icon>
-                                    </button>
-                                </div>
-                                <p-fileUpload
-                                    *ngIf="this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex?.length == 0 || !this.applicationForm.get('meetings')['controls'][i].value.resolutionIndex"
-                                    mode="basic" [customUpload]="true" (onSelect)="fileSelected($event, i, 'resolution')" [style]="{backgroundColor: 'unset',
-                                color: 'grey', border: '1px solid #ced4da', fontWeight: 'unset', fontSize: '0.9em',
-                                borderRadius: '.25rem', width: '100%', paddingTop: '14px', paddingBottom: '14px'}"
-                                    [chooseLabel]="'Resolution'"></p-fileUpload>
-                                <!-- <input *ngIf="dsmMeetingFile == null" class="form-control" type="file" id="formFile1"
-                                style="padding: 12px;" (change)="fileSelected($event, 'dsmMeeting')"> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-1 text-center">
-                    <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
-                        style="margin-top: 10px" (click)="removeMeeting(i)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="row">
-        <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
-            <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addMeeting()">
-                <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Meeting
-            </button>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12" *ngIf="submitting">
-            <p class="small text-center">
-                Uploading files(If any) and submiting Application...
+<div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
+    <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>
+    <!-- <div>
+        <table class="table table-striped fs-4">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Proposed site</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{row.proposedSite}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <th scope="row">Total</th>
+                <td>{{totalValues.proposedSite}}</td>
+                <td>{{totalValues.proposedArea}}</td>
+                <td>{{totalValues.completedArea}}</td>
+            </tfoot>
+        </table>
+    </div> -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <p class="h4 text-center">
+                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
             </p>
-            <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
-        </div>
-        <div class="col-12 text-center mt-3">
-            <button type="submit" mat-raised-button color="primary" class="px-5 py-1" [disabled]="submitting">Save
-                Application</button>
         </div>
     </div>
-    <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
-        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-                <path
-                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-            </symbol>
-        </svg>
-        <div class="alert alert-success d-flex align-items-center" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                <use xlink:href="#check-circle-fill" />
-            </svg>
-            <div>
-                Application Submitted Successfully
+</div>
+
+<div *ngIf="!printMode">
+    <div class="col-12 col-md-12 mx-auto" *ngIf="formdata.name">
+        <app-breadcrump [admin]="isAdmin" [name]="formdata.name"></app-breadcrump>
+    </div>
+    <mat-card class="bg-blue-custom">
+        <p class="h2">GPWSC & GP Board meetting</p>
+        <!-- <p>
+            Orientation to GP board members and board meeting for taking GP resolutions, Approval of GP Centric Activity
+            Plan.
+        </p> -->
+    </mat-card>
+    <!-- <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+        Editing has been disabled by admin. Contact them if you need editing permission
+    </div>
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
+        Application was not submitted. Currently in edit mode. Saved as Draft
+    </div> -->
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
+        <div formArrayName="rows"
+            *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-2">
+                        <p class="h6 text-center pt-3">
+                            Board meeting {{i + 1}}
+                            <app-schedule-menu [section]="'Board Meeting ' + (i + 1)" [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Number</mat-label>
+                                        <input formControlName="number" matInput placeholder="Number">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Board Meeting Date</mat-label>
+                                        <input matInput [matDatepicker]="dp3" formControlName="date">
+                                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>GP Share</mat-label>
+                                        <input formControlName="gpShare" matInput placeholder="GP Share">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-9 offset-md-2">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Total No. of Approved beneficiaries</mat-label>
+                                        <input formControlName="totalApproved" matInput
+                                            placeholder="Total No. of Approved beneficiaries">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader [labelName]="'Approval Beneficiary List'"
+                                    [disabled]="isFormDisabled && applicationForm.value?.rows?.length"
+                                    [keyName]="'beneficiaryListIndex'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <app-file-uploader [control]="applicationForm.get('rows')['controls'][i]" #uploader [labelName]="'Resolution'"
+                                    [disabled]="isFormDisabled && applicationForm.value?.rows?.length"
+                                    [keyName]="'resolutionIndex'" (onfileChanges)="onFileChanges()">
+                                </app-file-uploader>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon"
+                            style="margin-top: 10px" (click)="removeMeeting(i)" type="button">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-md-9 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button" (click)="addRow()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Meeting
+                </button>
             </div>
         </div>
-    </div>
-</form>
-<!-- <div class="col-12" *ngIf="!isAdmin">
-    <div class="row mt-4">
-        <mat-accordion>
-            <mat-expansion-panel [expanded]="showForm" (closed)="showForm = false; onReset()">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <span *ngIf="editingId.length == 0">
-                            Submit a new Application
-                        </span>
-                        <span *ngIf="editingId.length > 0">
-                            Edit an Application
-                        </span>
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          This is a summary of the content
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                </ng-template>
-            </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="!showForm" (closed)="showForm = true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Applications that are already submitted
-                    </mat-panel-title>
-                    <mat-panel-description>
-                          Currently I am
-                        </mat-panel-description>
-                </mat-expansion-panel-header>
-                <ng-template matExpansionPanelContent>
-                    <mat-list>
-                        <mat-list-item *ngFor="let appl of submittedApplcations">
-                            <p class="border rounded py-2 strong text-start d-flex justify-content-evenly align-items-center"
-                                matLine>{{appl.datetime | date: 'MMM d, y, h:mm:ss a'}}
-                                <button mat-button color="primary" aria-label="icon" style="margin-top: 4.5px"
-                                    (click)="applicSelected(appl)" class="">
-                                    View/ Edit
-                                </button>
-                            </p>
-                        </mat-list-item>
-                    </mat-list>
-                </ng-template>
-            </mat-expansion-panel>
-        </mat-accordion>
-    </div>
-</div> -->
+        <div class="row mt-2">
+            <div class="col-12" *ngIf="submitting">
+                <p class="small text-center">
+                    Submiting Application. Please Wait...
+                </p>
+                <mat-progress-bar mode="indeterminate" clas="w-100"></mat-progress-bar>
+            </div>
+            <div class="col-12 text-center mt-3">
+                <button [disabled]="submitting" type="submit" mat-raised-button color="primary" class="px-5 py-1"
+                    (click)="onSubmit()">
+                    Submit
+                    Application
+                    <mat-icon>upload_file</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6 mt-4 mx-auto" *ngIf="submitted">
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+            </svg>
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    Application Submitted Successfully
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-confirmDialog header="Submit Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>

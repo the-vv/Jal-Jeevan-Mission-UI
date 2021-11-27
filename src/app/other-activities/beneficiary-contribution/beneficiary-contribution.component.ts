@@ -35,7 +35,7 @@ export class BeneficiaryContributionComponent implements OnInit {
   submitting: boolean = false;
   editingId: string = '';
   submitted: boolean = false;
-  public isFormDisabled: boolean = true;
+  public isFormDisabled: boolean = false;
   isDraftMode: boolean = false;
   disabledLength: number = 0;
   totalValues: any = {};
@@ -178,12 +178,7 @@ export class BeneficiaryContributionComponent implements OnInit {
   }
 
   removeMeeting(index: number) {
-    let allFilesFieldsToDelete: any = {
-      photos: this.applicationForm.get('rows')['controls'][index].value.photos,
-      videos: this.applicationForm.get('rows')['controls'][index].value.videos,
-      approvedCopyOfActivityPlan: this.applicationForm.get('rows')['controls'][index].value.approvedCopyOfActivityPlan,
-      gpResolutions: this.applicationForm.get('rows')['controls'][index].value.gpResolutions
-    }
+    let allFilesFieldsToDelete: any = {};
     // Checkiing if any of the controls has the stringified file value exists
     if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
       try {
@@ -305,7 +300,7 @@ export class BeneficiaryContributionComponent implements OnInit {
   }
 
   applicSelected(app: Application) {
-    console.log(app)
+    // console.log(app)
     this.onReset();
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
@@ -320,11 +315,14 @@ export class BeneficiaryContributionComponent implements OnInit {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
-    this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
-    this.findTotal()
+    setTimeout(() => {
+      this.isFormDisabled = false; 
+    });
+    // this.disabledLength = app.values.rows.length;
+    // console.log(this.applicationForm)
+    // this.findTotal()
   }
 
   onReset() {
