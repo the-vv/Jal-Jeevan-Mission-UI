@@ -68,6 +68,10 @@ export class GpActionApprovedComponent implements OnInit {
           // this.editingId = res[0]._id;
           this.applicSelected(res[0])
           // this.showForm = false;
+        } else {
+          for (let i = 0; i < this.data.getWardCount(); i++) {
+            this.addWard();
+          }
         }
       })
     } else {
@@ -88,6 +92,9 @@ export class GpActionApprovedComponent implements OnInit {
           }
           else {
             this.isFormDisabled = false;
+            for (let i = 1; i < this.data.getWardCount(); i++) {
+              this.addWard();
+            }
           }
         }, e => {
           // console.log(e.error)
@@ -99,13 +106,26 @@ export class GpActionApprovedComponent implements OnInit {
     })
   }
 
-  addRow() {
-    this.formFields = this.applicationForm.get('rows') as FormArray;
-    const group = this.newRow();
+  addWard() {
+    this.formFields = this.applicationForm.get('wards') as FormArray;
+    const group = this.newWard();
     this.formFields.push(group);
   }
 
-  newRow(): FormGroup {
+  newWard(): FormGroup {
+    return this.formBuilder.group({
+     rows: this.formBuilder.array([
+       this.newRow()
+     ])
+    })
+  }
+
+  removeWard(index: number) {
+    this.formFields = this.applicationForm.get('wards') as FormArray;
+    this.formFields.removeAt(index)
+  }
+
+  newRow() {
     return this.formBuilder.group({
       nameAndAddress: '',
       phone: '',
@@ -113,50 +133,18 @@ export class GpActionApprovedComponent implements OnInit {
     })
   }
 
-  removeMeeting(index: number) {
-    let allFilesFieldsToDelete: any = {
-      photos: this.applicationForm.get('rows')['controls'][index].value.photos,
-      videos: this.applicationForm.get('rows')['controls'][index].value.videos,
-      approvedCopyOfActivityPlan: this.applicationForm.get('rows')['controls'][index].value.approvedCopyOfActivityPlan,
-      gpResolutions: this.applicationForm.get('rows')['controls'][index].value.gpResolutions
-    }
-    // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
-      try {
-        let allFileIds: string[] = [];
-        for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item].length) {
-            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
-          }
-        }
-        this.rest.deleteBulkFiles(allFileIds)
-          .subscribe(res => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
-          }, err => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      catch (e) {
-        console.log(e)
-        this.formFields = this.applicationForm.get('rows') as FormArray;
-        this.formFields.removeAt(index)
-      }
-    } else {
-      this.formFields = this.applicationForm.get('rows') as FormArray;
-      this.formFields.removeAt(index)
-    }
+  addRow(i: number) {
+    ((this.applicationForm.get('wards') as FormArray).at(i).get('rows') as FormArray).push(this.newRow())
+  }
+
+  removeRow(index: number, i: number) {
+    ((this.applicationForm.get('wards') as FormArray).at(index).get('rows') as FormArray).removeAt(i)
   }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
-      rows: this.formBuilder.array([
-        this.newRow()
+      wards: this.formBuilder.array([
+        this.newWard()
       ])
     })
     this.route.url.subscribe((val) => {
@@ -168,10 +156,10 @@ export class GpActionApprovedComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   public async onSubmit() {
-    let confirmation = await this.confirmSubmit()
-    if (!confirmation) {
-      return;
-    }
+    // let confirmation = await this.confirmSubmit()
+    // if (!confirmation) {
+    //   return;
+    // }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
       this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
       return;
@@ -239,7 +227,7 @@ export class GpActionApprovedComponent implements OnInit {
   applicSelected(app: Application) {
     console.log(app)
     this.onReset();
-    this.formFields = this.applicationForm.get('rows') as FormArray
+    this.formFields = this.applicationForm.get('wards') as FormArray
     this.formFields.clear();
     if (app.editable === true) {
       this.isDraftMode = true;
@@ -248,14 +236,18 @@ export class GpActionApprovedComponent implements OnInit {
       this.isDraftMode = false;
     }
     this.editingId = app._id
-    for (let i = 0; i < app.values.rows.length; i++) {
-      this.addRow()
+    for (let i = 0; i < app.values.wards.length; i++) {
+      this.addWard();
+      ((this.applicationForm.get('wards') as FormArray).at(i).get('rows') as FormArray).clear();
+      for (let j = 0; j < app.values.wards[i].rows.length; j++) {
+        this.addRow(i)
+      }
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
+    // console.log(this.applicationForm)
     this.findTotal()
   }
 
@@ -263,9 +255,6 @@ export class GpActionApprovedComponent implements OnInit {
     this.editingId = '';
     this.applicationForm.reset();
     this.formdata.files = []
-    this.formFields = this.applicationForm.get('rows') as FormArray
-    this.formFields.clear();
-    this.addRow()
   }
 
   hasAttatchment(files: ApplicationFile[] | undefined) {
