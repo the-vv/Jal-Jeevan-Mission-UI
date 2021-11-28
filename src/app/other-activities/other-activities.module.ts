@@ -18,6 +18,7 @@ import { CommonModulesModule } from '../common.module';
 import { FileUploadModule } from 'primeng/fileupload';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { ConfirmationService } from 'primeng/api';
+import { DetailsJjmWssComponent } from './details-jjm-wss/details-jjm-wss.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ConfirmationService } from 'primeng/api';
     GpwcBoardMeetingComponent,
     BeneficiaryContributionComponent,
     BaselineDataComponent,
+    DetailsJjmWssComponent,
   ],
   imports: [
     CommonModule,

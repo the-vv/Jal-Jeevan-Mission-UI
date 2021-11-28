@@ -70,7 +70,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
             }
           })
         }
-        console.log(menuitem) 
+        // console.log(menuitem) 
         this.menuItems.push(menuitem)
       }
     }
@@ -98,7 +98,7 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
     if (!this.data.targetsWarningShown) {
       this.data.targetsWarningShown = true;
       let res = await this.data.getAllSchedules()
-      console.log(res);
+      // console.log(res);
       if (!this.user.isAdmin) {
         res.forEach(el => {
           this.messageService.add({

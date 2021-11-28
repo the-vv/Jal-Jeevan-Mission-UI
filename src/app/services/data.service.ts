@@ -100,6 +100,7 @@ export class DataService {
       ['GPWSC & GP Board meetting', 'other-activities/gpwscgpboardmeetting'],
       ['Beneficiary contribution Collection', 'other-activities/beneficiarycontributioncollection'],
       ['Baseline Data', 'other-activities/baseline-data'],
+      ['Details of JJM WSS', 'other-activities/details-jjm-wss'],
     ],
   }
 

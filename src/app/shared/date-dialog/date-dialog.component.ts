@@ -50,7 +50,7 @@ export class DateDialogComponent implements OnInit {
   }
 
   saveDate() {
-    console.log(this.dateForm.value)
+    // console.log(this.dateForm.value)
     if (!this.invalidDate && Date.parse(this.dateForm.value.date)) {
       let targetValue: TargetDate = {
         section: '',

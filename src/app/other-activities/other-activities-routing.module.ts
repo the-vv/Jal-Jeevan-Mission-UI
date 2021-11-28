@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { BeneficiaryContributionComponent } from './beneficiary-contribution/beneficiary-contribution.component';
 import { CommunityOrientationComponent } from './community-orientation/community-orientation.component';
+import { DetailsJjmWssComponent } from './details-jjm-wss/details-jjm-wss.component';
 import { GpActionApprovedComponent } from './gp-action-approved/gp-action-approved.component';
 import { GpActionPlanComponent } from './gp-action-plan/gp-action-plan.component';
 import { GpBoardMeetingComponent } from './gp-board-meeting/gp-board-meeting.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'gpwscgpboardmeetting', component: GpwcBoardMeetingComponent },
   { path: 'beneficiarycontributioncollection', component: BeneficiaryContributionComponent },
   { path: 'baseline-data', component: BaselineDataComponent },
+  { path: 'details-jjm-wss', component: DetailsJjmWssComponent },
 ];
 
 @NgModule({
