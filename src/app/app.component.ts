@@ -10,7 +10,6 @@ import { PrimeNGConfig } from 'primeng/api';
 import { AdminVerifyComponent } from './shared/admin-verify/admin-verify.component';
 import { environment } from 'src/environments/environment';
 import { PwaService } from './services/pwa-service.service';
-import { ClaimDetailsComponent } from './shared/claim-details/claim-details.component';
 
 // import Darkmode from 'darkmode-js';
 
@@ -108,9 +107,7 @@ export class AppComponent implements OnInit {
   }
 
   openClaimDetails() {
-    this.dialog.open(ClaimDetailsComponent, {
-      disableClose: true
-    })
+    this.router.navigate(['/admin/claim-details'])
   }
 
 }

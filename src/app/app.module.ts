@@ -8,8 +8,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 // Angular Material Imports 
 import {
-  DateAdapter, MatRippleModule,
-  MAT_DATE_FORMATS, MAT_DATE_LOCALE
+  MatRippleModule, MAT_DATE_LOCALE
 } from '@angular/material/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -22,11 +21,8 @@ import { MenuModule } from 'primeng/menu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,19 +46,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { CommonModulesModule } from './common.module';
-
-
-export const DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD/MM/YYYY',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @NgModule({
   declarations: [
@@ -91,7 +74,6 @@ export const DATE_FORMATS = {
     PanelMenuModule,
     BreadcrumbModule,
     MatSnackBarModule,
-    FileUploadModule,
     MatExpansionModule,
     ButtonModule,
     NgxSpinnerModule,
@@ -114,8 +96,9 @@ export const DATE_FORMATS = {
     UserService,
     MessageService,
     DatePipe,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    // { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE],  },
+    // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
