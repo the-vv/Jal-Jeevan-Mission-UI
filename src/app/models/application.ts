@@ -27,3 +27,8 @@ export interface ApplicationFile {
     fid?: string,
     size?: number
 }
+
+export interface ClaimDetailsType {
+    category: Selected,
+    values: any
+}

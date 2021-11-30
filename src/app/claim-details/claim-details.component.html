@@ -13,9 +13,43 @@
 <div class="alert alert-warning mt-3 fw-bold" role="alert">
     Claim Details is under implementation.
 </div>
+<div class="col-12 visually-hidden">
+    <div class="row my-2">
+        <div class="col-12 text-end h6">
+            <mat-slide-toggle [(ngModel)]="printMode" [labelPosition]="'before'" (change)="modeChange()">Enable Print
+                Preview Mode: 
+            </mat-slide-toggle>
+        </div>
+    </div>
+</div>
+<div class="col-12 visually-hidden">
+    <div class="row">
+        <div class="col-md-6 mt-2">
+            <!-- <p class="h5">Select District</p> -->
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label>District</mat-label>
+                <mat-select [(ngModel)]="selectedDistricts" (selectionChange)="onSelectDistrict()" multiple>
+                    <mat-option [value]="dist" *ngFor="let dist of DistrictsList">{{dist}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <p-multiSelect [options]="cities" [(ngModel)]="selectedCities1" defaultLabel="Select a City"
+                optionLabel="name" selectedItemsLabel="{0} items selected"></p-multiSelect> -->
+        </div>
+        <div class="col-md-6 mt-2">
+            <!-- <p class="h5">Name of Grama Panchayath</p> -->
+            <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Grama Panchayath</mat-label>
+                <mat-select [(ngModel)]="selectedGps" (selectionChange)="null" multiple>
+                    <mat-option [value]="gp" *ngFor="let gp of availableGps">{{gp}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
 <div class="col-12 mt-3">
     <div class="row">
-        <p class="h4">Add Claims</p>
+        <p class="h4">Add Claims Details</p>
+        <p class="h6"></p>
     </div>
     <div class="row">
         <div class="col-md-6 mt-2">
@@ -166,13 +200,15 @@
                 </app-file-uploader>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-12">
-                <button mat-flat-button color="primary" class="px-3 py-1" (click)="onSave()">
-                    Save Changes
-                    <mat-icon>save</mat-icon>
-                </button>
-            </div>
-        </div>
     </form>
+</div>
+<div class="col-12">
+    <div class="row mt-4">
+        <div class="col-12">
+            <button mat-flat-button color="primary" class="px-3 py-1" (click)="onSave()">
+                Save Changes
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
 </div>

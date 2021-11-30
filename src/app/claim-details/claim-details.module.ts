@@ -5,6 +5,8 @@ import { ClaimDetailsRoutingModule } from './claim-details-routing.module';
 import { ClaimDetailsComponent } from './claim-details.component';
 import { CommonModulesModule } from '../common.module';
 import { SharedModule } from '../shared/shared.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     ClaimDetailsRoutingModule,
     CommonModulesModule,
-    SharedModule
+    SharedModule,
+    MatSlideToggleModule
   ]
 })
 export class ClaimDetailsModule { }

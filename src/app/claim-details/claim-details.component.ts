@@ -32,6 +32,15 @@ export class ClaimDetailsComponent implements OnInit {
 
   isDisabled: boolean = false;
 
+  DistrictsList: string[] = [];
+  selectedDistricts: string[] = [];
+  allGps: any;
+  availableGps: string[] = [];
+  selectedGps: string[] = [];
+
+  printMode: boolean = false;
+
+
   constructor(
     private rest: RestapiService,
     public user: UserService,
@@ -51,6 +60,8 @@ export class ClaimDetailsComponent implements OnInit {
       approvedAmount: '',
       proceedingsFile: '',
     })
+    this.DistrictsList = this.data.getDistricts();    
+    this.allGps = this.data.getAllGps();
     for (const phase in this.data.phaseComponents) {
       if (Object.prototype.hasOwnProperty.call(this.data.phaseComponents, phase)) {
         this.phaseComponents.push(phase);
@@ -70,6 +81,25 @@ export class ClaimDetailsComponent implements OnInit {
       });
       this.claimDetailsForm.patchValue({ totalAmount: totalAmount });
     });
+  }
+  
+  checkGpInDistrict(district: string, gp: string) {
+    if(this.allGps[district].includes(gp)) {
+      return true;
+    }
+    return false;
+  }
+  
+  onSelectDistrict() {
+    this.availableGps = []
+    for(let dist of this.selectedDistricts) {
+      for(let gdist in this.allGps) {
+        if(dist === gdist) {
+          this.availableGps = [...this.availableGps, ...this.allGps[gdist]]
+        }
+      }
+    }
+    this.availableGps.sort();
   }
 
   onSelectPhase() {
@@ -137,7 +167,17 @@ export class ClaimDetailsComponent implements OnInit {
       this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
       return;
     }
-    this.snackBar.open('Coming Soon...!', 'Dismiss', { duration: 5000 })
+    
+  }
+
+  modeChange() {
+    if(!this.printMode) {
+      // this.selectedGps = [this.data.selectedDetails.gp];
+      // this.selectedDistricts = [this.data.selectedDetails.district];
+    } else {
+      this.selectedDistricts = [];
+      this.selectedGps = [];
+    }
   }
 
 }
