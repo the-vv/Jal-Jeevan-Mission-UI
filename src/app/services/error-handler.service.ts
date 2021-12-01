@@ -12,7 +12,8 @@ export class ErrorHandlerService implements ErrorHandler {
    }
   
   //handle lazy loading chunk error 
-  handleError(error: any): void {
+  handleError(error: any): void {    
+    console.error(error);
     // const chunkFailedMessage = /Loading chunk [\d]+ failed/;    
     if ((error.message as string).indexOf('ChunkLoadError:') >= 0) {     
       this.snackbar.open('Error occured while loading. Please Refresh', 'Refresh', {
@@ -21,9 +22,6 @@ export class ErrorHandlerService implements ErrorHandler {
       }).onAction().subscribe(() => {
         document.location.reload();
       });
-    }
-    else {
-      console.error(error);
     }
   }
 

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
 import { fromEvent, merge, Observable, Observer } from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { concat, interval } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,13 @@ export class PwaService {
   constructor(
     private updates: SwUpdate,
     private snackbar: MatSnackBar,
+    appRef: ApplicationRef
   ) {
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const everySixHours$ = interval(6 * 60 * 60 * 1000);
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
+    everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+
     if (window.matchMedia('(display-mode: standalone)').matches) {
       this.isPwaMode = true;
     }

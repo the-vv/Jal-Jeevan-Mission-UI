@@ -49,7 +49,7 @@
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Components</mat-label>
                 <mat-select [(ngModel)]="selectedComponents" (selectionChange)="onSelectComponent($event)" multiple>
-                    <mat-option [value]="comp" *ngFor="let comp of availableComponents">{{comp}}</mat-option>
+                    <mat-option [value]="row.comp" *ngFor="let row of availableComponents">{{row.comp}} <strong>({{row.phase}})</strong></mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -369,6 +369,21 @@
                 </div>
 
                 <!-- Engagements of WQM& S- Training and Capacity Building END -->
+
+                <!-- Other Activities START -->
+
+                <div class="row" *ngIf="SelectedPhases.includes('Others')">
+                    <app-baseline-data [print]="true" [district]="district" [gp]="gp" phase='Others'
+                        name='other-activities/baseline-data' *ngIf="selectedComponents.includes('Baseline Data')">
+                    </app-baseline-data>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Others')">
+                    <app-details-jjm-wss [print]="true" [district]="district" [gp]="gp" phase='Others'
+                        name='other-activities/details-jjm-wss' *ngIf="selectedComponents.includes('Details of JJM WSS')">
+                    </app-details-jjm-wss>
+                </div>
+
+                <!-- Other Activities START -->
 
             </div>
         </div>

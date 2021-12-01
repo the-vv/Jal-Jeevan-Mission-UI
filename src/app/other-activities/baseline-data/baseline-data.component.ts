@@ -356,10 +356,10 @@ export class BaselineDataComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   public async onSubmit() {
-    let confirmation = await this.confirmSubmit()
-    if (!confirmation) {
-      return;
-    }
+    // let confirmation = await this.confirmSubmit()
+    // if (!confirmation) {
+    //   return;
+    // }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
       this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
       return;

@@ -13,6 +13,7 @@ import { EngagementIsaModule } from '../engagement-isa/engagement-isa.module';
 import { DocumentationActivityModule } from '../documentation-activity/documentation-activity.module';
 import { SocialAuditsModule } from '../social-audits/social-audits.module';
 import { WqmsTrainingModule } from '../wqms-training/wqms-training.module';
+import { OtherActivitiesModule } from '../other-activities/other-activities.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { WqmsTrainingModule } from '../wqms-training/wqms-training.module';
     EngagementIsaModule,
     DocumentationActivityModule,
     SocialAuditsModule,
-    WqmsTrainingModule
+    WqmsTrainingModule,
+    OtherActivitiesModule
   ]
 })
 export class ReportModule { }

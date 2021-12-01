@@ -17,8 +17,8 @@ export class ReportComponent implements OnInit {
   phaseComponents: string[] = [];
   SelectedPhases: string[] = [];
   
-  allComponents: string[] = [];
-  availableComponents: string[] = [];
+  allComponents: any[] = [];
+  availableComponents: any[] = [];
   selectedComponents: string[] = [];
 
   allGps: any;
@@ -39,8 +39,8 @@ export class ReportComponent implements OnInit {
         this.phaseComponents.push(phase);
         this.allPhases[phase] = [];
         for (const comp of (this.data.phaseComponents as any)[phase]) {
-          this.allPhases[phase].push(comp[0]);
-          this.allComponents.push(comp[0]);
+          this.allPhases[phase].push({comp: comp[0], phase});
+          // this.allComponents.push(comp[0]);
         }
       }
     }
@@ -67,8 +67,8 @@ export class ReportComponent implements OnInit {
 
   onSelectPhase() {
     this.availableComponents = [];
-    console.log(this.SelectedPhases);
-    console.log(this.allPhases)
+    // console.log(this.SelectedPhases);
+    // console.log(this.allPhases)
     for(let phase of this.SelectedPhases) {
       for(let aphase in this.allPhases) {
         if(phase === aphase) {

@@ -1,6 +1,11 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "appData": {
+    "title": "Jal Jeevan Mission",
+    "description": "Jal Jeevan Mission",
+    "keywords": "jjm, sord, smi"
+  },
   "assetGroups": [
     {
       "name": "app",

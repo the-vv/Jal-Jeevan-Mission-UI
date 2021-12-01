@@ -45,6 +45,20 @@ import { DetailsJjmWssComponent } from './details-jjm-wss/details-jjm-wss.compon
   ],
   providers: [
     ConfirmationService
+  ],
+  exports: [
+    OtherActivitiesComponent,
+    // IsaPositioningComponent,
+    OrientationToGpComponent,
+    GpIecActivitiesComponent,
+    CommunityOrientationComponent,
+    GpActionPlanComponent,
+    GpBoardMeetingComponent,
+    GpActionApprovedComponent,
+    GpwcBoardMeetingComponent,
+    BeneficiaryContributionComponent,
+    BaselineDataComponent,
+    DetailsJjmWssComponent,
   ]
 })
 export class OtherActivitiesModule { }

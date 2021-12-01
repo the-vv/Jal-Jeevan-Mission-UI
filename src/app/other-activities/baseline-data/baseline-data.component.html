@@ -1,33 +1,304 @@
 <div *ngIf="printMode" class="col-12 text-start pagebreak mt-4">
     <strong class="h2 text-center mb-0 d-block text-decoration-underline">{{data.getLongName(currentName)}}</strong>
-    <!-- <div>
-        <table class="table table-striped fs-4">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Proposed site</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let row of applicationForm.value?.rows; let i = index">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{row.proposedSite}}</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <th scope="row">Total</th>
-                <td>{{totalValues.proposedSite}}</td>
-                <td>{{totalValues.proposedArea}}</td>
-                <td>{{totalValues.completedArea}}</td>
-            </tfoot>
-        </table>
-    </div> -->
-
-    <div class="row mt-1">
-        <div class="col-12">
-            <p class="h4 text-center">
-                <strong>Completed Date:</strong> {{applicationForm.value?.completedDate | date: 'd/M/y'}}
-            </p>
+    <div *ngFor="let row of applicationForm?.value?.rows" class="mt-1">
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of GP: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.nameOfGp}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Postal Address of GP: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.gpPostalAddress}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Contact Number of GP: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.gpContactNumber}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Email: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.gpEmailAddress}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of District Panchayath: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.districtPanchayath}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of Block Panchayath: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.blockPanchayath}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of Taluk: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.taluk}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of Legislative Constituency: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.legislativeConstituency}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Name of Parliament Constituency: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.parliamentaryConstituency}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Total Area of GP: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.totalGpArea}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Total Number of Ward: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.totalWard}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Total Number of House Holds: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row">
+                    <div class="col-3">
+                        {{row.totalHouseholds}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bg-shade pt-3 pb-2">
+            <div class="col-4 fs-5">
+                <p class=""><strong>Population: </strong></p>
+            </div>
+            <div class="col-8 fs-5">
+                <div class="row py-2">
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Male: </p> {{row.populationMale}}
+                    </div>
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Female: </p> {{row.populationFemale}}
+                    </div>
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Others: </p> {{row.populationOthers}}
+                    </div>
+                    <div class="col-3">
+                        <p class="h5 d-inline-block">Others: </p> {{row.populationTotal}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">SC: </p> {{row.populationSc}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">ST: </p> {{row.populationSt}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Anganwadi</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.angnvadiProfile; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Name of Anganwadi/Number: </p> {{row.name}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Location: </p> {{row.location}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Name of Teacher: </p> {{row.teacher}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Phone Number: </p> {{row.phoneNumber}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Male: </p> {{row.studentsMale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Female: </p> {{row.studentsFemale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Total: </p> {{row.studentsTotal}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Educational Institution</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.educationalInstitution; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Name of School: </p> {{row.name}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Type of School: </p> {{row.type}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Place: </p> {{row.place}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Contact Number: </p> {{row.contactNumber}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Male: </p> {{row.studentsMale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Female: </p> {{row.studentsFemale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Total: </p> {{row.studentsTotal}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Other Institution</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.institution; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Name of Institution: </p> {{row.name}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Type of Institution: </p> {{row.type}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Place: </p> {{row.place}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Contact Number: </p> {{row.contactNumber}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Male: </p> {{row.studentsMale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Female: </p> {{row.studentsFemale}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Total: </p> {{row.studentsTotal}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -42,12 +313,12 @@
             Organise GP level World Water day celebrations in all GP.
         </p> -->
     </mat-card>
-    <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
+    <!-- <div class="alert alert-danger mt-3 fw-bold" role="alert" *ngIf="isFormDisabled">
         Editing has been disabled by admin. Contact them if you need editing permission
     </div>
     <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="isDraftMode">
         Application was not submitted. Currently in edit mode. Saved as Draft
-    </div>
+    </div> -->
     <form [formGroup]="applicationForm" class="pt-3" id="applicationForm">
         <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
             <ng-container [formGroupName]="i">
@@ -467,7 +738,8 @@
                     <div class="col-12 col-md-1">
                         <p class="h6 text-start pt-3">
                             {{i + 1}}
-                            <app-schedule-menu [section]="'Profile of Educational Institution - ' + (i + 1)" [iconOnly]="true">
+                            <app-schedule-menu [section]="'Profile of Educational Institution - ' + (i + 1)"
+                                [iconOnly]="true">
                             </app-schedule-menu>
                         </p>
                     </div>
@@ -477,8 +749,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Name of School</mat-label>
-                                        <input formControlName="name" matInput placeholder="Name of School"
-                                            type="text">
+                                        <input formControlName="name" matInput placeholder="Name of School" type="text">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -509,8 +780,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Ward</mat-label>
-                                        <input formControlName="ward" matInput placeholder="Ward"
-                                            type="text">
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
                                     </mat-form-field>
                                 </p>
                             </div>
@@ -619,7 +889,7 @@
                                     </mat-form-field>
                                 </p>
                             </div>
-                            <div class="col-12 col-md-4">           
+                            <div class="col-12 col-md-4">
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Type of Institution</mat-label>
@@ -640,8 +910,7 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Ward</mat-label>
-                                        <input formControlName="ward" matInput placeholder="Ward"
-                                            type="text">
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
                                     </mat-form-field>
                                 </p>
                             </div>

@@ -46,6 +46,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { CommonModulesModule } from './common.module';
+import { PwaService } from './services/pwa-service.service';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { CommonModulesModule } from './common.module';
     UserService,
     MessageService,
     DatePipe,
+    PwaService,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     // { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE],  },
     // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
