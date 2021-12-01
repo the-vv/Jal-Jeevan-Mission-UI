@@ -50,21 +50,25 @@
     </div> -->
     <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="pt-3">
         <div class="ror">
-            <div class="col-12 col-md-2">
-                <p class="h5 text-center pt-3">
+            <div class="col-12">
+                <p class="h5 text-start pt-3">
                     Baseline Details
-                    <app-schedule-menu [section]="'Board Meeting'" [iconOnly]="true">
+                    <app-schedule-menu [section]="'Board Meeting'" [iconOnly]="false">
                     </app-schedule-menu>
                 </p>
             </div>
         </div>
-        <div formArrayName="rows"
-            *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
+        <div formArrayName="rows" *ngFor="let item of this.applicationForm.get('rows')['controls']; let i = index;">
             <ng-container [formGroupName]="i">
                 <div class="row my-3">
                     <div class="col-12 col-md-2">
                         <p class="h6 text-center pt-3">
-                            Ward {{i + 1}}
+                            Ward {{i + 1}}: 
+                            {{(data.wardCongigData.names.length > 0 &&
+                            data.wardCongigData.names.length > i &&
+                            data.wardCongigData.names[i] &&
+                            data.wardCongigData.names[i].wardNumber === i + 1 &&
+                            data.wardCongigData.names[i].wardName) || ' '}}
                             <app-schedule-menu [section]="'Baseline Details - Ward ' + (i + 1)" [iconOnly]="true">
                             </app-schedule-menu>
                         </p>
@@ -83,7 +87,8 @@
                                 <p>
                                     <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Water Supply Covered</mat-label>
-                                        <input formControlName="waterSupplyCovered" matInput placeholder="Water Supply Covered">
+                                        <input formControlName="waterSupplyCovered" matInput
+                                            placeholder="Water Supply Covered">
                                     </mat-form-field>
                                 </p>
                             </div>
