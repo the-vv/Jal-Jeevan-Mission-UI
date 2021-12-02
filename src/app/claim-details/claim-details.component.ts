@@ -6,6 +6,8 @@ import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+import { ClaimDetailsType } from '../models/application';
+import { Selected } from '../models/selected';
 import { FileUploaderComponent } from '../shared/file-uploader/file-uploader.component';
 
 @Component({
@@ -20,7 +22,7 @@ export class ClaimDetailsComponent implements OnInit {
 
   allPhases: any = {};
   phaseComponents: string[] = [];
-  SelectedPhases: string[] = [];
+  selectedPhases: string[] = [];
 
   allComponents: any[] = [];
   availableComponents: any[] = [];
@@ -40,6 +42,7 @@ export class ClaimDetailsComponent implements OnInit {
 
   printMode: boolean = false;
 
+  claimDetailsData: ClaimDetailsType;
 
   constructor(
     private rest: RestapiService,
@@ -60,7 +63,7 @@ export class ClaimDetailsComponent implements OnInit {
       approvedAmount: '',
       proceedingsFile: '',
     })
-    this.DistrictsList = this.data.getDistricts();    
+    this.DistrictsList = this.data.getDistricts();
     this.allGps = this.data.getAllGps();
     for (const phase in this.data.phaseComponents) {
       if (Object.prototype.hasOwnProperty.call(this.data.phaseComponents, phase)) {
@@ -81,20 +84,21 @@ export class ClaimDetailsComponent implements OnInit {
       });
       this.claimDetailsForm.patchValue({ totalAmount: totalAmount });
     });
+    this.getClaimDetails();
   }
-  
+
   checkGpInDistrict(district: string, gp: string) {
-    if(this.allGps[district].includes(gp)) {
+    if (this.allGps[district].includes(gp)) {
       return true;
     }
     return false;
   }
-  
+
   onSelectDistrict() {
     this.availableGps = []
-    for(let dist of this.selectedDistricts) {
-      for(let gdist in this.allGps) {
-        if(dist === gdist) {
+    for (let dist of this.selectedDistricts) {
+      for (let gdist in this.allGps) {
+        if (dist === gdist) {
           this.availableGps = [...this.availableGps, ...this.allGps[gdist]]
         }
       }
@@ -104,7 +108,7 @@ export class ClaimDetailsComponent implements OnInit {
 
   onSelectPhase() {
     this.availableComponents = [];
-    for (let phase of this.SelectedPhases) {
+    for (let phase of this.selectedPhases) {
       for (let aphase in this.allPhases) {
         if (phase === aphase) {
           this.availableComponents = [...this.availableComponents, ...this.allPhases[aphase]]
@@ -114,14 +118,14 @@ export class ClaimDetailsComponent implements OnInit {
     // traverse through selected components
     for (let comp of this.selectedComponents) {
       // check if comp.phase in selected phases, else remove from selected components
-      if (!this.SelectedPhases.includes(comp.phase)) {
+      if (!this.selectedPhases.includes(comp.phase)) {
         this.selectedComponents.splice(this.selectedComponents.indexOf(comp), 1);
       }
     }
     const formGroup = this.claimDetailsForm.get('rows') as FormArray;
     for (let i = formGroup.controls.length - 1; i >= 0; i--) {
       const element = formGroup.controls[i].value;
-      if (!this.SelectedPhases.find(x => x === element.phase)) {
+      if (!this.selectedPhases.find(x => x === element.phase)) {
         formGroup.removeAt(i);
       }
     }
@@ -159,25 +163,78 @@ export class ClaimDetailsComponent implements OnInit {
   }
 
   onFileChanges() {
-
   }
 
   onSave() {
     if (this.uploaders.some(el => el.checkUploadStatus())) {
-      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000, panelClass: ['bg-warning'] });
       return;
     }
-    
+    let data: ClaimDetailsType = {
+      category: {
+        district: this.data.selectedDetails.district,
+        gp: this.data.selectedDetails.gp,
+      },
+      values: this.claimDetailsForm.value,
+    }
+    this.rest.saveClaimDetails(data).subscribe(res => {
+      this.snackBar.open('Claim details saved successfully', 'Dismiss', { duration: 5000, panelClass: ['bg-success'] });
+    }, err => {
+      this.snackBar.open('Error saving claim details', 'Dismiss', { duration: 5000, panelClass: ['bg-danger'] })
+    });
+
   }
 
   modeChange() {
-    if(!this.printMode) {
+    // open snackbar saying coming soon
+    this.snackBar.open('Coming soon...!', 'Dismiss', { duration: 5000 });
+    if (!this.printMode) {
       // this.selectedGps = [this.data.selectedDetails.gp];
       // this.selectedDistricts = [this.data.selectedDetails.district];
     } else {
       this.selectedDistricts = [];
       this.selectedGps = [];
     }
+  }
+
+  //function to get claim details and then patch the formgroup with the data
+  getClaimDetails(customCategory?: Selected) {
+    this.rest.getClaimDetails(customCategory ? customCategory : this.data.selectedDetails).subscribe(data => {
+      if(!data?.values) {
+        return;
+      }
+      //clear the form array
+      (this.claimDetailsForm.get('rows') as FormArray).clear();
+      // add rows with data.values.length numer of rows
+      for (let i = 0; i < data.values?.rows?.length; i++) {
+        this.selectedPhases.push(data.values.rows[i].phase);
+        this.onSelectPhase();
+        this.selectedComponents.push({ phase: data.values.rows[i].phase, comp: data.values.rows[i].component });
+        this.addRow(data.values.rows[i].phase, data.values.rows[i].component);
+      }     
+      this.selectedPhases = [...new Set(this.selectedPhases)]; 
+      this.claimDetailsForm.patchValue(data.values);
+      this.isDisabled = true;
+      setTimeout(() => {
+        this.isDisabled = false; 
+      });
+      // console log selected components and available components
+      console.log(this.phaseComponents)
+      console.log(this.selectedPhases);
+    },  err => {
+      this.snackBar.open('Error getting claim details', 'close', { duration: 2000, panelClass: ['bg-danger'] });
+    })
+  }
+
+  comparePhases(c1: any, c2: any) {
+    return c1 === c2;
+  }
+
+  compareComponents(o1: any, o2: any) {
+    if (o1.phase === o2.phase && o1.component === o2.component) {
+      return true;
+    }
+    return false;
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Application, TargetDate } from '../models/application';
+import { Application, ClaimDetailsType, TargetDate } from '../models/application';
 import { GpConfig, Selected, WardConfig } from '../models/selected';
 import { ContactDetails, User } from '../models/user';
 
@@ -183,6 +183,19 @@ export class RestapiService {
   // get gp config from route 'api/commons/gpInfo'
   getGpInfo(): Observable<{gps: any, name: string}> {
     return this.http.get<{gps: any, name: string}>(this.commonUrl + '/gpInfo', {
+      withCredentials: true
+    })
+  }
+
+  // get claim details via category data post
+  getClaimDetails(category: Selected): Observable<ClaimDetailsType> {
+    return this.http.post<ClaimDetailsType>(this.applUrl + '/getClaimDetails', category, {
+      withCredentials: true
+    })
+  }
+
+  saveClaimDetails(data: ClaimDetailsType): Observable<any> {
+    return this.http.post<any>(this.applUrl + '/claimDetails', data, {
       withCredentials: true
     })
   }

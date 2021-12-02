@@ -58,6 +58,17 @@ export class PwaService {
       }
     })
   }
+  
+  // Not used currently
+  forceSWupdate () {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) {
+          registration.update()
+        }
+      })
+    }
+  }
 
   installPWA() {
       this.promptEvent?.prompt()

@@ -10,14 +10,11 @@
         </nav>
     </div>
 </div>
-<div class="alert alert-warning mt-3 fw-bold" role="alert">
-    Claim Details is under implementation.
-</div>
-<div class="col-12 visually-hidden">
+<div class="col-12">
     <div class="row my-2">
         <div class="col-12 text-end h6">
             <mat-slide-toggle [(ngModel)]="printMode" [labelPosition]="'before'" (change)="modeChange()">Enable Print
-                Preview Mode: 
+                Preview Mode:
             </mat-slide-toggle>
         </div>
     </div>
@@ -56,7 +53,8 @@
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Activities</mat-label>
-                <mat-select [(ngModel)]="SelectedPhases" (selectionChange)="onSelectPhase()" multiple>
+                <mat-select [(ngModel)]="selectedPhases" [compareWith]="comparePhases"
+                    (selectionChange)="onSelectPhase()" multiple>
                     <mat-option [value]="phase" *ngFor="let phase of phaseComponents">{{phase}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -65,7 +63,8 @@
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Sub Activities</mat-label>
-                <mat-select [(ngModel)]="selectedComponents" (selectionChange)="onSelectComponent($event)" multiple>
+                <mat-select [(ngModel)]="selectedComponents" [compareWith]="compareComponents"
+                    (selectionChange)="onSelectComponent($event)" multiple>
                     <mat-option [value]="row" *ngFor="let row of availableComponents">{{row.comp}}
                         <b>({{row.phase}})</b>
                     </mat-option>
