@@ -15,7 +15,7 @@
         <p class="h4">Filter Reports</p>
     </div>
     <div class="row">
-        <div class="col-md-6 mt-2">
+        <div class="col-md-6 mt-2" *ngIf="isAdminUser">
             <!-- <p class="h5">Select District</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>District</mat-label>
@@ -26,7 +26,7 @@
             <!-- <p-multiSelect [options]="cities" [(ngModel)]="selectedCities1" defaultLabel="Select a City"
                 optionLabel="name" selectedItemsLabel="{0} items selected"></p-multiSelect> -->
         </div>
-        <div class="col-md-6 mt-2">
+        <div class="col-md-6 mt-2" *ngIf="isAdminUser">
             <!-- <p class="h5">Name of Grama Panchayath</p> -->
             <mat-form-field appearance="outline" class="col-12">
                 <mat-label>Grama Panchayath</mat-label>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">
                     <app-phe-offices [print]="true" [district]="district" [gp]="gp" phase='IEC/BCC/IPC activities'
-                        name='iec-activities/phe-offices' *ngIf="selectedComponents.includes('Laboratories')">
+                        name='iec-activities/phe-offices' *ngIf="selectedComponents.includes('PHE offices')">
                     </app-phe-offices>
                 </div>
                 <div class="row" *ngIf="SelectedPhases.includes('IEC/BCC/IPC activities')">

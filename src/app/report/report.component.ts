@@ -26,6 +26,8 @@ export class ReportComponent implements OnInit {
   selectedGps: string[] = [];
 
   configData: any = environment;
+
+  isAdminUser: boolean = this.user.isAdmin;
   
   constructor(
     public data: DataService,
@@ -45,6 +47,11 @@ export class ReportComponent implements OnInit {
       }
     }
     this.allGps = this.data.getAllGps();
+    // the current user us not admin, add selected district and gp from data.selected details
+    if(!this.isAdminUser) {
+      this.selectedDistricts = [this.data.selectedDetails.district];
+      this.selectedGps = [this.data.selectedDetails.gp];
+    }
     // this.selectedDistricts = this.DistrictsList;
     // this.onSelectDistrict();
     // this.selectedGps = this.availableGps;
