@@ -34,6 +34,8 @@ import { OtherActivitiesModule } from '../other-activities/other-activities.modu
     SocialAuditsModule,
     WqmsTrainingModule,
     OtherActivitiesModule
+  ],
+  providers: [
   ]
 })
 export class ReportModule { }
