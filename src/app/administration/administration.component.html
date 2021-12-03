@@ -2,7 +2,9 @@
     <div class="border rounded my-2 px-3 pt-3 text">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb text-decoration-none">
-                <li class="breadcrumb-item text-capitalize"><a href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}} ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
+                <li class="breadcrumb-item text-capitalize"><a
+                        href="javascript:void(0)">{{user.currentUser?.username.split('@')[0]}}
+                        ({{user.currentUser?.admin ? 'Admin' : 'Client'}})</a></li>
                 <li class="breadcrumb-item" aria-current="page">Administration</li>
             </ol>
         </nav>
@@ -28,6 +30,9 @@
                                 <mat-option [value]="item" *ngFor="let item of allDistricts">{{item}}</mat-option>
                             </mat-select>
                         </mat-form-field>
+                    </div>
+                    <div class="alert alert-warning mt-3 fw-bold text-center" role="alert" *ngIf="!this.selectedGps.length">
+                        Enable Disable is currently not affected in Others Activities. It is under Implementation
                     </div>
                     <div class="row my-3">
                         <div class="col-12">
@@ -65,7 +70,8 @@
                         </button>
                     </div>
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let admin of adminUsers; let i = index; let f = first" (opened)="userOpened(admin)">
+                        <mat-expansion-panel *ngFor="let admin of adminUsers; let i = index; let f = first"
+                            (opened)="userOpened(admin)">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     <strong>Username:&nbsp;</strong>{{admin.username}}
@@ -104,7 +110,8 @@
                                             </div>
                                             <div class="col-6 text-center" style="padding-top: 12px;">
                                                 <button mat-flat-button color="warn"
-                                                    (click)="confirmDelete($event, admin)" [disabled]="adminUsers.length === 1">Delete Admin</button>
+                                                    (click)="confirmDelete($event, admin)"
+                                                    [disabled]="adminUsers.length === 1">Delete Admin</button>
                                             </div>
                                         </div>
                                     </div>

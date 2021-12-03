@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Input, OnInit, ViewChildren } from '@angu
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Application, ApplicationFile } from 'src/app/models/application';
+import { Application } from 'src/app/models/application';
 import { DataService } from 'src/app/services/data.service';
 import { RestapiService } from 'src/app/services/restapi.service';
 import { UserService } from 'src/app/services/user.service';
@@ -98,9 +98,9 @@ export class BaselineDataComponent implements OnInit {
       this.submitted = false;
       // find the total of male, female and others form control and add it in total of this.applucationform
       let total =
-        Number((this.applicationForm.get('rows') as FormArray).at(0).value?.populationMale) +
-        Number((this.applicationForm.get('rows') as FormArray).at(0).value?.populationFemale) +
-        Number((this.applicationForm.get('rows') as FormArray).at(0).value?.populationOthers);
+        Number((this.applicationForm.get('rows') as FormArray).at(0)?.value?.populationMale) +
+        Number((this.applicationForm.get('rows') as FormArray).at(0)?.value?.populationFemale) +
+        Number((this.applicationForm.get('rows') as FormArray).at(0)?.value?.populationOthers);
       if (!isNaN(total)) {
         (this.applicationForm.get('rows') as FormArray).at(0).get('populationTotal').setValue(total, { emitEvent: false });
       }
@@ -137,39 +137,8 @@ export class BaselineDataComponent implements OnInit {
   }
 
   removeRow(index: number) {
-    let allFilesFieldsToDelete: any = {
-    }
-    // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
-      try {
-        let allFileIds: string[] = [];
-        for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item]?.length) {
-            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
-          }
-        }
-        this.rest.deleteBulkFiles(allFileIds)
-          .subscribe(res => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
-          }, err => {
-            this.formFields = this.applicationForm.get('rows') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      catch (e) {
-        console.log(e)
-        this.formFields = this.applicationForm.get('rows') as FormArray;
-        this.formFields.removeAt(index)
-      }
-    } else {
-      this.formFields = this.applicationForm.get('rows') as FormArray;
-      this.formFields.removeAt(index)
-    }
+    this.formFields = this.applicationForm.get('rows') as FormArray;
+    this.formFields.removeAt(index)
   }
 
   addAnganvaiProfile() {
@@ -190,39 +159,8 @@ export class BaselineDataComponent implements OnInit {
   }
 
   removeAnganvaiProfile(index: number) {
-    let allFilesFieldsToDelete: any = {
-    }
-    // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
-      try {
-        let allFileIds: string[] = [];
-        for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item]?.length) {
-            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
-          }
-        }
-        this.rest.deleteBulkFiles(allFileIds)
-          .subscribe(res => {
-            this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
-          }, err => {
-            this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      catch (e) {
-        console.log(e)
-        this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray;
-        this.formFields.removeAt(index)
-      }
-    } else {
-      this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray;
-      this.formFields.removeAt(index)
-    }
+    this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray;
+    this.formFields.removeAt(index)
   }
 
   addEducationalInstitution() {
@@ -243,39 +181,8 @@ export class BaselineDataComponent implements OnInit {
   }
 
   removeEducationalInstitution(index: number) {
-    let allFilesFieldsToDelete: any = {
-    }
-    // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
-      try {
-        let allFileIds: string[] = [];
-        for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item]?.length) {
-            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
-          }
-        }
-        this.rest.deleteBulkFiles(allFileIds)
-          .subscribe(res => {
-            this.formFields = this.applicationForm.get('educationalInstitution') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
-          }, err => {
-            this.formFields = this.applicationForm.get('educationalInstitution') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      catch (e) {
-        console.log(e)
-        this.formFields = this.applicationForm.get('educationalInstitution') as FormArray;
-        this.formFields.removeAt(index)
-      }
-    } else {
-      this.formFields = this.applicationForm.get('educationalInstitution') as FormArray;
-      this.formFields.removeAt(index)
-    }
+    this.formFields = this.applicationForm.get('educationalInstitution') as FormArray;
+    this.formFields.removeAt(index)
   }
 
   addInstitution() {
@@ -294,47 +201,75 @@ export class BaselineDataComponent implements OnInit {
       studentsTotal: '',
     });
   }
-
+  
   removeInstitution(index: number) {
-    let allFilesFieldsToDelete: any = {
-    }
-    // Checkiing if any of the controls has the stringified file value exists
-    if (Object.keys(allFilesFieldsToDelete).some(el => allFilesFieldsToDelete[el]?.length)) {
-      try {
-        let allFileIds: string[] = [];
-        for (let item in allFilesFieldsToDelete) {
-          if (allFilesFieldsToDelete[item]?.length) {
-            allFileIds.push(...(JSON.parse(allFilesFieldsToDelete[item]) as ApplicationFile[]).map(el => el.fid))
-          }
-        }
-        this.rest.deleteBulkFiles(allFileIds)
-          .subscribe(res => {
-            this.formFields = this.applicationForm.get('institution') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
-          }, err => {
-            this.formFields = this.applicationForm.get('institution') as FormArray;
-            this.formFields.removeAt(index)
-            this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      catch (e) {
-        console.log(e)
-        this.formFields = this.applicationForm.get('institution') as FormArray;
-        this.formFields.removeAt(index)
-      }
-    } else {
-      this.formFields = this.applicationForm.get('institution') as FormArray;
-      this.formFields.removeAt(index)
-    }
+    this.formFields = this.applicationForm.get('institution') as FormArray;
+    this.formFields.removeAt(index)
+  }
+
+  addPublicInstitution() {
+    (this.applicationForm.get('publicInstitution') as FormArray).push(this.newPublicInstitution());
+  }
+
+  newPublicInstitution() {
+    return this.formBuilder.group({
+      name: '',
+      department: '',
+      place: '',
+      ward: '',
+    });
+  }
+
+  removePublicInstitution(index: number) {
+    this.formFields = this.applicationForm.get('publicInstitution') as FormArray;
+    this.formFields.removeAt(index)
+  }
+
+  addEWSS() {
+    (this.applicationForm.get('ewss') as FormArray).push(this.newEWSS());
+  }
+
+  newEWSS() {
+    return this.formBuilder.group({
+      name: '',
+      ia: '',
+      chhs: '',
+      place: '',
+      ward: '',
+    });
+  }
+
+  removeEWSS(index: number) {
+    this.formFields = this.applicationForm.get('ewss') as FormArray;
+    this.formFields.removeAt(index)
+  }
+
+  addHealthInstitution() {
+    (this.applicationForm.get('healthInstitutionprofile') as FormArray).push(this.newHealthInstitution());
+  }
+
+  newHealthInstitution() {
+    return this.formBuilder.group({
+      name: '',
+      category: '',
+      type: '',
+      place: '',
+      ward: ''
+    });
+  }
+
+  removeHealthInstitution(index: number) {
+    this.formFields = this.applicationForm.get('healthInstitutionprofile') as FormArray;
+    this.formFields.removeAt(index)
   }
 
   ngOnInit(): void {
     this.applicationForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.newRow()
+      ]),      
+      healthInstitutionprofile: this.formBuilder.array([
+        this.newHealthInstitution()
       ]),
       angnvadiProfile: this.formBuilder.array([
         this.newAnganvaiProfile()
@@ -343,7 +278,13 @@ export class BaselineDataComponent implements OnInit {
         this.newEducationalInstitution()
       ]),
       institution: this.formBuilder.array([
-        this.newEducationalInstitution()
+        this.newInstitution()
+      ]),
+      publicInstitution: this.formBuilder.array([
+        this.newPublicInstitution()
+      ]),
+      ewss: this.formBuilder.array([
+        this.newEWSS()
       ]),
       completedDate: ''
     })
@@ -427,10 +368,13 @@ export class BaselineDataComponent implements OnInit {
   applicSelected(app: Application) {
     // console.log(app)
     this.onReset();
-    (this.formFields = this.applicationForm.get('rows') as FormArray).clear();
-    (this.formFields = this.applicationForm.get('angnvadiProfile') as FormArray).clear();
-    (this.formFields = this.applicationForm.get('educationalInstitution') as FormArray).clear();
-    (this.formFields = this.applicationForm.get('institution') as FormArray).clear();
+    (this.applicationForm.get('rows') as FormArray).clear();
+    (this.applicationForm.get('angnvadiProfile') as FormArray).clear();
+    (this.applicationForm.get('educationalInstitution') as FormArray).clear();
+    (this.applicationForm.get('institution') as FormArray).clear();
+    (this.applicationForm.get('publicInstitution') as FormArray).clear();
+    (this.applicationForm.get('healthInstitutionprofile') as FormArray).clear();
+    (this.applicationForm.get('ewss') as FormArray).clear();
     if (app.editable === true) {
       this.isDraftMode = true;
     }
@@ -438,21 +382,31 @@ export class BaselineDataComponent implements OnInit {
       this.isDraftMode = false;
     }
     this.editingId = app._id
-    for (let i = 0; i < app.values.rows.length; i++) {
+    for (let i = 0; i < app.values.rows?.length; i++) {
       this.addRow()
     }
-    for (let i = 0; i < app.values.angnvadiProfile.length; i++) {
+    for (let i = 0; i < app.values.angnvadiProfile?.length; i++) {
       this.addAnganvaiProfile()
     }
-    for (let i = 0; i < app.values.educationalInstitution.length; i++) {
+    for (let i = 0; i < app.values.educationalInstitution?.length; i++) {
       this.addEducationalInstitution()
     }
-    for (let i = 0; i < app.values.institution.length; i++) {
+    for (let i = 0; i < app.values.institution?.length; i++) {
       this.addInstitution()
+    }
+    for (let i = 0; i < app.values.publicInstitution?.length; i++) {
+      this.addPublicInstitution()
+    }
+    for (let i = 0; i < app.values.healthInstitutionprofile?.length; i++) {
+      this.addHealthInstitution()
+    }
+    for (let i = 0; i < app.values.ewss?.length; i++) {
+      this.addEWSS()
     }
     this.applicationForm.patchValue(app.values);
     // console.log(this.applicationForm)
-    this.isFormDisabled = !app.editable;
+    // this.isFormDisabled = !app.editable;
+    this.isFormDisabled = false;
     this.disabledLength = app.values.rows.length;
     // console.log(this.applicationForm)
     // this.findTotal()
@@ -465,10 +419,6 @@ export class BaselineDataComponent implements OnInit {
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();
     this.addRow()
-  }
-
-  hasAttatchment(files: ApplicationFile[] | undefined) {
-    return (files as ApplicationFile[]).length > 0
   }
 
   onFileChanges() {
@@ -493,10 +443,6 @@ export class BaselineDataComponent implements OnInit {
         }
       });
     })
-  }
-
-  getReportControl() {
-    return this.applicationForm.get('report') as FormGroup;
   }
 
 }

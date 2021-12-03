@@ -176,6 +176,37 @@
         </div>
     </div>
     <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Health Institution</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.healthInstitutionprofile; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Name of Hospital: </p> {{row.name}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Category: </p> {{row.category}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Type: </p> {{row.type}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Place: </p> {{row.place}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
         <p class="h4 text-decoration-underline"><strong>Profile of Anganwadi</strong></p>
     </div>
     <div *ngFor="let row of applicationForm?.value?.angnvadiProfile; let i = index">
@@ -260,7 +291,7 @@
         </div>
     </div>
     <div class="col-12 fs-6 py-2 mt-3">
-        <p class="h4 text-decoration-underline"><strong>Profile of Other Institution</strong></p>
+        <p class="h4 text-decoration-underline"><strong>Profile of Other Educational Institution</strong></p>
     </div>
     <div *ngFor="let row of applicationForm?.value?.institution; let i = index">
         <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
@@ -296,6 +327,68 @@
                     </div>
                     <div class="col-4">
                         <p class="h5 d-inline-block">Total: </p> {{row.studentsTotal}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Public Institutions</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.publicInstitution; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Name of Institution: </p> {{row.name}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Department: </p> {{row.department}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Type: </p> {{row.type}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Place: </p> {{row.place}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 fs-6 py-2 mt-3">
+        <p class="h4 text-decoration-underline"><strong>Profile of Existing Water Supply Scheme</strong></p>
+    </div>
+    <div *ngFor="let row of applicationForm?.value?.ewss; let i = index">
+        <div class="row py-2" [ngClass]="i % 2 === 0 ? 'bg-shade' : ''">
+            <div class="col-1 fs-5">
+                <p class=""><strong>{{i + 1}}: </strong></p>
+            </div>
+            <div class="col-11 fs-5">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Name of Scheme: </p> {{row.name}}
+                    </div>
+                    <div class="col-6">
+                        <p class="h5 d-inline-block">Implementing Agency: </p> {{row.ia}}
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Coverage HHs: </p> {{row.chhs}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Place: </p> {{row.place}}
+                    </div>
+                    <div class="col-4">
+                        <p class="h5 d-inline-block">Ward: </p> {{row.ward}}
                     </div>
                 </div>
             </div>
@@ -595,6 +688,109 @@
         <div class="row">
             <div class="col-12">
                 <p class="h4 text-start pt-3">
+                    Profile of Health Institution
+                    <app-schedule-menu [section]="'Profile of Health Institution'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="healthInstitutionprofile"
+            *ngFor="let item of this.applicationForm.get('healthInstitutionprofile')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Health Institution - ' + (i + 1)"
+                                [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Hospital</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of Hospital"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Category</mat-label>
+                                        <mat-select formControlName="category">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="Allopathic">Allopathic</mat-option>
+                                            <mat-option value="Ayurvedic">Ayurvedic</mat-option>
+                                            <mat-option value="Homeopathic">Homeopathic</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Type</mat-label>
+                                        <mat-select formControlName="type">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="Govt.">Govt.</mat-option>
+                                            <mat-option value="Private">Private</mat-option>
+                                            <mat-option value="Others">Others</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Place</mat-label>
+                                        <input formControlName="place" matInput placeholder="Place" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeHealthInstitution(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                    (click)="addHealthInstitution()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Health Institution
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
                     Profile of Anganwadi
                     <app-schedule-menu [section]="'Profile of Anganwadi'" [iconOnly]="false">
                     </app-schedule-menu>
@@ -718,7 +914,7 @@
             <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
                 <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
                     (click)="addAnganvaiProfile()">
-                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Anganwadi
                 </button>
             </div>
         </div>
@@ -854,15 +1050,15 @@
             <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
                 <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
                     (click)="addEducationalInstitution()">
-                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Educational Institution
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Educational Institution
                 </button>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <p class="h4 text-start pt-3">
-                    Profile of Other Institution
-                    <app-schedule-menu [section]="'Profile of Other Institution'" [iconOnly]="false">
+                    Profile of Other Educational Institution
+                    <app-schedule-menu [section]="'Profile of Other Educational Institution'" [iconOnly]="false">
                     </app-schedule-menu>
                 </p>
             </div>
@@ -874,7 +1070,8 @@
                     <div class="col-12 col-md-1">
                         <p class="h6 text-start pt-3">
                             {{i + 1}}
-                            <app-schedule-menu [section]="'Profile of Institution - ' + (i + 1)" [iconOnly]="true">
+                            <app-schedule-menu [section]="'Profile of Other Educational Institution - ' + (i + 1)"
+                                [iconOnly]="true">
                             </app-schedule-menu>
                         </p>
                     </div>
@@ -984,7 +1181,187 @@
             <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
                 <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
                     (click)="addInstitution()">
-                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Other Institution
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Other Educational Institution
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Profile of Public Institutions
+                    <app-schedule-menu [section]="'Profile of Public Institutions'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="publicInstitution"
+            *ngFor="let item of this.applicationForm.get('publicInstitution')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Public Institutions - ' + (i + 1)"
+                                [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Institution</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of Institution"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Department</mat-label>
+                                        <input formControlName="department" matInput placeholder="Department"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Place</mat-label>
+                                        <input formControlName="place" matInput placeholder="Place" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removePublicInstitution(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
+                    (click)="addPublicInstitution()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Public Institution
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="h4 text-start pt-3">
+                    Profile of Existing Water Supply Scheme
+                    <app-schedule-menu [section]="'Profile of Existing Water Supply Scheme'" [iconOnly]="false">
+                    </app-schedule-menu>
+                </p>
+            </div>
+        </div>
+        <div formArrayName="ewss"
+            *ngFor="let item of this.applicationForm.get('ewss')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+                <div class="row my-3">
+                    <div class="col-12 col-md-1">
+                        <p class="h6 text-start pt-3">
+                            {{i + 1}}
+                            <app-schedule-menu [section]="'Profile of Existing Water Supply Scheme - ' + (i + 1)"
+                                [iconOnly]="true">
+                            </app-schedule-menu>
+                        </p>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Name of Scheme</mat-label>
+                                        <input formControlName="name" matInput placeholder="Name of Institution"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Implementing Agency</mat-label>
+                                        <input formControlName="ia" matInput placeholder="Implementing Agency"
+                                            type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Coverage HHS</mat-label>
+                                        <input formControlName="chhs" matInput placeholder="Coverage HHS" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Place</mat-label>
+                                        <input formControlName="place" matInput placeholder="Place" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <p>
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Ward</mat-label>
+                                        <input formControlName="ward" matInput placeholder="Ward" type="text">
+                                    </mat-form-field>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-1 text-center">
+                        <button [disabled]="isFormDisabled && i < disabledLength"
+                            [hidden]="isFormDisabled && i < disabledLength" mat-icon-button color="accent" type="button"
+                            aria-label="Example icon button with a menu icon" style="margin-top: 10px"
+                            (click)="removeEWSS(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-6 offset-md-6 col-6 offset-6 text-end mt-2">
+                        <button mat-stroked-button color="primary" class="py-1 w-100" type="button"
+                            (click)="addAnganvaiProfile()">
+                            <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Profile of Anganwadi
+                        </button>
+                    </div>
+                </div> -->
+            </ng-container>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-8 col-6 offset-6 text-end mt-2">
+                <button mat-stroked-button color="primary" class="py-1 w-100 text-truncate" type="button"
+                    (click)="addEWSS()">
+                    <i class="bi bi-plus" style="font-size: 1.5em;"></i> Add Existing Water Supply Scheme
                 </button>
             </div>
         </div>

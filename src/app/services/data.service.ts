@@ -217,7 +217,7 @@ export class DataService {
 
   printContentByDiv(divId: string, style: string = '') {
     setTimeout(() => {
-      let printWindow = window.open('', 'PRINT');
+      let printWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0,scrollbars=yes,resizable=1,width=800,height=600');
 
       printWindow.document.write('<html><head><title>' + document.title + '</title>');
       printWindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"

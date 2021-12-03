@@ -210,6 +210,7 @@ export class ClaimDetailsComponent implements OnInit {
         this.selectedPhases.push(data.values.rows[i].phase);
         this.onSelectPhase();
         this.selectedComponents.push({ phase: data.values.rows[i].phase, comp: data.values.rows[i].component });
+        this.selectedComponents = [...new Set(this.selectedComponents)];
         this.addRow(data.values.rows[i].phase, data.values.rows[i].component);
       }     
       this.selectedPhases = [...new Set(this.selectedPhases)]; 
