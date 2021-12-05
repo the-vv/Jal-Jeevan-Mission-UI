@@ -8,15 +8,13 @@ import { HomeComponent } from './home/home.component';
 // import { IsaPositioningComponent } from './planningPhase/isa-positioning/isa-positioning.component';
 import { LoginComponent } from './login/login.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { PhaseComponentsComponent } from './phase-components/phase-components.component';
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
 import { AdminAuthorizeGuard } from './guards/admin-authorize.guard';
 import { ResolverService } from './services/resolver.service';
 
 
-let commonRoutes: Routes = [
+const commonRoutes: Routes = [
   { path: 'phase', component: PhaseSelectionComponent },
-  { path: 'planningphase/components', component: PhaseComponentsComponent },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },
@@ -53,17 +51,12 @@ const routes: Routes = [
       { path: '**', redirectTo: 'phase', pathMatch: 'full' },
     ]
   },
-  // { path: 'capacity-building-activities', loadChildren: () => import('./capacity-building-activities/capacity-building-activities.module').then(m => m.CapacityBuildingActivitiesModule) },
-  // { path: 'socialAudits', loadChildren: () => import('./social-audits/social-audits.module').then(m => m.SocialAuditsModule) },
-  // { path: 'wqmsIec', loadChildren: () => import('./wqm-iec/wqm-iec.module').then(m => m.WqmIecModule) },
-  // { path: 'engagementIsa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   {
     path: '**', redirectTo: '404', pathMatch: 'full'
   },
   {
     path: '404', component: NotfoundComponent, resolve: { gpData: ResolverService }
   },
-  // { path: 'other', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },
 ];
 
 @NgModule({

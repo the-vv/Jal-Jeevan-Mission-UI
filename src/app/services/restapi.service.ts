@@ -200,4 +200,12 @@ export class RestapiService {
     })
   }
 
+  // get all claimdetails
+  getAllClaimDetails(): Observable<ClaimDetailsType[]> {
+    return this.http.get<ClaimDetailsType[]>(this.applUrl + '/getAllClaimDetails', {
+      withCredentials: true
+    })
+  }
+
+
 }

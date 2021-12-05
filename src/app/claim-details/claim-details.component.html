@@ -19,7 +19,10 @@
         </div>
     </div>
 </div>
-<div class="col-12 visually-hidden">
+<div class="col-12" *ngIf="printMode">
+    <div class="col-12 h3 text-center">
+        Filter Reports
+    </div>
     <div class="row">
         <div class="col-md-6 mt-2">
             <!-- <p class="h5">Select District</p> -->
@@ -41,173 +44,246 @@
                 </mat-select>
             </mat-form-field>
         </div>
-    </div>
+    </div>  
+    <div class="alert alert-warning mt-3 fw-bold" role="alert" *ngIf="claimDetailsForm.touched">
+        Unsaved Changes will not be reflected in the report preview.
+    </div> 
+    <div class="col-12 mt-4">
+        <button mat-raised-button
+            (click)="data.printContentByDiv('printClaimDetailsContent', '.bg-shade {background-color: #e4e2e2;} @media print { .pagebreak { page-break-before: always; !important } } .text-area-value { white-space: pre-wrap;}')"
+            color="primary" class="px-4 py-2">Print Report Now <mat-icon>print</mat-icon></button>
+    </div>  
+    <hr>
 </div>
-<div class="col-12 mt-3">
-    <div class="row">
-        <p class="h4">Add Claims Details</p>
-        <p class="h6"></p>
-    </div>
-    <div class="row">
-        <div class="col-md-6 mt-2">
-            <!-- <p class="h5">Select District</p> -->
-            <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Activities</mat-label>
-                <mat-select [(ngModel)]="selectedPhases" [compareWith]="comparePhases"
-                    (selectionChange)="onSelectPhase()" multiple>
-                    <mat-option [value]="phase" *ngFor="let phase of phaseComponents">{{phase}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6 mt-2">
-            <!-- <p class="h5">Select District</p> -->
-            <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Sub Activities</mat-label>
-                <mat-select [(ngModel)]="selectedComponents" [compareWith]="compareComponents"
-                    (selectionChange)="onSelectComponent($event)" multiple>
-                    <mat-option [value]="row" *ngFor="let row of availableComponents">{{row.comp}}
-                        <b>({{row.phase}})</b>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-    </div>
-</div>
-<hr>
-<div class="col-12" *ngIf="!(this.claimDetailsForm.get('rows')['controls']).length">
-    <p class="text-center h4">
-        No Sub Activities Selected
-    </p>
-</div>
-<div class="col-12">
-    <form [formGroup]="claimDetailsForm" class="" id="applicationForm">
-        <div formArrayName="rows" *ngFor="let item of this.claimDetailsForm.get('rows')['controls']; let i = index;">
-            <ng-container [formGroupName]="i">
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <p>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Activity</mat-label>
-                                <input matInput formControlName="phase" readonly>
-                            </mat-form-field>
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <p>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Sub Activity</mat-label>
-                                <input matInput formControlName="component" readonly>
-                            </mat-form-field>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Quantity</mat-label>
-                                <input matInput formControlName="quantity">
-                            </mat-form-field>
-                        </p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Type</mat-label>
-                                <mat-select formControlName="partFinal">
-                                    <mat-option>None</mat-option>
-                                    <mat-option value="Part">Part</mat-option>
-                                    <mat-option value="Final">Final</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </p>
-                    </div>
-                    <div class="col-md-4">
-                        <p>
-                            <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Amount</mat-label>
-                                <input matInput formControlName="amount" type="number">
-                            </mat-form-field>
-                        </p>
-                    </div>
-                </div>
-            </ng-container>
-        </div>
-        <hr>
+<div [hidden]="printMode">
+    <div class="col-12 mt-3">
         <div class="row">
-            <div class="col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Total Amount</mat-label>
-                        <input matInput formControlName="totalAmount" type="number" readonly>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Submit to GP</mat-label>
-                        <input matInput [matDatepicker]="dp1" formControlName="submitGp">
-                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-                        <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-md-4">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Submit to DWSM</mat-label>
-                        <input matInput [matDatepicker]="dp2" formControlName="submitDwsm">
-                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-                        <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
+            <p class="h3">Add Claims Details</p>
+            <p class="h4 text-decoration-underline">{{data?.selectedDetails?.district}},<span class="ms-2"></span>{{data?.selectedDetails?.gp}}</p>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Submit to KRWSA</mat-label>
-                        <input matInput [matDatepicker]="dp3" formControlName="submitKrwsa">
-                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
-                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
+            <div class="col-md-6 mt-2">
+                <!-- <p class="h5">Select District</p> -->
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Activities</mat-label>
+                    <mat-select [(ngModel)]="selectedPhases" [compareWith]="comparePhases"
+                        (selectionChange)="onSelectPhase()" multiple>
+                        <mat-option [value]="phase" *ngFor="let phase of phaseComponents">{{phase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
-            <div class="col-md-3">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Approved Date</mat-label>
-                        <input matInput [matDatepicker]="dp4" formControlName="approvedDate">
-                        <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                        <mat-datepicker #dp4 disabled="false"></mat-datepicker>
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <p>
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Approved Amount</mat-label>
-                        <input matInput formControlName="approvedAmount" type="number">
-                    </mat-form-field>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <app-file-uploader [control]="claimDetailsForm" #uploader [labelName]="'Proceedings'"
-                    [keyName]="'proceedingsFile'" [disabled]="isDisabled" (onfileChanges)="onFileChanges()">
-                </app-file-uploader>
+            <div class="col-md-6 mt-2">
+                <!-- <p class="h5">Select District</p> -->
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Sub Activities</mat-label>
+                    <mat-select [(ngModel)]="selectedComponents" [compareWith]="compareComponents"
+                        (selectionChange)="onSelectComponent($event)" multiple>
+                        <mat-option [value]="row" *ngFor="let row of availableComponents">{{row.comp}}
+                            <b>({{row.phase}})</b>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </div>
-    </form>
+    </div>
+    <hr>
+    <div class="col-12" *ngIf="!(this.claimDetailsForm.get('rows')['controls']).length">
+        <p class="text-center h4">
+            No Sub Activities Selected
+        </p>
+    </div>
+    <div class="col-12">
+        <form [formGroup]="claimDetailsForm" class="" id="applicationForm">
+            <div formArrayName="rows"
+                *ngFor="let item of this.claimDetailsForm.get('rows')['controls']; let i = index;">
+                <ng-container [formGroupName]="i">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Activity</mat-label>
+                                    <input matInput formControlName="phase" readonly>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Sub Activity</mat-label>
+                                    <input matInput formControlName="component" readonly>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Quantity</mat-label>
+                                    <input matInput formControlName="quantity">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Type</mat-label>
+                                    <mat-select formControlName="partFinal">
+                                        <mat-option>None</mat-option>
+                                        <mat-option value="Part">Part</mat-option>
+                                        <mat-option value="Final">Final</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Amount</mat-label>
+                                    <input matInput formControlName="amount" type="number">
+                                </mat-form-field>
+                            </p>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Total Amount</mat-label>
+                            <input matInput formControlName="totalAmount" type="number" readonly>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Submit to GP</mat-label>
+                            <input matInput [matDatepicker]="dp1" formControlName="submitGp">
+                            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Submit to DWSM</mat-label>
+                            <input matInput [matDatepicker]="dp2" formControlName="submitDwsm">
+                            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                            <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Submit to KRWSA</mat-label>
+                            <input matInput [matDatepicker]="dp3" formControlName="submitKrwsa">
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Approved Date</mat-label>
+                            <input matInput [matDatepicker]="dp4" formControlName="approvedDate">
+                            <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                            <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Approved Amount</mat-label>
+                            <input matInput formControlName="approvedAmount" type="number">
+                        </mat-form-field>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <app-file-uploader [control]="claimDetailsForm" #uploader [labelName]="'Proceedings'"
+                        [keyName]="'proceedingsFile'" [disabled]="isDisabled" (onfileChanges)="onFileChanges()">
+                    </app-file-uploader>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 mt-4">
+        <button mat-flat-button color="primary" class="px-4 py-1 mt-3" (click)="onSave()">
+            Save Changes
+            <mat-icon>save</mat-icon>
+        </button>
+    </div>
 </div>
-<div class="col-12">
-    <div class="row mt-4">
-        <div class="col-12">
-            <button mat-flat-button color="primary" class="px-3 py-1" (click)="onSave()">
-                Save Changes
-                <mat-icon>save</mat-icon>
-            </button>
-        </div>
+<div [hidden]="!printMode" class="mt-3" id="printClaimDetailsContent">
+    <div class="col-12 h1 text-center mb-4">Claim Details Report</div>
+    <div class="col-12 mt-3 text-start" *ngFor="let row of claimDetailsData">
+        <ng-container *ngIf="checkGpSelected(row?.category?.district, row?.category?.gp)">
+            <div class="col-12 h3 text-decoration-underline text-center mt-3 ">
+                {{row.category.district}},<span class="ms-2"></span>{{row.category.gp}}
+            </div>
+            <div class="row" *ngFor="let item of row?.values?.rows; let i = index">
+                <div class="col-1">
+                    <p class="h5 pt-2">{{i + 1}}.</p>
+                </div>
+                <div class="col-11 py-2">
+                    <div class="row">
+                        <div class="col-md-6 h5">
+                            <strong>Activity:</strong> {{item.phase}}
+                        </div>
+                        <div class="col-md-6 h5">
+                            <strong>Sub Activity:</strong> {{item.component}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 h5">
+                            <strong>Quantity:</strong> {{item.quantity}}
+                        </div>
+                        <div class="col-md-4 h5">
+                            <strong>Type:</strong> {{item.partFinal}}
+                        </div>
+                        <div class="col-md-4 h5">
+                            <strong>Amount:</strong> {{item.amount}}
+                        </div>
+                    </div>
+                </div>
+                <hr class="col-11 offset-1">
+            </div>
+            <div class="row   py-2">
+                <div class="col-md-4 h5">
+                    <strong>Total Amount:</strong> {{row?.values?.totalAmount}}
+                </div>
+                <div class="col-md-4 h5">
+                    <strong>Submit To GP:</strong> {{row?.values?.submitGp}}
+                </div>
+                <div class="col-md-4 h5">
+                    <strong>Submit to DWSM:</strong> {{row?.values?.submitDwsm}}
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-4 h5">
+                    <strong>Submit to KRWSA:</strong> {{row?.values?.submitKrwsa}}
+                </div>
+                <div class="col-md-4 h5">
+                    <strong>Aproved Date:</strong> {{row?.values?.approvedDate}}
+                </div>
+                <div class="col-md-4 h5">
+                    <strong>Amount:</strong> {{row?.values?.approvedAmount}}
+                </div>
+                <div class="col-md-12 h5 pt-2 noprint">
+                    <strong>Proceedings: </strong>
+                    <a [href]="file.url" class="ms-2" target="_blank"
+                        *ngFor="let file of getFiles(row?.values?.proceedingsFile); let i = index">{{file.name}},</a>
+                </div>
+            </div>
+            <hr>
+        </ng-container>
     </div>
 </div>

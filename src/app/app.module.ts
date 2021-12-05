@@ -32,7 +32,6 @@ import { DistrictComponent } from './district/district.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GpanchayathComponent } from './gpanchayath/gpanchayath.component';
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
-import { PhaseComponentsComponent } from './phase-components/phase-components.component';
 import { LoginComponent } from './login/login.component';
 import { RestapiService } from './services/restapi.service';
 import { UserService } from './services/user.service';
@@ -55,7 +54,6 @@ import { PwaService } from './services/pwa-service.service';
     DistrictComponent,
     GpanchayathComponent,
     PhaseSelectionComponent,
-    PhaseComponentsComponent,
     LoginComponent,
     NotfoundComponent,
     SidebarComponent,

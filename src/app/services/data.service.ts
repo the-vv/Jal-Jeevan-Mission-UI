@@ -3,7 +3,7 @@ import { TargetDate } from '../models/application';
 import { Selected, WardConfig } from '../models/selected';
 import { RestapiService } from './restapi.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
- 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,7 +82,7 @@ export class DataService {
     'Social Audits': [
       ['Social Audit reports', 'social-audits/social-audit-reports']
     ],
-    'Capacity building activities' : [
+    'Capacity building activities': [
       ['VWSCs / Pani samithi etc', 'capacity-building-activities/vwscs-pani-samithi-etc'],
       // ['Key stakeholders at block level', 'capacity-building-activities/key-stakeholders-block-level'],
       // ['Key stakeholders at GP/ Village level', 'capacity-building-activities/key-stakeholders-gp-village-level'],
@@ -217,12 +217,19 @@ export class DataService {
 
   printContentByDiv(divId: string, style: string = '') {
     setTimeout(() => {
-      let printWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0,scrollbars=yes,resizable=1,width=800,height=600');
+      let printWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0,scrollbars=yes,resizable=1,width=1000,height=600');
 
       printWindow.document.write('<html><head><title>' + document.title + '</title>');
       printWindow.document.write(`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">`);
-      printWindow.document.write(`<style>${style}</style>`)
+      printWindow.document.write(`<style>
+        ${style}
+        @media print{
+          .noprint{
+              display:none;
+          }
+        }
+        </style>`);
       printWindow.document.write('</head><body class="text-center">');
       printWindow.document.write(document.getElementById(divId).innerHTML);
       printWindow.document.write('</body></html>');

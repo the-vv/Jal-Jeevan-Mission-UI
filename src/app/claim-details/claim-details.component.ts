@@ -42,7 +42,8 @@ export class ClaimDetailsComponent implements OnInit {
 
   printMode: boolean = false;
 
-  claimDetailsData: ClaimDetailsType;
+  claimDetailsData: ClaimDetailsType[] = [];
+  allDataFetched: boolean = false;
 
   constructor(
     private rest: RestapiService,
@@ -178,22 +179,25 @@ export class ClaimDetailsComponent implements OnInit {
       values: this.claimDetailsForm.value,
     }
     this.rest.saveClaimDetails(data).subscribe(res => {
+      this.allDataFetched = false;
       this.snackBar.open('Claim details saved successfully', 'Dismiss', { duration: 5000, panelClass: ['bg-success'] });
     }, err => {
       this.snackBar.open('Error saving claim details', 'Dismiss', { duration: 5000, panelClass: ['bg-danger'] })
     });
-
   }
 
   modeChange() {
     // open snackbar saying coming soon
-    this.snackBar.open('Coming soon...!', 'Dismiss', { duration: 5000 });
-    if (!this.printMode) {
-      // this.selectedGps = [this.data.selectedDetails.gp];
-      // this.selectedDistricts = [this.data.selectedDetails.district];
-    } else {
-      this.selectedDistricts = [];
-      this.selectedGps = [];
+    this.selectedDistricts = [this.data.selectedDetails.district];
+    this.onSelectDistrict();
+    this.selectedGps = [this.data.selectedDetails.gp];
+    if(!this.allDataFetched) {
+      this.rest.getAllClaimDetails().subscribe(res => {
+        this.claimDetailsData = res;
+        this.allDataFetched = true;
+      },  err => {
+        this.snackBar.open('Error getting claim details', 'close', { duration: 2000, panelClass: ['bg-danger'] });
+      });
     }
   }
 
@@ -233,6 +237,25 @@ export class ClaimDetailsComponent implements OnInit {
 
   compareComponents(o1: any, o2: any) {
     if (o1.phase === o2.phase && o1.component === o2.component) {
+      return true;
+    }
+    return false;
+  }
+
+  getFiles(values: string) {
+    let files = [];
+    try {
+      files.push(...JSON.parse(values));
+    }
+    catch (e) {
+      console.log(e)
+    }
+    console.log(files)
+    return files;
+  }
+
+  checkGpSelected(district: string, gp: string) {
+    if (this.selectedDistricts.includes(district) && this.selectedGps.includes(gp)) {
       return true;
     }
     return false;
