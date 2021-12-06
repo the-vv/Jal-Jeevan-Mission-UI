@@ -94,10 +94,10 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
     this.router.navigate(['../grama-panchayath'], { relativeTo: this.route })
   }
 
-  async ngAfterViewInit() {
+  ngAfterViewInit() {
     if (!this.data.targetsWarningShown) {
       this.data.targetsWarningShown = true;
-      let res = await this.data.getAllSchedules()
+      let res = this.route.snapshot.data['res2'];
       // console.log(res);
       if (!this.user.isAdmin) {
         res.forEach(el => {
