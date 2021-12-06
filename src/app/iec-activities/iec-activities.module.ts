@@ -46,6 +46,9 @@ import { MatCardModule } from '@angular/material/card';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { RadioJinglesComponent } from './radio-jingles/radio-jingles.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -100,6 +103,8 @@ import { RadioJinglesComponent } from './radio-jingles/radio-jingles.component';
     ConfirmDialogModule
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
     ConfirmationService
   ],
   exports: [    

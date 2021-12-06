@@ -10,6 +10,9 @@ import { CapacityBuildingMaterialComponent } from './capacity-building-material/
 import { SharedModule } from '../shared/shared.module';
 import { CommonModulesModule } from '../common.module';
 import { ConfirmationService } from 'primeng/api';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -33,6 +36,8 @@ import { ConfirmationService } from 'primeng/api';
     CapacityBuildingMaterialComponent
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
     ConfirmationService
   ]
 })

@@ -14,6 +14,9 @@ import { DocumentationActivityModule } from '../documentation-activity/documenta
 import { SocialAuditsModule } from '../social-audits/social-audits.module';
 import { WqmsTrainingModule } from '../wqms-training/wqms-training.module';
 import { OtherActivitiesModule } from '../other-activities/other-activities.module';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -36,6 +39,8 @@ import { OtherActivitiesModule } from '../other-activities/other-activities.modu
     OtherActivitiesModule
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
   ]
 })
 export class ReportModule { }

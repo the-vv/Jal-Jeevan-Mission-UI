@@ -17,7 +17,7 @@ export class DataService {
   schedulesFetched: boolean = false;
   scheduleApiNotificationshow: boolean = true;
   isSidebarOpened: boolean = false;
-  wardCongigData: WardConfig = null;
+  wardConfigData: WardConfig = null;
   allDataWithCountData: any = {};
   appName: string = ''
 
@@ -212,7 +212,7 @@ export class DataService {
     this.scheduleApiNotificationshow = true;
     this.clientSchedules = [];
     this.targetsWarningShown = false;
-    this.wardCongigData = null;
+    this.wardConfigData = null;
   }
 
   printContentByDiv(divId: string, style: string = '') {

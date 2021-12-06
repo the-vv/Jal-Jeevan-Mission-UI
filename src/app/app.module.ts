@@ -8,7 +8,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 // Angular Material Imports 
 import {
-  MatRippleModule, MAT_DATE_LOCALE
+  DateAdapter,
+  MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE
 } from '@angular/material/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,6 +47,7 @@ import { environment } from '../environments/environment';
 import { ErrorHandlerService } from './services/error-handler.service';
 import { CommonModulesModule } from './common.module';
 import { PwaService } from './services/pwa-service.service';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -90,21 +92,19 @@ import { PwaService } from './services/pwa-service.service';
     ButtonModule
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
     DataService,
     RestapiService,
     UserService,
     MessageService,
     DatePipe,
     PwaService,
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-    // { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE],  },
-    // { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS },
+    // { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
   ],
   exports: [
-    CommonModule,
-    FormsModule
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

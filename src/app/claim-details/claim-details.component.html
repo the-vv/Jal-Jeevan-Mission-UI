@@ -261,18 +261,18 @@
                     <strong>Total Amount:</strong> {{row?.values?.totalAmount}}
                 </div>
                 <div class="col-md-4 h5">
-                    <strong>Submit To GP:</strong> {{row?.values?.submitGp}}
+                    <strong>Submit To GP:</strong> {{row?.values?.submitGp | date: 'd/M/y'}}
                 </div>
                 <div class="col-md-4 h5">
-                    <strong>Submit to DWSM:</strong> {{row?.values?.submitDwsm}}
+                    <strong>Submit to DWSM:</strong> {{row?.values?.submitDwsm | date: 'd/M/y'}}
                 </div>
             </div>
             <div class="row py-2">
                 <div class="col-md-4 h5">
-                    <strong>Submit to KRWSA:</strong> {{row?.values?.submitKrwsa}}
+                    <strong>Submit to KRWSA:</strong> {{row?.values?.submitKrwsa | date: 'd/M/y'}}
                 </div>
                 <div class="col-md-4 h5">
-                    <strong>Aproved Date:</strong> {{row?.values?.approvedDate}}
+                    <strong>Aproved Date:</strong> {{row?.values?.approvedDate | date: 'd/M/y'}}
                 </div>
                 <div class="col-md-4 h5">
                     <strong>Amount:</strong> {{row?.values?.approvedAmount}}

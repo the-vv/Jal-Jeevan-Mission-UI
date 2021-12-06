@@ -8,6 +8,9 @@ import { WqmsIsasPriComponent } from './wqms-isas-pri/wqms-isas-pri.component';
 import { CommonModulesModule } from '../common.module';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmationService } from 'primeng/api';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -23,6 +26,8 @@ import { ConfirmationService } from 'primeng/api';
     SharedModule
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
     ConfirmationService
   ],
   exports: [

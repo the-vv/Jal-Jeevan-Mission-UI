@@ -10,6 +10,9 @@ import { BehavioralChangeComponent } from './behavioral-change/behavioral-change
 import { AudioVisualPublicityComponent } from './audio-visual-publicity/audio-visual-publicity.component';
 import { WallWritingPromotingComponent } from './wall-writing-promoting/wall-writing-promoting.component';
 import { SlogansGroupmeetingComponent } from './slogans-groupmeeting/slogans-groupmeeting.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -26,6 +29,10 @@ import { SlogansGroupmeetingComponent } from './slogans-groupmeeting/slogans-gro
   imports: [
     CommonModule,
     WqmIecRoutingModule
+  ],
+  providers: [    
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
   ]
 })
 export class WqmIecModule { }

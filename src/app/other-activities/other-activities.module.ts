@@ -19,6 +19,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { BaselineDataComponent } from './baseline-data/baseline-data.component';
 import { ConfirmationService } from 'primeng/api';
 import { DetailsJjmWssComponent } from './details-jjm-wss/details-jjm-wss.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -44,6 +47,8 @@ import { DetailsJjmWssComponent } from './details-jjm-wss/details-jjm-wss.compon
     FileUploadModule
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: environment.DATE_FORMATS },
     ConfirmationService
   ],
   exports: [

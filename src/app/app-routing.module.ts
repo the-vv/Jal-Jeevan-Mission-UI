@@ -11,10 +11,11 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { PhaseSelectionComponent } from './phase-selection/phase-selection.component';
 import { AdminAuthorizeGuard } from './guards/admin-authorize.guard';
 import { ResolverService } from './services/resolver.service';
+import { PhasesResolverService } from './services/phases-resolver.service';
 
 
 const commonRoutes: Routes = [
-  { path: 'phase', component: PhaseSelectionComponent },
+  { path: 'phase', component: PhaseSelectionComponent, resolve: { data: PhasesResolverService } },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },

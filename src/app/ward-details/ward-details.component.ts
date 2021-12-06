@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { pipe } from 'rxjs';
 import { WardConfig } from '../models/selected';
 import { DataService } from '../services/data.service';
 import { RestapiService } from '../services/restapi.service';
@@ -39,8 +38,8 @@ export class WardDetailsComponent implements OnInit, AfterViewInit {
       this.addWard();
       (this.wardForm.get('names') as FormArray).at(i).patchValue({ wardNumber: i + 1 })
     }
-    if(this.data.wardCongigData) {
-      this.wardForm.patchValue(this.data.wardCongigData)
+    if(this.data.wardConfigData) {
+      this.wardForm.patchValue(this.data.wardConfigData)
     } else {
       this.snackBar.open('Ward Name Configurations Unavailable, Please Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
     }
@@ -68,7 +67,7 @@ export class WardDetailsComponent implements OnInit, AfterViewInit {
       this.isLoading = false;
       if (res.status === true) {
         this.snackBar.open('Ward Name Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
-        this.data.wardCongigData = res.wards;
+        this.data.wardConfigData = res.wards;
         this.matDialog.close()
       } else {
         this.matDialog.close()
