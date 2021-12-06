@@ -13,7 +13,7 @@
         <mat-icon>close</mat-icon>
     </button>
 </div>
-<mat-progress-bar mode="determinate" *ngIf="fileinfo && !fileDetails?.length" [value]="fileProgress" [style]="{'border-radius': '10px'}">
+<mat-progress-bar mode="indeterminate" *ngIf="fileinfo && !fileDetails?.length" [value]="fileProgress" [style]="{'border-radius': '10px'}">
 </mat-progress-bar>
 
 <mat-menu #menu="matMenu" [xPosition]="'after'">

@@ -253,10 +253,10 @@ export class WallPaintingsComponent implements OnInit {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values, {emitEvent: false});
-    // console.log(this.applicationForm)
+    //  
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    // console.log(this.applicationForm)
+    //  
     this.findTotal()
   }
 

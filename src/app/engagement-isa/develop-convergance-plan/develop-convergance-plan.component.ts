@@ -355,10 +355,10 @@ export class DevelopConvergancePlanComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
-            this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
             this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+            this.submitted = true;            
           }
           this.editingId = res._id;
         }, e => {
@@ -376,10 +376,10 @@ export class DevelopConvergancePlanComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
-            this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
             this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+            this.submitted = true;            
           }
           this.editingId = res._id;
         }, e => {
@@ -417,13 +417,13 @@ export class DevelopConvergancePlanComponent implements OnInit {
       this.addGwm()
     }
     this.applicationForm.patchValue(app.values);
-    // console.log(this.applicationForm)
+    //  
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
     this.disabledGwrLength = app.values.gwr.length;
     this.disabledRwhLength = app.values.rwh.length;
     this.disabledGwmLength = app.values.gwm.length;
-    // console.log(this.applicationForm)
+    //  
     // this.findTotal()
   }
 

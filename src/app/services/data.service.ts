@@ -84,9 +84,9 @@ export class DataService {
     ],
     'Capacity building activities': [
       ['VWSCs / Pani samithi etc', 'capacity-building-activities/vwscs-pani-samithi-etc'],
-      // ['Key stakeholders at block level', 'capacity-building-activities/key-stakeholders-block-level'],
-      // ['Key stakeholders at GP/ Village level', 'capacity-building-activities/key-stakeholders-gp-village-level'],
-      // ['Capacity building material preparation', 'capacity-building-activities/capacity-building-material-preparation'],
+      ['Key stakeholders at block level', 'capacity-building-activities/key-stakeholders-block-level'],
+      ['Key stakeholders at GP/ Village level', 'capacity-building-activities/key-stakeholders-gp-village-level'],
+      ['Capacity building material preparation', 'capacity-building-activities/capacity-building-material-preparation'],
     ],
     // 'Planning Phase': [ 
     'Others': [

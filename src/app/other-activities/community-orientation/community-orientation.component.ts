@@ -311,7 +311,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
       }
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+     
     console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {

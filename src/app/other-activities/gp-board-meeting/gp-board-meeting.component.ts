@@ -307,7 +307,7 @@ export class GpBoardMeetingComponent implements OnInit {
       this.addMeeting()
     }
     this.applicationForm.patchValue(app.values);
-    // console.log(this.applicationForm)
+    //  
     console.log(app.values)
     this.editingId = app._id as string
     if ((app.files as ApplicationFile[])?.length > 0) {

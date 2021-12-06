@@ -197,10 +197,10 @@ export class WorldWaterDayComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
-            this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
             this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+            this.submitted = true;            
           }
           this.editingId = res._id;
         }, e => {
@@ -218,10 +218,10 @@ export class WorldWaterDayComponent implements OnInit {
             this.editingId = '';
             this.applicationForm.reset()
             this.formdata.files = [];
-            this.submitted = true;
             this.applicationForm.reset()
             this.applicSelected(res)
             this.snackBar.open('Application Submitted Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
+            this.submitted = true;            
           }
           this.editingId = res._id;
         }, e => {
@@ -248,10 +248,10 @@ export class WorldWaterDayComponent implements OnInit {
       this.addRow()
     }
     this.applicationForm.patchValue(app.values);
-    console.log(this.applicationForm)
+     
     this.isFormDisabled = !app.editable;
     this.disabledLength = app.values.rows.length;
-    console.log(this.applicationForm)
+     
     this.findTotal()
   }
 
