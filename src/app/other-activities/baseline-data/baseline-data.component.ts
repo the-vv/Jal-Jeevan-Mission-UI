@@ -91,7 +91,7 @@ export class BaselineDataComponent implements OnInit {
           }
         }, e => {
           // console.log(e.error)
-          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     this.applicationForm.valueChanges.subscribe(() => {
@@ -302,7 +302,7 @@ export class BaselineDataComponent implements OnInit {
     //   return;
     // }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
-      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' })
       return;
     }
     if (this.editingId.length > 0) {
@@ -339,7 +339,7 @@ export class BaselineDataComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     else {
@@ -360,13 +360,13 @@ export class BaselineDataComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }
 
   applicSelected(app: Application) {
-    // console.log(app)
+    //  
     this.onReset();
     (this.applicationForm.get('rows') as FormArray).clear();
     (this.applicationForm.get('angnvadiProfile') as FormArray).clear();

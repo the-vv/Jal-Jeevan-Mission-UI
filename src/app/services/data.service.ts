@@ -107,7 +107,7 @@ export class DataService {
   getSectionSchedule(section: string) {
     if (!this.schedulesFetched) {
       if (this.scheduleApiNotificationshow) {
-        this.snackbar.open('Loading Schedules..., Please try again later', 'Dismiss', { duration: 5000 });
+        this.snackbar.open('Loading Schedules..., Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' });
         this.scheduleApiNotificationshow = false;
         setTimeout(() => {
           this.scheduleApiNotificationshow = true;
@@ -133,7 +133,7 @@ export class DataService {
           resolve(res)
         }, err => {
           this.schedulesFetched = true;
-          this.snackbar.open(err.error.status || err.statusText, 'Dismiss', { duration: 5000 });
+          this.snackbar.open(err.error.status || err.statusText, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' });
           reject(err)
         })
     })

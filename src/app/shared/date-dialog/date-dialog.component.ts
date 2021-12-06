@@ -69,10 +69,10 @@ export class DateDialogComponent implements OnInit {
       this.rest.postSchedule(targetValue).subscribe(res => {
         this.data.clientSchedules = res;
         this.showLoader = false;
-        this.snackBar.open(`Schedule set for ${this.inputData.section} successfully`, 'Dismiss', { duration: 5000 });
+        this.snackBar.open(`Schedule set for ${this.inputData.section} successfully`, 'Dismiss', { duration: 5000, panelClass: 'bg-success' });
         this.dialogRef.close();
       }, err => {
-        this.snackBar.open(err.error.status ? err.error.status + ', Please try again later' : err.statusText, 'Dismiss', { duration: 5000 });
+        this.snackBar.open(err.error.status ? err.error.status + ', Please try again later' : err.statusText, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' });
         this.showLoader = false;
         this.dialogRef.close();
       })
@@ -83,10 +83,10 @@ export class DateDialogComponent implements OnInit {
       .subscribe(res => {
         this.data.clientSchedules = res;
         this.showLoader = false;
-        this.snackBar.open(`Schedule deleted for ${this.inputData.section} successfully`, 'Dismiss', { duration: 5000 });
+        this.snackBar.open(`Schedule deleted for ${this.inputData.section} successfully`, 'Dismiss', { duration: 5000, panelClass: 'bg-success' });
         this.dialogRef.close();
       }, err => {
-        this.snackBar.open(err.error.status ? err.error.status + ', Please try again later' : err.statusText, 'Dismiss', { duration: 5000 });
+        this.snackBar.open(err.error.status ? err.error.status + ', Please try again later' : err.statusText, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' });
         this.showLoader = false;
         this.dialogRef.close();
       })

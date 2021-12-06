@@ -98,7 +98,7 @@ export class GpActionPlanComponent implements OnInit {
           }
         }, e => {
           // console.log(e.error)
-          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     this.applicationForm.valueChanges.subscribe(() => {
@@ -138,12 +138,12 @@ export class GpActionPlanComponent implements OnInit {
             this.formFields = this.applicationForm.get('rows') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('rows') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -174,12 +174,12 @@ export class GpActionPlanComponent implements OnInit {
   get f() { return this.applicationForm.controls }
 
   public async onSubmit() {
-    let confirmation = await this.confirmSubmit()
-    if (!confirmation) {
-      return;
-    }
+    // let confirmation = await this.confirmSubmit()
+    // if (!confirmation) {
+    //   return;
+    // }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
-      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' })
       return;
     }
     if (this.editingId.length > 0) {
@@ -216,7 +216,7 @@ export class GpActionPlanComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     else {
@@ -237,13 +237,13 @@ export class GpActionPlanComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }
 
   applicSelected(app: Application) {
-    console.log(app)
+     
     this.onReset();
     this.formFields = this.applicationForm.get('rows') as FormArray
     this.formFields.clear();

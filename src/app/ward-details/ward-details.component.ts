@@ -42,7 +42,7 @@ export class WardDetailsComponent implements OnInit, AfterViewInit {
     if(this.data.wardCongigData) {
       this.wardForm.patchValue(this.data.wardCongigData)
     } else {
-      this.snackBar.open('Ward Name Configurations Unavailable, Please Try again later', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Ward Name Configurations Unavailable, Please Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
     }
   }
 
@@ -67,17 +67,17 @@ export class WardDetailsComponent implements OnInit, AfterViewInit {
     this, this.rest.postWard(configData).subscribe(res => {
       this.isLoading = false;
       if (res.status === true) {
-        this.snackBar.open('Ward Name Configurations Updated Successfully', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Ward Name Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
         this.data.wardCongigData = res.wards;
         this.matDialog.close()
       } else {
         this.matDialog.close()
-        this.snackBar.open('Error Updating Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Error Updating Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
       }
     }, err => {
       this.matDialog.close()
       this.isLoading = false;
-      this.snackBar.open('Error Updating Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Error Updating Ward Name Configurations, Please Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
     })
   }
 

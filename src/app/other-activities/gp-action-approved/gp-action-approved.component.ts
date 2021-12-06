@@ -98,7 +98,7 @@ export class GpActionApprovedComponent implements OnInit {
           }
         }, e => {
           // console.log(e.error)
-          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     this.applicationForm.valueChanges.subscribe(() => {
@@ -161,7 +161,7 @@ export class GpActionApprovedComponent implements OnInit {
     //   return;
     // }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
-      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' })
       return;
     }
     if (this.editingId.length > 0) {
@@ -198,7 +198,7 @@ export class GpActionApprovedComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     else {
@@ -219,13 +219,13 @@ export class GpActionApprovedComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }
 
   applicSelected(app: Application) {
-    console.log(app)
+     
     this.onReset();
     this.formFields = this.applicationForm.get('wards') as FormArray
     this.formFields.clear();
@@ -236,19 +236,19 @@ export class GpActionApprovedComponent implements OnInit {
       this.isDraftMode = false;
     }
     this.editingId = app._id
-    for (let i = 0; i < app.values.wards.length; i++) {
+    for (let i = 0; i < app.values?.wards?.length; i++) {
       this.addWard();
       ((this.applicationForm.get('wards') as FormArray).at(i).get('rows') as FormArray).clear();
-      for (let j = 0; j < app.values.wards[i].rows.length; j++) {
+      for (let j = 0; j < app.values?.wards[i]?.rows?.length; j++) {
         this.addRow(i)
       }
     }
     this.applicationForm.patchValue(app.values);
     //  
     this.isFormDisabled = !app.editable;
-    this.disabledLength = app.values.rows.length;
+    // this.disabledLength = app.values.rows.length;
     //  
-    this.findTotal()
+    // this.findTotal()
   }
 
   onReset() {
@@ -285,29 +285,25 @@ export class GpActionApprovedComponent implements OnInit {
     })
   }
 
-  findTotal() {
-    this.applicationForm.value.rows.forEach(el => {
-      // go through each key value and add to total if the value is convertible to number
-      Object.keys(el).forEach(key => {
-        if (Number.isNaN(Number(el[key]))) {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += 0
-          } else {
-            this.totalValues[key] = 0
-          }
-        } else {
-          if (this.totalValues[key]) {
-            this.totalValues[key] += Number(el[key])
-          } else {
-            this.totalValues[key] = Number(el[key])
-          }
-        }
-      })
-    })
-  }
-
-  getReportControl() {
-    return this.applicationForm.get('report') as FormGroup;
-  }
+  // findTotal() {
+  //   this.applicationForm.value.rows.forEach(el => {
+  //     // go through each key value and add to total if the value is convertible to number
+  //     Object.keys(el).forEach(key => {
+  //       if (Number.isNaN(Number(el[key]))) {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += 0
+  //         } else {
+  //           this.totalValues[key] = 0
+  //         }
+  //       } else {
+  //         if (this.totalValues[key]) {
+  //           this.totalValues[key] += Number(el[key])
+  //         } else {
+  //           this.totalValues[key] = Number(el[key])
+  //         }
+  //       }
+  //     })
+  //   })
+  // }
 
 }

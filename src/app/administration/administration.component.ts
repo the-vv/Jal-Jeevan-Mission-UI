@@ -55,7 +55,7 @@ export class AdministrationComponent implements OnInit {
       // console.log(this.clientUsers);
     }, err => {
       // console.log(err);      
-      this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+      this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
     })
     this.rest.getGpConfigs().subscribe(res => {
       console.log(res);
@@ -63,7 +63,7 @@ export class AdministrationComponent implements OnInit {
       this.allConfigurations = res
     }, err => {
       // console.log(err);      
-      this.snackBar.open(err.statusText ? err.statusText + ',Error getting  Please try again later' : err, 'Dismiss', { duration: 5000 })
+      this.snackBar.open(err.statusText ? err.statusText + ',Error getting  Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
     })
     this.userForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
@@ -140,7 +140,7 @@ export class AdministrationComponent implements OnInit {
       .subscribe(res => {
         this.snackBar.open('GP Configurations Updated Successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
       }, err => {
-        this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+        this.snackBar.open(err.statusText ? err.status + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
       })
   }
 
@@ -160,7 +160,7 @@ export class AdministrationComponent implements OnInit {
           // console.log(this.clientUsers);
         }, err => {
           // console.log(err);      
-          this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
+          this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     });
   }
@@ -209,7 +209,7 @@ export class AdministrationComponent implements OnInit {
             // console.log(this.clientUsers);
           }, err => {
             // console.log(err);      
-            this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : 'Error deleting user', 'Dismiss', { duration: 5000 })
+            this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : 'Error deleting user', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
         })
       },

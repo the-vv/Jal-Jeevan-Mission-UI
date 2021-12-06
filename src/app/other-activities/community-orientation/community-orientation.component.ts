@@ -69,7 +69,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
         }
       }, e => {
         console.log(e.error)
-        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+        this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
       })
     this.applicationForm.statusChanges.subscribe(() => {
       this.submitted = false;
@@ -193,7 +193,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
             console.log(this.formdata)
           }
           else {
-            this.snackBar.open('Error uploading file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error uploading file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           }
         })
     }
@@ -239,7 +239,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
           console.log(e.error.status)
           // this.submitted = false;
           this.submitting = false;
-          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     else {
@@ -259,7 +259,7 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
         }, e => {
           console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submitting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }
@@ -360,52 +360,4 @@ export class CommunityOrientationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setTarget() {
-    if (this.isAdmin) {
-      let datedForm: Application = {};
-      if (!this.editingId.length) {
-        if(this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
-        this.settingDateProgress = true;
-        datedForm.category = this.data.selectedDetails;
-        this.rest.submitApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      else {
-        if(this.targetDate) {
-          datedForm.targetDate = new Date(this.targetDate);
-        }
-        else {
-          datedForm.targetDate = this.targetDate;
-        }
-        datedForm._id = this.editingId;
-        datedForm.category = this.data.selectedDetails;
-        this.settingDateProgress = true;
-        this.rest.editApplication(datedForm)
-          .subscribe(res => {
-            this.settingDateProgress = false;
-            console.log(res);
-            this.snackBar.open('Target date has Saved Successfully', 'Dismiss', { duration: 5000 })
-          }, e => {
-            this.settingDateProgress = false;
-            console.log(e.error.status)
-            this.snackBar.open('Error setting target date, Please try again later', 'Dismiss', { duration: 5000 })
-          })
-      }
-      console.log(datedForm);
-
-    }
-  }
 }

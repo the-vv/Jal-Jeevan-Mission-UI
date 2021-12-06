@@ -97,7 +97,7 @@ export class SupportServicesGpComponent implements OnInit {
           }
         }, e => {
           // console.log(e.error)
-          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Something went wrong, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     this.applicationForm.valueChanges.subscribe(() => {
@@ -256,12 +256,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('sigpias') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('sigpias') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -296,12 +296,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('dapds') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('dapds') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -334,12 +334,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('fomas') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('fomas') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -371,12 +371,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('iaoms') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('iaoms') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -409,12 +409,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('iomms') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('iomms') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -446,12 +446,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('ewsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('ewsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -483,12 +483,12 @@ export class SupportServicesGpComponent implements OnInit {
             this.formFields = this.applicationForm.get('nwsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('File(s) has been deleted successfully', 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
           }, err => {
             this.formFields = this.applicationForm.get('nwsss') as FormArray;
             this.formFields.removeAt(index)
             this.onFileChanges();
-            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000 })
+            this.snackBar.open('Error deleting file(s), Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
           })
       }
       catch (e) {
@@ -508,7 +508,7 @@ export class SupportServicesGpComponent implements OnInit {
       return;
     }
     if (this.uploaders.some(el => el.checkUploadStatus())) {
-      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000 })
+      this.snackBar.open('Please wait for the file uploads to complete', 'Dismiss', { duration: 5000, panelClass: 'bg-warning' })
       return;
     }
     if (this.editingId.length > 0) {
@@ -545,7 +545,7 @@ export class SupportServicesGpComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
     else {
@@ -566,7 +566,7 @@ export class SupportServicesGpComponent implements OnInit {
         }, e => {
           // console.log(e.error.status)
           this.submitting = false;
-          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000 })
+          this.snackBar.open('Error submiting application, Please try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
         })
     }
   }

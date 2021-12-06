@@ -42,7 +42,7 @@ const routes: Routes = [
   { path: 'posters-tourist-locations', component: PostersTouristLocationsComponent },
   { path: 'schools', component: SchoolsComponent },
   { path: 'anganawadi-centers', component: AnganawadiComponent },
-  { path: 'gpbuildings', component: GpBuldingsComponent },
+  { path: 'gp-buildings', component: GpBuldingsComponent },
   { path: 'laborotaries', component: LaborotariesComponent },
   { path: 'phe-offices', component: PheOfficesComponent },
   { path: 'announcement-vans', component: AnnouncementVansComponent },

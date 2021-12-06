@@ -80,15 +80,15 @@ export class ContactDetailsComponent implements OnInit {
     this.isLoading = true;
     this.rest.postContact(details)
       .subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.isLoading = false;
         this.dialogRef.close();
-        this.snackbar.open(res.message, 'Dismiss', { duration: 5000 })
+        this.snackbar.open(res.message, 'Dismiss', { duration: 5000, panelClass: 'bg-success' })
       }, e => {
         console.log(e)
         this.isLoading = false;
         this.dialogRef.close();
-        this.snackbar.open('Error Saving Contact Details, Try again later', 'Dismiss', { duration: 5000 })
+        this.snackbar.open('Error Saving Contact Details, Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
       })
   }
 
