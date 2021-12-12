@@ -97,10 +97,10 @@ export class PhaseSelectionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (!this.data.targetsWarningShown) {
       this.data.targetsWarningShown = true;
-      let res = this.route.snapshot.data['res2'];
+      let res = this.route.snapshot.data['phaseData'];
       // console.log(res);
       if (!this.user.isAdmin) {
-        res.forEach(el => {
+        res?.forEach(el => {
           this.messageService.add({
             life: 7000, severity: this.isDateExceeded(el.date) ? 'error' : 'success',
             summary: `${this.isDateExceeded(el.date) ? '' : 'Upcoming '}Target${this.isDateExceeded(el.date) ? ' Exceeded' : ''}: ${this.getFormattedDate(+el.date)}`,

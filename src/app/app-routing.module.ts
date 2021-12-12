@@ -15,7 +15,7 @@ import { PhasesResolverService } from './services/phases-resolver.service';
 
 
 const commonRoutes: Routes = [
-  { path: 'phase', component: PhaseSelectionComponent, resolve: { data: PhasesResolverService } },
+  { path: 'phase', component: PhaseSelectionComponent, resolve: { phaseData: PhasesResolverService } },
   { path: 'iec-activities', loadChildren: () => import('./iec-activities/iec-activities.module').then(m => m.IecActivitiesModule) },
   { path: 'engagement-isa', loadChildren: () => import('./engagement-isa/engagement-isa.module').then(m => m.EngagementIsaModule) },
   { path: 'other-activities', loadChildren: () => import('./other-activities/other-activities.module').then(m => m.OtherActivitiesModule) },

@@ -331,7 +331,7 @@
 
                 <!-- Engagements of ISAs END -->
 
-                <!-- Engagements of Documentation START -->
+                <!-- Documentation START -->
 
                 <div class="row" *ngIf="SelectedPhases.includes('Documentation')">
                     <app-documentation-activity [print]="true" [district]="district" [gp]="gp" phase='Documentation'
@@ -340,9 +340,9 @@
                     </app-documentation-activity>
                 </div>
 
-                <!-- Engagements of Documentation END -->
+                <!-- Documentation END -->
 
-                <!-- Engagements of Social Audits START -->
+                <!-- Social Audits START -->
 
                 <div class="row" *ngIf="SelectedPhases.includes('Social Audits')">
                     <app-social-audits [print]="true" [district]="district" [gp]="gp" phase='Social Audits'
@@ -351,9 +351,9 @@
                     </app-social-audits>
                 </div>
 
-                <!-- Engagements of Social Audits END -->
+                <!-- Social Audits END -->
 
-                <!-- Engagements of WQM& S- Training and Capacity Building START -->
+                <!-- WQM& S- Training and Capacity Building START -->
 
                 <div class="row" *ngIf="SelectedPhases.includes('WQM& S- Training and Capacity Building')">
                     <app-gp-sub-commities [print]="true" [district]="district" [gp]="gp"
@@ -368,7 +368,7 @@
                     </app-wqms-isas-pri>
                 </div>
 
-                <!-- Engagements of WQM& S- Training and Capacity Building END -->
+                <!-- WQM& S- Training and Capacity Building END -->
 
                 <!-- Other Activities START -->
 
@@ -383,7 +383,32 @@
                     </app-details-jjm-wss>
                 </div>
 
-                <!-- Other Activities START -->
+                <!-- Other Activities END -->
+
+                <!-- Capacity Audits START -->
+                
+                <div class="row" *ngIf="SelectedPhases.includes('Capacity building activities')">
+                    <app-vwsc-pani-smithi [print]="true" [district]="district" [gp]="gp" phase='Capacity building activities'
+                        name='capacity-building-activities/vwscs-pani-samithi-etc' *ngIf="selectedComponents.includes('VWSCs / Pani samithi etc')">
+                    </app-vwsc-pani-smithi>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Capacity building activities')">
+                    <app-key-stake-holders-block [print]="true" [district]="district" [gp]="gp" phase='Capacity building activities'
+                        name='capacity-building-activities/key-stakeholders-block-level' *ngIf="selectedComponents.includes('Key stakeholders at block level')">
+                    </app-key-stake-holders-block>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Capacity building activities')">
+                    <app-key-stake-holders-gp-village [print]="true" [district]="district" [gp]="gp" phase='Capacity building activities'
+                        name='capacity-building-activities/key-stakeholders-gp-village-level' *ngIf="selectedComponents.includes('Key stakeholders at GP/ Village level')">
+                    </app-key-stake-holders-gp-village>
+                </div>
+                <div class="row" *ngIf="SelectedPhases.includes('Capacity building activities')">
+                    <app-capacity-building-material [print]="true" [district]="district" [gp]="gp" phase='Capacity building activities'
+                        name='capacity-building-activities/capacity-building-material-preparation' *ngIf="selectedComponents.includes('Capacity building material preparation')">
+                    </app-capacity-building-material>
+                </div>
+                
+                <!-- Capacity Audits END -->
 
             </div>
         </div>
