@@ -82,6 +82,15 @@ export class DataService {
     'Social Audits': [
       ['Social Audit reports', 'social-audits/social-audit-reports']
     ],
+    'WQM& S - IEC Activities': [
+      ['Display of water quality testing laboratory details in prominent locations in villages', 'wqms-iec-activities/display-water-quality-testing'],
+      ['Awareness generation on water quality issues, water-borne diseases and health', 'wqms-iec-activities/awareness-generation-water-quality'],
+      ['Water safety planning', 'wqms-iec-activities/water-safety-plannig'],
+      ['Behavioural change communication', 'wqms-iec-activities/behavioral-change-communication'],
+      ['Audio-visual publicity on ill effects of consuming contaminated water, process of getting water quality sources tested,importanceof sanitary inspection, etc', 'wqms-iec-activities/audio-visual-publicity'],
+      ['Wall writings promoting tapwater', 'wqms-iec-activities/wall-writing-promoting-tapwater'],
+      ['Slogans,group meeting, streetplays, PRA activities, exhibits, etc on waterquality', 'wqms-iec-activities/slogans-group-meeting-streetplays']
+    ],
     'Capacity building activities': [
       ['VWSCs / Pani samithi etc', 'capacity-building-activities/vwscs-pani-samithi-etc'],
       ['Key stakeholders at block level', 'capacity-building-activities/key-stakeholders-block-level'],

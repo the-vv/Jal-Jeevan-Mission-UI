@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  appTitle: 'Jal Jeevan Mission',
   production: false,
   DATE_FORMATS: {
     parse: {

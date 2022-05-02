@@ -5,19 +5,16 @@
         </div>
         <div class="col-12 mt-3">
             <div class="h1 smi">
-                {{data.appName}}
+                Solidarity Movement of India
             </div>
         </div>
     </div>
-    <div class="row mb-3">
+    <div class="row mt-3 mb-3">
         <div class="col-12">
-            <p class="h3">Login</p>
+            <p class="h5">Login</p>
         </div>
         <div class="col-12">
             <form action="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <div class="text-center d-flex justify-content-center">
-                    <h3 class="col-md-6 col-12 text-start mb-0 pb-0 ps-1">Your Username</h3>
-                </div>
                 <p>
                     <mat-form-field appearance="outline" class="col-12 col-md-6">
                         <mat-label>Username</mat-label>
@@ -27,9 +24,6 @@
                             Username is required</mat-error>
                     </mat-form-field>
                 </p>
-                <div class="text-center d-flex justify-content-center pt-3">
-                    <h3 class="col-md-6 col-12 text-start mb-0 pb-0 ps-1">Your Password</h3>
-                </div>
                 <p>
                     <mat-form-field appearance="outline" class="col-12 col-md-6">
                         <mat-label>Password</mat-label>
@@ -38,18 +32,14 @@
                         <mat-error *ngIf="loginForm.controls.password.errors?.required">
                             Password is required</mat-error>
                         <mat-error *ngIf="loginForm.controls.password.errors?.minlength">
-                            Password must be minimum of 6 charecters</mat-error>
+                                Password must be minimum of 6 charecters</mat-error>
                     </mat-form-field>
                 </p>
                 <input type="submit" value="login" class="d-none">
             </form>
         </div>
-        <div class="col-12 my-3">
-            <button mat-raised-button color="primary" class="px-5 py-1" [disabled]="false" (click)="onSubmit()"><i
-                class="pi pi-sign-in me-2"></i> Login Now</button>
-        </div>
-        <div class="col-12 mt-1">
-            <p class="text-center fw-lighter">Need help? Please contact Administrator for further details</p>
+        <div class="col-12 mt-3">
+            <button mat-raised-button color="primary" class="px-5" [disabled]="false" (click)="onSubmit()">Submit</button>
         </div>
     </div>
 </div>

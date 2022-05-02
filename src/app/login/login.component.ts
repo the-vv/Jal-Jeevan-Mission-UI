@@ -5,7 +5,6 @@ import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../services/data.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +14,13 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  public appConfig: any = environment;
 
   constructor(
     private formBuilder: FormBuilder,
     private user: UserService,
     private router: Router,
     private snackBar: MatSnackBar,
-    public data: DataService
+    private data: DataService
   ) { }
 
   ngOnInit(): void {
@@ -33,23 +31,16 @@ export class LoginComponent implements OnInit {
     this.user.checkLogin()
       .then((res) => {
         if (res.admin) {
-          if (this.data.targetUrl?.indexOf('reports') >=0) {
-            // console.log(this.data.targetUrl);          
-            this.router.navigate([this.data.targetUrl], { replaceUrl: true })
-            this.data.targetUrl = null;
-          } else {
-            this.router.navigate(['admin'], { replaceUrl: true })
-          }
+          this.router.navigate(['admin'], { replaceUrl: true })
         }
         else {
-          if (this.data.targetUrl?.indexOf('/reports') >= 0) {
-            // console.log(this.data.targetUrl);          
-            this.router.navigate([this.data.targetUrl], { replaceUrl: true })
-            this.data.targetUrl = null;
-          }
-          else {
+          // if(this.data.targetUrl) {
+          //   console.log(this.data.targetUrl);          
+          //   this.router.navigate([this.data.targetUrl], { replaceUrl: true })
+          // }
+          // else {            
             this.router.navigate(['client'], { replaceUrl: true })
-          }
+          // }
         }
       })
       .catch((err) => {
@@ -76,7 +67,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err) => {
         console.log(err)
-        this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
+        this.snackBar.open(err.statusText ? err.statusText + ', Please try again later' : err, 'Dismiss', { duration: 5000 })
       })
   }
 }

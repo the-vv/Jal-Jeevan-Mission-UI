@@ -1,4 +1,5 @@
 export const environment = {
+  appTitle: 'Jal Jeevan Mission',
   production: true,
   DATE_FORMATS: {
     parse: {

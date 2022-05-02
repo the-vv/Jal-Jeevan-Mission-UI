@@ -38,7 +38,8 @@ export class AdminVerifyComponent implements OnInit {
       console.log(res)
     }, err => {
       this.loading = false;
-      this.snackbar.open('Error sending verification Email, Try again later', 'Dismiss', { duration: 5000, panelClass: 'bg-danger' })
+      this.snackbar.open('Error sending verification Email, Try again later', 'Dismiss',
+        { duration: 5000, panelClass: 'bg-danger' })
     })
   }
 
